@@ -6,8 +6,8 @@
 package tools;
 
 /**
- *
- * @author Usuario
+ * @version 1.0
+ * @author Diego Alvarez
  */
 public class ResourceLeng {
     /** 
