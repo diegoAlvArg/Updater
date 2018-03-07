@@ -34,4 +34,11 @@ public class ResourceLeng {
      * Text
      */
     public final static String HELLO_WORLD = "hello_world";
+    
+    
+    public final static String ASK_UPDATE = "question_update";
+    
+    public final static String TXT_YES = "txt_yes";
+    
+    public final static String TXT_NO = "txt_no";
 }

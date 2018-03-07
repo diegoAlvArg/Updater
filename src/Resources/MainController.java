@@ -17,6 +17,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.layout.AnchorPane;
+import javafx.stage.Stage;
 import tools.ResourceLeng;
 
 /**
@@ -35,15 +36,26 @@ public class MainController implements Initializable {
     @FXML
     private ComboBox CLanguagues;
 
+    @FXML
+    private AnchorPane AnchorPanel;
+
     private String TxtButton;
     private String TxtLog;
     private int count;
-
+    private Stage miStado;
+    
     /**
      * Initializes the controller class.
      */
     @Override
-    public void initialize(URL url, ResourceBundle rb) {
+    public void initialize(URL url, ResourceBundle _rb) {
+//        System.out.println("aaaaa");
+        ResourceBundle rb;
+        if (_rb != null) {
+            rb = _rb;
+        } else {
+            rb = HelloWorld.getResource();
+        }
         // TODO
         this.TxtButton = rb.getString(ResourceLeng.HELLO_BUTTON);
         this.BHello.setText(TxtButton + count);
@@ -80,7 +92,12 @@ public class MainController implements Initializable {
         this.lblText.setText(rb.getString(ResourceLeng.HELLO_WORLD));
         this.TxtLog = rb.getString(ResourceLeng.HELLO_LOG);
         
-        HelloWorld.changeTitle(rb.getString(ResourceLeng.APP_TITLE));
+        miStado.setTitle(rb.getString(ResourceLeng.APP_TITLE) + HelloWorld.internalInformation.get("Version"));
+                HelloWorld.changeTitle(rb.getString(ResourceLeng.APP_TITLE));
     }
 
+    public void setStage(Stage _stage){
+        miStado = _stage;
+    }
+//    public 
 }
