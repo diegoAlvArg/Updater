@@ -58,9 +58,9 @@ public class HelloWorld extends Application {
         rb = ResourceBundle.getBundle("Resources.Languages.SystemMessages", Locale.getDefault());
         Scene scene;
         update = howIsLastUpdate();
-
+        System.out.println("Last " + update);
         if (update > (int) internalInformation.get("Version")) {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/Resources/askUpdate.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/Resources/fxml/askUpdate.fxml"));
             Parent root = (Parent) loader.load();
             AskUpdateController askPanel = (AskUpdateController) loader.getController();
             askPanel.setVersionsAsk(update, (int) internalInformation.get("Version"));
@@ -68,10 +68,11 @@ public class HelloWorld extends Application {
             scene = new Scene(root, 300, 200);
             primaryStage.setTitle("Actualizando");
         } else {
-            Parent root = FXMLLoader.load(getClass().getResource("/Resources/Main.fxml"), rb);
+            Parent root = FXMLLoader.load(getClass().getResource("/Resources/fxml/Main.fxml"), rb);
             scene = new Scene(root);//, 400, 400);
 //            scene.getStylesheets().add(STYLESHEET_MODENA)
-            primaryStage.setTitle(rb.getString(ResourceLeng.APP_TITLE));
+            primaryStage.setTitle(rb.getString(ResourceLeng.APP_TITLE) 
+                    + internalInformation.get("Version"));
         }
 
         primaryStage.setScene(scene);

@@ -82,7 +82,7 @@ public class AskUpdateController implements Initializable {
             ((Node) event.getSource()).getScene().getWindow().hide();
             Stage primaryStage = new Stage();
             FXMLLoader loader = new FXMLLoader();
-            Pane root = loader.load(getClass().getResource("Main.fxml").openStream());
+            Pane root = loader.load(getClass().getResource("/Resources/fxml/Main.fxml").openStream());
 
             MainController control = (MainController)loader.getController();
             control.setStage(primaryStage);
