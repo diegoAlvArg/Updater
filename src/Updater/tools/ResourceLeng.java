@@ -3,15 +3,15 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package tools;
+package Updater.tools;
 
 /**
  * @version 1.0
  * @author Diego Alvarez
  */
 public class ResourceLeng {
-    /** 
-     * Initial App String
+    /**
+     * Main aplication start
      */
     public final static String APP_INIT = "app_init";
     

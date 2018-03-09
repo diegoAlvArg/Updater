@@ -5,7 +5,6 @@
  */
 package application;
 
-import Resources.AskUpdateController;
 import static Updater.main.VersionCheck.howIsLastUpdate;
 import Updater.tools.ActionTool;
 import Updater.tools.InfoTool;
@@ -26,7 +25,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
-import tools.ResourceLeng;
+import Updater.tools.ResourceLeng;
 import javafx.scene.layout.Pane;
 import javafx.util.Duration;
 
@@ -37,13 +36,13 @@ import javafx.util.Duration;
 public class HelloWorld extends Application {
 
     public static Properties internalInformation = new Properties();
-
+    public static final int APPLICATION_VERSION = 8;
     static {
         //Important for Web Browser
         System.setProperty("sun.net.http.allowRestrictedHeaders", "true");
 
         //----------Properties-------------
-        internalInformation.put("Version", 07);
+        internalInformation.put("Version", APPLICATION_VERSION);
         internalInformation.put("ReleasedDate", "29/02/2018");
 
         System.out.println("Outside of Application Start Method");
@@ -52,19 +51,19 @@ public class HelloWorld extends Application {
     private static ResourceBundle rb;
     private static Stage stage;
 
-    private static int update = 6;
+    private static int update;
 
     @Override
     public void start(Stage primaryStage) throws IOException {
         rb = ResourceBundle.getBundle("Resources.Languages.SystemMessages", Locale.getDefault());
         Scene scene;
-        int last = howIsLastUpdate();
+        update = howIsLastUpdate();
 
-        if (last > (int) internalInformation.get("Version")) {
+        if (update > (int) internalInformation.get("Version")) {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/Resources/askUpdate.fxml"));
             Parent root = (Parent) loader.load();
             AskUpdateController askPanel = (AskUpdateController) loader.getController();
-            askPanel.setVersionsAsk(last, (int) internalInformation.get("Version"));
+            askPanel.setVersionsAsk(update, (int) internalInformation.get("Version"));
 
             scene = new Scene(root, 300, 200);
             primaryStage.setTitle("Actualizando");
@@ -93,7 +92,7 @@ public class HelloWorld extends Application {
      * Calling this method to start the main Application which is XR3Player
      */
     public static void restartApplication(String appName) {
-
+        System.out.println(rb.getString(ResourceLeng.APP_INIT));
         // Restart XR3Player
         new Thread(() -> {
             String path = InfoTool.getBasePathForClass(HelloWorld.class);
@@ -104,7 +103,7 @@ public class HelloWorld extends Application {
 
                 //Create a process builder
                 ProcessBuilder builder = new ProcessBuilder("java", "-jar", applicationPath[0], String.valueOf(update));
-
+                System.out.println("CMD: " + builder.command());
                 builder.redirectErrorStream(true);
                 Process process = builder.start();
                 BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(process.getInputStream()));

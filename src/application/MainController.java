@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package Resources;
+package application;
 
 import application.HelloWorld;
 import java.net.URL;
@@ -18,7 +18,7 @@ import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
-import tools.ResourceLeng;
+import Updater.tools.ResourceLeng;
 
 /**
  * FXML Controller class

@@ -3,8 +3,9 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package Resources;
+package application;
 
+import application.MainController;
 import application.HelloWorld;
 import java.io.IOException;
 import java.net.URL;
@@ -23,7 +24,7 @@ import javafx.scene.control.Button;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
-import tools.ResourceLeng;
+import Updater.tools.ResourceLeng;
 
 /**
  * FXML Controller class
