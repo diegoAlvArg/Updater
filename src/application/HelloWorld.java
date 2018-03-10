@@ -36,7 +36,8 @@ import javafx.util.Duration;
 public class HelloWorld extends Application {
 
     public static Properties internalInformation = new Properties();
-    public static final int APPLICATION_VERSION = 8;
+    public static final int APPLICATION_VERSION = 7;
+
     static {
         //Important for Web Browser
         System.setProperty("sun.net.http.allowRestrictedHeaders", "true");
@@ -56,6 +57,7 @@ public class HelloWorld extends Application {
     @Override
     public void start(Stage primaryStage) throws IOException {
         rb = ResourceBundle.getBundle("Resources.Languages.SystemMessages", Locale.getDefault());
+        System.out.println(ResourceLeng.APP_INIT);
         Scene scene;
         update = howIsLastUpdate();
         System.out.println("Last " + update);
@@ -71,7 +73,7 @@ public class HelloWorld extends Application {
             Parent root = FXMLLoader.load(getClass().getResource("/Resources/fxml/Main.fxml"), rb);
             scene = new Scene(root);//, 400, 400);
 //            scene.getStylesheets().add(STYLESHEET_MODENA)
-            primaryStage.setTitle(rb.getString(ResourceLeng.APP_TITLE) 
+            primaryStage.setTitle(rb.getString(ResourceLeng.APP_TITLE)
                     + internalInformation.get("Version"));
         }
 
@@ -84,6 +86,10 @@ public class HelloWorld extends Application {
         stage.setTitle(_title + internalInformation.get("Version"));
     }
 
+    public static void changeStage(Stage _newStage) {
+        stage = _newStage;
+    }
+
     public static ResourceBundle getResource() {
         return rb;
     }
@@ -93,7 +99,7 @@ public class HelloWorld extends Application {
      * Calling this method to start the main Application which is XR3Player
      */
     public static void restartApplication(String appName) {
-        System.out.println(rb.getString(ResourceLeng.APP_INIT));
+        System.out.println(ResourceLeng.APP_INIT);
         // Restart XR3Player
         new Thread(() -> {
             String path = InfoTool.getBasePathForClass(HelloWorld.class);
@@ -112,26 +118,26 @@ public class HelloWorld extends Application {
                 // Continuously Read Output to check if the main application started
                 String line;
                 System.out.println("CHECKING is alive");
+                String mark_OK = ResourceLeng.APP_UPDATER_INIT;
+                String mark_ERROR = ResourceLeng.ERROR;
                 while (process.isAlive()) {
                     while ((line = bufferedReader.readLine()) != null) {
                         System.out.println("LINE: " + line);
                         if (line.isEmpty()) {
                             break;
-                        } //This line is being printed when XR3Player Starts 
-                        //So the AutoUpdater knows that it must exit
-                        else if (line.contains("HelloWorld Application Started")) {
-//                            deleteFolder(path);
+                        } else if (line.contains(mark_OK)) {
+                            //This line is being printed when XR3Player Starts 
+                            //So the AutoUpdater knows that it must exit
+//  >>>>                          deleteFolder(path);
                             System.exit(0);
-                        } else if (line.contains("Error: ")) {
-                            // Show failed message
-                            Platform.runLater(() -> Platform.runLater(() -> ActionTool.showNotification("Starting " + appName + " failed",
-                                    "\nApplication Path: [ " + applicationPath[0] + " ]\n\tTry to do it manually...", Duration.seconds(10), NotificationType.ERROR)));
-//                            System.exit(0);
+                        } else if (line.contains(mark_ERROR)) {
+                            //Some kind of problem
+                            throw new InterruptedException();
                         }
                     }
                 }
 
-            } catch (IOException ex) {
+            } catch (IOException | InterruptedException ex) {
                 Logger.getLogger(HelloWorld.class.getName()).log(Level.INFO, null, ex);
 
                 // Show failed message

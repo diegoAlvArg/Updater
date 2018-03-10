@@ -83,7 +83,7 @@ public class AskUpdateController implements Initializable {
             Stage primaryStage = new Stage();
             FXMLLoader loader = new FXMLLoader();
             Pane root = loader.load(getClass().getResource("/Resources/fxml/Main.fxml").openStream());
-
+//            Parent root = FXMLLoader.load(getClass().getResource("/Resources/fxml/Main.fxml"), rb);
             MainController control = (MainController)loader.getController();
             control.setStage(primaryStage);
             
@@ -92,6 +92,7 @@ public class AskUpdateController implements Initializable {
                     + HelloWorld.internalInformation.get("Version"));
             primaryStage.setScene(scene);
             primaryStage.show();
+            HelloWorld.changeStage(primaryStage);
         } catch (Exception ex) {
             ex.printStackTrace();
 //            Logger.getLogger(UserController.class.getName()).log(Level.SEVERE, null, ex);

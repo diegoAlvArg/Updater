@@ -43,7 +43,7 @@ public class MainController implements Initializable {
     private String TxtLog;
     private int count;
     private Stage miStado;
-    
+
     /**
      * Initializes the controller class.
      */
@@ -52,9 +52,11 @@ public class MainController implements Initializable {
 //        System.out.println("aaaaa");
         ResourceBundle rb;
         if (_rb != null) {
+            System.out.println("RB no es null");
             rb = _rb;
         } else {
             rb = HelloWorld.getResource();
+            System.out.println("RB ES null");
         }
         // TODO
         this.TxtButton = rb.getString(ResourceLeng.HELLO_BUTTON);
@@ -73,6 +75,7 @@ public class MainController implements Initializable {
         System.out.println(TxtLog);
         count++;
         this.BHello.setText(TxtButton + count);
+
     }
 
     public void changeLanguague(ActionEvent _event) {
@@ -91,12 +94,13 @@ public class MainController implements Initializable {
         this.BHello.setText(TxtButton + count);
         this.lblText.setText(rb.getString(ResourceLeng.HELLO_WORLD));
         this.TxtLog = rb.getString(ResourceLeng.HELLO_LOG);
-        
-        miStado.setTitle(rb.getString(ResourceLeng.APP_TITLE) + HelloWorld.internalInformation.get("Version"));
-                HelloWorld.changeTitle(rb.getString(ResourceLeng.APP_TITLE));
+
+//        miStado.setTitle("aaaa");
+//        miStado.setTitle(rb.getString(ResourceLeng.APP_TITLE) + HelloWorld.internalInformation.get("Version"));
+        HelloWorld.changeTitle(rb.getString(ResourceLeng.APP_TITLE));
     }
 
-    public void setStage(Stage _stage){
+    public void setStage(Stage _stage) {
         miStado = _stage;
     }
 //    public 

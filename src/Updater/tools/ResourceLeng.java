@@ -9,11 +9,7 @@ package Updater.tools;
  * @version 1.0
  * @author Diego Alvarez
  */
-public class ResourceLeng {
-    /**
-     * Main aplication start
-     */
-    public final static String APP_INIT = "app_init";
+public class ResourceLeng extends BasicLeng{
     
     /**
      * Title on title bar
@@ -41,4 +37,6 @@ public class ResourceLeng {
     public final static String TXT_YES = "txt_yes";
     
     public final static String TXT_NO = "txt_no";
+    
+  
 }
