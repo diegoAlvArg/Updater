@@ -27,6 +27,7 @@ import javafx.application.HostServices;
  * FXML Controller class
  *
  * @author Usuario
+ * @deprecated 
  */
 public class MainController implements Initializable {
 

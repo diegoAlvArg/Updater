@@ -1,4 +1,4 @@
-package wrapper.services;
+package application.events;
 
 import Updater.tools.ActionTool;
 import Updater.tools.NotificationType;

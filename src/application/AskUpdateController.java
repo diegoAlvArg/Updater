@@ -28,7 +28,7 @@ import Updater.tools.ResourceLeng;
 
 /**
  * FXML Controller class
- *
+ * @deprecated 
  * @author Usuario
  */
 public class AskUpdateController implements Initializable {

@@ -2,6 +2,9 @@ package wrapper.tree;
 
 /**
  * @author Diego Alvarez
+ * 
+ * Tipificacion de la clase Node. Dicha clase se valdra de esta para el control 
+ *  en parte de su logica
  */
 public enum TypeNode {
     CURSO("Curso"),

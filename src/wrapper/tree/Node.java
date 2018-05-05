@@ -2,7 +2,7 @@ package wrapper.tree;
 
 //import Util.Logger.MyLogging;
 import application.InterfaceController;
-import wrapper.init.main;
+import wrapper.init.Opciones;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileOutputStream;
@@ -41,6 +41,9 @@ import wrapper.tools.MyLogging;
 /**
  * @author Diego Alvarez
  * @version 1.3
+ * 
+ * Clase que forma una estructura arborea representativa del contenido Moodle y
+ *  descarga o crea el contenido en replica en el Sistema Local
  */
 public class Node {
 
@@ -223,7 +226,7 @@ public class Node {
 
                 try (CloseableHttpClient httpclient = HttpClients.custom()
                         .setDefaultCookieStore(cookieAlmacen).build()) {
-                    descargarEnLocal(main.getDownloadPath(), httpclient, main.getIU());
+                    descargarEnLocal(Opciones.getDownloadPath(), httpclient, Opciones.getIU());
 
                     httpclient.close();
                     logRegistro = new LogRecord(Level.INFO, EXISTO);

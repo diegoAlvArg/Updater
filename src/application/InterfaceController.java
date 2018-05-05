@@ -47,9 +47,10 @@ import javafx.scene.text.TextFlow;
 import javafx.stage.DirectoryChooser;
 import javafx.util.Duration;
 import javafx.util.StringConverter;
-import wrapper.services.validator;
-import wrapper.services.eventUser;
-import wrapper.services.syncroniceProcess;
+import application.events.validator;
+import application.events.eventUser;
+import application.events.procesoSyncronizacion;
+import javafx.scene.control.CheckBoxTreeItem;
 import wrapper.tree.TypeNode;
 
 /**
@@ -153,11 +154,11 @@ public class InterfaceController implements Initializable {
             initializationUserLoad(true, UserInfo.getUser(), UserInfo.getPath());
             setNextUpdate(null);
 
-//            TreeItem<BookCategory> rootItem = new TreeItem<BookCategory>();
-//            TListUpdates.setRoot(rootItem);
+            TreeItem<BookCategory> rootItem = new TreeItem<BookCategory>();
+            TListUpdates.setRoot(rootItem);
 //            TListUpdates.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> updateSelectedItem((TreeItem) newValue));
-            addTreeItem("JAVA-011.aa", "Spring", TypeNode.FORO);
-            addTreeItem("JAVA-011.aa", "caca", TypeNode.FORO);
+//            addTreeItem("JAVA-011.aa", "Spring", TypeNode.FORO);
+//            addTreeItem("JAVA-011.aa", "caca", TypeNode.FORO);
 //            TListUpdates.getRoot().getChildren().clear();
 //            addTreeItem("JAVA-011", "Spring2", TypeNode.FORO);
 //            addTreeItem("JAVA-011", "caca2", TypeNode.FORO);
@@ -190,6 +191,30 @@ public class InterfaceController implements Initializable {
         TListUpdates.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> handleTreeViewClick((TreeItem) newValue));
     }
     public synchronized void addTreeItem(String path, String name, TypeNode tipo) {
+        URL iconUrl = null;
+        Image miImage = null;
+        // Averiguaar donde meter  le nuevo elemento
+        String curso = path.replace(LPathApplication.getText() + File.separator, "");
+        curso = curso.substring(0, curso.indexOf(File.separator));
+        TreeItem<BookCategory> auxCurso;
+        if(cursosTrack.containsKey(curso)){
+            // Existe, lo pedimos
+            auxCurso = cursosTrack.get(curso);
+        }else{
+            // No existe, lo creamos y metemos
+            iconUrl = this.getClass().getResource("/Resources/Icons/folder.png");
+            try (InputStream op = iconUrl.openStream()) {
+                miImage = new Image(op);
+            } catch (IOException ex) {
+                Logger.getLogger(InterfaceController.class
+                        .getName()).log(Level.SEVERE, null, ex);
+            }
+            BookCategory auxbook = new BookCategory(LPathApplication.getText() + 
+                    File.separator + curso, curso);
+            auxCurso = new TreeItem<>(auxbook, new ImageView(miImage));
+            cursosTrack.put(curso, auxCurso); 
+            TListUpdates.getRoot().getChildren().add(auxCurso);
+        }
         //  Creacion de un elemento para el arbol
         //  Creacion de una Imagen (icono) representativa del tipo
         int indexExt = path.lastIndexOf(".");
@@ -197,7 +222,6 @@ public class InterfaceController implements Initializable {
         if(indexExt > 0){
             auxExtension = path.substring(indexExt);
         }
-        URL iconUrl = null;
         switch(auxExtension){
             case ".pdf":
                 iconUrl = this.getClass().getResource("/Resources/Icons/pdf.png");
@@ -214,7 +238,7 @@ public class InterfaceController implements Initializable {
             default:
                 iconUrl = this.getClass().getResource("/Resources/Icons/other.png");
         }
-        Image miImage = null;
+        
         try (InputStream op = iconUrl.openStream()) {
                 miImage = new Image(op);
         } catch (IOException ex) {
@@ -223,15 +247,13 @@ public class InterfaceController implements Initializable {
         }
         BookCategory auxbook = new BookCategory(path, name);
         TreeItem<BookCategory> auxItem = new TreeItem<>(auxbook, new ImageView(miImage));
-        
+        auxCurso.getChildren().add(auxItem);
         //Una vez con el elemento creado debemos averiguar donde meterlo
         
-        String curso = path.replace(LPathApplication + File.separator, "");
-        curso = curso.substring(0, curso.indexOf(File.separator));
-        auxItem.getChildren().add(auxItem);
+//        auxItem.getChildren().add(auxItem);
         
 //        cursosTrack.get("aa").getChildren().a
-        TListUpdates.getRoot().getChildren().add(auxItem);
+//        TListUpdates.getRoot().getChildren().add(auxItem);
     }
     private Map<String, TreeItem<BookCategory>> cursosTrack;
     private void handleTreeViewClick(TreeItem newValue) {
@@ -539,7 +561,7 @@ public class InterfaceController implements Initializable {
 
         LTimeUpdate.setText(HelloWorld.getResource().getString(ResourceLeng.SYNCRO_NOW));
 //        HelloWorld.hideApp();
-        new syncroniceProcess(UserInfo.getUser(), UserInfo.getPass1(),
+        new procesoSyncronizacion(UserInfo.getUser(), UserInfo.getPass1(),
                 UserInfo.getPass2(), UserInfo.getPath(),
                 HelloWorld.getResource(), this);
     }

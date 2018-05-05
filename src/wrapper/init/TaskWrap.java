@@ -6,6 +6,9 @@ import java.util.concurrent.Callable;
 /**
  *
  * @author Diego Alvarez
+ * 
+ * Task para lanzar un Node "raiz". Metido en un callable porque queremos 
+ *  gestionarlo con un executor.
  */
 public class TaskWrap implements Callable<Void> {
 
@@ -25,7 +28,7 @@ public class TaskWrap implements Callable<Void> {
     }
 
     /**
-     *
+     * @deprecated 
      */
     public void listar() {
         curso.listar(0);

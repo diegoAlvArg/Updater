@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package wrapper.services;
+package zzParaBorrar;
 
 import application.InterfaceController;
 import java.io.IOException;
@@ -14,7 +14,7 @@ import javafx.application.Platform;
 import javafx.concurrent.Service;
 import javafx.concurrent.Task;
 import org.apache.http.client.ClientProtocolException;
-import wrapper.init.main;
+import wrapper.init.Opciones;
 
 /**
  *@deprecated 
@@ -62,8 +62,8 @@ public class syncronice extends Service<Void> {
         final InterfaceController _iu = iu;
         new Thread(() -> {
             try {
-                main.performUpdate(_user, _pass1, "(2016-2017)", _path, _iu);
-////                main.performUpdateSingle(0, _user, _pass1, "(2016-2017)", _path);
+                Opciones.realizarActualizacionTotal(_user, _pass1, "(2016-2017)", _path, _iu);
+////                Opciones.realizarActualizacionIndividual(0, _user, _pass1, "(2016-2017)", _path);
             } catch (IOException ex) {
                 Logger.getLogger(syncronice.class.getName()).log(Level.SEVERE, null, ex);
             } finally {
@@ -88,7 +88,7 @@ public class syncronice extends Service<Void> {
         final InterfaceController _iu = iu;
         new Thread(() -> {
             try {
-                main.performUpdateSingle(0, _user, _pass1, "(2016-2017)", _path, _iu);
+                Opciones.realizarActualizacionIndividual(0, _user, _pass1, "(2016-2017)", _path, _iu);
             } catch (IOException ex) {
                 Logger.getLogger(syncronice.class.getName()).log(Level.SEVERE, null, ex);
             } finally {
@@ -115,15 +115,15 @@ public class syncronice extends Service<Void> {
 ////                            5- Sist.legados
 ////                            6- Diseño y administracion de redes 
 ////                            7- Comercio Electornico 
-////                            main.performUpdate(_user, _pass1, "(2016-2017)", _path);
-////                            main.performUpdateSingle(0, _user, _pass1, "(2016-2017)", _path);
-////                            main.performUpdateSingle(1, _user, _pass1, "(2016-2017)", _path);
-////                            main.performUpdateSingle(2, _user, _pass1, "(2016-2017)", _path);
-////                            main.performUpdateSingle(3, _user, _pass1, "(2016-2017)", _path);
-////                            main.performUpdateSingle(4, _user, _pass1, "(2016-2017)", _path);
-////                            main.performUpdateSingle(5, _user, _pass1, "(2016-2017)", _path);
-////                            main.performUpdateSingle(6, _user, _pass1, "(2016-2017)", _path);
-////                            main.performUpdateSingle(7, _user, _pass1, "(2016-2017)", _path);
+////                            Opciones.realizarActualizacionTotal(_user, _pass1, "(2016-2017)", _path);
+////                            Opciones.realizarActualizacionIndividual(0, _user, _pass1, "(2016-2017)", _path);
+////                            Opciones.realizarActualizacionIndividual(1, _user, _pass1, "(2016-2017)", _path);
+////                            Opciones.realizarActualizacionIndividual(2, _user, _pass1, "(2016-2017)", _path);
+////                            Opciones.realizarActualizacionIndividual(3, _user, _pass1, "(2016-2017)", _path);
+////                            Opciones.realizarActualizacionIndividual(4, _user, _pass1, "(2016-2017)", _path);
+////                            Opciones.realizarActualizacionIndividual(5, _user, _pass1, "(2016-2017)", _path);
+////                            Opciones.realizarActualizacionIndividual(6, _user, _pass1, "(2016-2017)", _path);
+////                            Opciones.realizarActualizacionIndividual(7, _user, _pass1, "(2016-2017)", _path);
 //                        } catch (Exception ex) {
 //                            ex.printStackTrace();
 //                        }finally{
