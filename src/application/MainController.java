@@ -19,6 +19,9 @@ import javafx.scene.control.Label;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 import Updater.tools.ResourceLeng;
+import java.io.File;
+import javafx.application.HostServices;
+//import javafx.application.HostServices;
 
 /**
  * FXML Controller class
@@ -75,7 +78,11 @@ public class MainController implements Initializable {
         System.out.println(TxtLog);
         count++;
         this.BHello.setText(TxtButton + count);
-
+        File file = new File("C:\\demo\\Tema 0.pdf");
+        
+        HostServices hostServices = HelloWorld.getHostService();
+        hostServices.showDocument(file.getAbsolutePath());
+    
     }
 
     public void changeLanguague(ActionEvent _event) {

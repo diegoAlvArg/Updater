@@ -127,7 +127,7 @@ public final class InfoTool {
      * @return <b> true </b> if Connected on Internet,<b> false </b> if not.
      */
     public static boolean isReachableByPing(String host) {
-        System.out.println("Google?");
+//        System.out.println("Google?");
         try {
 
             // Start a new Process
@@ -137,7 +137,7 @@ public final class InfoTool {
             process.waitFor();
 
             //Check the return value
-            System.out.println("Devolviendo " + (process.exitValue() == 0));
+//            System.out.println("Devolviendo " + (process.exitValue() == 0));
             return process.exitValue() == 0;
 
         } catch (Exception ex) {

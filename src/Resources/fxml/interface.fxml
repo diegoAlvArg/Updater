@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Hyperlink?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Spinner?>
+<?import javafx.scene.control.Tab?>
+<?import javafx.scene.control.TabPane?>
+<?import javafx.scene.control.TreeView?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.TextFlow?>
+
+<TabPane fx:id="TTabpane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" tabClosingPolicy="UNAVAILABLE" xmlns="http://javafx.com/javafx/9.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.InterfaceController">
+  <tabs>
+    <Tab fx:id="OptionInit" text="OpcionInicio">
+         <content>
+            <AnchorPane prefHeight="200.0" prefWidth="200.0">
+               <children>
+                  <TreeView fx:id="TListUpdates" layoutX="33.0" layoutY="49.0" prefHeight="274.0" prefWidth="519.0" showRoot="false" />
+               </children>
+            </AnchorPane>
+         </content></Tab>
+      <Tab fx:id="OptionConfig" text="OpcionConfig">
+        <content>
+          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+               <children>
+                  <Label fx:id="LLanguague" layoutX="58.0" layoutY="248.0" text="Language" underline="true">
+                     <font>
+                        <Font name="System Bold" size="14.0" />
+                     </font>
+                  </Label>
+                  <ComboBox fx:id="CLanguague" layoutX="58.0" layoutY="276.0" onAction="#changeLanguague" prefWidth="150.0" />
+                  <Label fx:id="LPathDownload" layoutX="300.0" layoutY="248.0" text="Ruta almacenamiento" underline="true">
+                     <font>
+                        <Font name="System Bold" size="14.0" />
+                     </font></Label>
+                  <ImageView fx:id="IUserIcon" fitHeight="105.0" fitWidth="103.0" layoutX="39.0" layoutY="39.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../Icons/User_Empty.png" />
+                     </image></ImageView>
+                  <Button fx:id="BNewUser" layoutX="155.0" layoutY="48.0" mnemonicParsing="false" onAction="#createNewUser" prefHeight="16.0" prefWidth="53.0">
+                     <graphic>
+                        <ImageView fitHeight="27.0" fitWidth="27.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../Icons/User_Add.png" />
+                           </image>
+                        </ImageView>
+                     </graphic>
+                  </Button>
+                  <Button fx:id="BEditPath" layoutX="465.0" layoutY="287.0" minWidth="-Infinity" mnemonicParsing="false" onAction="#chooseDirectory" prefHeight="29.0" prefWidth="49.0">
+                     <graphic>
+                        <ImageView fitHeight="21.0" fitWidth="42.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../Icons/edit.png" />
+                           </image>
+                        </ImageView>
+                     </graphic>
+                  </Button>
+                  <Label fx:id="LIdUser" layoutX="60.0" layoutY="146.0" prefHeight="17.0" prefWidth="62.0" />
+                  <Label fx:id="LCheckDate" layoutX="44.0" layoutY="196.0" prefHeight="17.0" prefWidth="210.0" />
+                  <Label fx:id="LFeqSinc" layoutX="292.0" layoutY="55.0" text="Frecuencia sincronizacion">
+                     <font>
+                        <Font name="System Bold" size="14.0" />
+                     </font>
+                  </Label>
+                  <Spinner fx:id="hourSpinner" layoutX="300.0" layoutY="102.0" prefHeight="25.0" prefWidth="65.0" />
+                  <Label fx:id="LHours" layoutX="376.0" layoutY="106.0" text="Label" />
+                  <Spinner fx:id="minutesSpinner" layoutX="300.0" layoutY="142.0" prefHeight="25.0" prefWidth="66.0" />
+                  <Label fx:id="LMinutes" layoutX="376.0" layoutY="146.0" text="Label" />
+                  <Button fx:id="BConfirm" layoutX="465.0" layoutY="123.0" mnemonicParsing="false" onAction="#setNextUpdate" text="confirm" />
+                  <Label fx:id="LNextUpdate" layoutX="300.0" layoutY="176.0" text="Sigueinte actualizacion" underline="true">
+                     <font>
+                        <Font name="System Bold" size="14.0" />
+                     </font>
+                  </Label>
+                  <Button fx:id="BUpdate" layoutX="465.0" layoutY="204.0" mnemonicParsing="false" onAction="#syncroNow" text="Button" />
+                  <Label fx:id="LPathApplication" layoutX="300.0" layoutY="289.0" minWidth="-Infinity" prefHeight="17.0" prefWidth="145.0" text="path application" />
+                  <Button fx:id="BEditUser" layoutX="155.0" layoutY="100.0" mnemonicParsing="false" onAction="#editUser" prefHeight="29.0" prefWidth="53.0">
+                     <graphic>
+                        <ImageView fitHeight="21.0" fitWidth="42.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../Icons/edit.png" />
+                           </image>
+                        </ImageView>
+                     </graphic>
+                  </Button>
+                  <Label fx:id="LTimeUpdate" layoutX="300.0" layoutY="208.0" prefHeight="17.0" prefWidth="153.0" />
+               </children>
+            </AnchorPane>
+        </content>
+      </Tab>
+    <Tab fx:id="OptionAyuda" text="OpcionAyuda">
+         <content>
+            <AnchorPane prefHeight="200.0" prefWidth="200.0">
+               <children>
+                  <Button fx:id="BActualizar" layoutX="443.0" layoutY="148.0" mnemonicParsing="false" onAction="#actualizarVersion" text="BActualizar" />
+                  <Label fx:id="LCurrentVersion" layoutX="443.0" layoutY="105.0" text="LCurrentVersion" />
+                  <Hyperlink fx:id="HopenHelp" accessibleHelp="bbbb" accessibleRoleDescription="ccccc" accessibleText="aaa" layoutX="87.0" layoutY="261.0" onAction="#openHelp" text="HopenHelp" />
+                  <TextFlow fx:id="TCredits" layoutX="34.0" layoutY="33.0" prefHeight="218.0" prefWidth="393.0" />
+               </children>
+            </AnchorPane>
+         </content></Tab>
+  </tabs>
+</TabPane>

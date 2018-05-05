@@ -42,7 +42,7 @@ public class VersionCheck {
                     "Can't connect to the update site :\n1) Maybe there is not internet connection\n2)GitHub is down for maintenance", Duration.millis(2500),
                     NotificationType.ERROR));
         }
-        System.out.println("Last " + lastVersion);
+//        System.out.println("Last " + lastVersion);
         return lastVersion;
     }
 

@@ -18,15 +18,17 @@ import java.util.Properties;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javafx.animation.PauseTransition;
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 import Updater.tools.ResourceLeng;
-import javafx.scene.layout.Pane;
+import java.util.Optional;
+import javafx.application.HostServices;
+import javafx.scene.control.Alert;
+import javafx.scene.control.ButtonType;
+import javafx.scene.control.TabPane;
 import javafx.util.Duration;
 
 /**
@@ -34,10 +36,10 @@ import javafx.util.Duration;
  * @author Diego Alvarez
  */
 public class HelloWorld extends Application {
-
+    
     public static Properties internalInformation = new Properties();
-    public static final int APPLICATION_VERSION = 7;
-
+    public static final int APPLICATION_VERSION = 8;
+    
     static {
         //Important for Web Browser
         System.setProperty("sun.net.http.allowRestrictedHeaders", "true");
@@ -45,53 +47,59 @@ public class HelloWorld extends Application {
         //----------Properties-------------
         internalInformation.put("Version", APPLICATION_VERSION);
         internalInformation.put("ReleasedDate", "29/02/2018");
-
+        
         System.out.println("Outside of Application Start Method");
     }
-
+    private static HostServices hostSer;
     private static ResourceBundle rb;
     private static Stage stage;
-
+    
     private static int update;
-
+    
     @Override
     public void start(Stage primaryStage) throws IOException {
         rb = ResourceBundle.getBundle("Resources.Languages.SystemMessages", Locale.getDefault());
         System.out.println(ResourceLeng.APP_INIT);
         Scene scene;
-        update = howIsLastUpdate();
-        System.out.println("Last " + update);
-        if (update > (int) internalInformation.get("Version")) {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/Resources/fxml/askUpdate.fxml"));
-            Parent root = (Parent) loader.load();
-            AskUpdateController askPanel = (AskUpdateController) loader.getController();
-            askPanel.setVersionsAsk(update, (int) internalInformation.get("Version"));
-
-            scene = new Scene(root, 300, 200);
-            primaryStage.setTitle("Actualizando");
-        } else {
-            Parent root = FXMLLoader.load(getClass().getResource("/Resources/fxml/Main.fxml"), rb);
-            scene = new Scene(root);//, 400, 400);
+//        update = howIsLastUpdate();
+//        System.out.println("Last " + update);
+        actualizarVersion(false);
+//        if (update > (int) internalInformation.get("Version")) {
+//            FXMLLoader loader = new FXMLLoader(getClass().getResource("/Resources/fxml/askUpdate.fxml"));
+//            Parent root = (Parent) loader.load();
+//            AskUpdateController askPanel = (AskUpdateController) loader.getController();
+//            askPanel.setVersionsAsk(update, (int) internalInformation.get("Version"));
+//
+//            scene = new Scene(root, 300, 200);
+//            primaryStage.setTitle("Actualizando");
+//        } else {
+//            Parent root = FXMLLoader.load(getClass().getResource("/Resources/fxml/Main.fxml"), rb);
+        TabPane root = (TabPane) FXMLLoader.load(getClass().getResource("/Resources/fxml/interface.fxml"), rb);
+        scene = new Scene(root);//, 400, 400);
 //            scene.getStylesheets().add(STYLESHEET_MODENA)
-            primaryStage.setTitle(rb.getString(ResourceLeng.APP_TITLE)
-                    + internalInformation.get("Version"));
-        }
-
+        primaryStage.setTitle(rb.getString(ResourceLeng.APP_TITLE)
+                + internalInformation.get("Version"));
+//        }
+        hostSer = getHostServices();
         primaryStage.setScene(scene);
         primaryStage.show();
         stage = primaryStage;
     }
-
+    
     public static void changeTitle(String _title) {
         stage.setTitle(_title + internalInformation.get("Version"));
     }
-
+    
     public static void changeStage(Stage _newStage) {
         stage = _newStage;
     }
-
+    
     public static ResourceBundle getResource() {
         return rb;
+    }
+    
+    public static void setResource(ResourceBundle newrb) {
+        rb = newrb;
     }
 
     //---------------------------------------------------------------------------------------
@@ -136,18 +144,51 @@ public class HelloWorld extends Application {
                         }
                     }
                 }
-
+                
             } catch (IOException | InterruptedException ex) {
                 Logger.getLogger(HelloWorld.class.getName()).log(Level.INFO, null, ex);
 
                 // Show failed message
                 Platform.runLater(() -> Platform.runLater(() -> ActionTool.showNotification("Starting " + appName + " failed",
                         "\nApplication Path: [ " + applicationPath[0] + " ]\n\tTry to do it manually...", Duration.seconds(10), NotificationType.ERROR)));
-
+                
             }
         }, "Start Application Thread").start();
     }
+    
+    public static HostServices getHostService() {
+        return hostSer;
+    }
+    
+    public static void actualizarVersion(boolean mostrarMensaje) {
+        int currentVersion = (int) internalInformation.get("Version");
+        int lastVersion = howIsLastUpdate();
+        
+        if (currentVersion < lastVersion) {
+            Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+            alert.setTitle(rb.getString(ResourceLeng.UPDATE_TITLE));
+            alert.setHeaderText(String.format(rb.getString(ResourceLeng.UPDATE_HEADER),
+                    currentVersion, lastVersion));
+            alert.setContentText(rb.getString(ResourceLeng.UPDATE_CONTENT));
+            
+            Optional<ButtonType> result = alert.showAndWait();
+            if (result.get() == ButtonType.OK) {
+                HelloWorld.restartApplication("XR3PlayerUpdater");
+            }
+        } else if (mostrarMensaje) {
+            Platform.runLater(() -> Platform.runLater(() -> ActionTool.showNotification(
+                    rb.getString(ResourceLeng.UPDATE_INFO),
+                    rb.getString(ResourceLeng.UPDATE_INFO_TEXT),
+                    Duration.seconds(10), NotificationType.INFORMATION)));
+        }
+    }
 
+    public static void showApp(){
+        stage.show();
+    }
+    public static void hideApp(){
+        stage.hide();
+    }
     /**
      * @param args the command line arguments
      */
