@@ -81,7 +81,7 @@ public class procesoSyncronizacion {
         new Thread(() -> {
             try {
                 Opciones.realizarActualizacionTotal(_user, _pass1, currentYear(), _path, _iu);
-//                Opciones.realizarActualizacionIndividual(0, _user, _pass1, "(2016-2017)", _path, _iu);
+//                Opciones.realizarActualizacionIndividual(6, _user, _pass1, "(2016-2017)", _path, _iu);
             } catch (IOException ex) {
                 //Moodle esta caido
                 Logger.getLogger(procesoSyncronizacion.class.getName()).log(Level.SEVERE, null, ex);

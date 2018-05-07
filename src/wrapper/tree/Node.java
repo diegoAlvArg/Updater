@@ -24,9 +24,12 @@ import java.util.logging.LogRecord;
 import java.util.logging.Logger;
 import org.apache.http.HttpEntity;
 import org.apache.http.client.CookieStore;
+import org.apache.http.client.config.RequestConfig;
 import org.apache.http.client.methods.CloseableHttpResponse;
 import org.apache.http.client.methods.HttpPost;
+import org.apache.http.client.methods.HttpRequestBase;
 import org.apache.http.client.protocol.HttpClientContext;
+import org.apache.http.config.SocketConfig;
 import org.apache.http.conn.HttpHostConnectException;
 import org.apache.http.impl.client.BasicCookieStore;
 import org.apache.http.impl.client.CloseableHttpClient;
@@ -177,7 +180,7 @@ public class Node {
             // Doblamos el timeout porque parece tenet problemas de tiempo de conexion 
             //  al haber variso Nodes usando la Connect
             doc = Jsoup.connect(url)
-                    .timeout(80 * 1000)
+                    .timeout(180 * 1000)
                     .cookies(cookies)
                     .get();
 
@@ -223,9 +226,13 @@ public class Node {
                 cookie.setDomain(DOMINIO_MOODLE);
                 cookie.setPath("/");
                 cookieAlmacen.addCookie(cookie);
-
+                SocketConfig socketConfig = SocketConfig.custom()
+                .setSoTimeout(240 * 1000)
+                .build();
                 try (CloseableHttpClient httpclient = HttpClients.custom()
-                        .setDefaultCookieStore(cookieAlmacen).build()) {
+                        .setDefaultCookieStore(cookieAlmacen)
+                        .setDefaultSocketConfig(socketConfig)
+                        .build()) {
                     descargarEnLocal(Opciones.getDownloadPath(), httpclient, Opciones.getIU());
 
                     httpclient.close();
@@ -776,13 +783,13 @@ public class Node {
                 }
             }
             //********COMPROVAMOS QUE TIPO ES Y QUE NO ESTA DESCARGADO**********
-            if (tipo.equals(TypeNode.ARCHIVO)){// && !archivoExiste(pathDescarga, nombre)) {
+            if (tipo.equals(TypeNode.ARCHIVO) && !archivoExiste(pathDescarga, nombre)) {
                 descargarArchivo(pathDescarga, httpclient, iu);
 //                iu.addTreeItem(pathDescarga, this.nombre, this.tipo);
             } else if (tipo.equals(TypeNode.URL) && !archivoExiste(pathDescarga, nombre+".htm")) {
                 descargarEnlaceWeb(pathDescarga, httpclient, iu);
 //                iu.addTreeItem(pathDescarga, this.nombre, this.tipo);
-            } else if (tipo.equals(TypeNode.OTHER)){// && !archivoExiste(pathDescarga, nombre)) {
+            } else if (tipo.equals(TypeNode.OTHER) && !archivoExiste(pathDescarga, nombre)) {
                 //Se puede dar el caso de que no reconocio el tipo o el profesor se 
                 //  olvido, lo lanzamos como file y en caso de no ser file se tratara 
                 //  en el propio metodo
@@ -837,11 +844,18 @@ public class Node {
         int bytesBuffered = 0;
         int len = 0;
         byte[] buffer = new byte[10240];
-
+        HttpRequestBase request = new HttpPost(url); 
+//        RequestConfig.Builder requestConfig = RequestConfig.custom();
+//        requestConfig.setConnectTimeout(500 * 1000);
+//        requestConfig.setConnectionRequestTimeout(500 * 1000);
+//        requestConfig.setSocketTimeout(500 * 1000);
+//        request.setConfig(requestConfig.build());
+        long time_start, time_end;
+        time_start = System.currentTimeMillis();
         try {
             //***************CONECTAMOS A LA URL************************************
             // Create a custom response handler
-            response = httpclient.execute(new HttpPost(this.url), context);
+            response = httpclient.execute(request, context);
             entity = response.getEntity();
             List<URI> redirectURIs = context.getRedirectLocations();
 
@@ -872,7 +886,10 @@ public class Node {
                 if (formato != null && url.compareTo(formato) != 0) {
                     this.url = formato;
                     response.close();
-                    response = httpclient.execute(new HttpPost(this.url));
+                    request = new HttpPost(url); 
+//                    request.setConfig(requestConfig.build());
+                    response = httpclient.execute(request);
+//                    response = httpclient.execute(new HttpPost(this.url));
                     entity = response.getEntity();
                     formato = formato.substring(formato.lastIndexOf("."));
                 }
@@ -891,7 +908,7 @@ public class Node {
                         nombreConFormato = nombre + formato;
                     }
                     //Comprobacion de existencia
-                    if(!archivoExiste(pathDescarga, nombreConFormato)){
+//                    if(!archivoExiste(pathDescarga, nombreConFormato)){
                         fos = new FileOutputStream(new File(pathDescarga + File.separator + nombreConFormato));
 //                      System.out.println("Downloadinwg " + _pathdownload + File.separator + nameFormat);
 
@@ -903,7 +920,7 @@ public class Node {
                             }
                         }
                         iu.addTreeItem(pathDescarga + File.separator + nombreConFormato, this.nombre, this.tipo);
-                    }
+//                    }
                 }
             } else {
                 // Se trata de un Node TypeNode.OTHER, el cual no refleja una URL
@@ -912,11 +929,13 @@ public class Node {
                 response.close();
                 response = null;
                 //Comprobacion de existencia
-                if(!archivoExiste(pathDescarga, nombre+".htm")){
+//                if(!archivoExiste(pathDescarga, nombre+".htm")){
                     descargarEnlaceWeb(pathDescarga, httpclient, iu);
-                }
+//                }
             }
         } catch (Exception e) {
+            time_end = System.currentTimeMillis();
+            System.err.println("\n\n--the request has taken " + (time_end - time_start) + " milliseconds");
             StringWriter errors = new StringWriter();
             e.printStackTrace(new PrintWriter(errors));
             logRegistro = new LogRecord(Level.WARNING, nombre + "(" + url + ")\n" + errors.toString());
@@ -1013,12 +1032,19 @@ public class Node {
         FileWriter fw = null;
         String urlAux = this.url;
         String line = null;
+        LogRecord logRegistro = null;
+        HttpRequestBase request = new HttpPost(url); 
+//        RequestConfig.Builder requestConfig = RequestConfig.custom();
+//        requestConfig.setConnectTimeout(180 * 1000);
+//        requestConfig.setConnectionRequestTimeout(180 * 1000);
+//        requestConfig.setSocketTimeout(180 * 1000);
+//        request.setConfig(requestConfig.build());
         try {
             //Miramos si la url redirige a moodle, porque la verdadera url estara
             //  en span9, podriamos parsear con Jsoup pero la linea que buscamos
             //  esta hacia la mitad y quiza cueste menos que parsear
             if (url.contains("moodle2.unizar.es/add/mod/url")) {
-                response = httpclient.execute(new HttpPost(this.url), context);
+                response = httpclient.execute(request, context);
                 entity = response.getEntity();
                 List<URI> redirectURIs = context.getRedirectLocations();
 
@@ -1051,6 +1077,11 @@ public class Node {
             // comuniquen al profesor.
             e.printStackTrace();
 //            urlAux = this.url;
+            StringWriter errors = new StringWriter();
+            e.printStackTrace(new PrintWriter(errors));
+            logRegistro = new LogRecord(Level.WARNING, nombre + "(" + url + ")\n" + errors.toString());
+            logRegistro.setSourceMethodName("descargarArchivo");
+            logRegistro.setSourceClassName(this.getClass().getName());
         } finally {
             if (fw != null) {
                 fw.flush();
@@ -1091,7 +1122,8 @@ public class Node {
 //                    if (filename[0].equalsIgnoreCase(archivo)) { //matching defined filename         
 //                        return true;
 //                    }
-                    if (file.getName().equals(archivo)) { //matching defined filename         
+                    if (file.getName().contains(archivo)) {
+//                    if (file.getName().equals(archivo)) { //matching defined filename         
                         return true;
                     }
                 }

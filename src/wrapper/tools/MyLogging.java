@@ -2,6 +2,9 @@ package wrapper.tools;
 
 import java.io.FileWriter;
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -31,7 +34,12 @@ public class MyLogging {
         //instance the logger
         logger = Logger.getLogger(MyLogging.class.getName());
         //instance the filehandler
-        fileHandler = new FileHandler("C:/demo/MyLogFile.log", true);
+//        fileHandler = new FileHandler("C:/demo/MyLogFile.log", true);
+        Path defaultPath = Paths.get("./Log/MyLogFile.log");
+        if(!Files.exists(defaultPath.getParent().toAbsolutePath())){
+            Files.createDirectories(defaultPath.getParent().toAbsolutePath());
+        }
+        fileHandler = new FileHandler(defaultPath.toAbsolutePath().toString(), true);
         //instance formatter, set formatting, and handler
         fileHandler.setFormatter(new MyFormatter());
         logger.addHandler(fileHandler);

@@ -50,6 +50,7 @@ import javafx.util.StringConverter;
 import application.events.validator;
 import application.events.eventUser;
 import application.events.procesoSyncronizacion;
+import java.util.HashMap;
 import javafx.scene.control.CheckBoxTreeItem;
 import wrapper.tree.TypeNode;
 
@@ -70,7 +71,7 @@ public class InterfaceController implements Initializable {
     /**
      * Max Syncronization Before Clean List Update
      */
-    private final int MAX_SBCLU = 2;
+    private final int MAX_SBCLU = 1;
     private int numSyncro;
     //*************************************** OptionConfig
     @FXML
@@ -247,7 +248,8 @@ public class InterfaceController implements Initializable {
         }
         BookCategory auxbook = new BookCategory(path, name);
         TreeItem<BookCategory> auxItem = new TreeItem<>(auxbook, new ImageView(miImage));
-        auxCurso.getChildren().add(auxItem);
+//        auxCurso.getChildren().add(auxItem);
+        auxCurso.getChildren().add(0, auxItem);
         //Una vez con el elemento creado debemos averiguar donde meterlo
         
 //        auxItem.getChildren().add(auxItem);
@@ -255,14 +257,20 @@ public class InterfaceController implements Initializable {
 //        cursosTrack.get("aa").getChildren().a
 //        TListUpdates.getRoot().getChildren().add(auxItem);
     }
-    private Map<String, TreeItem<BookCategory>> cursosTrack;
+    private Map<String, TreeItem<BookCategory>> cursosTrack = new HashMap<>();;
     private void handleTreeViewClick(TreeItem newValue) {
-        BookCategory aux = (BookCategory) newValue.getValue();
-        System.out.println(aux.print());
-//        HelloWorld.getHostService().showDocument("C:\\demo");
+        try{
+            BookCategory aux = (BookCategory) newValue.getValue();
+            System.out.println(aux.print());
+            HelloWorld.getHostService().showDocument(aux.getCode());
+        }catch(Exception e){
+        }
     }
     private void cleanTreeview(){
+        System.err.println("Limpiando");
         TListUpdates.getRoot().getChildren().clear();
+        cursosTrack.clear();
+         System.err.println("Listo");
     }
     //*********************OptionConfig********************************************
     public void changeLanguague(ActionEvent _event) {
@@ -473,19 +481,20 @@ public class InterfaceController implements Initializable {
         momentoSigAct.add(Calendar.MINUTE, minutos);
         momentoSigAct.add(Calendar.HOUR_OF_DAY, horas); // adds hour
         momentoSigAct.set(Calendar.SECOND, 0);
-
-        String dayTime;
+        
         ResourceBundle rb = HelloWorld.getResource();
-        if (momentoActual.get(Calendar.DAY_OF_MONTH) == momentoSigAct.get(Calendar.DAY_OF_MONTH)) {
-            dayTime = rb.getString(ResourceLeng.DAY_TODAY);
-        } else {
-            dayTime = rb.getString(ResourceLeng.DAY_TOMORROW);
-        }
-        String line = rb.getString(ResourceLeng.NEXT_TIME_SEED);
-        line = String.format(line, dayTime);//, momentoSigAct.get(Calendar.HOUR_OF_DAY), momentoSigAct.get(Calendar.MINUTE));
-        SimpleDateFormat sdf = new SimpleDateFormat("HH:mm");
-        line += sdf.format(momentoSigAct.getTime());
-        LTimeUpdate.setText(line);
+        setNextUpdateLabel(rb, momentoActual);
+//        String dayTime;
+//        if (momentoActual.get(Calendar.DAY_OF_MONTH) == momentoSigAct.get(Calendar.DAY_OF_MONTH)) {
+//            dayTime = rb.getString(ResourceLeng.DAY_TODAY);
+//        } else {
+//            dayTime = rb.getString(ResourceLeng.DAY_TOMORROW);
+//        }
+//        String line = rb.getString(ResourceLeng.NEXT_TIME_SEED);
+//        line = String.format(line, dayTime);//, momentoSigAct.get(Calendar.HOUR_OF_DAY), momentoSigAct.get(Calendar.MINUTE));
+//        SimpleDateFormat sdf = new SimpleDateFormat("HH:mm");
+//        line += sdf.format(momentoSigAct.getTime());
+//        LTimeUpdate.setText(line);
         long diff = momentoSigAct.getTime().getTime() - momentoActual.getTime().getTime();
         freqSecuence = new Timeline(new KeyFrame(
                 Duration.seconds(diff / 1000), new EventHandler<ActionEvent>() {
@@ -524,7 +533,20 @@ public class InterfaceController implements Initializable {
             freqSecuence.play();
         }
     }
-
+    private void setNextUpdateLabel(ResourceBundle rb, Calendar now){
+//        Calendar momentoActual = (Calendar) momentoSigAct.clone();
+        String dayTime;
+        if (now.get(Calendar.DAY_OF_MONTH) == momentoSigAct.get(Calendar.DAY_OF_MONTH)) {
+            dayTime = rb.getString(ResourceLeng.DAY_TODAY);
+        } else {
+            dayTime = rb.getString(ResourceLeng.DAY_TOMORROW);
+        }
+        String line = rb.getString(ResourceLeng.NEXT_TIME_SEED);
+        line = String.format(line, dayTime);
+        SimpleDateFormat sdf = new SimpleDateFormat("HH:mm");
+        line += sdf.format(momentoSigAct.getTime());
+        LTimeUpdate.setText(line);  
+    }
     /**
      * @deprecated
      */
@@ -543,12 +565,6 @@ public class InterfaceController implements Initializable {
 
     public void syncroNow(ActionEvent event) {
         freqSecuence.stop();
-        if(numSyncro == MAX_SBCLU){
-            cleanTreeview();
-            numSyncro = 0;
-        }else{
-            numSyncro++;
-        }
         syncroStart();
     }
     private void syncroStart() {
@@ -558,7 +574,12 @@ public class InterfaceController implements Initializable {
         BEditPath.setDisable(true);
         BEditUser.setDisable(true);
         BActualizar.setDisable(true);
-
+        if(numSyncro == MAX_SBCLU){
+            cleanTreeview();
+            numSyncro = 0;
+        }else{
+            numSyncro++;
+        }
         LTimeUpdate.setText(HelloWorld.getResource().getString(ResourceLeng.SYNCRO_NOW));
 //        HelloWorld.hideApp();
         new procesoSyncronizacion(UserInfo.getUser(), UserInfo.getPass1(),
@@ -617,10 +638,11 @@ public class InterfaceController implements Initializable {
 
 //******************************** Utils*******************************************
     private void setLanguague(ResourceBundle rb) {
+        //******* Tab OptionInit
+        this.OptionInit.setText(rb.getString(ResourceLeng.TAB_INIT));
         //******* Tab OptionConfig
         this.OptionConfig.setText(rb.getString(ResourceLeng.TAB_CONFIG));
         this.LLanguague.setText(rb.getString(ResourceLeng.LANGUAGE));
-//        this.CLanguague = new ComboBox();
         this.CLanguague.getItems().clear();
         for (Map.Entry<String, String> e : ResourceLeng.LANGUAGES.entrySet()) {
             CLanguague.getItems().add(rb.getString(e.getValue()));
@@ -635,6 +657,13 @@ public class InterfaceController implements Initializable {
         LNextUpdate.setText(rb.getString(ResourceLeng.LABEL_NEXT_UPDATE));
         BActualizar.setText(rb.getString(ResourceLeng.BUTTON_UPDATE_MOODLE));
 //        LCheckDate.setText(rb.getString(ResourceLeng.LABEL_CHECK_DATES));
+        if(!BActualizar.isDisable() && !LTimeUpdate.getText().isEmpty()){
+            //Esta con una arlama
+            setNextUpdateLabel(rb, Calendar.getInstance());
+        }else if(!LTimeUpdate.getText().isEmpty()){
+            //Esta actualizando
+            LTimeUpdate.setText(HelloWorld.getResource().getString(ResourceLeng.SYNCRO_NOW));
+        }
         //******* Tab OptionAyuda
         this.OptionAyuda.setText(rb.getString(ResourceLeng.TAB_HELP));
         this.BActualizar.setText(rb.getString(ResourceLeng.BUTTON_UPDATE));

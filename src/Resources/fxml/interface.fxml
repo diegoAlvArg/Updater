@@ -88,7 +88,7 @@
                         </ImageView>
                      </graphic>
                   </Button>
-                  <Label fx:id="LTimeUpdate" layoutX="300.0" layoutY="208.0" prefHeight="17.0" prefWidth="153.0" />
+                  <Label fx:id="LTimeUpdate" layoutX="300.0" layoutY="208.0" prefHeight="38.0" prefWidth="153.0" />
                </children>
             </AnchorPane>
         </content>

@@ -42,7 +42,8 @@ public class ResourceLeng extends BasicLeng {
     public final static String TXT_YES = "txt_yes";
 
     public final static String TXT_NO = "txt_no";
-
+    //**********TAB OptionInit
+    public final static String TAB_INIT = "tab_init";
     //**********TAB OptionConfig
     public final static String TAB_CONFIG = "tab_config";
     public final static String LANGUAGE = "language";
