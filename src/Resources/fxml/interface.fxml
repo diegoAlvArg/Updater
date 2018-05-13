@@ -7,6 +7,7 @@
 <?import javafx.scene.control.Spinner?>
 <?import javafx.scene.control.Tab?>
 <?import javafx.scene.control.TabPane?>
+<?import javafx.scene.control.Tooltip?>
 <?import javafx.scene.control.TreeView?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
@@ -50,6 +51,13 @@
                            </image>
                         </ImageView>
                      </graphic>
+                     <tooltip>
+                        <Tooltip text="aaaaaaaa">
+                           <font>
+                              <Font size="13.0" />
+                           </font>
+                        </Tooltip>
+                     </tooltip>
                   </Button>
                   <Button fx:id="BEditPath" layoutX="465.0" layoutY="287.0" minWidth="-Infinity" mnemonicParsing="false" onAction="#chooseDirectory" prefHeight="29.0" prefWidth="49.0">
                      <graphic>
@@ -71,7 +79,14 @@
                   <Label fx:id="LHours" layoutX="376.0" layoutY="106.0" text="Label" />
                   <Spinner fx:id="minutesSpinner" layoutX="300.0" layoutY="142.0" prefHeight="25.0" prefWidth="66.0" />
                   <Label fx:id="LMinutes" layoutX="376.0" layoutY="146.0" text="Label" />
-                  <Button fx:id="BConfirm" layoutX="465.0" layoutY="123.0" mnemonicParsing="false" onAction="#setNextUpdate" text="confirm" />
+                  <Button fx:id="BConfirm" layoutX="465.0" layoutY="123.0" mnemonicParsing="false" onAction="#setNextUpdate" text="confirm">
+                     <tooltip>
+                        <Tooltip text="Empty Tooltip">
+                           <font>
+                              <Font size="13.0" />
+                           </font>
+                        </Tooltip>
+                     </tooltip></Button>
                   <Label fx:id="LNextUpdate" layoutX="300.0" layoutY="176.0" text="Sigueinte actualizacion" underline="true">
                      <font>
                         <Font name="System Bold" size="14.0" />
@@ -87,6 +102,13 @@
                            </image>
                         </ImageView>
                      </graphic>
+                     <tooltip>
+                        <Tooltip text="bbbbbbb">
+                           <font>
+                              <Font size="13.0" />
+                           </font>
+                        </Tooltip>
+                     </tooltip>
                   </Button>
                   <Label fx:id="LTimeUpdate" layoutX="300.0" layoutY="208.0" prefHeight="38.0" prefWidth="153.0" />
                </children>

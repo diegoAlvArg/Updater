@@ -96,8 +96,9 @@ public class ResourceLeng extends BasicLeng {
     public final static String NEXT_TIME_SEED = "next_time_seed";
     
     public final static String SYNCRO_NOW = "syncro_now";
-   
-    
+    public final static String TOOLTIP_NEWUSER = "tooltip_newuser";
+    public final static String TOOLTIP_EDITUSER = "tooltip_edituser";
+    public final static String TOOLTIP_SETTIME = "tooltip_settime";
     
     //**********TAB OptionAyuda****************************************************************
     public final static String TAB_HELP = "tab_help";
@@ -118,4 +119,14 @@ public class ResourceLeng extends BasicLeng {
     public final static String UPDATE_CONTENT = "update_content";
     public final static String UPDATE_INFO = "update_info";
     public final static String UPDATE_INFO_TEXT = "update_info_text";
+    
+    
+    
+    //**********SystemTray Options**************************************************************
+    public final static String SYS_TRAY_TOOLTIP = "sys_tray_tooltip";
+    public final static String SYS_TRAY_EXIT = "sys_tray_exit";
+    public final static String SYS_TRAY_OPEN = "sys_tray_open";
+    public final static String SYS_TRAY_WIKI = "sys_tray_wiki";
+    public final static String SYS_TRAY_UPDATE = "sys_tray_update";
+    public final static String SYS_TRAY_SYNCRO = "sys_tray_syncro";
 }

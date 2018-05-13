@@ -24,22 +24,36 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 import Updater.tools.ResourceLeng;
+import java.awt.SystemTray;
+import java.awt.TrayIcon;
 import java.util.Optional;
 import javafx.application.HostServices;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.TabPane;
 import javafx.util.Duration;
+import java.awt.*;
+import java.awt.TrayIcon.MessageType;
+import java.awt.event.*;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
+import java.net.URL;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
+import javafx.event.EventHandler;
+import javax.swing.ImageIcon;
+import javax.swing.JFrame;
+import javax.swing.UIManager;
 
 /**
  *
  * @author Diego Alvarez
  */
 public class HelloWorld extends Application {
-    
+
     public static Properties internalInformation = new Properties();
-    public static final int APPLICATION_VERSION = 8;
-    
+    public static final int APPLICATION_VERSION = 9;
+
     static {
         //Important for Web Browser
         System.setProperty("sun.net.http.allowRestrictedHeaders", "true");
@@ -47,15 +61,16 @@ public class HelloWorld extends Application {
         //----------Properties-------------
         internalInformation.put("Version", APPLICATION_VERSION);
         internalInformation.put("ReleasedDate", "29/02/2018");
-        
+
         System.out.println("Outside of Application Start Method");
     }
     private static HostServices hostSer;
     private static ResourceBundle rb;
     private static Stage stage;
-    
+    private static TrayIcon trayIcon;
+    private static SystemTray tray;
     private static int update;
-    
+
     @Override
     public void start(Stage primaryStage) throws IOException {
         rb = ResourceBundle.getBundle("Resources.Languages.SystemMessages", Locale.getDefault());
@@ -74,6 +89,32 @@ public class HelloWorld extends Application {
 //            primaryStage.setTitle("Actualizando");
 //        } else {
 //            Parent root = FXMLLoader.load(getClass().getResource("/Resources/fxml/Main.fxml"), rb);
+        if (SystemTray.isSupported()) {
+            Platform.setImplicitExit(false);
+            buildSystemTray(rb);
+
+            primaryStage.iconifiedProperty().addListener(new ChangeListener<Boolean>() {
+                @Override
+                public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) {
+                    try {
+                        if (!oldValue && newValue) {
+                            tray.add(trayIcon);
+                            stage.hide();
+                            System.out.println("added to SystemTray");
+                        }
+//                        else if (oldValue && !newValue) {
+//                            System.err.println("jeje");
+//                        }
+                    } catch (Exception ex) {
+                        // AL volverlo a levantar desde el SystemTry generara este evento
+                        System.out.println("unable to add to tray");
+                        ex.printStackTrace();
+                    }
+//                    primaryStage.hide();
+//                    throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+                }
+            });
+        }
         TabPane root = (TabPane) FXMLLoader.load(getClass().getResource("/Resources/fxml/interface.fxml"), rb);
         scene = new Scene(root);//, 400, 400);
 //            scene.getStylesheets().add(STYLESHEET_MODENA)
@@ -81,25 +122,35 @@ public class HelloWorld extends Application {
                 + internalInformation.get("Version"));
 //        }
         hostSer = getHostServices();
+//        Platform.setImplicitExit(false);
         primaryStage.setScene(scene);
+        primaryStage.setResizable(false);
+
         primaryStage.show();
+        primaryStage.setOnCloseRequest(event -> {
+//            System.err.println("cerrando esto");
+            System.exit(0);
+        });
         stage = primaryStage;
     }
-    
+
     public static void changeTitle(String _title) {
         stage.setTitle(_title + internalInformation.get("Version"));
     }
-    
+
     public static void changeStage(Stage _newStage) {
         stage = _newStage;
     }
-    
+
     public static ResourceBundle getResource() {
         return rb;
     }
-    
+
     public static void setResource(ResourceBundle newrb) {
         rb = newrb;
+        if (trayIcon != null) {
+            changeLanguageSystemTray();
+        }
     }
 
     //---------------------------------------------------------------------------------------
@@ -144,51 +195,190 @@ public class HelloWorld extends Application {
                         }
                     }
                 }
-                
+
             } catch (IOException | InterruptedException ex) {
                 Logger.getLogger(HelloWorld.class.getName()).log(Level.INFO, null, ex);
 
                 // Show failed message
                 Platform.runLater(() -> Platform.runLater(() -> ActionTool.showNotification("Starting " + appName + " failed",
                         "\nApplication Path: [ " + applicationPath[0] + " ]\n\tTry to do it manually...", Duration.seconds(10), NotificationType.ERROR)));
-                
+
             }
         }, "Start Application Thread").start();
     }
-    
+
     public static HostServices getHostService() {
         return hostSer;
     }
-    
+
     public static void actualizarVersion(boolean mostrarMensaje) {
         int currentVersion = (int) internalInformation.get("Version");
         int lastVersion = howIsLastUpdate();
-        
+
         if (currentVersion < lastVersion) {
             Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
             alert.setTitle(rb.getString(ResourceLeng.UPDATE_TITLE));
             alert.setHeaderText(String.format(rb.getString(ResourceLeng.UPDATE_HEADER),
                     currentVersion, lastVersion));
             alert.setContentText(rb.getString(ResourceLeng.UPDATE_CONTENT));
-            
+
             Optional<ButtonType> result = alert.showAndWait();
             if (result.get() == ButtonType.OK) {
                 HelloWorld.restartApplication("XR3PlayerUpdater");
             }
         } else if (mostrarMensaje) {
-            Platform.runLater(() -> Platform.runLater(() -> ActionTool.showNotification(
-                    rb.getString(ResourceLeng.UPDATE_INFO),
-                    rb.getString(ResourceLeng.UPDATE_INFO_TEXT),
-                    Duration.seconds(10), NotificationType.INFORMATION)));
+            if (Platform.isFxApplicationThread()) {
+                /*Platform.runLater(() -> /*Platform.runLater(() ->*/
+                ActionTool.showNotification(
+                        rb.getString(ResourceLeng.UPDATE_INFO),
+                        rb.getString(ResourceLeng.UPDATE_INFO_TEXT),
+                        Duration.seconds(10), NotificationType.INFORMATION);//)/*)*/;
+            } else if (SystemTray.isSupported()) { 
+                trayIcon.displayMessage(rb.getString(ResourceLeng.UPDATE_INFO), rb.getString(ResourceLeng.UPDATE_INFO_TEXT), MessageType.INFO);
+//                System.err.println("Estamos en SysTray");
+            }
+            HelloWorld.changeEnable(ResourceLeng.SYS_TRAY_UPDATE, true);
         }
     }
 
-    public static void showApp(){
+    /**
+     * @deprecated
+     */
+    public static void showApp() {
         stage.show();
     }
-    public static void hideApp(){
+
+    /**
+     * @deprecated
+     */
+    public static void hideApp() {
         stage.hide();
     }
+
+    private void buildSystemTray(ResourceBundle rb) {
+//        System.out.println("system tray supported");
+        tray = SystemTray.getSystemTray();
+        URL imageURL = this.getClass().getResource("/Resources/Icons/logo_moodle.png");
+        System.err.println(imageURL);
+
+        Image image = (new ImageIcon(imageURL)).getImage();//Toolkit.getDefaultToolkit().getImage("./logo_moodle.png");
+        ActionListener exitListener = new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+//                System.out.println("Exiting....");
+                System.exit(0);
+            }
+        };
+        PopupMenu popup = new PopupMenu();
+        MenuItem defaultItem = new MenuItem(rb.getString(ResourceLeng.SYS_TRAY_EXIT));
+        defaultItem.setName(ResourceLeng.SYS_TRAY_EXIT);
+        defaultItem.addActionListener(exitListener);
+        popup.add(defaultItem);
+
+        defaultItem = new MenuItem(rb.getString(ResourceLeng.SYS_TRAY_OPEN));
+        defaultItem.setName(ResourceLeng.SYS_TRAY_OPEN);
+        defaultItem.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                Platform.runLater(new Runnable() {
+                    @Override
+                    public void run() {
+                        try {
+                            tray.remove(trayIcon);
+                            stage.show();
+                            stage.setIconified(false);
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+                    }
+                });
+            }
+        });
+        popup.insert(defaultItem, 0);
+
+        trayIcon = new TrayIcon(image, rb.getString(ResourceLeng.SYS_TRAY_TOOLTIP), popup);
+        trayIcon.addActionListener(new ActionListener() {
+
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                Platform.runLater(new Runnable() {
+                    @Override
+                    public void run() {
+                        try {
+                            tray.remove(trayIcon);
+                            stage.show();
+                            stage.setIconified(false);
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+                    }
+                });
+            }
+        });
+        trayIcon.setImageAutoSize(true);
+    }
+    public static void addOptionPopup(Object control, String methodName, String textLabel) {
+        boolean isnew = true;
+        MenuItem auxItem;
+        // Si es distinto de null es porque el SystemTray esta soportado y por tanto inicializado
+        if (trayIcon != null) {
+
+            PopupMenu popup = trayIcon.getPopupMenu();
+            MenuItem defaultItem = new MenuItem(rb.getString(textLabel));
+            defaultItem.setName(textLabel);
+            System.err.println(defaultItem.getName());
+            defaultItem.addActionListener(new ActionListener() {
+                public void actionPerformed(ActionEvent e) {
+                    try {
+                        final Method method = control.getClass().getMethod(methodName);
+                        method.invoke(control);
+                    } catch (NoSuchMethodException ex) {
+                        Logger.getLogger(HelloWorld.class.getName()).log(Level.SEVERE, null, ex);
+                    } catch (SecurityException ex) {
+                        Logger.getLogger(HelloWorld.class.getName()).log(Level.SEVERE, null, ex);
+                    } catch (IllegalAccessException ex) {
+                        Logger.getLogger(HelloWorld.class.getName()).log(Level.SEVERE, null, ex);
+                    } catch (IllegalArgumentException ex) {
+                        Logger.getLogger(HelloWorld.class.getName()).log(Level.SEVERE, null, ex);
+                    } catch (InvocationTargetException ex) {
+                        Logger.getLogger(HelloWorld.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                }
+            });
+            for (int i = 0; i < trayIcon.getPopupMenu().getItemCount(); i++) {    
+                auxItem = trayIcon.getPopupMenu().getItem(i);
+                if(auxItem.getName().equals(textLabel)){
+                    isnew = false;
+                    break;
+                }
+            }
+            if(isnew){
+                popup.insert(defaultItem, 0);
+            }
+        }
+    }
+    private static void changeLanguageSystemTray() {
+        MenuItem auxItem;
+        for (int i = 0; i < trayIcon.getPopupMenu().getItemCount(); i++) {
+            auxItem = trayIcon.getPopupMenu().getItem(i);
+            auxItem.setLabel(rb.getString(auxItem.getName()));
+        }
+    }
+    public static void changeEnable(String option, boolean activo){
+        System.err.println("Desactivando" + option);
+//        String aux;
+        MenuItem auxItem;
+        for (int i = 0; i < trayIcon.getPopupMenu().getItemCount(); i++) {
+            auxItem = trayIcon.getPopupMenu().getItem(i);
+//            aux = auxItem.getName();
+            if(auxItem.getName().equals(option)){
+                System.err.println("lo encontre");
+                auxItem.setEnabled(activo);
+                break;
+            }
+        }
+    }
+    
+    
+    
     /**
      * @param args the command line arguments
      */

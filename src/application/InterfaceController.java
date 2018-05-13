@@ -153,10 +153,11 @@ public class InterfaceController implements Initializable {
             initializationUserLoad(false, "", "");
         } else {
             initializationUserLoad(true, UserInfo.getUser(), UserInfo.getPath());
-            setNextUpdate(null);
+            setNextUpdate();
 
             TreeItem<BookCategory> rootItem = new TreeItem<BookCategory>();
             TListUpdates.setRoot(rootItem);
+           
 //            TListUpdates.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> updateSelectedItem((TreeItem) newValue));
 //            addTreeItem("JAVA-011.aa", "Spring", TypeNode.FORO);
 //            addTreeItem("JAVA-011.aa", "caca", TypeNode.FORO);
@@ -183,6 +184,7 @@ public class InterfaceController implements Initializable {
 //            rootItem.getChildren().addAll(itemCat);//, itemJSP, itemSpring);
 //            itemCat.getChildren().addAll(itemJSP, itemJSP);
 //            TListUpdates.setRoot(rootItem);
+            
         }
     }
     
@@ -308,7 +310,7 @@ public class InterfaceController implements Initializable {
     }
 
     private void initializeSpinners() {
-        SpinnerValueFactory.IntegerSpinnerValueFactory horasFactory = new SpinnerValueFactory.IntegerSpinnerValueFactory(-1, 24, 0);
+        SpinnerValueFactory.IntegerSpinnerValueFactory horasFactory = new SpinnerValueFactory.IntegerSpinnerValueFactory(-1, 23, 0);
         horasFactory.setConverter(new StringConverter<Integer>() {
             @Override
             public String toString(Integer value) {
@@ -399,6 +401,9 @@ public class InterfaceController implements Initializable {
             LIdUser.setText(userId);
             LPathApplication.setText(path);
             initializeTreeView();
+            HelloWorld.addOptionPopup(this, "openHelp", ResourceLeng.SYS_TRAY_WIKI);
+            HelloWorld.addOptionPopup(this, "actualizarVersion", ResourceLeng.SYS_TRAY_UPDATE);
+            HelloWorld.addOptionPopup(this, "syncroNow", ResourceLeng.SYS_TRAY_SYNCRO);
         }
 
         OptionInit.setDisable(!user);
@@ -422,8 +427,10 @@ public class InterfaceController implements Initializable {
         LPathDownload.setVisible(user);
         // Sig Actualizacion
         LNextUpdate.setVisible(user);
-        this.BActualizar.setDisable(!user);
-        BActualizar.setVisible(user);
+//        this.BActualizar.setDisable(!user);
+//        BActualizar.setVisible(user);
+        this.BUpdate.setDisable(!user);
+        BUpdate.setVisible(user);
         LCheckDate.setVisible(user);
     }
    
@@ -464,11 +471,11 @@ public class InterfaceController implements Initializable {
         if (freqSecuence != null) {
             resumeUpdate();
         } else {
-            setNextUpdate(null);
+            setNextUpdate();
         }
     }
 
-    public void setNextUpdate(ActionEvent event) {
+    public void setNextUpdate() {
         if (freqSecuence != null) {
             freqSecuence.stop();
             freqSecuence = null;
@@ -563,8 +570,9 @@ public class InterfaceController implements Initializable {
 
     }
 
-    public void syncroNow(ActionEvent event) {
+    public void syncroNow() {
         freqSecuence.stop();
+        HelloWorld.changeEnable(ResourceLeng.SYS_TRAY_SYNCRO, false);
         syncroStart();
     }
     private void syncroStart() {
@@ -587,13 +595,14 @@ public class InterfaceController implements Initializable {
                 HelloWorld.getResource(), this);
     }
     public void syncroEnd() {
-        setNextUpdate(null);
+        setNextUpdate();
         BConfirm.setDisable(false);
         BUpdate.setDisable(false);
         BNewUser.setDisable(false);
         BEditPath.setDisable(false);
         BEditUser.setDisable(false);
         BActualizar.setDisable(false);
+        HelloWorld.changeEnable(ResourceLeng.SYS_TRAY_SYNCRO, true);
 //        HelloWorld.showApp();
     }
 
@@ -621,8 +630,10 @@ public class InterfaceController implements Initializable {
     }
 
     //*********************OptionAyuda*********************************************
-    public void actualizarVersion(ActionEvent event) {
+    public void actualizarVersion() {
+        HelloWorld.changeEnable(ResourceLeng.SYS_TRAY_UPDATE, false);
         HelloWorld.actualizarVersion(true);
+//        System.err.println("called ok");
     }
 
     public void credictContact(Hyperlink _text) {
@@ -652,18 +663,21 @@ public class InterfaceController implements Initializable {
         LHours.setText(rb.getString(ResourceLeng.TIME_HOUR_TEXT));
         LMinutes.setText(rb.getString(ResourceLeng.TIME_MINUT_TEXT));
         BConfirm.setText(rb.getString(ResourceLeng.TIME_BUTTON_TEXT));
+        BConfirm.getTooltip().setText(rb.getString(ResourceLeng.TOOLTIP_SETTIME));
         LFeqSinc.setText(rb.getString(ResourceLeng.TIME_LABEL));
         LPathDownload.setText(rb.getString(ResourceLeng.LABEL_PATH_DOWNLOAD));
         LNextUpdate.setText(rb.getString(ResourceLeng.LABEL_NEXT_UPDATE));
-        BActualizar.setText(rb.getString(ResourceLeng.BUTTON_UPDATE_MOODLE));
+        BUpdate.setText(rb.getString(ResourceLeng.BUTTON_UPDATE_MOODLE));
 //        LCheckDate.setText(rb.getString(ResourceLeng.LABEL_CHECK_DATES));
-        if(!BActualizar.isDisable() && !LTimeUpdate.getText().isEmpty()){
+        if(!BUpdate.isDisable() && !LTimeUpdate.getText().isEmpty()){
             //Esta con una arlama
             setNextUpdateLabel(rb, Calendar.getInstance());
         }else if(!LTimeUpdate.getText().isEmpty()){
             //Esta actualizando
             LTimeUpdate.setText(HelloWorld.getResource().getString(ResourceLeng.SYNCRO_NOW));
         }
+        BNewUser.getTooltip().setText(rb.getString(ResourceLeng.TOOLTIP_NEWUSER));
+        BEditUser.getTooltip().setText(rb.getString(ResourceLeng.TOOLTIP_EDITUSER));
         //******* Tab OptionAyuda
         this.OptionAyuda.setText(rb.getString(ResourceLeng.TAB_HELP));
         this.BActualizar.setText(rb.getString(ResourceLeng.BUTTON_UPDATE));
@@ -688,5 +702,9 @@ public class InterfaceController implements Initializable {
                 TCredits.getChildren().add(link);
             }
         }
+    }
+    
+    public void testmethod(){
+        System.err.println("eeeeeeeeeeeee");
     }
 }
