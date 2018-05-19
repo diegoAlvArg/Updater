@@ -157,7 +157,7 @@ public class HelloWorld extends Application {
     /**
      * Calling this method to start the main Application which is XR3Player
      */
-    public static void restartApplication(String appName) {
+    public static void restartApplication(String appName, int version) {
         System.out.println(ResourceLeng.APP_INIT);
         // Restart XR3Player
         new Thread(() -> {
@@ -168,7 +168,7 @@ public class HelloWorld extends Application {
                 System.out.println(appName + " Path is : " + applicationPath[0]);
 
                 //Create a process builder
-                ProcessBuilder builder = new ProcessBuilder("java", "-jar", applicationPath[0], String.valueOf(update));
+                ProcessBuilder builder = new ProcessBuilder("java", "-jar", applicationPath[0], String.valueOf(version));
                 System.out.println("CMD: " + builder.command());
                 builder.redirectErrorStream(true);
                 Process process = builder.start();
@@ -224,7 +224,7 @@ public class HelloWorld extends Application {
 
             Optional<ButtonType> result = alert.showAndWait();
             if (result.get() == ButtonType.OK) {
-                HelloWorld.restartApplication("XR3PlayerUpdater");
+                HelloWorld.restartApplication("XR3PlayerUpdater", lastVersion);
             }
         } else if (mostrarMensaje) {
             if (Platform.isFxApplicationThread()) {

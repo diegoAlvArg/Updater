@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.control.CheckBox?>
 <?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.Hyperlink?>
 <?import javafx.scene.control.Label?>
@@ -29,13 +30,13 @@
         <content>
           <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                <children>
-                  <Label fx:id="LLanguague" layoutX="58.0" layoutY="248.0" text="Language" underline="true">
+                  <Label fx:id="LLanguague" layoutX="58.0" layoutY="238.0" text="Language" underline="true">
                      <font>
                         <Font name="System Bold" size="14.0" />
                      </font>
                   </Label>
-                  <ComboBox fx:id="CLanguague" layoutX="58.0" layoutY="276.0" onAction="#changeLanguague" prefWidth="150.0" />
-                  <Label fx:id="LPathDownload" layoutX="300.0" layoutY="248.0" text="Ruta almacenamiento" underline="true">
+                  <ComboBox fx:id="CLanguague" layoutX="58.0" layoutY="264.0" onAction="#changeLanguague" prefWidth="150.0" />
+                  <Label fx:id="LPathDownload" layoutX="288.0" layoutY="238.0" text="Ruta almacenamiento" underline="true">
                      <font>
                         <Font name="System Bold" size="14.0" />
                      </font></Label>
@@ -59,7 +60,7 @@
                         </Tooltip>
                      </tooltip>
                   </Button>
-                  <Button fx:id="BEditPath" layoutX="465.0" layoutY="287.0" minWidth="-Infinity" mnemonicParsing="false" onAction="#chooseDirectory" prefHeight="29.0" prefWidth="49.0">
+                  <Button fx:id="BEditPath" layoutX="464.0" layoutY="262.0" minWidth="-Infinity" mnemonicParsing="false" onAction="#chooseDirectory" prefHeight="29.0" prefWidth="49.0">
                      <graphic>
                         <ImageView fitHeight="21.0" fitWidth="42.0" pickOnBounds="true" preserveRatio="true">
                            <image>
@@ -70,16 +71,16 @@
                   </Button>
                   <Label fx:id="LIdUser" layoutX="60.0" layoutY="146.0" prefHeight="17.0" prefWidth="62.0" />
                   <Label fx:id="LCheckDate" layoutX="44.0" layoutY="196.0" prefHeight="17.0" prefWidth="210.0" />
-                  <Label fx:id="LFeqSinc" layoutX="292.0" layoutY="55.0" text="Frecuencia sincronizacion">
+                  <Label fx:id="LFeqSinc" layoutX="287.0" layoutY="35.0" text="Frecuencia sincronizacion">
                      <font>
                         <Font name="System Bold" size="14.0" />
                      </font>
                   </Label>
-                  <Spinner fx:id="hourSpinner" layoutX="300.0" layoutY="102.0" prefHeight="25.0" prefWidth="65.0" />
-                  <Label fx:id="LHours" layoutX="376.0" layoutY="106.0" text="Label" />
-                  <Spinner fx:id="minutesSpinner" layoutX="300.0" layoutY="142.0" prefHeight="25.0" prefWidth="66.0" />
-                  <Label fx:id="LMinutes" layoutX="376.0" layoutY="146.0" text="Label" />
-                  <Button fx:id="BConfirm" layoutX="465.0" layoutY="123.0" mnemonicParsing="false" onAction="#setNextUpdate" text="confirm">
+                  <Spinner fx:id="hourSpinner" layoutX="295.0" layoutY="82.0" prefHeight="25.0" prefWidth="65.0" />
+                  <Label fx:id="LHours" layoutX="371.0" layoutY="86.0" text="Label" />
+                  <Spinner fx:id="minutesSpinner" layoutX="295.0" layoutY="122.0" prefHeight="25.0" prefWidth="66.0" />
+                  <Label fx:id="LMinutes" layoutX="371.0" layoutY="126.0" text="Label" />
+                  <Button fx:id="BConfirm" layoutX="460.0" layoutY="103.0" mnemonicParsing="false" onAction="#setNextUpdate" text="confirm">
                      <tooltip>
                         <Tooltip text="Empty Tooltip">
                            <font>
@@ -87,13 +88,13 @@
                            </font>
                         </Tooltip>
                      </tooltip></Button>
-                  <Label fx:id="LNextUpdate" layoutX="300.0" layoutY="176.0" text="Sigueinte actualizacion" underline="true">
+                  <Label fx:id="LNextUpdate" layoutX="285.0" layoutY="163.0" text="Sigueinte actualizacion" underline="true">
                      <font>
                         <Font name="System Bold" size="14.0" />
                      </font>
                   </Label>
-                  <Button fx:id="BUpdate" layoutX="465.0" layoutY="204.0" mnemonicParsing="false" onAction="#syncroNow" text="Button" />
-                  <Label fx:id="LPathApplication" layoutX="300.0" layoutY="289.0" minWidth="-Infinity" prefHeight="17.0" prefWidth="145.0" text="path application" />
+                  <Button fx:id="BUpdate" layoutX="463.0" layoutY="201.0" mnemonicParsing="false" onAction="#syncroNow" text="Button" />
+                  <Label fx:id="LPathApplication" layoutX="299.0" layoutY="268.0" minWidth="-Infinity" prefHeight="17.0" prefWidth="145.0" text="path application" />
                   <Button fx:id="BEditUser" layoutX="155.0" layoutY="100.0" mnemonicParsing="false" onAction="#editUser" prefHeight="29.0" prefWidth="53.0">
                      <graphic>
                         <ImageView fitHeight="21.0" fitWidth="42.0" pickOnBounds="true" preserveRatio="true">
@@ -110,7 +111,16 @@
                         </Tooltip>
                      </tooltip>
                   </Button>
-                  <Label fx:id="LTimeUpdate" layoutX="300.0" layoutY="208.0" prefHeight="38.0" prefWidth="153.0" />
+                  <Label fx:id="LTimeUpdate" layoutX="295.0" layoutY="194.0" prefHeight="38.0" prefWidth="153.0" />
+                  <CheckBox fx:id="CBNaster" layoutX="299.0" layoutY="310.0" mnemonicParsing="false" onAction="#useNasTer" text="CheckBox">
+                     <tooltip>
+                        <Tooltip text="Empty Tooltip">
+                           <font>
+                              <Font size="13.0" />
+                           </font>
+                        </Tooltip>
+                     </tooltip>
+                  </CheckBox>
                </children>
             </AnchorPane>
         </content>
@@ -121,8 +131,9 @@
                <children>
                   <Button fx:id="BActualizar" layoutX="443.0" layoutY="148.0" mnemonicParsing="false" onAction="#actualizarVersion" text="BActualizar" />
                   <Label fx:id="LCurrentVersion" layoutX="443.0" layoutY="105.0" text="LCurrentVersion" />
-                  <Hyperlink fx:id="HopenHelp" accessibleHelp="bbbb" accessibleRoleDescription="ccccc" accessibleText="aaa" layoutX="87.0" layoutY="261.0" onAction="#openHelp" text="HopenHelp" />
+                  <Hyperlink fx:id="HopenHelp" accessibleHelp="bbbb" accessibleRoleDescription="ccccc" accessibleText="aaa" layoutX="87.0" layoutY="261.0" onAction="#openHelpWiki" text="HopenHelp" />
                   <TextFlow fx:id="TCredits" layoutX="34.0" layoutY="33.0" prefHeight="218.0" prefWidth="393.0" />
+                  <Hyperlink fx:id="HnasterHelp" layoutX="87.0" layoutY="299.0" onAction="#openHelpNas" text="HnasterHelp" />
                </children>
             </AnchorPane>
          </content></Tab>

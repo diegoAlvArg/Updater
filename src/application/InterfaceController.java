@@ -51,6 +51,7 @@ import application.events.validator;
 import application.events.eventUser;
 import application.events.procesoSyncronizacion;
 import java.util.HashMap;
+import javafx.scene.control.CheckBox;
 import javafx.scene.control.CheckBoxTreeItem;
 import wrapper.tree.TypeNode;
 
@@ -117,6 +118,8 @@ public class InterfaceController implements Initializable {
 
     private Timeline freqSecuence;
     private Calendar momentoSigAct;
+    @FXML
+    private CheckBox CBNaster;
 
     //***************************************** OptionAyuda
     @FXML
@@ -127,9 +130,12 @@ public class InterfaceController implements Initializable {
     private Label LCurrentVersion;
     @FXML
     private Hyperlink HopenHelp;
-    private String url;
+    private String urlWiki;
     @FXML
     private TextFlow TCredits;
+    @FXML
+    private Hyperlink HnasterHelp;
+    private String urlNas;
 
     /**
      * Initializes the controller class.
@@ -156,35 +162,7 @@ public class InterfaceController implements Initializable {
             setNextUpdate();
 
             TreeItem<BookCategory> rootItem = new TreeItem<BookCategory>();
-            TListUpdates.setRoot(rootItem);
-           
-//            TListUpdates.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> updateSelectedItem((TreeItem) newValue));
-//            addTreeItem("JAVA-011.aa", "Spring", TypeNode.FORO);
-//            addTreeItem("JAVA-011.aa", "caca", TypeNode.FORO);
-//            TListUpdates.getRoot().getChildren().clear();
-//            addTreeItem("JAVA-011", "Spring2", TypeNode.FORO);
-//            addTreeItem("JAVA-011", "caca2", TypeNode.FORO);
-
-
-//            TreeItem<BookCategory> rootItem = new TreeItem<BookCategory>();
-//            // Root Item
-//            BookCategory catJava = new BookCategory("JAVA-00", "Java");
-//            TreeItem<BookCategory> itemCat = new TreeItem<BookCategory>(catJava);
-//            rootItem.setExpanded(true);
-//
-//            // JSP Item
-//            BookCategory catJSP = new BookCategory("JAVA-01", "Jsp");
-//            TreeItem<BookCategory> itemJSP = new TreeItem<BookCategory>(catJSP);
-//
-//            // Spring Item
-//            BookCategory catSpring = new BookCategory("JAVA-011", "Spring");
-//            TreeItem<BookCategory> itemSpring = new TreeItem<>(catSpring);
-//
-//            // Add to Root
-//            rootItem.getChildren().addAll(itemCat);//, itemJSP, itemSpring);
-//            itemCat.getChildren().addAll(itemJSP, itemJSP);
-//            TListUpdates.setRoot(rootItem);
-            
+            TListUpdates.setRoot(rootItem);            
         }
     }
     
@@ -427,11 +405,12 @@ public class InterfaceController implements Initializable {
         LPathDownload.setVisible(user);
         // Sig Actualizacion
         LNextUpdate.setVisible(user);
-//        this.BActualizar.setDisable(!user);
-//        BActualizar.setVisible(user);
         this.BUpdate.setDisable(!user);
         BUpdate.setVisible(user);
         LCheckDate.setVisible(user);
+        
+        this.CBNaster.setDisable(!user);
+        CBNaster.setVisible(user);
     }
    
     public void createNewUser(ActionEvent event) {
@@ -459,10 +438,10 @@ public class InterfaceController implements Initializable {
     }
     public void setUserInfo(List<String> dates, boolean isnew) {
         if (dates != null && isnew) {
-            UserInfo.createFile(dates.get(0), dates.get(1), dates.get(2), dates.get(3));
+            UserInfo.createFile(dates.get(0), dates.get(1), dates.get(2), dates.get(3), dates.get(4));
             initializationUserLoad(true, dates.get(0), dates.get(3));
         } else if (dates != null) {
-            UserInfo.createFile(dates.get(0), dates.get(1), dates.get(2), UserInfo.getPath());
+            UserInfo.createFile(dates.get(0), dates.get(1), dates.get(2), UserInfo.getPath(), dates.get(4));
             LIdUser.setText(dates.get(0));
         }
 
@@ -606,7 +585,7 @@ public class InterfaceController implements Initializable {
 //        HelloWorld.showApp();
     }
 
-    public void chooseDirectory(ActionEvent event) {
+    public void chooseDirectory(ActionEvent event)  {
         File selectedFile = null;
         ResourceBundle rb = HelloWorld.getResource();
         String initialPath = UserInfo.getPath();
@@ -629,6 +608,11 @@ public class InterfaceController implements Initializable {
         UserInfo.setPath(initialPath);
     }
 
+    public void useNasTer(ActionEvent event){
+        CBNaster.setSelected(false);
+        System.err.println("Not yet");
+    }
+    
     //*********************OptionAyuda*********************************************
     public void actualizarVersion() {
         HelloWorld.changeEnable(ResourceLeng.SYS_TRAY_UPDATE, false);
@@ -643,8 +627,11 @@ public class InterfaceController implements Initializable {
         _text.setVisited(false);
     }
 
-    public void openHelp() {
-        HelloWorld.getHostService().showDocument(this.url);
+    public void openHelpWiki() {
+        HelloWorld.getHostService().showDocument(this.urlWiki);
+    }
+    public void openHelpNas() {
+        HelloWorld.getHostService().showDocument(this.urlNas);
     }
 
 //******************************** Utils*******************************************
@@ -678,13 +665,17 @@ public class InterfaceController implements Initializable {
         }
         BNewUser.getTooltip().setText(rb.getString(ResourceLeng.TOOLTIP_NEWUSER));
         BEditUser.getTooltip().setText(rb.getString(ResourceLeng.TOOLTIP_EDITUSER));
+        CBNaster.setText(rb.getString(ResourceLeng.ASK_LABEL_USE_NAS));
+        CBNaster.getTooltip().setText(rb.getString(ResourceLeng.ASK_TOOLTIP_NASTER));
         //******* Tab OptionAyuda
         this.OptionAyuda.setText(rb.getString(ResourceLeng.TAB_HELP));
         this.BActualizar.setText(rb.getString(ResourceLeng.BUTTON_UPDATE));
         int version = (int) HelloWorld.internalInformation.get("Version");
         this.LCurrentVersion.setText(String.format(rb.getString(ResourceLeng.LABEL_CURRENT_VERSION_INFO), version));
-        this.url = rb.getString(ResourceLeng.WIKI_URL);
+        this.urlWiki = rb.getString(ResourceLeng.WIKI_URL);
         this.HopenHelp.setText(rb.getString(ResourceLeng.WIKI_TEXT));
+        this.urlNas = rb.getString(ResourceLeng.NAS_URL);
+        this.HnasterHelp.setText(rb.getString(ResourceLeng.NAS_TEXT));
         TCredits.getChildren().clear();
         TCredits.getChildren().add(new Text(rb.getString(ResourceLeng.CREDITS_TEXT)));
         int codeSymbol = 8729;

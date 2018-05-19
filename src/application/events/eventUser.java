@@ -5,13 +5,19 @@ import Updater.tools.NotificationType;
 import Updater.tools.ResourceLeng;
 import application.HelloWorld;
 import application.InterfaceController;
+import com.github.sardine.Sardine;
+import com.github.sardine.SardineFactory;
+import com.github.sardine.impl.SardineException;
 import java.io.File;
 import java.io.IOException;
+import java.net.URI;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.ResourceBundle;
 import javafx.application.Platform;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.concurrent.Service;
 import javafx.concurrent.Task;
 import javafx.event.ActionEvent;
@@ -20,11 +26,14 @@ import javafx.geometry.Insets;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonBar;
 import javafx.scene.control.ButtonType;
+import javafx.scene.control.CheckBox;
 import javafx.scene.control.Dialog;
 import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
+import javafx.scene.control.Tooltip;
 import javafx.scene.layout.GridPane;
+import javafx.scene.text.Font;
 import javafx.stage.DirectoryChooser;
 import javafx.util.Duration;
 import org.jsoup.Connection;
@@ -87,7 +96,7 @@ public class eventUser extends Service<Void> {
                     @Override
 
                     public void run() {
-                        List<String> auxList = askCredentials(_rb, _user, _pass1, _pass2, "", _askPath);
+                        List<String> auxList = askCredentials(_rb, _user, _pass1, _pass2, "", _askPath, false);
                         auxList = validateUser(auxList, _askPath, _iu);
 
                         if (auxList != null) {
@@ -105,7 +114,7 @@ public class eventUser extends Service<Void> {
         };
     }
 
-    private List<String> askCredentials(ResourceBundle rb, String duser, String dpass1, String dpass2, String dpath, boolean showPath) {
+    private List<String> askCredentials(ResourceBundle rb, String duser, String dpass1, String dpass2, String dpath, boolean showPath, boolean usingNas) {
         // Create the custom dialog.
         Dialog<List<String>> dialog = new Dialog<>();
         if (showPath) {
@@ -132,7 +141,20 @@ public class eventUser extends Service<Void> {
         PasswordField password2 = new PasswordField();
         password2.setPromptText(rb.getString(ResourceLeng.ASK_FIELD_PASS));
         TextField path = new TextField();
-
+        CheckBox useNas = new CheckBox();
+        Tooltip tooltip = new Tooltip(rb.getString(ResourceLeng.ASK_TOOLTIP_NASTER));
+        tooltip.setFont(new Font("System", 13));
+        useNas.setTooltip(tooltip);
+        useNas.selectedProperty().addListener(new ChangeListener<Boolean>(){
+            @Override
+            public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) {
+                password2.setDisable(!newValue);
+            }
+            
+        });
+        password2.setDisable(!usingNas);
+//--------------------------------------------------------------------------------------------------------------------
+//--------------------------------------------------------------------------------------------------------------------
         // Posible inicio tras recuperacion
         username.setText(duser);
         password1.setText(dpass1);
@@ -145,7 +167,10 @@ public class eventUser extends Service<Void> {
         grid.add(password1, 1, 1);
         grid.add(new Label(rb.getString(ResourceLeng.ASK_LABEL_PASS2)), 0, 2);
         grid.add(password2, 1, 2);
-
+        Label auxLabel = new Label(rb.getString(ResourceLeng.ASK_LABEL_USE_NAS));
+        auxLabel.setTooltip(tooltip);
+        grid.add(auxLabel, 3, 2);
+        grid.add(useNas, 2, 2);
         if (showPath) {
             path.setPromptText(rb.getString(ResourceLeng.ASK_FIELD_PATH));
             path.setEditable(false);
@@ -181,6 +206,7 @@ public class eventUser extends Service<Void> {
                 respuesta.add(password1.getText());
                 respuesta.add(password2.getText());
                 respuesta.add(path.getText());
+                respuesta.add(useNas.isSelected());
 //                return new List<String>(username.getText(), password2.getText());
             }
             return respuesta;
@@ -219,9 +245,17 @@ public class eventUser extends Service<Void> {
                 estados[0] = validateCredentialsMoodle(auxList.get(0), auxList.get(1));
             }
             //Comprobar NAS-TER
-            if (!auxList.get(2).isEmpty()) {
+            if(Boolean.parseBoolean(auxList.get(4))){
+                if (!auxList.get(0).isEmpty() && !auxList.get(2).isEmpty()) {
+                    
+                    estados[1] = validateCredentialsNaster(auxList.get(0), auxList.get(1));
+                }else{
+                    estados[1] = 0;
+                }
+            }else{
                 estados[1] = 3; // por ahora para alante
             }
+            
             //Comprobar permisos lectura
             if (checkPath && !auxList.get(3).isEmpty()) {
 
@@ -260,12 +294,12 @@ public class eventUser extends Service<Void> {
                 askAgain &= true;
             } else if (estados[1] == 2) {
                 askAgain &= false;
-                if (estados[0] == 2) {
+                if (Boolean.parseBoolean(auxList.get(4)) && estados[0] == 2) {
                     //Si la conexion a Moodle y NASTER rechazo credenciales, el
                     //  usuario tiene altas probabilidades de estar mal
                     auxList.set(0, "");
                     auxList.set(2, "");
-                } else {
+                } else if(Boolean.parseBoolean(auxList.get(4))){
                     //Si solo NASTER rechazo conexion la contraseña de NASTER esta mal
                     auxList.set(2, "");
                 }
@@ -297,7 +331,7 @@ public class eventUser extends Service<Void> {
             askAgain = !askAgain;
             if (askAgain) {
                 auxList = askCredentials(rb, auxList.get(0), auxList.get(1),
-                        auxList.get(2), auxList.get(3), checkPath);
+                        auxList.get(2), auxList.get(3), checkPath, Boolean.parseBoolean(auxList.get(4)));
             }
 
         }
@@ -338,4 +372,28 @@ public class eventUser extends Service<Void> {
         }
     }
 
+    /**
+     * 
+     * @param user
+     * @param pass
+     * @return 1-NasTer caido, 2- credenciales erroneas, 3- credenciales Ok
+     */
+    public static int validateCredentialsNaster(String user, String pass) {
+        int respuesta = 3;
+        try {
+            Sardine sardineCon = SardineFactory.begin(user, pass);
+            URI url = URI.create("https://nas-ter.unizar.es/alumnos/" + user);
+            sardineCon.exists(url.toString());
+
+        } catch (SardineException e) {
+            // puede deberse a credenciales erroneas, o que el usuario no este 
+            //  dado de alta (no podemos saber)
+           respuesta = 2;
+        } catch (IOException e) {
+            // Salta el timeOut, parece que no se extablece la conexion
+            respuesta = 1;
+        } finally {
+            return respuesta;
+        }
+    }
 }

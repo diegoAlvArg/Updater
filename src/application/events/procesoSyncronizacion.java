@@ -107,6 +107,6 @@ public class procesoSyncronizacion {
      * @return
      */
     private String currentYear() {
-        return "(2017-2018)";
+        return "(2016-2017)";
     }
 }

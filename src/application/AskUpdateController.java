@@ -74,7 +74,7 @@ public class AskUpdateController implements Initializable {
     }
 
     public void Yes(ActionEvent event) throws IOException {
-        HelloWorld.restartApplication("XR3PlayerUpdater");
+        HelloWorld.restartApplication("XR3PlayerUpdater", 0);
     }
 
     public void No(ActionEvent event) throws IOException {

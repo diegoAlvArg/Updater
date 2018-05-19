@@ -66,6 +66,9 @@ public class ResourceLeng extends BasicLeng {
     public final static String ASK_LABEL_PASS1 = "ask_label_pass1";
     public final static String ASK_LABEL_PASS2 = "ask_label_pass2";
     public final static String ASK_LABEL_PATH = "ask_label_path";
+    public final static String ASK_LABEL_USE_NAS = "ask_label_use_nas";
+    
+    public final static String ASK_TOOLTIP_NASTER = "ask_tooltip_naster";
 
     public final static String ASK_FIELD_USER = "ask_field_user";
     public final static String ASK_FIELD_PASS = "ask_field_pass";
@@ -106,6 +109,8 @@ public class ResourceLeng extends BasicLeng {
     public final static String LABEL_CURRENT_VERSION_INFO = "lbl_current_version_info";
     public final static String WIKI_URL = "wiki_url";
     public final static String WIKI_TEXT = "wiki_text";
+    public final static String NAS_URL = "nas_url";
+    public final static String NAS_TEXT = "nas_text";
     public final static String CREDITS_TEXT = "credits_text";
     public static final Map<String, String[]> CREDITS;
 

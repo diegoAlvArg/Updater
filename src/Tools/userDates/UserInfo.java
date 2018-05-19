@@ -37,8 +37,9 @@ public class UserInfo {
      * @param pass1 passwd para Moodle
      * @param pass2 passwd para NAS-TER
      * @param path path donde la app descargara contenido
+     * @param useNas indicara si el usuario quiere o no utilizar Nas-Ter
      */
-    public static void createFile(String user, String pass1, String pass2, String path) {
+    public static void createFile(String user, String pass1, String pass2, String path, String useNas) {
         try {
             semaphore.acquire();
             Path pathfile = Paths.get(defaultPath);
@@ -49,6 +50,7 @@ public class UserInfo {
                 writer.write(codex.encrypt("PASS1==" + pass1) + "\n");
                 writer.write(codex.encrypt("PASS2==" + pass2) + "\n");
                 writer.write(codex.encrypt("PATH==" + path) + "\n");
+                writer.write(codex.encrypt("USENAS==" + useNas) + "\n");
             } catch (IOException ex) {
                 ex.printStackTrace();
             }
@@ -60,6 +62,7 @@ public class UserInfo {
             semaphore.release();
         }
     }
+
     /**
      * @return Lista del contenido linea a linea del fichero almacenador
      * ,desencriptado
@@ -80,6 +83,7 @@ public class UserInfo {
         }
         return respuesta;
     }
+
     /**
      *
      * @param data Lista de lineas que se escribiran en el fichero almacenado
@@ -97,7 +101,6 @@ public class UserInfo {
         }
     }
 
-    
     /**
      * PRE: el usuario no ha modificado el archivo (contenido/orden)
      *
@@ -108,8 +111,11 @@ public class UserInfo {
         try {
             semaphore.acquire();
             List<String> aux = readFile();
-            if (aux != null && aux.size() == 4) {
-                respuesta = aux.get(0).replaceAll("USER==", "");
+            for (String line : aux) {
+                if (line.contains("USER==")) {
+                    respuesta = line.replaceAll("USER==", "");
+                    break;
+                }
             }
         } catch (InterruptedException ex) {
             Logger.getLogger(UserInfo.class.getName()).log(Level.SEVERE, null, ex);
@@ -118,6 +124,7 @@ public class UserInfo {
             return respuesta;
         }
     }
+
     /**
      * PRE: el usuario no ha modificado el archivo (contenido/orden)
      *
@@ -125,14 +132,23 @@ public class UserInfo {
      * almacenado. newData != null && newData != ""
      */
     public static void setUser(String newData) {
+        boolean isnew = true;
         if (newData != null && !newData.equals("")) {
             try {
                 semaphore.acquire();
                 List<String> aux = readFile();
-                if (aux != null) {
-                    aux.set(0, "USER==" + newData);
-                    rewriteFile(aux);
+                for (int i = 0; i < aux.size(); i++) {
+                    if (aux.get(i).contains("USER==")) {
+                        aux.set(i, "USER==" + newData);
+                        isnew = false;
+                        break;
+                    }
+
                 }
+                if(isnew){
+                    aux.add("USER==" + newData);
+                }
+                rewriteFile(aux);
             } catch (InterruptedException ex) {
                 Logger.getLogger(UserInfo.class.getName()).log(Level.SEVERE, null, ex);
             } finally {
@@ -151,8 +167,11 @@ public class UserInfo {
         try {
             semaphore.acquire();
             List<String> aux = readFile();
-            if (aux != null && aux.size() == 4) {
-                respuesta = aux.get(1).replaceAll("PASS1==", "");
+            for (String line : aux) {
+                if (line.contains("PASS1==")) {
+                    respuesta = line.replaceAll("PASS1==", "");
+                    break;
+                }
             }
         } catch (InterruptedException ex) {
             Logger.getLogger(UserInfo.class.getName()).log(Level.SEVERE, null, ex);
@@ -161,6 +180,7 @@ public class UserInfo {
             return respuesta;
         }
     }
+
     /**
      * PRE: el usuario no ha modificado el archivo (contenido/orden)
      *
@@ -168,14 +188,22 @@ public class UserInfo {
      * almacenado. newData != null && newData != ""
      */
     public static void setPass1(String newData) {
+        boolean isnew = true;
         if (newData != null && !newData.equals("")) {
             try {
                 semaphore.acquire();
                 List<String> aux = readFile();
-                if (aux != null) {
-                    aux.set(1, "PASS1==" + newData);
-                    rewriteFile(aux);
+                for (int i = 0; i < aux.size(); i++) {
+                    if (aux.get(i).contains("PASS1==")) {
+                        aux.set(i, "PASS1==" + newData);
+                        isnew = false;
+                        break;
+                    }
                 }
+                if(isnew){
+                    aux.add("PASS1==" + newData);
+                }
+                rewriteFile(aux);
             } catch (InterruptedException ex) {
                 Logger.getLogger(UserInfo.class.getName()).log(Level.SEVERE, null, ex);
             } finally {
@@ -194,8 +222,11 @@ public class UserInfo {
         try {
             semaphore.acquire();
             List<String> aux = readFile();
-            if (aux != null && aux.size() == 4) {
-                respuesta = aux.get(2).replaceAll("PASS2==", "");
+            for (String line : aux) {
+                if (line.contains("PASS2==")) {
+                    respuesta = line.replaceAll("PASS2==", "");
+                    break;
+                }
             }
         } catch (InterruptedException ex) {
             Logger.getLogger(UserInfo.class.getName()).log(Level.SEVERE, null, ex);
@@ -204,6 +235,7 @@ public class UserInfo {
             return respuesta;
         }
     }
+
     /**
      * PRE: el usuario no ha modificado el archivo (contenido/orden)
      *
@@ -211,14 +243,22 @@ public class UserInfo {
      * almacenado. newData != null && newData != ""
      */
     public static void setPass2(String newData) {
+        boolean isnew = true;
         if (newData != null && !newData.equals("")) {
             try {
                 semaphore.acquire();
                 List<String> aux = readFile();
-                if (aux != null) {
-                    aux.set(2, "PASS2==" + newData);
-                    rewriteFile(aux);
+                for (int i = 0; i < aux.size(); i++) {
+                    if (aux.get(i).contains("PASS2==")) {
+                        aux.set(i, "PASS2==" + newData);
+                        isnew = false;
+                        break;
+                    }
                 }
+                if(isnew){
+                    aux.add("PASS2==" + newData);
+                }
+                rewriteFile(aux);
             } catch (InterruptedException ex) {
                 Logger.getLogger(UserInfo.class.getName()).log(Level.SEVERE, null, ex);
             } finally {
@@ -237,8 +277,11 @@ public class UserInfo {
         try {
             semaphore.acquire();
             List<String> aux = readFile();
-            if (aux != null && aux.size() == 4) {
-                respuesta = aux.get(3).replaceAll("PATH==", "");
+            for (String line : aux) {
+                if (line.contains("PATH==")) {
+                    respuesta = line.replaceAll("PATH==", "");
+                    break;
+                }
             }
         } catch (InterruptedException ex) {
             Logger.getLogger(UserInfo.class.getName()).log(Level.SEVERE, null, ex);
@@ -255,14 +298,77 @@ public class UserInfo {
      * newData != null && newData != ""
      */
     public static void setPath(String newData) {
+        boolean isnew = true;
         if (newData != null && !newData.equals("")) {
             try {
                 semaphore.acquire();
                 List<String> aux = readFile();
-                if (aux != null) {
-                    aux.set(3, "PATH==" + newData);
-                    rewriteFile(aux);
+                for (int i = 0; i < aux.size(); i++) {
+                    if (aux.get(i).contains("PATH==")) {
+                        aux.set(i, "PATH==" + newData);
+                        isnew = false;
+                        break;
+                    }
                 }
+                if(isnew){
+                    aux.add("PATH==" + newData);
+                }
+                rewriteFile(aux);
+            } catch (InterruptedException ex) {
+                Logger.getLogger(UserInfo.class.getName()).log(Level.SEVERE, null, ex);
+            } finally {
+                semaphore.release();
+            }
+        }
+    }
+
+    /**
+     * PRE: el usuario no ha modificado el archivo (contenido/orden)
+     *
+     * @return path de descarga almacenado en el fichero.
+     */
+    public static boolean getUseNas() {
+        boolean respuesta = false;
+        try {
+            semaphore.acquire();
+            List<String> aux = readFile();
+            for (String line : aux) {
+                if (line.contains("USENAS==")) {
+                    respuesta = Boolean.parseBoolean(line.replaceAll("USENAS==", ""));
+                    break;
+                }
+            }
+        } catch (Exception ex) {
+            Logger.getLogger(UserInfo.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+            semaphore.release();
+            return respuesta;
+        }
+    }
+
+    /**
+     * PRE: el usuario no ha modificado el archivo (contenido/orden)
+     *
+     * @param newData path de descarga, que se quiere cambiar por el almacenado.
+     * newData != null && newData != ""
+     */
+    public static void setUseNas(String newData) {
+        boolean isnew = true;
+        if (newData != null && !newData.equals("")) {
+            try {
+                semaphore.acquire();
+                List<String> aux = readFile();
+                for (int i = 0; i < aux.size(); i++) {
+                    if (aux.get(i).contains("USENAS==")) {
+                        aux.set(i, "USENAS==" + newData);
+                        isnew = false;
+                        break;
+                    }
+                }
+                if(isnew){
+                    aux.add("USENAS==" + newData);
+                }
+                rewriteFile(aux);
             } catch (InterruptedException ex) {
                 Logger.getLogger(UserInfo.class.getName()).log(Level.SEVERE, null, ex);
             } finally {
@@ -279,18 +385,19 @@ public class UserInfo {
 
         aux.forEach(System.out::println);
     }
-    
+
     /**
      * @return TRUE si el archivo existe y almenos uno de sus campos no es ""
      */
-    public static boolean dataExits(){
+    public static boolean dataExits() {
         boolean respuesta = false;
-        List<String> aux = Arrays.asList("", "", "", "");
-        if(Files.exists(Paths.get(defaultPath))){
+        List<String> aux = Arrays.asList("", "", "", "", "");
+        if (Files.exists(Paths.get(defaultPath))) {
             respuesta = !getDatas().equals(aux);
         }
         return respuesta;
     }
+
     /**
      * @return List de los "atributos" listo para usar.
      */
@@ -312,5 +419,5 @@ public class UserInfo {
             return respuesta;
 
         }
-    }   
+    }
 }
