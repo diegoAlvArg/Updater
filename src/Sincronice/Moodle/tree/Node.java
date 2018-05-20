@@ -1,8 +1,8 @@
-package wrapper.tree;
+package Sincronice.moodle.tree;
 
 //import Util.Logger.MyLogging;
 import application.InterfaceController;
-import wrapper.init.Opciones;
+import Sincronice.Moodle.init.Opciones;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileOutputStream;
@@ -39,7 +39,7 @@ import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
-import wrapper.tools.MyLogging;
+import Sincronice.Moodle.tools.MyLogging;
 
 /**
  * @author Diego Alvarez

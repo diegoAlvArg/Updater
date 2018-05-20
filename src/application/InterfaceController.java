@@ -53,7 +53,7 @@ import application.events.procesoSyncronizacion;
 import java.util.HashMap;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.CheckBoxTreeItem;
-import wrapper.tree.TypeNode;
+import Sincronice.moodle.tree.TypeNode;
 
 /**
  * FXML Controller class
@@ -162,15 +162,16 @@ public class InterfaceController implements Initializable {
             setNextUpdate();
 
             TreeItem<BookCategory> rootItem = new TreeItem<BookCategory>();
-            TListUpdates.setRoot(rootItem);            
+            TListUpdates.setRoot(rootItem);
         }
     }
-    
-    private void initializeTreeView(){
+
+    private void initializeTreeView() {
         TreeItem<BookCategory> rootItem = new TreeItem<BookCategory>();
-        TListUpdates.setRoot(rootItem);     
+        TListUpdates.setRoot(rootItem);
         TListUpdates.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> handleTreeViewClick((TreeItem) newValue));
     }
+
     public synchronized void addTreeItem(String path, String name, TypeNode tipo) {
         URL iconUrl = null;
         Image miImage = null;
@@ -178,10 +179,10 @@ public class InterfaceController implements Initializable {
         String curso = path.replace(LPathApplication.getText() + File.separator, "");
         curso = curso.substring(0, curso.indexOf(File.separator));
         TreeItem<BookCategory> auxCurso;
-        if(cursosTrack.containsKey(curso)){
+        if (cursosTrack.containsKey(curso)) {
             // Existe, lo pedimos
             auxCurso = cursosTrack.get(curso);
-        }else{
+        } else {
             // No existe, lo creamos y metemos
             iconUrl = this.getClass().getResource("/Resources/Icons/folder.png");
             try (InputStream op = iconUrl.openStream()) {
@@ -190,20 +191,20 @@ public class InterfaceController implements Initializable {
                 Logger.getLogger(InterfaceController.class
                         .getName()).log(Level.SEVERE, null, ex);
             }
-            BookCategory auxbook = new BookCategory(LPathApplication.getText() + 
-                    File.separator + curso, curso);
+            BookCategory auxbook = new BookCategory(LPathApplication.getText()
+                    + File.separator + curso, curso);
             auxCurso = new TreeItem<>(auxbook, new ImageView(miImage));
-            cursosTrack.put(curso, auxCurso); 
+            cursosTrack.put(curso, auxCurso);
             TListUpdates.getRoot().getChildren().add(auxCurso);
         }
         //  Creacion de un elemento para el arbol
         //  Creacion de una Imagen (icono) representativa del tipo
         int indexExt = path.lastIndexOf(".");
         String auxExtension = "";
-        if(indexExt > 0){
+        if (indexExt > 0) {
             auxExtension = path.substring(indexExt);
         }
-        switch(auxExtension){
+        switch (auxExtension) {
             case ".pdf":
                 iconUrl = this.getClass().getResource("/Resources/Icons/pdf.png");
                 break;
@@ -219,39 +220,41 @@ public class InterfaceController implements Initializable {
             default:
                 iconUrl = this.getClass().getResource("/Resources/Icons/other.png");
         }
-        
+
         try (InputStream op = iconUrl.openStream()) {
-                miImage = new Image(op);
+            miImage = new Image(op);
         } catch (IOException ex) {
-                Logger.getLogger(InterfaceController.class
-                        .getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(InterfaceController.class
+                    .getName()).log(Level.SEVERE, null, ex);
         }
         BookCategory auxbook = new BookCategory(path, name);
         TreeItem<BookCategory> auxItem = new TreeItem<>(auxbook, new ImageView(miImage));
 //        auxCurso.getChildren().add(auxItem);
         auxCurso.getChildren().add(0, auxItem);
         //Una vez con el elemento creado debemos averiguar donde meterlo
-        
+
 //        auxItem.getChildren().add(auxItem);
-        
 //        cursosTrack.get("aa").getChildren().a
 //        TListUpdates.getRoot().getChildren().add(auxItem);
     }
-    private Map<String, TreeItem<BookCategory>> cursosTrack = new HashMap<>();;
+    private Map<String, TreeItem<BookCategory>> cursosTrack = new HashMap<>();
+
     private void handleTreeViewClick(TreeItem newValue) {
-        try{
+        try {
             BookCategory aux = (BookCategory) newValue.getValue();
             System.out.println(aux.print());
             HelloWorld.getHostService().showDocument(aux.getCode());
-        }catch(Exception e){
+        } catch (Exception e) {
         }
     }
-    private void cleanTreeview(){
+
+    private void cleanTreeview() {
         System.err.println("Limpiando");
         TListUpdates.getRoot().getChildren().clear();
         cursosTrack.clear();
-         System.err.println("Listo");
+        System.err.println("Listo");
     }
+
     //*********************OptionConfig********************************************
     public void changeLanguague(ActionEvent _event) {
         ResourceBundle rb = HelloWorld.getResource();
@@ -408,11 +411,11 @@ public class InterfaceController implements Initializable {
         this.BUpdate.setDisable(!user);
         BUpdate.setVisible(user);
         LCheckDate.setVisible(user);
-        
+
         this.CBNaster.setDisable(!user);
         CBNaster.setVisible(user);
     }
-   
+
     public void createNewUser(ActionEvent event) {
         eventUser service = new eventUser();
         service.setRb(HelloWorld.getResource());
@@ -449,7 +452,7 @@ public class InterfaceController implements Initializable {
         BNewUser.setDisable(false);
         if (freqSecuence != null) {
             resumeUpdate();
-        } else {
+        } else if (dates != null && freqSecuence == null) {
             setNextUpdate();
         }
     }
@@ -467,7 +470,7 @@ public class InterfaceController implements Initializable {
         momentoSigAct.add(Calendar.MINUTE, minutos);
         momentoSigAct.add(Calendar.HOUR_OF_DAY, horas); // adds hour
         momentoSigAct.set(Calendar.SECOND, 0);
-        
+
         ResourceBundle rb = HelloWorld.getResource();
         setNextUpdateLabel(rb, momentoActual);
 //        String dayTime;
@@ -519,7 +522,7 @@ public class InterfaceController implements Initializable {
             freqSecuence.play();
         }
     }
-    private void setNextUpdateLabel(ResourceBundle rb, Calendar now){
+    private void setNextUpdateLabel(ResourceBundle rb, Calendar now) {
 //        Calendar momentoActual = (Calendar) momentoSigAct.clone();
         String dayTime;
         if (now.get(Calendar.DAY_OF_MONTH) == momentoSigAct.get(Calendar.DAY_OF_MONTH)) {
@@ -531,8 +534,9 @@ public class InterfaceController implements Initializable {
         line = String.format(line, dayTime);
         SimpleDateFormat sdf = new SimpleDateFormat("HH:mm");
         line += sdf.format(momentoSigAct.getTime());
-        LTimeUpdate.setText(line);  
+        LTimeUpdate.setText(line);
     }
+
     /**
      * @deprecated
      */
@@ -540,6 +544,7 @@ public class InterfaceController implements Initializable {
         System.err.println("show");
         LCheckDate.setVisible(true);
     }
+
     /**
      * @deprecated
      */
@@ -561,17 +566,16 @@ public class InterfaceController implements Initializable {
         BEditPath.setDisable(true);
         BEditUser.setDisable(true);
         BActualizar.setDisable(true);
-        if(numSyncro == MAX_SBCLU){
+        if (numSyncro == MAX_SBCLU) {
             cleanTreeview();
             numSyncro = 0;
-        }else{
+        } else {
             numSyncro++;
         }
         LTimeUpdate.setText(HelloWorld.getResource().getString(ResourceLeng.SYNCRO_NOW));
-//        HelloWorld.hideApp();
         new procesoSyncronizacion(UserInfo.getUser(), UserInfo.getPass1(),
                 UserInfo.getPass2(), UserInfo.getPath(),
-                HelloWorld.getResource(), this);
+                HelloWorld.getResource(), this, CBNaster.isSelected());
     }
     public void syncroEnd() {
         setNextUpdate();
@@ -585,7 +589,7 @@ public class InterfaceController implements Initializable {
 //        HelloWorld.showApp();
     }
 
-    public void chooseDirectory(ActionEvent event)  {
+    public void chooseDirectory(ActionEvent event) {
         File selectedFile = null;
         ResourceBundle rb = HelloWorld.getResource();
         String initialPath = UserInfo.getPath();
@@ -608,11 +612,61 @@ public class InterfaceController implements Initializable {
         UserInfo.setPath(initialPath);
     }
 
-    public void useNasTer(ActionEvent event){
-        CBNaster.setSelected(false);
-        System.err.println("Not yet");
+    public void useNasTer(ActionEvent event) {
+        if(CBNaster.isSelected()){
+            int resultado = eventUser.validateCredentialsNaster(UserInfo.getUser(), UserInfo.getPass2());
+            if (resultado == 2) {
+                ResourceBundle rb = HelloWorld.getResource();
+                CBNaster.setSelected(false);
+                Platform.runLater(() -> Platform.runLater(()
+                        -> ActionTool.showNotification(rb.getString(ResourceLeng.MESSAGE_TITLE_NASTER_DOWN),
+                                rb.getString(ResourceLeng.MESSAGE_INFO_DOWN_TEXT),
+                                Duration.seconds(15), NotificationType.WARNING)));
+            } else {
+                // El caso de naster caido resultado == 1 lo trataremos mas adelante en la syncronizacion
+//                CBNaster.setSelected(true);
+                UserInfo.setUseNas("true");
+            }
+        }else{
+            
+            UserInfo.setUseNas("false");
+        }
     }
     
+    public void wrongDates(){
+        //Mostrar mensajito de fallo con datos
+        freqSecuence.stop();
+        freqSecuence = null;
+        
+        OptionInit.setDisable(true);
+        // Frecuencia
+        LFeqSinc.setVisible(false);
+        this.minutesSpinner.setDisable(false);
+        minutesSpinner.setVisible(false);
+        LMinutes.setVisible(false);
+        this.hourSpinner.setDisable(true);
+        hourSpinner.setVisible(false);
+        LHours.setVisible(false);
+        this.BConfirm.setDisable(true);
+        BConfirm.setVisible(false);
+        //Edits
+//        this.BEditUser.setDisable(true);
+//        BEditUser.setVisible(false);
+        this.BEditPath.setDisable(true);
+        BEditPath.setVisible(false);
+        this.LPathApplication.setDisable(true);
+        LPathApplication.setVisible(false);
+        LPathDownload.setVisible(false);
+        // Sig Actualizacion
+        LNextUpdate.setVisible(false);
+        this.BUpdate.setDisable(true);
+        BUpdate.setVisible(false);
+        LCheckDate.setVisible(false);
+
+        this.CBNaster.setDisable(true);
+        CBNaster.setVisible(false);
+    }
+
     //*********************OptionAyuda*********************************************
     public void actualizarVersion() {
         HelloWorld.changeEnable(ResourceLeng.SYS_TRAY_UPDATE, false);
@@ -630,6 +684,7 @@ public class InterfaceController implements Initializable {
     public void openHelpWiki() {
         HelloWorld.getHostService().showDocument(this.urlWiki);
     }
+
     public void openHelpNas() {
         HelloWorld.getHostService().showDocument(this.urlNas);
     }
@@ -656,10 +711,10 @@ public class InterfaceController implements Initializable {
         LNextUpdate.setText(rb.getString(ResourceLeng.LABEL_NEXT_UPDATE));
         BUpdate.setText(rb.getString(ResourceLeng.BUTTON_UPDATE_MOODLE));
 //        LCheckDate.setText(rb.getString(ResourceLeng.LABEL_CHECK_DATES));
-        if(!BUpdate.isDisable() && !LTimeUpdate.getText().isEmpty()){
+        if (!BUpdate.isDisable() && !LTimeUpdate.getText().isEmpty()) {
             //Esta con una arlama
             setNextUpdateLabel(rb, Calendar.getInstance());
-        }else if(!LTimeUpdate.getText().isEmpty()){
+        } else if (!LTimeUpdate.getText().isEmpty()) {
             //Esta actualizando
             LTimeUpdate.setText(HelloWorld.getResource().getString(ResourceLeng.SYNCRO_NOW));
         }
@@ -694,8 +749,8 @@ public class InterfaceController implements Initializable {
             }
         }
     }
-    
-    public void testmethod(){
+
+    public void testmethod() {
         System.err.println("eeeeeeeeeeeee");
     }
 }

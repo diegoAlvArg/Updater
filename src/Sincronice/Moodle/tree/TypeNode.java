@@ -1,4 +1,4 @@
-package wrapper.tree;
+package Sincronice.moodle.tree;
 
 /**
  * @author Diego Alvarez

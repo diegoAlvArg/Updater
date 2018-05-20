@@ -14,7 +14,7 @@ import javafx.application.Platform;
 import javafx.concurrent.Service;
 import javafx.concurrent.Task;
 import org.apache.http.client.ClientProtocolException;
-import wrapper.init.Opciones;
+import Sincronice.Moodle.init.Opciones;
 
 /**
  *@deprecated 

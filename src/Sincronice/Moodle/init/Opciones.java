@@ -1,8 +1,8 @@
-package wrapper.init;
+package Sincronice.Moodle.init;
 
 import application.InterfaceController;
-import wrapper.tree.Node;
-import wrapper.tree.TypeNode;
+import Sincronice.moodle.tree.Node;
+import Sincronice.moodle.tree.TypeNode;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -98,6 +98,7 @@ public class Opciones {
                 }
             }
         } else {
+            iuControl.wrongDates();
             System.out.println("Credenciales erroneas");
         }
 

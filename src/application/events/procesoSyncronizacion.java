@@ -1,6 +1,7 @@
 package application.events;
 
 import application.InterfaceController;
+import Sincronice.Naster.FileHelper;
 import java.io.IOException;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
@@ -9,8 +10,8 @@ import javafx.application.Platform;
 import javafx.concurrent.Service;
 import javafx.concurrent.Task;
 import org.apache.http.client.ClientProtocolException;
-import wrapper.init.Opciones;
-import wrapper.init.Opciones;
+import Sincronice.Moodle.init.Opciones;
+import Sincronice.Moodle.init.Opciones;
 
 /**
  *
@@ -23,8 +24,8 @@ import wrapper.init.Opciones;
  * Interfaz propio de JavaFx
  *
  * @version 1.0 El hilo creado lanzara una sincronizacion total contra Moodle.
- *
- *
+ * @version 1.1 Se ha aniado la posibilidad de sincronizar con Nas-ter.
+ * 
  * @see Doc Services Javafx
  */
 public class procesoSyncronizacion {
@@ -45,17 +46,12 @@ public class procesoSyncronizacion {
      * sincronizacion
      * @param rb resourceBundle con los mensajes susceptibles a cambio de idioma
      * @param iuControl clase que maneja el control de la IU
+     * @param useNas boolean, indicara si haremos uso de Nas-ter
      *
      *
      */
-    public procesoSyncronizacion(String user, String pass1, String pass2, String pathDowload, ResourceBundle rb, InterfaceController iuControl) {
-//        this.user = user;
-//        this.pass1 = pass1;
-//        this.pass2 = pass2;
-//        this.pathDowload = pathDowload;
-//        this.rb = rb;
-//        this.iu = iu;
-        launchTread(user, pass1, pass2, pathDowload, rb, iuControl);
+    public procesoSyncronizacion(String user, String pass1, String pass2, String pathDowload, ResourceBundle rb, InterfaceController iuControl, boolean useNas) {
+        launchTread(user, pass1, pass2, pathDowload, rb, iuControl, useNas);
     }
 
     /**
@@ -70,34 +66,45 @@ public class procesoSyncronizacion {
      * sincronizacion
      * @param rb resourceBundle con los mensajes susceptibles a cambio de idioma
      * @param iuControl clase que maneja el control de la IU
+     * @param useNas boolean, indicara si haremos uso de Nas-ter
      */
-    private void launchTread(String user, String pass1, String pass2, String pathDowload, ResourceBundle rb, InterfaceController iuControl) {
+    private void launchTread(String user, String pass1, String pass2, String pathDowload, ResourceBundle rb, InterfaceController iuControl, boolean useNas) {
         final String _user = user;
         final String _pass1 = pass1;
         final String _pass2 = pass2;
         final String _path = pathDowload;
         final ResourceBundle _rb = rb;
         final InterfaceController _iu = iuControl;
+        final boolean _useNas = useNas;
         new Thread(() -> {
-            try {
-                Opciones.realizarActualizacionTotal(_user, _pass1, currentYear(), _path, _iu);
+            if (_user != null && _pass1 != null && _path != null && (pass2 != null || _useNas)) {
+                try {
+                    if (_useNas) {
+                        FileHelper.synchronize(user, pass2, pathDowload);
+                        // Creo que segun RQ hay que tratar de difernete forma
+                    }
+                    Opciones.realizarActualizacionTotal(_user, _pass1, currentYear(), _path, _iu);
 //                Opciones.realizarActualizacionIndividual(6, _user, _pass1, "(2016-2017)", _path, _iu);
-            } catch (IOException ex) {
-                //Moodle esta caido
-                Logger.getLogger(procesoSyncronizacion.class.getName()).log(Level.SEVERE, null, ex);
-            } finally {
-                if (Platform.isFxApplicationThread()) {
-                    Platform.runLater(
-                            () -> {
-                                System.err.println("acabando");
-                                _iu.syncroEnd();
-                            }
-                    );
-                }else{
-                    _iu.syncroEnd();
-                }
+                } catch (IOException ex) {
+                    //Moodle esta caido
+                    Logger.getLogger(procesoSyncronizacion.class.getName()).log(Level.SEVERE, null, ex);
+                } finally {
+                    if (Platform.isFxApplicationThread()) {
+                        Platform.runLater(
+                                () -> {
+                                    System.err.println("acabando");
+                                    _iu.syncroEnd();
+                                }
+                        );
+                    } else {
+                        _iu.syncroEnd();
+                    }
 //                _iu.syncroEnd();
+                }
+            }else{
+                _iu.wrongDates();
             }
+
         }).start();
     }
 

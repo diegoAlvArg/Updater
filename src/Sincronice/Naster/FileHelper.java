@@ -1,4 +1,4 @@
-package cloud.Naster;
+package Sincronice.Naster;
 
 import com.github.sardine.DavResource;
 import com.github.sardine.Sardine;
@@ -22,7 +22,7 @@ import java.util.logging.Logger;
  * Utility class for synchronizing files/directories.
  *
  */
-public abstract class FileHelper {
+public class FileHelper {
 
     private static final long DEFAULT_COPY_BUFFER_SIZE = 16 * 1024 * 1024; // 16 MB
     private static Sardine sardineCon;
@@ -34,15 +34,17 @@ public abstract class FileHelper {
      * @param user
      * @param pass
      * @param pathLocal
-     * @return -1 - NasTer posiblemente caido -2 - Credenciales erroneas -3 -
-     * Fallo al crear la estructura de sincronizacion -4 - Fallo no identificado
-     * en conexion
+     * @return 
+     * -1 - NasTer posiblemente caido 
+     * -2 - Credenciales erroneas 
+     * -3 - Fallo al crear la estructura de sincronizacion
+     * -4 - Fallo no identificado en conexion
      *
      */
     public static int synchronize(String user, String pass, String pathLocal) {
 
-        long time_start, time_end;
-        time_start = System.currentTimeMillis();
+//        long time_start, time_end;
+//        time_start = System.currentTimeMillis();
         int respuesta = 0;
         try {
             sardineCon = SardineFactory.begin(user, pass);
@@ -75,8 +77,8 @@ public abstract class FileHelper {
             // Salta el timeOut, parece que no se extablece la conexion
             respuesta = -1;
         } finally {
-            time_end = System.currentTimeMillis();
-            System.out.println("\n\n--the task has taken " + (time_end - time_start) + " milliseconds");
+//            time_end = System.currentTimeMillis();
+//            System.out.println("\n\n--the task has taken " + (time_end - time_start) + " milliseconds");
             return respuesta;
         }
     }

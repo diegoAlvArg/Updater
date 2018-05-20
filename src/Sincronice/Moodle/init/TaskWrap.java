@@ -1,6 +1,6 @@
-package wrapper.init;
+package Sincronice.Moodle.init;
 
-import wrapper.tree.Node;
+import Sincronice.moodle.tree.Node;
 import java.util.concurrent.Callable;
 
 /**
