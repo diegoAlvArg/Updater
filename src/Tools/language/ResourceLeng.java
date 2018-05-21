@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package Updater.tools;
+package Tools.language;
 
 import java.util.Collection;
 import java.util.Collections;
@@ -102,7 +102,7 @@ public class ResourceLeng extends BasicLeng {
     public final static String TOOLTIP_NEWUSER = "tooltip_newuser";
     public final static String TOOLTIP_EDITUSER = "tooltip_edituser";
     public final static String TOOLTIP_SETTIME = "tooltip_settime";
-    
+    public final static String NONE = "none";
     //**********TAB OptionAyuda****************************************************************
     public final static String TAB_HELP = "tab_help";
     public final static String BUTTON_UPDATE = "btt_update";
@@ -134,4 +134,13 @@ public class ResourceLeng extends BasicLeng {
     public final static String SYS_TRAY_WIKI = "sys_tray_wiki";
     public final static String SYS_TRAY_UPDATE = "sys_tray_update";
     public final static String SYS_TRAY_SYNCRO = "sys_tray_syncro";
+    
+    //**********Traces Log**********************************************************************
+    public final static String TRACE_INIT = "trace_init";
+    public final static String TRACE_USER_NO = "trace_user_no";
+    public final static String TRACE_USER_OK = "trace_user_ok";
+    public final static String TRACE_DATES_ERROR = "trace_dates_error";
+    public final static String TRACE_TREE_ERROR = "trace_tree_error";
+    public final static String TRACE_LANGUAGE_UNKNOW = "trace_language_unknow";
+    public final static String TRACE_LANGUAGE_OK = "trace_language_ok";
 }

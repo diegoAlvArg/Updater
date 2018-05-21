@@ -1,27 +1,21 @@
-package Sincronice.Moodle.tools;
+package application;
 
-import java.io.FileWriter;
+import Sincronice.Moodle.tools.*;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.TimeZone;
 import java.util.logging.FileHandler;
 import java.util.logging.Formatter;
 import java.util.logging.Handler;
-import java.util.logging.Level;
 import java.util.logging.LogRecord;
 import java.util.logging.Logger;
-import java.util.logging.SimpleFormatter;
 
 /**
  *
  * @author Usuario
  */
-public class MyLogging {
+public class LoggGen {
 
 //    protected static String defaultLogFile = "C:/demo/MyLogFile.log";
 //    static Logger logger = Logger.getLogger("MyLog");
@@ -30,12 +24,10 @@ public class MyLogging {
     public Handler fileHandler;
     Formatter plainText;
 
-    private MyLogging() throws IOException {
+    private LoggGen() throws IOException {
         //instance the logger
-        logger = Logger.getLogger(MyLogging.class.getName());
-        //instance the filehandler
-//        fileHandler = new FileHandler("C:/demo/MyLogFile.log", true);
-        Path defaultPath = Paths.get("./Log/MyLogFile.log");
+        logger = Logger.getLogger(LoggGen.class.getName());
+        Path defaultPath = Paths.get("./Log/LogApp.log");
         if(!Files.exists(defaultPath.getParent().toAbsolutePath())){
             Files.createDirectories(defaultPath.getParent().toAbsolutePath());
         }
@@ -49,7 +41,7 @@ public class MyLogging {
     private static Logger getLogger() {
         if (logger == null) {
             try {
-                new MyLogging();
+                new LoggGen();
             } catch (IOException e) {
                 e.printStackTrace();
             }

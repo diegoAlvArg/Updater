@@ -1,8 +1,13 @@
 package Tools.userDates;
 
+import Tools.language.ResourceLeng;
+import application.HelloWorld;
+import application.LoggGen;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.IOException;
+import java.io.PrintWriter;
+import java.io.StringWriter;
 import java.nio.charset.Charset;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -12,6 +17,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.concurrent.Semaphore;
 import java.util.logging.Level;
+import java.util.logging.LogRecord;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
@@ -55,9 +61,11 @@ public class UserInfo {
                 ex.printStackTrace();
             }
         } catch (InterruptedException ex) {
-            Logger.getLogger(UserInfo.class.getName()).log(Level.SEVERE, null, ex);
+//            Logger.getLogger(UserInfo.class.getName()).log(Level.SEVERE, null, ex);
         } catch (IOException ex) {
-            Logger.getLogger(UserInfo.class.getName()).log(Level.SEVERE, null, ex);
+            //Se supone que al ejecutar la aplicacion ya deberias tener permisos de E/L 
+            //  capturamos la excepcion por si acaso
+//            Logger.getLogger(UserInfo.class.getName()).log(Level.SEVERE, null, ex);
         } finally {
             semaphore.release();
         }
@@ -65,9 +73,10 @@ public class UserInfo {
 
     /**
      * @return Lista del contenido linea a linea del fichero almacenador
-     * ,desencriptado
+     * ,desencriptado. Null en caso de error
      */
     private static List<String> readFile() {
+        LogRecord logRegistro = null;
         List<String> respuesta = new ArrayList<>();
         List<String> list = new ArrayList<>();
         codificador codex = codificador.getInstande();
@@ -75,7 +84,15 @@ public class UserInfo {
         try (BufferedReader br = Files.newBufferedReader(Paths.get(defaultPath))) {
             list = br.lines().collect(Collectors.toList());
         } catch (IOException e) {
-            e.printStackTrace();
+            StringWriter errors = new StringWriter();
+            e.printStackTrace(new PrintWriter(errors));
+            logRegistro = new LogRecord(Level.WARNING, errors.toString());
+            logRegistro.setSourceMethodName("readFile");
+            logRegistro.setSourceClassName(UserInfo.class.getName());
+        }finally{
+            if (logRegistro != null) {
+                LoggGen.log(logRegistro);
+            }
         }
 
         for (String element : list) {
@@ -85,10 +102,10 @@ public class UserInfo {
     }
 
     /**
-     *
      * @param data Lista de lineas que se escribiran en el fichero almacenado
      */
     private static void rewriteFile(List<String> data) {
+        LogRecord logRegistro = null;
         Path pathfile = Paths.get(defaultPath);
         codificador codex = codificador.getInstande();
 
@@ -97,12 +114,19 @@ public class UserInfo {
                 writer.write(codex.encrypt(line) + "\n");
             }
         } catch (IOException ex) {
-            ex.printStackTrace();
+            StringWriter errors = new StringWriter();
+            ex.printStackTrace(new PrintWriter(errors));
+            logRegistro = new LogRecord(Level.WARNING, errors.toString());
+            logRegistro.setSourceMethodName("rewriteFile");
+            logRegistro.setSourceClassName(UserInfo.class.getName());
+        }finally{
+            if (logRegistro != null) {
+                LoggGen.log(logRegistro);
+            }
         }
     }
 
     /**
-     * PRE: el usuario no ha modificado el archivo (contenido/orden)
      *
      * @return identificador del usuario almacenado.
      */
@@ -118,15 +142,13 @@ public class UserInfo {
                 }
             }
         } catch (InterruptedException ex) {
-            Logger.getLogger(UserInfo.class.getName()).log(Level.SEVERE, null, ex);
+//            Logger.getLogger(UserInfo.class.getName()).log(Level.SEVERE, null, ex);
         } finally {
             semaphore.release();
             return respuesta;
         }
     }
-
     /**
-     * PRE: el usuario no ha modificado el archivo (contenido/orden)
      *
      * @param newData identificador del usuario, que se quiere cambiar por el
      * almacenado. newData != null && newData != ""
@@ -143,14 +165,13 @@ public class UserInfo {
                         isnew = false;
                         break;
                     }
-
                 }
-                if(isnew){
+                if (isnew) {
                     aux.add("USER==" + newData);
                 }
                 rewriteFile(aux);
             } catch (InterruptedException ex) {
-                Logger.getLogger(UserInfo.class.getName()).log(Level.SEVERE, null, ex);
+//                Logger.getLogger(UserInfo.class.getName()).log(Level.SEVERE, null, ex);
             } finally {
                 semaphore.release();
             }
@@ -158,7 +179,6 @@ public class UserInfo {
     }
 
     /**
-     * PRE: el usuario no ha modificado el archivo (contenido/orden)
      *
      * @return passwd para Moodle almacenado.
      */
@@ -174,15 +194,13 @@ public class UserInfo {
                 }
             }
         } catch (InterruptedException ex) {
-            Logger.getLogger(UserInfo.class.getName()).log(Level.SEVERE, null, ex);
+//            Logger.getLogger(UserInfo.class.getName()).log(Level.SEVERE, null, ex);
         } finally {
             semaphore.release();
             return respuesta;
         }
     }
-
     /**
-     * PRE: el usuario no ha modificado el archivo (contenido/orden)
      *
      * @param newData passwd para Moodle, que se quiere cambiar por el
      * almacenado. newData != null && newData != ""
@@ -200,12 +218,12 @@ public class UserInfo {
                         break;
                     }
                 }
-                if(isnew){
+                if (isnew) {
                     aux.add("PASS1==" + newData);
                 }
                 rewriteFile(aux);
             } catch (InterruptedException ex) {
-                Logger.getLogger(UserInfo.class.getName()).log(Level.SEVERE, null, ex);
+//                Logger.getLogger(UserInfo.class.getName()).log(Level.SEVERE, null, ex);
             } finally {
                 semaphore.release();
             }
@@ -213,7 +231,6 @@ public class UserInfo {
     }
 
     /**
-     * PRE: el usuario no ha modificado el archivo (contenido/orden)
      *
      * @return passwd para NAS-TER almacenado.
      */
@@ -235,9 +252,7 @@ public class UserInfo {
             return respuesta;
         }
     }
-
     /**
-     * PRE: el usuario no ha modificado el archivo (contenido/orden)
      *
      * @param newData passwd para NAS-TER, que se quiere cambiar por el
      * almacenado. newData != null && newData != ""
@@ -255,12 +270,12 @@ public class UserInfo {
                         break;
                     }
                 }
-                if(isnew){
+                if (isnew) {
                     aux.add("PASS2==" + newData);
                 }
                 rewriteFile(aux);
             } catch (InterruptedException ex) {
-                Logger.getLogger(UserInfo.class.getName()).log(Level.SEVERE, null, ex);
+//                Logger.getLogger(UserInfo.class.getName()).log(Level.SEVERE, null, ex);
             } finally {
                 semaphore.release();
             }
@@ -268,7 +283,6 @@ public class UserInfo {
     }
 
     /**
-     * PRE: el usuario no ha modificado el archivo (contenido/orden)
      *
      * @return path de descarga almacenado en el fichero.
      */
@@ -284,7 +298,7 @@ public class UserInfo {
                 }
             }
         } catch (InterruptedException ex) {
-            Logger.getLogger(UserInfo.class.getName()).log(Level.SEVERE, null, ex);
+//            Logger.getLogger(UserInfo.class.getName()).log(Level.SEVERE, null, ex);
         } finally {
             semaphore.release();
             return respuesta;
@@ -310,12 +324,12 @@ public class UserInfo {
                         break;
                     }
                 }
-                if(isnew){
+                if (isnew) {
                     aux.add("PATH==" + newData);
                 }
                 rewriteFile(aux);
             } catch (InterruptedException ex) {
-                Logger.getLogger(UserInfo.class.getName()).log(Level.SEVERE, null, ex);
+//                Logger.getLogger(UserInfo.class.getName()).log(Level.SEVERE, null, ex);
             } finally {
                 semaphore.release();
             }
@@ -339,15 +353,13 @@ public class UserInfo {
                 }
             }
         } catch (Exception ex) {
-            Logger.getLogger(UserInfo.class.getName()).log(Level.SEVERE, null, ex);
+//            Logger.getLogger(UserInfo.class.getName()).log(Level.SEVERE, null, ex);
         } finally {
             semaphore.release();
             return respuesta;
         }
     }
-
     /**
-     * PRE: el usuario no ha modificado el archivo (contenido/orden)
      *
      * @param newData path de descarga, que se quiere cambiar por el almacenado.
      * newData != null && newData != ""
@@ -365,12 +377,12 @@ public class UserInfo {
                         break;
                     }
                 }
-                if(isnew){
+                if (isnew) {
                     aux.add("USENAS==" + newData);
                 }
                 rewriteFile(aux);
             } catch (InterruptedException ex) {
-                Logger.getLogger(UserInfo.class.getName()).log(Level.SEVERE, null, ex);
+//                Logger.getLogger(UserInfo.class.getName()).log(Level.SEVERE, null, ex);
             } finally {
                 semaphore.release();
             }
@@ -392,8 +404,12 @@ public class UserInfo {
     public static boolean dataExits() {
         boolean respuesta = false;
         List<String> aux = Arrays.asList("", "", "", "", "");
+        List<String> aux2;
         if (Files.exists(Paths.get(defaultPath))) {
-            respuesta = !getDatas().equals(aux);
+            aux2 = getDatas();
+            if (aux2 != null) {
+                respuesta = !aux2.equals(aux);
+            }
         }
         return respuesta;
     }
@@ -402,22 +418,41 @@ public class UserInfo {
      * @return List de los "atributos" listo para usar.
      */
     private static List<String> getDatas() {
-        List<String> respuesta = new ArrayList<>();
+        List<String> respuesta = Arrays.asList(new String[5]);//new ArrayList<>();
         List<String> list;
         String aux;
         try {
             semaphore.acquire();
             list = readFile();
             for (String data : list) {
-                aux = data.substring(data.indexOf("==") + 2);
-                respuesta.add(aux);
+                if (data.contains("USER==")) {
+                    aux = data.replaceAll("USER==", "");
+                    respuesta.set(0, aux);
+                } else if (data.contains("PASS1==")) {
+                    aux = data.replaceAll("PASS1==", "");
+                    respuesta.set(1, aux);
+                } else if (data.contains("PASS2==")) {
+                    aux = data.replaceAll("PASS2==", "");
+                    respuesta.set(2, aux);
+                } else if (data.contains("PATH==")) {
+                    aux = data.replaceAll("PATH==", "");
+                    respuesta.set(3, aux);
+                } else if (data.contains("USENAS==")) {
+                    aux = data.replaceAll("USENAS==", "");
+                    respuesta.set(4, aux);
+                } else {
+                    throw new Exception();
+                }
             }
         } catch (InterruptedException ex) {
-            Logger.getLogger(UserInfo.class.getName()).log(Level.SEVERE, null, ex);
+//            Logger.getLogger(UserInfo.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (Exception e) {
+            respuesta = null;
+            LoggGen.log(new LogRecord(Level.SEVERE, HelloWorld
+                    .getResource().getString(ResourceLeng.TRACE_DATES_ERROR)));
         } finally {
             semaphore.release();
             return respuesta;
-
         }
     }
 }

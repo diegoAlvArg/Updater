@@ -3,13 +3,13 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package Updater.tools;
+package Tools.language;
 
 /**
  *
  * @author Usuario
  */
-public class BasicLeng {
+public class BasicLeng{
 
     /**
      * Main aplication start

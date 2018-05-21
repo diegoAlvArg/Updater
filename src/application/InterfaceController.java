@@ -1,14 +1,9 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package application;
 
 import Tools.userDates.UserInfo;
 import Updater.tools.ActionTool;
 import Updater.tools.NotificationType;
-import Updater.tools.ResourceLeng;
+import Tools.language.ResourceLeng;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
@@ -54,6 +49,9 @@ import java.util.HashMap;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.CheckBoxTreeItem;
 import Sincronice.moodle.tree.TypeNode;
+import java.io.PrintWriter;
+import java.io.StringWriter;
+import java.util.logging.LogRecord;
 
 /**
  * FXML Controller class
@@ -74,6 +72,7 @@ public class InterfaceController implements Initializable {
      */
     private final int MAX_SBCLU = 1;
     private int numSyncro;
+    private Map<String, TreeItem<BookCategory>> cursosTrack = new HashMap<>();
     //*************************************** OptionConfig
     @FXML
     private Tab OptionConfig;
@@ -142,36 +141,53 @@ public class InterfaceController implements Initializable {
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        // TODO
+        LogRecord logRegistro;
+        
         ResourceBundle auxRb;
         if (rb != null) {
-//            System.out.println("RB no es null");
             auxRb = rb;
         } else {
             auxRb = HelloWorld.getResource();
-//            System.out.println("RB ES null");
         }
+        logRegistro = new LogRecord(Level.INFO, rb.getString(ResourceLeng.TRACE_INIT));
+        logRegistro.setSourceClassName(this.getClass().getName());
+        LoggGen.log(logRegistro);
         setLanguague(auxRb);
 
         initializeSpinners();
         if (!UserInfo.dataExits()) {
             // No hay usuario
             initializationUserLoad(false, "", "");
+            logRegistro = new LogRecord(Level.INFO, rb.getString(ResourceLeng.TRACE_USER_NO));
         } else {
             initializationUserLoad(true, UserInfo.getUser(), UserInfo.getPath());
             setNextUpdate();
 
             TreeItem<BookCategory> rootItem = new TreeItem<BookCategory>();
             TListUpdates.setRoot(rootItem);
+            logRegistro = new LogRecord(Level.INFO, rb.getString(ResourceLeng.TRACE_USER_OK));
         }
+        logRegistro.setSourceClassName(this.getClass().getName());
+        LoggGen.log(logRegistro);
     }
 
+    /**
+     * Inicializa la treeView y le aniade un listener. Esto se podria hacer con 
+     *  el Scene builder o ha pelo pero no se.
+     */
     private void initializeTreeView() {
         TreeItem<BookCategory> rootItem = new TreeItem<BookCategory>();
         TListUpdates.setRoot(rootItem);
         TListUpdates.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> handleTreeViewClick((TreeItem) newValue));
     }
-
+    /**
+     * Aniadira un nuevo item al treeView. Aniadienssolselo como "hijo" a un nodo
+     *  que lo represente, creando este si fuera necesario.
+     * 
+     * @param path path del recurso que representa el item
+     * @param name nombre con el que se representara
+     * @param tipo tipo del item, para asignarle un icono
+     */
     public synchronized void addTreeItem(String path, String name, TypeNode tipo) {
         URL iconUrl = null;
         Image miImage = null;
@@ -224,39 +240,54 @@ public class InterfaceController implements Initializable {
         try (InputStream op = iconUrl.openStream()) {
             miImage = new Image(op);
         } catch (IOException ex) {
-            Logger.getLogger(InterfaceController.class
-                    .getName()).log(Level.SEVERE, null, ex);
+//            Logger.getLogger(InterfaceController.class
+//                    .getName()).log(Level.SEVERE, null, ex);
         }
         BookCategory auxbook = new BookCategory(path, name);
         TreeItem<BookCategory> auxItem = new TreeItem<>(auxbook, new ImageView(miImage));
-//        auxCurso.getChildren().add(auxItem);
         auxCurso.getChildren().add(0, auxItem);
-        //Una vez con el elemento creado debemos averiguar donde meterlo
-
-//        auxItem.getChildren().add(auxItem);
-//        cursosTrack.get("aa").getChildren().a
-//        TListUpdates.getRoot().getChildren().add(auxItem);
     }
-    private Map<String, TreeItem<BookCategory>> cursosTrack = new HashMap<>();
-
+    /**
+     * Handle que tratara las acciones sobre el treeView, hara que el local trate
+     *  el path asociado al item que tratamos
+     * 
+     * @param newValue treeItem que disparo el evento
+     */
     private void handleTreeViewClick(TreeItem newValue) {
+        BookCategory aux = null;
         try {
-            BookCategory aux = (BookCategory) newValue.getValue();
-            System.out.println(aux.print());
+            aux = (BookCategory) newValue.getValue();
             HelloWorld.getHostService().showDocument(aux.getCode());
         } catch (Exception e) {
+            LogRecord logRegistro;
+            StringWriter errors = new StringWriter();
+            String auxWho = HelloWorld.getResource().getString(ResourceLeng.TRACE_TREE_ERROR);
+            
+            e.printStackTrace(new PrintWriter(errors));
+            auxWho = String.format(auxWho, aux.print());
+            logRegistro = new LogRecord(Level.SEVERE, auxWho + "\n" + errors.toString());
+            logRegistro.setSourceClassName(this.getClass().getName());
+            LoggGen.log(logRegistro);
         }
     }
-
+    /**
+     * 
+     * Limpiara el treeView dejando solo el root
+     */
     private void cleanTreeview() {
-        System.err.println("Limpiando");
         TListUpdates.getRoot().getChildren().clear();
         cursosTrack.clear();
-        System.err.println("Listo");
     }
 
     //*********************OptionConfig********************************************
+    /**
+     * Tratara el evento generado por el usuario en relacion a selecionar un 
+     *  idioma para la App
+     * 
+     * @param _event 
+     */
     public void changeLanguague(ActionEvent _event) {
+        LogRecord logRegistro = null;
         ResourceBundle rb = HelloWorld.getResource();
         ResourceBundle auxRb;
         String languagueSelected = (String) CLanguague.getValue();
@@ -272,21 +303,27 @@ public class InterfaceController implements Initializable {
             }
 
             if (auxLocale == null) {
-//                System.err.println("Lenguaje desconocido");
-                // No deberia saltar, meter algo en el log por si acaso.
+                // No deberia saltar
+                logRegistro = new LogRecord(Level.WARNING, rb.getString(ResourceLeng.TRACE_LANGUAGE_UNKNOW));
+                logRegistro.setSourceClassName(this.getClass().getName());
             } else if (auxLocale.equals(rb.getLocale())) {
-//                System.err.println("Es el mismo");
                 //De normal el comboBox no lazaa un evento al elegir el que ya 
                 //  estaba selecionado. Sin embargo cuando cambiamos el idioma y 
                 //  hacemos selectValue para el idioma (en su idioma) esto genera
                 //  un evento que es esta seccion.
             } else {
-//                System.err.println("Es diferente");
+                logRegistro = new LogRecord(Level.INFO, String.format(
+                        rb.getString(ResourceLeng.TRACE_LANGUAGE_OK), languagueSelected));
+                logRegistro.setSourceClassName(this.getClass().getName());
+                
                 auxRb = ResourceBundle.getBundle("Resources.Languages.SystemMessages", auxLocale);
                 HelloWorld.changeTitle(auxRb.getString(ResourceLeng.APP_TITLE));
                 HelloWorld.setResource(auxRb);
                 setLanguague(auxRb);
             }
+        }
+        if (logRegistro != null) {
+            LoggGen.log(logRegistro);
         }
     }
 
@@ -334,8 +371,6 @@ public class InterfaceController implements Initializable {
         this.minutesSpinner.setEditable(true);
 
         hourSpinner.getEditor().textProperty().addListener((obs, oldValue, newValue) -> {
-//            System.out.println("1-" + obs.toString());
-//            System.out.println("2-" + oldValue.toString());
             if (newValue.compareTo("0") <= 0) {
                 if ((int) minutesSpinner.getValue() < 5) {
                     minutesSpinner.getValueFactory().setValue(5);
@@ -345,8 +380,6 @@ public class InterfaceController implements Initializable {
         });
 
         minutesSpinner.getEditor().textProperty().addListener((obs, oldValue, newValue) -> {
-//            System.out.println("1-" + obs.toString());
-//            System.out.println("2-" + oldValue.toString());
             if (newValue.compareTo("60") == 0) {
                 hourSpinner.getValueFactory().setValue((int) hourSpinner.getValue() + 1);
                 minutesSpinner.getValueFactory().setValue(0);
@@ -373,8 +406,6 @@ public class InterfaceController implements Initializable {
 
             try (InputStream op = iconUrl.openStream()) {
                 IUserIcon.setImage(new Image(op));
-//                IUserIcon.setImage(new Image(iconUrl.openStream()));
-
             } catch (IOException ex) {
                 Logger.getLogger(InterfaceController.class
                         .getName()).log(Level.SEVERE, null, ex);
@@ -544,7 +575,6 @@ public class InterfaceController implements Initializable {
         System.err.println("show");
         LCheckDate.setVisible(true);
     }
-
     /**
      * @deprecated
      */
@@ -591,7 +621,7 @@ public class InterfaceController implements Initializable {
 
     public void chooseDirectory(ActionEvent event) {
         File selectedFile = null;
-        ResourceBundle rb = HelloWorld.getResource();
+//        ResourceBundle rb = HelloWorld.getResource();
         String initialPath = UserInfo.getPath();
         do {
             DirectoryChooser directoryChooser = new DirectoryChooser();
@@ -601,27 +631,29 @@ public class InterfaceController implements Initializable {
                 initialPath = selectedFile.getAbsolutePath();
                 break;
             } else {
-                Platform.runLater(() -> Platform.runLater(()
-                        -> ActionTool.showNotification(rb.getString(ResourceLeng.MESSAGE_TITLE_PATH_REJECT),
-                                rb.getString(ResourceLeng.MESSAGE_INFO_PATH_REJECT),
-                                Duration.seconds(15), NotificationType.ERROR)));
+                ActionTool.customNotification(ResourceLeng.MESSAGE_TITLE_PATH_REJECT,
+                        ResourceLeng.MESSAGE_INFO_PATH_REJECT, Duration.seconds(15),
+                        NotificationType.ERROR);
+//                Platform.runLater(() -> Platform.runLater(()
+//                        -> ActionTool.showNotification(rb.getString(ResourceLeng.MESSAGE_TITLE_PATH_REJECT),
+//                                rb.getString(ResourceLeng.MESSAGE_INFO_PATH_REJECT),
+//                                Duration.seconds(15), NotificationType.ERROR)));
             }
 
         } while (selectedFile != null);
         LPathApplication.setText(initialPath);
         UserInfo.setPath(initialPath);
     }
-
+    
     public void useNasTer(ActionEvent event) {
         if(CBNaster.isSelected()){
             int resultado = eventUser.validateCredentialsNaster(UserInfo.getUser(), UserInfo.getPass2());
+ 
             if (resultado == 2) {
-                ResourceBundle rb = HelloWorld.getResource();
+//                ResourceBundle rb = HelloWorld.getResource();
                 CBNaster.setSelected(false);
-                Platform.runLater(() -> Platform.runLater(()
-                        -> ActionTool.showNotification(rb.getString(ResourceLeng.MESSAGE_TITLE_NASTER_DOWN),
-                                rb.getString(ResourceLeng.MESSAGE_INFO_DOWN_TEXT),
-                                Duration.seconds(15), NotificationType.WARNING)));
+                ActionTool.customNotification(ResourceLeng.MESSAGE_TITLE_NASTER_REJECT,
+                        ResourceLeng.MESSAGE_INFO_REJECT, Duration.seconds(15), NotificationType.WARNING);
             } else {
                 // El caso de naster caido resultado == 1 lo trataremos mas adelante en la syncronizacion
 //                CBNaster.setSelected(true);

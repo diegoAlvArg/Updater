@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package application;
+package zzParaBorrar;
 
 import application.HelloWorld;
 import java.net.URL;
@@ -18,7 +18,8 @@ import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
-import Updater.tools.ResourceLeng;
+import Tools.language.ResourceLeng;
+import application.HelloWorld;
 import java.io.File;
 import javafx.application.HostServices;
 //import javafx.application.HostServices;

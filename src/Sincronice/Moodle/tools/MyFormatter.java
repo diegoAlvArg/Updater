@@ -12,13 +12,13 @@ public class MyFormatter extends Formatter {
 
     @Override
     public String format(LogRecord record) {
-        String cabera = record.getSourceClassName();
+        String cabezera = record.getSourceClassName();
         if (record.getSourceMethodName() != null) {
-            cabera += "." + record.getSourceMethodName();//cabera.substring(0, cabera.length()-1);
+            cabezera += "." + record.getSourceMethodName();//cabera.substring(0, cabera.length()-1);
         }
 
         return "\n" + new Date(record.getMillis()) + " --- Thread: " + record.getThreadID() + "   "
-                + cabera + "\n" + record.getLevel() + ": " + record.getMessage();
+                + cabezera + "\n" + record.getLevel() + ": " + record.getMessage();
     }
 
 }

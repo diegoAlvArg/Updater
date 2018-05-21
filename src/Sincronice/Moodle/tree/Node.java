@@ -1,6 +1,6 @@
 package Sincronice.moodle.tree;
 
-//import Util.Logger.MyLogging;
+//import Util.Logger.LoggSyn;
 import application.InterfaceController;
 import Sincronice.Moodle.init.Opciones;
 import java.io.BufferedReader;
@@ -39,7 +39,7 @@ import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
-import Sincronice.Moodle.tools.MyLogging;
+import Sincronice.Moodle.tools.LoggSyn;
 
 /**
  * @author Diego Alvarez
@@ -253,7 +253,7 @@ public class Node {
             logRegistro.setSourceClassName(this.getClass().getName());
         } finally {
             if (logRegistro != null) {
-                MyLogging.log(logRegistro);
+                LoggSyn.log(logRegistro);
             }
         }
     }
@@ -295,7 +295,7 @@ public class Node {
             logRegistro.setSourceClassName(this.getClass().getName());
         } finally {
             if (logRegistro != null) {
-                MyLogging.log(logRegistro);
+                LoggSyn.log(logRegistro);
             }
         }
     }
@@ -812,7 +812,7 @@ public class Node {
             logRegistro.setSourceClassName(this.getClass().getName());
         } finally {
             if (logRegistro != null) {
-                MyLogging.log(logRegistro);
+                LoggSyn.log(logRegistro);
             }
         }
     }
@@ -970,7 +970,7 @@ public class Node {
                 }
             }
             if (logRegistro != null) {
-                MyLogging.log(logRegistro);
+                LoggSyn.log(logRegistro);
             }
         }
     }

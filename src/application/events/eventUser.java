@@ -2,7 +2,7 @@ package application.events;
 
 import Updater.tools.ActionTool;
 import Updater.tools.NotificationType;
-import Updater.tools.ResourceLeng;
+import Tools.language.ResourceLeng;
 import application.HelloWorld;
 import application.InterfaceController;
 import com.github.sardine.Sardine;
@@ -100,11 +100,13 @@ public class eventUser extends Service<Void> {
                         auxList = validateUser(auxList, _askPath, _iu);
 
                         if (auxList != null) {
-                            rb = HelloWorld.getResource();
-                            Platform.runLater(() -> Platform.runLater(()
-                                    -> ActionTool.showNotification(rb.getString(ResourceLeng.MESSAGE_TITLE_DATES_OK),
-                                            "",
-                                            Duration.seconds(15), NotificationType.INFORMATION)));
+//                            rb = HelloWorld.getResource();
+                            ActionTool.customNotification(ResourceLeng.MESSAGE_TITLE_DATES_OK,
+                                    ResourceLeng.NONE, Duration.seconds(15), NotificationType.INFORMATION);
+//                            Platform.runLater(() -> Platform.runLater(()
+//                                    -> ActionTool.showNotification(rb.getString(ResourceLeng.MESSAGE_TITLE_DATES_OK),
+//                                            "",
+//                                            Duration.seconds(15), NotificationType.INFORMATION)));
                         }
                         _iu.setUserInfo(auxList, _askPath);
                     }
@@ -270,26 +272,35 @@ public class eventUser extends Service<Void> {
             askAgain = false;
             if (estados[0] == 1) {
                 askAgain = true;
-                Platform.runLater(() -> Platform.runLater(()
-                        -> ActionTool.showNotification(rb.getString(ResourceLeng.MESSAGE_TITLE_MOODLE_DOWN),
-                                rb.getString(ResourceLeng.MESSAGE_INFO_DOWN_TEXT),
-                                Duration.seconds(15), NotificationType.WARNING)));
+                ActionTool.customNotification(rb, ResourceLeng.MESSAGE_TITLE_MOODLE_DOWN,
+                        ResourceLeng.MESSAGE_INFO_DOWN_TEXT, Duration.seconds(15),
+                        NotificationType.WARNING);
+//                Platform.runLater(() -> Platform.runLater(()
+//                        -> ActionTool.showNotification(rb.getString(ResourceLeng.MESSAGE_TITLE_MOODLE_DOWN),
+//                                rb.getString(ResourceLeng.MESSAGE_INFO_DOWN_TEXT),
+//                                Duration.seconds(15), NotificationType.WARNING)));
             } else if (estados[0] == 3) {
                 askAgain = true;
             } else if (estados[0] == 2) {
                 askAgain = false;
                 auxList.set(1, "");
-                Platform.runLater(() -> Platform.runLater(()
-                        -> ActionTool.showNotification(rb.getString(ResourceLeng.MESSAGE_TITLE_MOODLE_REJECT),
-                                rb.getString(ResourceLeng.MESSAGE_INFO_REJECT),
-                                Duration.seconds(15), NotificationType.ERROR)));
+                ActionTool.customNotification(rb, ResourceLeng.MESSAGE_TITLE_MOODLE_REJECT,
+                        ResourceLeng.MESSAGE_INFO_REJECT, Duration.seconds(15),
+                        NotificationType.ERROR);
+//                Platform.runLater(() -> Platform.runLater(()
+//                        -> ActionTool.showNotification(rb.getString(ResourceLeng.MESSAGE_TITLE_MOODLE_REJECT),
+//                                rb.getString(ResourceLeng.MESSAGE_INFO_REJECT),
+//                                Duration.seconds(15), NotificationType.ERROR)));
             }
             if (estados[1] == 1) {
                 askAgain &= true;
-                Platform.runLater(() -> Platform.runLater(()
-                        -> ActionTool.showNotification(rb.getString(ResourceLeng.MESSAGE_TITLE_NASTER_DOWN),
-                                rb.getString(ResourceLeng.MESSAGE_INFO_DOWN_TEXT),
-                                Duration.seconds(15), NotificationType.WARNING)));
+                ActionTool.customNotification(rb, ResourceLeng.MESSAGE_TITLE_NASTER_DOWN,
+                        ResourceLeng.MESSAGE_INFO_DOWN_TEXT, Duration.seconds(15),
+                        NotificationType.WARNING);
+//                Platform.runLater(() -> Platform.runLater(()
+//                        -> ActionTool.showNotification(rb.getString(ResourceLeng.MESSAGE_TITLE_NASTER_DOWN),
+//                                rb.getString(ResourceLeng.MESSAGE_INFO_DOWN_TEXT),
+//                                Duration.seconds(15), NotificationType.WARNING)));
             } else if (estados[1] == 3) {
                 askAgain &= true;
             } else if (estados[1] == 2) {
@@ -303,10 +314,13 @@ public class eventUser extends Service<Void> {
                     //Si solo NASTER rechazo conexion la contraseña de NASTER esta mal
                     auxList.set(2, "");
                 }
-                Platform.runLater(() -> Platform.runLater(()
-                        -> ActionTool.showNotification(rb.getString(ResourceLeng.MESSAGE_TITLE_NASTER_REJECT),
-                                rb.getString(ResourceLeng.MESSAGE_INFO_REJECT),
-                                Duration.seconds(15), NotificationType.ERROR)));
+                ActionTool.customNotification(rb, ResourceLeng.MESSAGE_TITLE_NASTER_REJECT,
+                        ResourceLeng.MESSAGE_INFO_REJECT, Duration.seconds(15),
+                        NotificationType.ERROR);
+//                Platform.runLater(() -> Platform.runLater(()
+//                        -> ActionTool.showNotification(rb.getString(ResourceLeng.MESSAGE_TITLE_NASTER_REJECT),
+//                                rb.getString(ResourceLeng.MESSAGE_INFO_REJECT),
+//                                Duration.seconds(15), NotificationType.ERROR)));
             }
 
             if (checkPath && estados[2] == 1) {
@@ -314,17 +328,23 @@ public class eventUser extends Service<Void> {
             } else if (checkPath && estados[2] == 2) {
                 askAgain &= false;
                 auxList.set(3, "");
-                Platform.runLater(() -> Platform.runLater(()
-                        -> ActionTool.showNotification(rb.getString(ResourceLeng.MESSAGE_TITLE_PATH_REJECT),
-                                rb.getString(ResourceLeng.MESSAGE_INFO_PATH_REJECT),
-                                Duration.seconds(15), NotificationType.ERROR)));
+                ActionTool.customNotification(rb, ResourceLeng.MESSAGE_TITLE_PATH_REJECT,
+                        ResourceLeng.MESSAGE_INFO_PATH_REJECT, Duration.seconds(15),
+                        NotificationType.ERROR);
+//                Platform.runLater(() -> Platform.runLater(()
+//                        -> ActionTool.showNotification(rb.getString(ResourceLeng.MESSAGE_TITLE_PATH_REJECT),
+//                                rb.getString(ResourceLeng.MESSAGE_INFO_PATH_REJECT),
+//                                Duration.seconds(15), NotificationType.ERROR)));
             }
             if (estados[0] == 0 || estados[1] == 0 || (checkPath && estados[2] == 0)) {
                 askAgain &= false;
-                Platform.runLater(() -> Platform.runLater(()
-                        -> ActionTool.showNotification(rb.getString(ResourceLeng.MESSAGE_TITLE_FIELD_EMPTY),
-                                rb.getString(ResourceLeng.MESSAGE_INFO_FIELD_EMPTY),
-                                Duration.seconds(15), NotificationType.WARNING)));
+                ActionTool.customNotification(rb, ResourceLeng.MESSAGE_TITLE_FIELD_EMPTY,
+                        ResourceLeng.MESSAGE_INFO_FIELD_EMPTY, Duration.seconds(15),
+                        NotificationType.WARNING);
+//                Platform.runLater(() -> Platform.runLater(()
+//                        -> ActionTool.showNotification(rb.getString(ResourceLeng.MESSAGE_TITLE_FIELD_EMPTY),
+//                                rb.getString(ResourceLeng.MESSAGE_INFO_FIELD_EMPTY),
+//                                Duration.seconds(15), NotificationType.WARNING)));
             }
 
 //            iu.hideLabelCheck();

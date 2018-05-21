@@ -3,9 +3,9 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package application;
+package zzParaBorrar;
 
-import application.MainController;
+import zzParaBorrar.MainController;
 import application.HelloWorld;
 import java.io.IOException;
 import java.net.URL;
@@ -24,7 +24,8 @@ import javafx.scene.control.Button;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
-import Updater.tools.ResourceLeng;
+import Tools.language.ResourceLeng;
+import application.HelloWorld;
 
 /**
  * FXML Controller class

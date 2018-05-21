@@ -3,7 +3,11 @@
  */
 package Updater.tools;
 
+import Tools.language.ResourceLeng;
+import application.HelloWorld;
 import java.awt.Desktop;
+import java.awt.SystemTray;
+import java.awt.TrayIcon;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URI;
@@ -11,6 +15,7 @@ import java.net.URISyntaxException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
+import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -103,6 +108,7 @@ public final class ActionTool {
 
         //Check if it is JavaFX Application Thread
         if (!Platform.isFxApplicationThread()) {
+            System.err.println("eiii");
             Platform.runLater(() -> showNotification(title, text, d, t));
             return;
         }
@@ -130,6 +136,57 @@ public final class ActionTool {
                 break;
         }
 
+    }
+
+    public static void customNotification(ResourceBundle rb, String title, String text, Duration d, NotificationType t) {
+        switch (t) {
+            case ERROR:
+                notificationError(rb.getString(title), rb.getString(text), d);
+                break;
+            case INFORMATION:
+                notificationInfo(rb.getString(title), rb.getString(text), d);
+                break;
+            case WARNING:
+                notificationWarning(rb.getString(title), rb.getString(text), d);
+                break;
+            default:
+                break;
+        }
+    }
+
+    public static void customNotification(String title, String text, Duration d, NotificationType t) {
+        customNotification(HelloWorld.getResource(), title, text, d, t);
+    }
+
+    private static void notificationError(String title, String text, Duration d) {
+        if (Platform.isFxApplicationThread()) {
+            Platform.runLater(()
+                    -> ActionTool.showNotification(
+                            title, text, d, NotificationType.ERROR));
+        } else if (SystemTray.isSupported()) {
+            TrayIcon trayIcon = HelloWorld.getSysTray();
+            trayIcon.displayMessage(title, text, TrayIcon.MessageType.ERROR);
+        }
+    }
+    private static void notificationInfo(String title, String text, Duration d) {
+        if (Platform.isFxApplicationThread()) {
+            Platform.runLater(()
+                    -> ActionTool.showNotification(
+                            title, text, d, NotificationType.INFORMATION));
+        } else if (SystemTray.isSupported()) {
+            TrayIcon trayIcon = HelloWorld.getSysTray();
+            trayIcon.displayMessage(title, text, TrayIcon.MessageType.INFO);
+        }
+    }
+    private static void notificationWarning(String title, String text, Duration d) {
+        if (Platform.isFxApplicationThread()) {
+            Platform.runLater(()
+                    -> ActionTool.showNotification(
+                            title, text, d, NotificationType.WARNING));
+        } else if (SystemTray.isSupported()) {
+            TrayIcon trayIcon = HelloWorld.getSysTray();
+            trayIcon.displayMessage(title, text, TrayIcon.MessageType.WARNING);
+        }
     }
 
     /**

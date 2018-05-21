@@ -23,7 +23,7 @@ import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
-import Updater.tools.ResourceLeng;
+import Tools.language.ResourceLeng;
 import java.awt.SystemTray;
 import java.awt.TrayIcon;
 import java.util.Optional;
@@ -137,7 +137,10 @@ public class HelloWorld extends Application {
     public static void changeTitle(String _title) {
         stage.setTitle(_title + internalInformation.get("Version"));
     }
-
+    /**
+     * @deprecated 
+     * @param _newStage 
+     */
     public static void changeStage(Stage _newStage) {
         stage = _newStage;
     }
@@ -227,16 +230,8 @@ public class HelloWorld extends Application {
                 HelloWorld.restartApplication("XR3PlayerUpdater", lastVersion);
             }
         } else if (mostrarMensaje) {
-            if (Platform.isFxApplicationThread()) {
-                /*Platform.runLater(() -> /*Platform.runLater(() ->*/
-                ActionTool.showNotification(
-                        rb.getString(ResourceLeng.UPDATE_INFO),
-                        rb.getString(ResourceLeng.UPDATE_INFO_TEXT),
-                        Duration.seconds(10), NotificationType.INFORMATION);//)/*)*/;
-            } else if (SystemTray.isSupported()) { 
-                trayIcon.displayMessage(rb.getString(ResourceLeng.UPDATE_INFO), rb.getString(ResourceLeng.UPDATE_INFO_TEXT), MessageType.INFO);
-//                System.err.println("Estamos en SysTray");
-            }
+            ActionTool.customNotification(rb, ResourceLeng.UPDATE_INFO,
+                    ResourceLeng.UPDATE_INFO_TEXT, Duration.seconds(10), NotificationType.INFORMATION);
             HelloWorld.changeEnable(ResourceLeng.SYS_TRAY_UPDATE, true);
         }
     }
@@ -293,7 +288,17 @@ public class HelloWorld extends Application {
             }
         });
         popup.insert(defaultItem, 0);
-
+        
+        
+        defaultItem = new MenuItem("Testing");
+        defaultItem.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                testNotification();
+            }
+        });
+        popup.insert(defaultItem, 0);
+        
+        
         trayIcon = new TrayIcon(image, rb.getString(ResourceLeng.SYS_TRAY_TOOLTIP), popup);
         trayIcon.addActionListener(new ActionListener() {
 
@@ -377,8 +382,14 @@ public class HelloWorld extends Application {
         }
     }
     
+    public static void testNotification(){
+        System.out.println("jajajaj");
+        ActionTool.customNotification("title", "msj", Duration.seconds(15), NotificationType.INFORMATION);
+    }
     
-    
+    public static TrayIcon getSysTray(){
+        return trayIcon;
+    }
     /**
      * @param args the command line arguments
      */
