@@ -53,7 +53,7 @@ import javax.swing.UIManager;
 public class HelloWorld extends Application {
 
     public static Properties internalInformation = new Properties();
-    public static final int APPLICATION_VERSION = 10;
+    public static final int APPLICATION_VERSION = 11;
 
     static {
         //Important for Web Browser
