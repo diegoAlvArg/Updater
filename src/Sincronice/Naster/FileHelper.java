@@ -34,14 +34,12 @@ public class FileHelper {
      * @param user
      * @param pass
      * @param pathLocal
-     * @return 
-     * -1 - NasTer posiblemente caido 
-     * -2 - Credenciales erroneas 
-     * -3 - Fallo al crear la estructura de sincronizacion
-     * -4 - Fallo no identificado en conexion
+     * @return -1 - NasTer posiblemente caido -2 - Credenciales erroneas -3 -
+     * Fallo al crear la estructura de sincronizacion -4 - Fallo no identificado
+     * en conexion
      *
      */
-    public static int synchronize(String user, String pass, String pathLocal) {
+    public static int synchronize(String user, String pass, String pathLocal, String yyyy) {
 
 //        long time_start, time_end;
 //        time_start = System.currentTimeMillis();
@@ -59,7 +57,26 @@ public class FileHelper {
             }
 
             if (respuesta == 0) {
-                synchronize(new File(pathLocal), url.toString(), true);
+                File source = new File(pathLocal);
+                Set<String> allfiles = new HashSet<String>();
+                for (File auxLocal : source.listFiles()) {
+                    if (auxLocal.getName().contains(yyyy)) {
+                        allfiles.add(auxLocal.getName());
+                    }
+                }
+                for (DavResource auxRemote : sardineCon.list(url.toString())) {
+                    if (auxRemote.getName().contains(yyyy)) {
+                        allfiles.add(auxRemote.getName());
+                    }
+                }
+                File auxfile;
+                String auxName;
+                for (String nameResource : allfiles) {
+                    auxfile = new File(source, nameResource);
+                    auxName = url.toString() + "//" + nameResource.replaceAll(" ", "%20");
+                    synchronize(auxfile, auxName, false);
+                }
+//                synchronize(new File(pathLocal), url.toString(), true);
                 sardineCon.shutdown();
             }
         } catch (SardineException e) {
@@ -193,6 +210,7 @@ public class FileHelper {
             uploadFile(sourceTarget, destinationTarget);
         }
     }
+
     private static void uploadFile(File sourceTarget, String destinationTarget) {
         try (InputStream fis = new FileInputStream(sourceTarget)) {
             sardineCon.put(destinationTarget.replaceAll(" ", "%20"), fis);

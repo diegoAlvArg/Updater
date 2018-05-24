@@ -80,7 +80,7 @@ public class UserInfo {
         List<String> respuesta = new ArrayList<>();
         List<String> list = new ArrayList<>();
         codificador codex = codificador.getInstande();
-
+        
         try (BufferedReader br = Files.newBufferedReader(Paths.get(defaultPath))) {
             list = br.lines().collect(Collectors.toList());
         } catch (IOException e) {
@@ -129,17 +129,22 @@ public class UserInfo {
     /**
      *
      * @return identificador del usuario almacenado.
+     * 
+     * @throws NoSuchFieldException Si en el fichero no esta almacenado el campo deseado
      */
-    public static String getUser() {
+    public static String getUser() throws NoSuchFieldException {
         String respuesta = null;
         try {
             semaphore.acquire();
             List<String> aux = readFile();
             for (String line : aux) {
-                if (line.contains("USER==")) {
+                if (line != null && line.contains("USER==")) {
                     respuesta = line.replaceAll("USER==", "");
                     break;
                 }
+            }
+            if(respuesta == null){
+                throw new NoSuchFieldException();
             }
         } catch (InterruptedException ex) {
 //            Logger.getLogger(UserInfo.class.getName()).log(Level.SEVERE, null, ex);
@@ -181,8 +186,10 @@ public class UserInfo {
     /**
      *
      * @return passwd para Moodle almacenado.
+     * 
+     * @throws NoSuchFieldException Si en el fichero no esta almacenado el campo deseado
      */
-    public static String getPass1() {
+    public static String getPass1() throws NoSuchFieldException {
         String respuesta = null;
         try {
             semaphore.acquire();
@@ -192,6 +199,9 @@ public class UserInfo {
                     respuesta = line.replaceAll("PASS1==", "");
                     break;
                 }
+            }
+            if(respuesta == null){
+                throw new NoSuchFieldException();
             }
         } catch (InterruptedException ex) {
 //            Logger.getLogger(UserInfo.class.getName()).log(Level.SEVERE, null, ex);
@@ -233,8 +243,10 @@ public class UserInfo {
     /**
      *
      * @return passwd para NAS-TER almacenado.
+     * 
+     * @throws NoSuchFieldException Si en el fichero no esta almacenado el campo deseado
      */
-    public static String getPass2() {
+    public static String getPass2() throws NoSuchFieldException {
         String respuesta = null;
         try {
             semaphore.acquire();
@@ -245,10 +257,14 @@ public class UserInfo {
                     break;
                 }
             }
+            if(respuesta == null){
+                throw new NoSuchFieldException();
+            }
         } catch (InterruptedException ex) {
-            Logger.getLogger(UserInfo.class.getName()).log(Level.SEVERE, null, ex);
+//            Logger.getLogger(UserInfo.class.getName()).log(Level.SEVERE, null, ex);
         } finally {
             semaphore.release();
+            System.err.println("Pass2 " + respuesta);
             return respuesta;
         }
     }
@@ -285,8 +301,10 @@ public class UserInfo {
     /**
      *
      * @return path de descarga almacenado en el fichero.
+     * 
+     * @throws NoSuchFieldException Si en el fichero no esta almacenado el campo deseado
      */
-    public static String getPath() {
+    public static String getPath() throws NoSuchFieldException{
         String respuesta = null;
         try {
             semaphore.acquire();
@@ -296,6 +314,9 @@ public class UserInfo {
                     respuesta = line.replaceAll("PATH==", "");
                     break;
                 }
+            }
+            if(respuesta == null){
+                throw new NoSuchFieldException();
             }
         } catch (InterruptedException ex) {
 //            Logger.getLogger(UserInfo.class.getName()).log(Level.SEVERE, null, ex);
@@ -425,7 +446,9 @@ public class UserInfo {
             semaphore.acquire();
             list = readFile();
             for (String data : list) {
-                if (data.contains("USER==")) {
+                if(data == null){
+                    throw new Exception();
+                }else if (data.contains("USER==")) {
                     aux = data.replaceAll("USER==", "");
                     respuesta.set(0, aux);
                 } else if (data.contains("PASS1==")) {
@@ -453,6 +476,15 @@ public class UserInfo {
         } finally {
             semaphore.release();
             return respuesta;
+        }
+    }
+
+    public static void deleteFile(){
+        try {
+            Path pathfile = Paths.get(defaultPath);
+            Files.deleteIfExists(pathfile);
+        } catch (IOException ex) {
+//            Logger.getLogger(UserInfo.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 }

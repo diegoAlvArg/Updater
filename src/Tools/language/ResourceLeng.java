@@ -75,7 +75,7 @@ public class ResourceLeng extends BasicLeng {
     public final static String ASK_FIELD_PATH = "ask_field_path";
 
     public final static String MESSAGE_TITLE = "message_title";
-    public final static String MESSAGE_INFO_MOODLE = "message_info_moodle";
+    
     public final static String MESSAGE_TITLE_MOODLE_DOWN = "message_title_moodle_down";
     public final static String MESSAGE_TITLE_NASTER_DOWN = "message_title_naster_down";
     public final static String MESSAGE_TITLE_FIELD_EMPTY = "message_title_field_empty";
@@ -85,8 +85,10 @@ public class ResourceLeng extends BasicLeng {
     public final static String MESSAGE_INFO_PATH_REJECT = "message_info_path_reject";
     
     public final static String MESSAGE_TITLE_MOODLE_REJECT = "message_title_moodle_reject";
+    public final static String MESSAGE_INFO_MOODLE_REJECT = "message_info_moodle_reject";
+//    public final static String MESSAGE_INFO_MOODLE_REJECT = "message_info_moodle_reject";
     public final static String MESSAGE_TITLE_NASTER_REJECT = "message_title_naster_reject";
-    public final static String MESSAGE_INFO_REJECT = "message_info_reject";
+    public final static String MESSAGE_INFO_NASTER_REJECT = "message_info_naster_reject";
 
     public final static String LABEL_PATH_DOWNLOAD = "label_path_download";
     public final static String LABEL_NEXT_UPDATE = "label_next_update";
@@ -103,6 +105,8 @@ public class ResourceLeng extends BasicLeng {
     public final static String TOOLTIP_EDITUSER = "tooltip_edituser";
     public final static String TOOLTIP_SETTIME = "tooltip_settime";
     public final static String NONE = "none";
+    public final static String ERROR_DATA_TITLE = "error_data_title";
+    public final static String ERROR_DATA_TEXT = "error_data_text";
     //**********TAB OptionAyuda****************************************************************
     public final static String TAB_HELP = "tab_help";
     public final static String BUTTON_UPDATE = "btt_update";
@@ -143,4 +147,10 @@ public class ResourceLeng extends BasicLeng {
     public final static String TRACE_TREE_ERROR = "trace_tree_error";
     public final static String TRACE_LANGUAGE_UNKNOW = "trace_language_unknow";
     public final static String TRACE_LANGUAGE_OK = "trace_language_ok";
+    public final static String TRACE_END_APP = "trace_end_app";
+    public final static String TRACE_END_SYSTRAY = "trace_end_systray";
+    public final static String TRACE_USE_SYSTRAY = "trace_use_systray";
+    public final static String TRACE_ERROR_DATES_CORRUPT = "trace_error_dates_corrupt";
+    public final static String TRACE_TIMER_END = "trace_timer_end";
+    public final static String TRACE_TIMER_LATE = "trace_timer_late";
 }

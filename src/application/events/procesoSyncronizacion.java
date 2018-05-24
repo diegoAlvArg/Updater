@@ -12,6 +12,7 @@ import javafx.concurrent.Task;
 import org.apache.http.client.ClientProtocolException;
 import Sincronice.Moodle.init.Opciones;
 import Sincronice.Moodle.init.Opciones;
+import java.time.LocalDate;
 
 /**
  *
@@ -25,7 +26,7 @@ import Sincronice.Moodle.init.Opciones;
  *
  * @version 1.0 El hilo creado lanzara una sincronizacion total contra Moodle.
  * @version 1.1 Se ha aniado la posibilidad de sincronizar con Nas-ter.
- * 
+ *
  * @see Doc Services Javafx
  */
 public class procesoSyncronizacion {
@@ -42,7 +43,7 @@ public class procesoSyncronizacion {
      * @param user identificador del usuario con el que logeamos
      * @param pass1 passwd del usuario con el que logeamos en moodle
      * @param pass2 passwd del usuario con el que logeamos en NASTER
-     * @param pathDowload path del local sobre el que realizaremos la
+     * @param pathDownload path del local sobre el que realizaremos la
      * sincronizacion
      * @param rb resourceBundle con los mensajes susceptibles a cambio de idioma
      * @param iuControl clase que maneja el control de la IU
@@ -50,8 +51,8 @@ public class procesoSyncronizacion {
      *
      *
      */
-    public procesoSyncronizacion(String user, String pass1, String pass2, String pathDowload, ResourceBundle rb, InterfaceController iuControl, boolean useNas) {
-        launchTread(user, pass1, pass2, pathDowload, rb, iuControl, useNas);
+    public procesoSyncronizacion(String user, String pass1, String pass2, String pathDownload, ResourceBundle rb, InterfaceController iuControl, boolean useNas) {
+        launchTread(user, pass1, pass2, pathDownload, rb, iuControl, useNas);
     }
 
     /**
@@ -80,7 +81,7 @@ public class procesoSyncronizacion {
             if (_user != null && _pass1 != null && _path != null && (pass2 != null || _useNas)) {
                 try {
                     if (_useNas) {
-                        FileHelper.synchronize(user, pass2, pathDowload);
+                        FileHelper.synchronize(user, pass2, pathDowload, currentYear());
                         // Creo que segun RQ hay que tratar de difernete forma
                     }
                     Opciones.realizarActualizacionTotal(_user, _pass1, currentYear(), _path, _iu);
@@ -101,7 +102,7 @@ public class procesoSyncronizacion {
                     }
 //                _iu.syncroEnd();
                 }
-            }else{
+            } else {
                 _iu.wrongDates();
             }
 
@@ -114,6 +115,15 @@ public class procesoSyncronizacion {
      * @return
      */
     private String currentYear() {
-        return "(2016-2017)";
+        String respuesta = "";
+        LocalDate today = LocalDate.now();
+        LocalDate mark = LocalDate.of(today.getYear(), 9, 5); //Inicio de las matriculaciones 05/09/yyyy
+        if (today.isAfter(mark)) {
+            respuesta = "(" + today.getYear() + "-" + today.getYear() + 1 + ")";
+        } else {
+            respuesta = "(" + (today.getYear() - 1) + "-" + today.getYear() + ")";
+        }
+        return respuesta;
+        //        return "(2016-2017)";     //Test mode
     }
 }

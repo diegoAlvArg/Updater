@@ -1,10 +1,11 @@
-package application.events;
+package zzParaBorrar;
 
 import Updater.tools.ActionTool;
 import Updater.tools.NotificationType;
 import Tools.language.ResourceLeng;
 import application.HelloWorld;
 import application.InterfaceController;
+import application.events.validator;
 import com.github.sardine.Sardine;
 import com.github.sardine.SardineFactory;
 import com.github.sardine.impl.SardineException;
@@ -44,79 +45,26 @@ import org.jsoup.nodes.Document;
  *
  * @author Usuario
  */
-public class eventUser extends Service<Void> {
+public class eventUser_copia1 extends Task<Void> {
 
-    private String user = "";
-    private String pass1 = "";
-    private String pass2 = "";
+    private String user;
+    private String pass1;
+    private String pass2;
     private ResourceBundle rb;
     private boolean askPath;
     private InterfaceController iu;
 
-    public void setIu(InterfaceController iu) {
+    public eventUser_copia1(String user, String pass1, String pass2, ResourceBundle rb, boolean askPath, InterfaceController iu) {
+        this.user = user;
+        this.pass1 = pass1;
+        this.pass2 = pass2;
+        this.rb = rb;
+        this.askPath = askPath;
         this.iu = iu;
     }
 
-    public void setUser(String user) {
-        this.user = user;
-    }
-
-    public void setPass1(String pass) {
-        this.pass1 = pass;
-    }
-
-    public void setRb(ResourceBundle rb) {
-        this.rb = rb;
-    }
-
-    public void setAskPath(boolean askPath) {
-        this.askPath = askPath;
-    }
-
-    public void setPass2(String pass2) {
-        this.pass2 = pass2;
-    }
-
-    @Override
-    protected Task<Void> createTask() {
-        final String _user = user;
-        final String _pass1 = pass1;
-        final String _pass2 = pass2;
-        final ResourceBundle _rb = rb;
-        final boolean _askPath = askPath;
-        final InterfaceController _iu = iu;
-
-        return new Task<Void>() {
-
-            @Override
-            protected Void call() {
-
-//                System.err.println("eyyyyyyyyyyyyyyyyyy");
-                Platform.runLater(new Runnable() {
-                    @Override
-
-                    public void run() {
-                        List<String> auxList = askCredentials(_rb, _user, _pass1, _pass2, "", _askPath, false);
-                        auxList = validateUser(auxList, _askPath, _iu);
-
-                        if (auxList != null) {
-//                            rb = HelloWorld.getResource();
-                            ActionTool.customNotification(ResourceLeng.MESSAGE_TITLE_DATES_OK,
-                                    ResourceLeng.NONE, Duration.seconds(15), NotificationType.INFORMATION);
-//                            Platform.runLater(() -> Platform.runLater(()
-//                                    -> ActionTool.showNotification(rb.getString(ResourceLeng.MESSAGE_TITLE_DATES_OK),
-//                                            "",
-//                                            Duration.seconds(15), NotificationType.INFORMATION)));
-                        }
-                        _iu.setUserInfo(auxList, _askPath);
-                    }
-                });
-                return null;
-            }
-        };
-    }
-
     private List<String> askCredentials(ResourceBundle rb, String duser, String dpass1, String dpass2, String dpath, boolean showPath, boolean usingNas) {
+
         // Create the custom dialog.
         Dialog<List<String>> dialog = new Dialog<>();
         if (showPath) {
@@ -147,12 +95,12 @@ public class eventUser extends Service<Void> {
         Tooltip tooltip = new Tooltip(rb.getString(ResourceLeng.ASK_TOOLTIP_NASTER));
         tooltip.setFont(new Font("System", 13));
         useNas.setTooltip(tooltip);
-        useNas.selectedProperty().addListener(new ChangeListener<Boolean>(){
+        useNas.selectedProperty().addListener(new ChangeListener<Boolean>() {
             @Override
             public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) {
                 password2.setDisable(!newValue);
             }
-            
+
         });
         password2.setDisable(!usingNas);
 //--------------------------------------------------------------------------------------------------------------------
@@ -208,7 +156,7 @@ public class eventUser extends Service<Void> {
                 respuesta.add(password1.getText());
                 respuesta.add(password2.getText());
                 respuesta.add(path.getText());
-                respuesta.add(useNas.isSelected());
+                respuesta.add(String.valueOf(useNas.isSelected()));
 //                return new List<String>(username.getText(), password2.getText());
             }
             return respuesta;
@@ -247,17 +195,17 @@ public class eventUser extends Service<Void> {
                 estados[0] = validateCredentialsMoodle(auxList.get(0), auxList.get(1));
             }
             //Comprobar NAS-TER
-            if(Boolean.parseBoolean(auxList.get(4))){
+            if (Boolean.parseBoolean(auxList.get(4))) {
                 if (!auxList.get(0).isEmpty() && !auxList.get(2).isEmpty()) {
-                    
+
                     estados[1] = validateCredentialsNaster(auxList.get(0), auxList.get(1));
-                }else{
+                } else {
                     estados[1] = 0;
                 }
-            }else{
+            } else {
                 estados[1] = 3; // por ahora para alante
             }
-            
+
             //Comprobar permisos lectura
             if (checkPath && !auxList.get(3).isEmpty()) {
 
@@ -285,11 +233,11 @@ public class eventUser extends Service<Void> {
                 askAgain = false;
                 auxList.set(1, "");
                 ActionTool.customNotification(rb, ResourceLeng.MESSAGE_TITLE_MOODLE_REJECT,
-                        ResourceLeng.MESSAGE_INFO_REJECT, Duration.seconds(15),
+                        ResourceLeng.MESSAGE_INFO_NASTER_REJECT, Duration.seconds(15),
                         NotificationType.ERROR);
 //                Platform.runLater(() -> Platform.runLater(()
 //                        -> ActionTool.showNotification(rb.getString(ResourceLeng.MESSAGE_TITLE_MOODLE_REJECT),
-//                                rb.getString(ResourceLeng.MESSAGE_INFO_REJECT),
+//                                rb.getString(ResourceLeng.MESSAGE_INFO_NASTER_REJECT),
 //                                Duration.seconds(15), NotificationType.ERROR)));
             }
             if (estados[1] == 1) {
@@ -310,16 +258,16 @@ public class eventUser extends Service<Void> {
                     //  usuario tiene altas probabilidades de estar mal
                     auxList.set(0, "");
                     auxList.set(2, "");
-                } else if(Boolean.parseBoolean(auxList.get(4))){
+                } else if (Boolean.parseBoolean(auxList.get(4))) {
                     //Si solo NASTER rechazo conexion la contraseña de NASTER esta mal
                     auxList.set(2, "");
                 }
                 ActionTool.customNotification(rb, ResourceLeng.MESSAGE_TITLE_NASTER_REJECT,
-                        ResourceLeng.MESSAGE_INFO_REJECT, Duration.seconds(15),
+                        ResourceLeng.MESSAGE_INFO_NASTER_REJECT, Duration.seconds(15),
                         NotificationType.ERROR);
 //                Platform.runLater(() -> Platform.runLater(()
 //                        -> ActionTool.showNotification(rb.getString(ResourceLeng.MESSAGE_TITLE_NASTER_REJECT),
-//                                rb.getString(ResourceLeng.MESSAGE_INFO_REJECT),
+//                                rb.getString(ResourceLeng.MESSAGE_INFO_NASTER_REJECT),
 //                                Duration.seconds(15), NotificationType.ERROR)));
             }
 
@@ -386,14 +334,14 @@ public class eventUser extends Service<Void> {
         } catch (IOException ex) {
             // Se rechazo por un TimeOut lo que significa que moodle esta caido
         } finally {
-//            System.err.println("\tReturnning " + respuesta);
+            System.err.println("\tReturnning " + respuesta);
 //            System.err.println("\tTitle " + title);
             return respuesta;
         }
     }
 
     /**
-     * 
+     *
      * @param user
      * @param pass
      * @return 1-NasTer caido, 2- credenciales erroneas, 3- credenciales Ok
@@ -408,12 +356,37 @@ public class eventUser extends Service<Void> {
         } catch (SardineException e) {
             // puede deberse a credenciales erroneas, o que el usuario no este 
             //  dado de alta (no podemos saber)
-           respuesta = 2;
+            respuesta = 2;
         } catch (IOException e) {
             // Salta el timeOut, parece que no se extablece la conexion
             respuesta = 1;
         } finally {
             return respuesta;
         }
+    }
+
+    @Override
+    protected Void call() throws Exception {
+        Platform.runLater(() -> {
+//            @Override
+////
+//            public void run() {
+
+            List<String> auxList = askCredentials(rb, user, pass1, pass2, "", askPath, false);
+            auxList = validateUser(auxList, askPath, iu);
+
+            if (auxList != null) {
+//                            rb = HelloWorld.getResource();
+                ActionTool.customNotification(ResourceLeng.MESSAGE_TITLE_DATES_OK,
+                        ResourceLeng.NONE, Duration.seconds(15), NotificationType.INFORMATION);
+//                            Platform.runLater(() -> Platform.runLater(()
+//                                    -> ActionTool.showNotification(rb.getString(ResourceLeng.MESSAGE_TITLE_DATES_OK),
+//                                            "",
+//                                            Duration.seconds(15), NotificationType.INFORMATION)));
+            }
+            iu.setUserInfo(auxList, askPath);
+//            }
+        });
+        return null;
     }
 }

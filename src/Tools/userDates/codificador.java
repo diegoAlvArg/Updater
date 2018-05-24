@@ -93,6 +93,7 @@ public class codificador {
             cipher.init(Cipher.DECRYPT_MODE, secretKey);
             return new String(cipher.doFinal(Base64.getDecoder().decode(strToDecrypt)));
         } catch (Exception e) {
+            e.printStackTrace();
             System.out.println("Error while decrypting: " + e.toString());
         }
         return null;

@@ -38,6 +38,7 @@ import java.awt.event.*;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.net.URL;
+import java.util.logging.LogRecord;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.event.EventHandler;
@@ -52,7 +53,7 @@ import javax.swing.UIManager;
 public class HelloWorld extends Application {
 
     public static Properties internalInformation = new Properties();
-    public static final int APPLICATION_VERSION = 9;
+    public static final int APPLICATION_VERSION = 10;
 
     static {
         //Important for Web Browser
@@ -77,7 +78,6 @@ public class HelloWorld extends Application {
         System.out.println(ResourceLeng.APP_INIT);
         Scene scene;
 //        update = howIsLastUpdate();
-//        System.out.println("Last " + update);
         actualizarVersion(false);
 //        if (update > (int) internalInformation.get("Version")) {
 //            FXMLLoader loader = new FXMLLoader(getClass().getResource("/Resources/fxml/askUpdate.fxml"));
@@ -129,7 +129,8 @@ public class HelloWorld extends Application {
         primaryStage.show();
         primaryStage.setOnCloseRequest(event -> {
 //            System.err.println("cerrando esto");
-            System.exit(0);
+            Platform.exit();
+//            System.exit(0);
         });
         stage = primaryStage;
     }
@@ -168,7 +169,7 @@ public class HelloWorld extends Application {
             String[] applicationPath = {new File(path + appName + ".jar").getAbsolutePath()};
             //Show message that application is restarting
             try {
-                System.out.println(appName + " Path is : " + applicationPath[0]);
+//                System.out.println(appName + " Path is : " + applicationPath[0]);
 
                 //Create a process builder
                 ProcessBuilder builder = new ProcessBuilder("java", "-jar", applicationPath[0], String.valueOf(version));
@@ -179,12 +180,12 @@ public class HelloWorld extends Application {
 
                 // Continuously Read Output to check if the main application started
                 String line;
-                System.out.println("CHECKING is alive");
+//                System.out.println("CHECKING is alive");
                 String mark_OK = ResourceLeng.APP_UPDATER_INIT;
                 String mark_ERROR = ResourceLeng.ERROR;
                 while (process.isAlive()) {
                     while ((line = bufferedReader.readLine()) != null) {
-                        System.out.println("LINE: " + line);
+//                        System.out.println("LINE: " + line);
                         if (line.isEmpty()) {
                             break;
                         } else if (line.contains(mark_OK)) {
@@ -200,7 +201,7 @@ public class HelloWorld extends Application {
                 }
 
             } catch (IOException | InterruptedException ex) {
-                Logger.getLogger(HelloWorld.class.getName()).log(Level.INFO, null, ex);
+//                Logger.getLogger(HelloWorld.class.getName()).log(Level.INFO, null, ex);
 
                 // Show failed message
                 Platform.runLater(() -> Platform.runLater(() -> ActionTool.showNotification("Starting " + appName + " failed",
@@ -259,7 +260,9 @@ public class HelloWorld extends Application {
         Image image = (new ImageIcon(imageURL)).getImage();//Toolkit.getDefaultToolkit().getImage("./logo_moodle.png");
         ActionListener exitListener = new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-//                System.out.println("Exiting....");
+                LogRecord logRegistro = new LogRecord(Level.INFO, rb.getString(ResourceLeng.TRACE_END_SYSTRAY));
+                logRegistro.setSourceClassName(this.getClass().getName());
+                LoggGen.log(logRegistro);
                 System.exit(0);
             }
         };
@@ -320,6 +323,15 @@ public class HelloWorld extends Application {
         });
         trayIcon.setImageAutoSize(true);
     }
+    /**
+     * 
+     * @param control
+     * @param methodName
+     * @param textLabel 
+     * 
+     * @see https://docs.oracle.com/javase/8/docs/api/java/lang/Class.html#getMethod-java.lang.String-java.lang.Class...-
+     * @see https://docs.oracle.com/javase/8/docs/api/java/lang/reflect/Method.html#invoke-java.lang.Object-java.lang.Object...-
+     */
     public static void addOptionPopup(Object control, String methodName, String textLabel) {
         boolean isnew = true;
         MenuItem auxItem;
@@ -333,18 +345,24 @@ public class HelloWorld extends Application {
             defaultItem.addActionListener(new ActionListener() {
                 public void actionPerformed(ActionEvent e) {
                     try {
+                        LogRecord logRegistro = new LogRecord(Level.INFO, String.format(
+                                rb.getString(ResourceLeng.TRACE_USE_SYSTRAY),
+                                rb.getString(textLabel), textLabel));
+                        logRegistro.setSourceClassName("SystemTray");
+                        LoggGen.log(logRegistro);
+                        
                         final Method method = control.getClass().getMethod(methodName);
                         method.invoke(control);
                     } catch (NoSuchMethodException ex) {
-                        Logger.getLogger(HelloWorld.class.getName()).log(Level.SEVERE, null, ex);
+//                        Logger.getLogger(HelloWorld.class.getName()).log(Level.SEVERE, null, ex);
                     } catch (SecurityException ex) {
-                        Logger.getLogger(HelloWorld.class.getName()).log(Level.SEVERE, null, ex);
+//                        Logger.getLogger(HelloWorld.class.getName()).log(Level.SEVERE, null, ex);
                     } catch (IllegalAccessException ex) {
-                        Logger.getLogger(HelloWorld.class.getName()).log(Level.SEVERE, null, ex);
+//                        Logger.getLogger(HelloWorld.class.getName()).log(Level.SEVERE, null, ex);
                     } catch (IllegalArgumentException ex) {
-                        Logger.getLogger(HelloWorld.class.getName()).log(Level.SEVERE, null, ex);
+//                        Logger.getLogger(HelloWorld.class.getName()).log(Level.SEVERE, null, ex);
                     } catch (InvocationTargetException ex) {
-                        Logger.getLogger(HelloWorld.class.getName()).log(Level.SEVERE, null, ex);
+//                        Logger.getLogger(HelloWorld.class.getName()).log(Level.SEVERE, null, ex);
                     }
                 }
             });
@@ -390,6 +408,15 @@ public class HelloWorld extends Application {
     public static TrayIcon getSysTray(){
         return trayIcon;
     }
+    
+    @Override
+    public void stop(){
+        LogRecord logRegistro = new LogRecord(Level.INFO, rb.getString(ResourceLeng.TRACE_END_APP));
+        logRegistro.setSourceClassName(this.getClass().getName());
+        LoggGen.log(logRegistro);
+    }
+    
+    
     /**
      * @param args the command line arguments
      */

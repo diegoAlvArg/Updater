@@ -180,10 +180,12 @@ public final class ActionTool {
     }
     private static void notificationWarning(String title, String text, Duration d) {
         if (Platform.isFxApplicationThread()) {
+            System.err.println("\tYes");
             Platform.runLater(()
                     -> ActionTool.showNotification(
                             title, text, d, NotificationType.WARNING));
         } else if (SystemTray.isSupported()) {
+            System.err.println("\tNO");
             TrayIcon trayIcon = HelloWorld.getSysTray();
             trayIcon.displayMessage(title, text, TrayIcon.MessageType.WARNING);
         }

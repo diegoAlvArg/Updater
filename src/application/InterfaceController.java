@@ -43,15 +43,17 @@ import javafx.stage.DirectoryChooser;
 import javafx.util.Duration;
 import javafx.util.StringConverter;
 import application.events.validator;
-import application.events.eventUser;
+import application.events.eventUser_semaphore;
 import application.events.procesoSyncronizacion;
 import java.util.HashMap;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.CheckBoxTreeItem;
 import Sincronice.moodle.tree.TypeNode;
+import zzParaBorrar.eventUser;
 import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.util.logging.LogRecord;
+import javafx.concurrent.Task;
 
 /**
  * FXML Controller class
@@ -160,17 +162,24 @@ public class InterfaceController implements Initializable {
             initializationUserLoad(false, "", "");
             logRegistro = new LogRecord(Level.INFO, rb.getString(ResourceLeng.TRACE_USER_NO));
         } else {
-            initializationUserLoad(true, UserInfo.getUser(), UserInfo.getPath());
-            setNextUpdate();
+            try{
+                initializationUserLoad(true, UserInfo.getUser(), UserInfo.getPath());
+                setNextUpdate();
 
-            TreeItem<BookCategory> rootItem = new TreeItem<BookCategory>();
-            TListUpdates.setRoot(rootItem);
-            logRegistro = new LogRecord(Level.INFO, rb.getString(ResourceLeng.TRACE_USER_OK));
+                TreeItem<BookCategory> rootItem = new TreeItem<BookCategory>();
+                CBNaster.setSelected(UserInfo.getUseNas());
+                TListUpdates.setRoot(rootItem);
+                logRegistro = new LogRecord(Level.INFO, rb.getString(ResourceLeng.TRACE_USER_OK));
+            }catch(NoSuchFieldException e){
+                
+            }
         }
-        logRegistro.setSourceClassName(this.getClass().getName());
-        LoggGen.log(logRegistro);
+        if(logRegistro != null){
+            logRegistro.setSourceClassName(this.getClass().getName());
+            LoggGen.log(logRegistro);
+   
+        }
     }
-
     /**
      * Inicializa la treeView y le aniade un listener. Esto se podria hacer con 
      *  el Scene builder o ha pelo pero no se.
@@ -327,6 +336,9 @@ public class InterfaceController implements Initializable {
         }
     }
 
+    /**
+     * Inicializa los spinner, dando un valor inicial y añadiendole reglas "logicas"
+     */
     private void initializeSpinners() {
         SpinnerValueFactory.IntegerSpinnerValueFactory horasFactory = new SpinnerValueFactory.IntegerSpinnerValueFactory(-1, 23, 0);
         horasFactory.setConverter(new StringConverter<Integer>() {
@@ -358,11 +370,8 @@ public class InterfaceController implements Initializable {
             @Override
             public Integer fromString(String string) {
                 Integer respuesta = 0;
-//                int current = (int) minutesSpinner.getValue();
                 if (!string.isEmpty() && string.chars().allMatch(Character::isDigit)) {
                     respuesta = Integer.valueOf(string);
-//                    System.err.println("New valor: " + respuesta);
-//                    System.err.println("Current valor: " + current);
                 }
                 return respuesta;
             }
@@ -397,6 +406,13 @@ public class InterfaceController implements Initializable {
             }
         });
     }
+    /**
+     * Activa o desactiva items segun la carga de usuario sea correcta o no.
+     *  
+     * @param user
+     * @param userId
+     * @param path 
+     */
     private void initializationUserLoad(boolean user, String userId, String path) {
         if (!user) {
             TTabpane.getSelectionModel().select(OptionConfig);
@@ -407,8 +423,8 @@ public class InterfaceController implements Initializable {
             try (InputStream op = iconUrl.openStream()) {
                 IUserIcon.setImage(new Image(op));
             } catch (IOException ex) {
-                Logger.getLogger(InterfaceController.class
-                        .getName()).log(Level.SEVERE, null, ex);
+//                Logger.getLogger(InterfaceController.class
+//                        .getName()).log(Level.SEVERE, null, ex);
             }
             LIdUser.setText(userId);
             LPathApplication.setText(path);
@@ -447,47 +463,73 @@ public class InterfaceController implements Initializable {
         CBNaster.setVisible(user);
     }
 
+    /**
+     * Tratara el evento generado pro el usuario en relacion a crear un nuevo
+     *  "perfil" de usuario.
+     * 
+     * @param event 
+     */
     public void createNewUser(ActionEvent event) {
-        eventUser service = new eventUser();
-        service.setRb(HelloWorld.getResource());
-        service.setIu(this);
-        service.setAskPath(true);
-        service.start();
+        new eventUser_semaphore("", "", "", false, HelloWorld.getResource(), true, this);
         BNewUser.setDisable(true);
     }
+    /**
+     * Tratara el evento generado por el usuario en relacion a editar un "
+     *  "perfil" de usuario. Dicho evento pondra en pausa el Timer para la 
+     *  siguiente actualizacion.
+     * 
+     * @param event 
+     */
     public void editUser(ActionEvent event) {
-        eventUser service = new eventUser();
-        service.setRb(HelloWorld.getResource());
-        service.setIu(this);
-        service.setUser(UserInfo.getUser());
-        service.setPass1(UserInfo.getPass1());
-        service.setPass2(UserInfo.getPass2());
-        service.setAskPath(false);
-
-        service.start();
-        if (freqSecuence != null) {
-            freqSecuence.pause();
+        try{
+            new eventUser_semaphore(UserInfo.getUser(), UserInfo.getPass1(), UserInfo.getPass2(),
+                    UserInfo.getUseNas(), HelloWorld.getResource(), false, this);
+            if (freqSecuence != null) {
+                freqSecuence.pause();
+            }
+            BEditUser.setDisable(true);
+        }catch(NoSuchFieldException e){
+            wrongDates();
         }
-        BEditUser.setDisable(true);
     }
+    /**
+     * Metodo que maneja el fin de los eventos edit/new User reactivara/creara 
+     *  el Timer para la siguiente actualizacion.y en caso de que el usuario 
+     *  complete los eventos guardara los datos resultantes.
+     * 
+     * @param dates
+     * @param isnew 
+     */
     public void setUserInfo(List<String> dates, boolean isnew) {
-        if (dates != null && isnew) {
-            UserInfo.createFile(dates.get(0), dates.get(1), dates.get(2), dates.get(3), dates.get(4));
-            initializationUserLoad(true, dates.get(0), dates.get(3));
-        } else if (dates != null) {
-            UserInfo.createFile(dates.get(0), dates.get(1), dates.get(2), UserInfo.getPath(), dates.get(4));
-            LIdUser.setText(dates.get(0));
-        }
+        try{
+            if (dates != null && isnew) {
+                UserInfo.createFile(dates.get(0), dates.get(1), dates.get(2), dates.get(3), String.valueOf(dates.get(4)));
+                initializationUserLoad(true, dates.get(0), dates.get(3));
+                CBNaster.setSelected(Boolean.parseBoolean(dates.get(4)));
+            } else if (dates != null) {
+                UserInfo.createFile(dates.get(0), dates.get(1), dates.get(2), UserInfo.getPath(), String.valueOf(dates.get(4)));
+                LIdUser.setText(dates.get(0));
+                CBNaster.setSelected(Boolean.parseBoolean(dates.get(4)));
+            }
 
-        BEditUser.setDisable(false);
-        BNewUser.setDisable(false);
-        if (freqSecuence != null) {
-            resumeUpdate();
-        } else if (dates != null && freqSecuence == null) {
-            setNextUpdate();
+            BEditUser.setDisable(false);
+            BNewUser.setDisable(false);
+            if (freqSecuence != null) {
+                resumeUpdate();
+            } else if (dates != null && freqSecuence == null) {
+                setNextUpdate();
+            }
+        }catch(NoSuchFieldException e){
+            wrongDates();
         }
     }
-
+    
+    /**
+     * Establece un Timer "alarma" segun los valores de los Spinner y 
+     *  la hora actual a los 00 segundos; para el Timer que aun estubiera establecido. 
+     * 
+     * 
+     */
     public void setNextUpdate() {
         if (freqSecuence != null) {
             freqSecuence.stop();
@@ -495,7 +537,7 @@ public class InterfaceController implements Initializable {
         }
         int minutos = (int) minutesSpinner.getValue();
         int horas = (int) hourSpinner.getValue();
-//        int segundos = 0;
+        
         momentoSigAct = Calendar.getInstance();
         Calendar momentoActual = (Calendar) momentoSigAct.clone();
         momentoSigAct.add(Calendar.MINUTE, minutos);
@@ -504,23 +546,15 @@ public class InterfaceController implements Initializable {
 
         ResourceBundle rb = HelloWorld.getResource();
         setNextUpdateLabel(rb, momentoActual);
-//        String dayTime;
-//        if (momentoActual.get(Calendar.DAY_OF_MONTH) == momentoSigAct.get(Calendar.DAY_OF_MONTH)) {
-//            dayTime = rb.getString(ResourceLeng.DAY_TODAY);
-//        } else {
-//            dayTime = rb.getString(ResourceLeng.DAY_TOMORROW);
-//        }
-//        String line = rb.getString(ResourceLeng.NEXT_TIME_SEED);
-//        line = String.format(line, dayTime);//, momentoSigAct.get(Calendar.HOUR_OF_DAY), momentoSigAct.get(Calendar.MINUTE));
-//        SimpleDateFormat sdf = new SimpleDateFormat("HH:mm");
-//        line += sdf.format(momentoSigAct.getTime());
-//        LTimeUpdate.setText(line);
+
         long diff = momentoSigAct.getTime().getTime() - momentoActual.getTime().getTime();
         freqSecuence = new Timeline(new KeyFrame(
                 Duration.seconds(diff / 1000), new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
-//                System.out.println("this is called every 5 seconds on UI thread");
+                LogRecord logRegistro = new LogRecord(Level.SEVERE, rb.getString(ResourceLeng.TRACE_TIMER_END));
+                logRegistro.setSourceClassName(this.getClass().getName());
+                LoggGen.log(logRegistro);
                 syncroStart();
             }
         }));
@@ -528,15 +562,22 @@ public class InterfaceController implements Initializable {
         freqSecuence.setCycleCount(1);
         freqSecuence.play();
     }
+    /**
+     * Reactivara el Timer "alarma", en caso de que la "alarma" ya debiera haber 
+     *  saltado lanza el proceso asociado a fin del Timer; en caso contrario 
+     *  recalculara el tiempo que le debiera quedar a la "alarma" 
+     *  y la pone en marcha.
+     */
     private void resumeUpdate() {
-//        System.err.println("ajustando tiempo");
         Calendar momentoActual = Calendar.getInstance();
         if (momentoActual.after(momentoSigAct)) {
-            System.err.println("El arroz que se pasa");
             // Paso el momento de la alarma, sincronizamos ya
+            LogRecord logRegistro = new LogRecord(Level.SEVERE, HelloWorld.getResource().getString(ResourceLeng.TRACE_TIMER_LATE));
+            logRegistro.setSourceClassName(this.getClass().getName());
+            LoggGen.log(logRegistro);
             syncroStart();
         } else {
-            System.err.println("ajustando tiempo");
+//            System.err.println("ajustando tiempo");
             // Calcular cuanto tiempo estuvimos parados y poner nueva
             freqSecuence.stop();
             long diff = momentoSigAct.getTime().getTime() - momentoActual.getTime().getTime();
@@ -544,7 +585,9 @@ public class InterfaceController implements Initializable {
                     Duration.seconds(diff / 1000), new EventHandler<ActionEvent>() {
                 @Override
                 public void handle(ActionEvent event) {
-                    System.out.println("this is called every 5 seconds on UI thread");
+                    LogRecord logRegistro = new LogRecord(Level.SEVERE, HelloWorld.getResource().getString(ResourceLeng.TRACE_TIMER_END));
+                    logRegistro.setSourceClassName(this.getClass().getName());
+                    LoggGen.log(logRegistro);
                     syncroStart();
                 }
             }));
@@ -553,8 +596,14 @@ public class InterfaceController implements Initializable {
             freqSecuence.play();
         }
     }
+    /**
+     * Cambiara la Label informativa de la App para mostrar cuando sera 
+     *  la sigeuinte actualizacion.
+     * 
+     * @param rb resource del idioma
+     * @param now momento actual.
+     */
     private void setNextUpdateLabel(ResourceBundle rb, Calendar now) {
-//        Calendar momentoActual = (Calendar) momentoSigAct.clone();
         String dayTime;
         if (now.get(Calendar.DAY_OF_MONTH) == momentoSigAct.get(Calendar.DAY_OF_MONTH)) {
             dayTime = rb.getString(ResourceLeng.DAY_TODAY);
@@ -569,27 +618,22 @@ public class InterfaceController implements Initializable {
     }
 
     /**
-     * @deprecated
+     * Metodo que inicia el proceso de sincronizacion, no asociado al Timer; 
+     *  esto implicara para el Timer.
      */
-    public void showLabelCheck() {
-        System.err.println("show");
-        LCheckDate.setVisible(true);
-    }
-    /**
-     * @deprecated
-     */
-    public void hideLabelCheck() {
-        System.err.println("hide");
-        LCheckDate.setVisible(false);
-
-    }
-
     public void syncroNow() {
         freqSecuence.stop();
-        HelloWorld.changeEnable(ResourceLeng.SYS_TRAY_SYNCRO, false);
         syncroStart();
     }
+    /**
+     * Metodo que iniciara el proceso de sincronizacion. Limpiara el TreeView si
+     *  es la X vez que lanzamos la sincronizaion. 
+     * 
+     * Adenas desactivara las interacciones que puedan lanzar este proceso como 
+     *  los botones de la App o la opcion en el Systray (si lo hubiera)
+     */
     private void syncroStart() {
+        HelloWorld.changeEnable(ResourceLeng.SYS_TRAY_SYNCRO, false);
         BConfirm.setDisable(true);
         BUpdate.setDisable(true);
         BNewUser.setDisable(true);
@@ -602,11 +646,20 @@ public class InterfaceController implements Initializable {
         } else {
             numSyncro++;
         }
+        
         LTimeUpdate.setText(HelloWorld.getResource().getString(ResourceLeng.SYNCRO_NOW));
-        new procesoSyncronizacion(UserInfo.getUser(), UserInfo.getPass1(),
-                UserInfo.getPass2(), UserInfo.getPath(),
-                HelloWorld.getResource(), this, CBNaster.isSelected());
+        try{
+            new procesoSyncronizacion(UserInfo.getUser(), UserInfo.getPass1(),
+                    UserInfo.getPass2(), UserInfo.getPath(),
+                    HelloWorld.getResource(), this, CBNaster.isSelected());
+        }catch(NoSuchFieldException e){
+            wrongDates();
+        }
     }
+    /**
+     * Metodo para manejar el fin del evento de sincronizar, reactivando todo lo
+     *  que este evento hubiera desactivado y estableciendo la sigueinte "alarma"
+     */
     public void syncroEnd() {
         setNextUpdate();
         BConfirm.setDisable(false);
@@ -619,45 +672,64 @@ public class InterfaceController implements Initializable {
 //        HelloWorld.showApp();
     }
 
+    /**
+     * Manejara el evento generado por el usuario para seleccionar un nuevo 
+     *  directorio para que funcione la App, iniciando la navegacion en el path 
+     *  actual. Comprobara que el directorio selecionado se tenga permisos e
+     *  informando en caso contrario; y finalizara guardando el path resultante
+     * 
+     * @param event 
+     */
     public void chooseDirectory(ActionEvent event) {
         File selectedFile = null;
-//        ResourceBundle rb = HelloWorld.getResource();
-        String initialPath = UserInfo.getPath();
-        do {
-            DirectoryChooser directoryChooser = new DirectoryChooser();
-            directoryChooser.setInitialDirectory(new File(initialPath));
-            selectedFile = directoryChooser.showDialog(null);
-            if (validator.checkPermissions(selectedFile.getAbsolutePath())) {
-                initialPath = selectedFile.getAbsolutePath();
-                break;
-            } else {
-                ActionTool.customNotification(ResourceLeng.MESSAGE_TITLE_PATH_REJECT,
+        String initialPath;
+        try{
+            initialPath = UserInfo.getPath();
+            do {
+                DirectoryChooser directoryChooser = new DirectoryChooser();
+                directoryChooser.setInitialDirectory(new File(initialPath));
+                selectedFile = directoryChooser.showDialog(null);
+                if (validator.checkPermissions(selectedFile.getAbsolutePath())) {
+                    initialPath = selectedFile.getAbsolutePath();
+                    break;
+                } else {
+                    ActionTool.customNotification(ResourceLeng.MESSAGE_TITLE_PATH_REJECT,
                         ResourceLeng.MESSAGE_INFO_PATH_REJECT, Duration.seconds(15),
                         NotificationType.ERROR);
-//                Platform.runLater(() -> Platform.runLater(()
-//                        -> ActionTool.showNotification(rb.getString(ResourceLeng.MESSAGE_TITLE_PATH_REJECT),
-//                                rb.getString(ResourceLeng.MESSAGE_INFO_PATH_REJECT),
-//                                Duration.seconds(15), NotificationType.ERROR)));
-            }
+                }
 
-        } while (selectedFile != null);
-        LPathApplication.setText(initialPath);
-        UserInfo.setPath(initialPath);
+            } while (selectedFile != null);
+            LPathApplication.setText(initialPath);
+            UserInfo.setPath(initialPath);
+        }catch(NoSuchFieldException e){
+           wrongDates();
+        }
+        
     }
     
+    /**
+     * Manejara el evento generado por el usuario para activar/desactivar el uso
+     *  de Nas-Ter en la sincronizacion. Comprovando que los datos son corectos
+     * 
+     * @param event 
+     */
     public void useNasTer(ActionEvent event) {
         if(CBNaster.isSelected()){
-            int resultado = eventUser.validateCredentialsNaster(UserInfo.getUser(), UserInfo.getPass2());
+            try{
+            int resultado = eventUser_semaphore.validateCredentialsNaster(UserInfo.getUser(), UserInfo.getPass2());
  
             if (resultado == 2) {
 //                ResourceBundle rb = HelloWorld.getResource();
                 CBNaster.setSelected(false);
                 ActionTool.customNotification(ResourceLeng.MESSAGE_TITLE_NASTER_REJECT,
-                        ResourceLeng.MESSAGE_INFO_REJECT, Duration.seconds(15), NotificationType.WARNING);
+                        ResourceLeng.MESSAGE_INFO_NASTER_REJECT, Duration.seconds(15), NotificationType.WARNING);
             } else {
                 // El caso de naster caido resultado == 1 lo trataremos mas adelante en la syncronizacion
-//                CBNaster.setSelected(true);
                 UserInfo.setUseNas("true");
+            }
+            }catch(NoSuchFieldException e){
+                CBNaster.setSelected(false);
+                wrongDates();
             }
         }else{
             
@@ -666,9 +738,11 @@ public class InterfaceController implements Initializable {
     }
     
     public void wrongDates(){
-        //Mostrar mensajito de fallo con datos
-        freqSecuence.stop();
-        freqSecuence = null;
+        UserInfo.deleteFile();
+        if(freqSecuence != null){
+            freqSecuence.stop();
+            freqSecuence = null;
+        }
         
         OptionInit.setDisable(true);
         // Frecuencia
@@ -682,8 +756,8 @@ public class InterfaceController implements Initializable {
         this.BConfirm.setDisable(true);
         BConfirm.setVisible(false);
         //Edits
-//        this.BEditUser.setDisable(true);
-//        BEditUser.setVisible(false);
+        this.BEditUser.setDisable(true);
+        BEditUser.setVisible(false);
         this.BEditPath.setDisable(true);
         BEditPath.setVisible(false);
         this.LPathApplication.setDisable(true);
@@ -694,21 +768,43 @@ public class InterfaceController implements Initializable {
         this.BUpdate.setDisable(true);
         BUpdate.setVisible(false);
         LCheckDate.setVisible(false);
-
         this.CBNaster.setDisable(true);
         CBNaster.setVisible(false);
+        
+        URL iconUrl = this.getClass().getResource("/Resources/Icons/User_Empty.png");
+        try (InputStream op = iconUrl.openStream()) {
+            IUserIcon.setImage(new Image(op));
+        } catch (IOException ex) {
+//            Logger.getLogger(InterfaceController.class
+//                    .getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        ResourceBundle rb = HelloWorld.getResource();
+        ActionTool.customNotification(rb, ResourceLeng.ERROR_DATA_TITLE, ResourceLeng.ERROR_DATA_TEXT
+                , Duration.seconds(15), NotificationType.ERROR);
+        
+        LogRecord logRegistro = new LogRecord(Level.SEVERE, rb.getString(ResourceLeng.TRACE_ERROR_DATES_CORRUPT));
+        logRegistro.setSourceClassName(this.getClass().getName());
+        LoggGen.log(logRegistro);
     }
 
     //*********************OptionAyuda*********************************************
+    /**
+     * 
+     * Metodo que genera el evento de actualizar la App
+     */
     public void actualizarVersion() {
         HelloWorld.changeEnable(ResourceLeng.SYS_TRAY_UPDATE, false);
         HelloWorld.actualizarVersion(true);
 //        System.err.println("called ok");
     }
 
+    /**
+     * 
+     * @param _text 
+     */
     public void credictContact(Hyperlink _text) {
         String idioma = HelloWorld.getResource().getLocale().getLanguage().toUpperCase();
-//        System.err.println("mailto:" + _text.getText() + "?Subject=["+idioma+"] ");
         HelloWorld.getHostService().showDocument("mailto:" + _text.getText() + "?Subject=[" + idioma + "] ");
         _text.setVisited(false);
     }
@@ -785,4 +881,20 @@ public class InterfaceController implements Initializable {
     public void testmethod() {
         System.err.println("eeeeeeeeeeeee");
     }
+    /**
+     * @deprecated
+     */
+    public void showLabelCheck() {
+        System.err.println("show");
+        LCheckDate.setVisible(true);
+    }
+    /**
+     * @deprecated
+     */
+    public void hideLabelCheck() {
+        System.err.println("hide");
+        LCheckDate.setVisible(false);
+        //El usuario lanzo %s (%s) (TR050)
+    }
+
 }
