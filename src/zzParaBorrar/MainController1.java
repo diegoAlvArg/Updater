@@ -5,6 +5,8 @@
  */
 package zzParaBorrar;
 
+import application.*;
+import zzParaBorrar.*;
 import application.HelloWorld;
 import java.net.URL;
 import java.util.Locale;
@@ -28,9 +30,9 @@ import javafx.application.HostServices;
  * FXML Controller class
  *
  * @author Usuario
- * @deprecated 
+ *
  */
-public class MainController implements Initializable {
+public class MainController1 implements Initializable {
 
     @FXML
     private Label lblText;

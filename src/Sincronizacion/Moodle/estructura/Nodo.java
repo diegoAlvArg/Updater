@@ -1,15 +1,33 @@
-package Sincronice.moodle.tree;
+package Sincronizacion.Moodle.estructura;
 
-//import Util.Logger.LoggSyn;
-import application.InterfaceController;
-import Sincronice.Moodle.init.Opciones;
+//#1 Static import
+import application.controller.InterfaceController;
+import Sincronizacion.Moodle.inicio.OpcionesSyncMoodle;
+import Tools.logger.LogSincronizacion;
+//#3 Third party
+import org.apache.http.client.CookieStore;
+import org.apache.http.client.methods.CloseableHttpResponse;
+import org.apache.http.client.methods.HttpPost;
+import org.apache.http.client.methods.HttpRequestBase;
+import org.apache.http.client.protocol.HttpClientContext;
+import org.apache.http.config.SocketConfig;
+import org.apache.http.HttpEntity;
+import org.apache.http.impl.cookie.BasicClientCookie;
+import org.apache.http.impl.client.BasicCookieStore;
+import org.apache.http.impl.client.CloseableHttpClient;
+import org.apache.http.impl.client.HttpClients;
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
+import org.jsoup.nodes.Element;
+import org.jsoup.select.Elements;
+//#4 Java
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.FileWriter;
-import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.io.IOException;
 import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.net.URI;
@@ -20,44 +38,26 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
 import java.util.logging.Level;
-import java.util.logging.LogRecord;
 import java.util.logging.Logger;
-import org.apache.http.HttpEntity;
-import org.apache.http.client.CookieStore;
-import org.apache.http.client.config.RequestConfig;
-import org.apache.http.client.methods.CloseableHttpResponse;
-import org.apache.http.client.methods.HttpPost;
-import org.apache.http.client.methods.HttpRequestBase;
-import org.apache.http.client.protocol.HttpClientContext;
-import org.apache.http.config.SocketConfig;
-import org.apache.http.conn.HttpHostConnectException;
-import org.apache.http.impl.client.BasicCookieStore;
-import org.apache.http.impl.client.CloseableHttpClient;
-import org.apache.http.impl.client.HttpClients;
-import org.apache.http.impl.cookie.BasicClientCookie;
-import org.jsoup.Jsoup;
-import org.jsoup.nodes.Document;
-import org.jsoup.nodes.Element;
-import org.jsoup.select.Elements;
-import Sincronice.Moodle.tools.LoggSyn;
+import java.util.logging.LogRecord;
 
 /**
  * @author Diego Alvarez
  * @version 1.3
- * 
+ *
  * Clase que forma una estructura arborea representativa del contenido Moodle y
- *  descarga o crea el contenido en replica en el Sistema Local
+ * descarga o crea el contenido en replica en el Sistema Local
  */
-public class Node {
+public class Nodo {
 
     private String url;
     private String nombre;
-    private TypeNode tipo;
+    private TipoNodo tipo;
     private Map<String, String> cookies;
 
     //*******SET PARA EVITAR DUPLICADOS
-    private Set<Node> secciones;
-    private Set<Node> archivos;
+    private Set<Nodo> secciones;
+    private Set<Nodo> archivos;
 
     //********MARKs ON SCRAPPING
     final String SALTAR_NAVEGACION = "Saltar Navegación";
@@ -118,7 +118,7 @@ public class Node {
      * @param tipo tipo de Node
      * @param cookies Map de cookies que el Node utilizara para conectar a _url
      */
-    public Node(String url, String nombre, TypeNode tipo, Map<String, String> cookies) {
+    public Nodo(String url, String nombre, TipoNodo tipo, Map<String, String> cookies) {
         this.url = url;
 
         String auxCadena = nombre;
@@ -152,7 +152,7 @@ public class Node {
      *
      * @return
      */
-    public String getName() {
+    public String getNombre() {
         return nombre;
     }
 
@@ -160,13 +160,13 @@ public class Node {
      *
      * @return
      */
-    public TypeNode getType() {
+    public TipoNodo getTipo() {
         return tipo;
     }
 
     /**
-     * Descenso del Node, el Node conectara a su URL asociada y procesara las
-     * sections 'li' conforme a su TYPE
+     * Descenso del Nodo, el Nodo conectara a su URL asociada y procesara las
+     *  sections 'li' conforme a su TYPE
      *
      * @see https://jsoup.org/apidocs/org/jsoup/Connection.html#get--
      * @see https://jsoup.org/cookbook/extracting-data/selector-syntax
@@ -189,7 +189,7 @@ public class Node {
             // 0 - Cabeceras antes de la primera section
             // 1 - Section general
             // N - Section N
-            if (tipo == TypeNode.CURSO) {
+            if (tipo == TipoNodo.CURSO) {
                 procesarSeccion(Jsoup.parse(SECCIONES_CABECERA + "1" + sectionsAray[1]), this, true);
             }
 
@@ -207,8 +207,8 @@ public class Node {
             // Descenderemos en las SECTIONCOLAP (sections que tiene un link de
             //  conexion
             if (secciones != null) {
-                for (Node item : secciones) {
-                    if (item.tipo.equals(TypeNode.SECTIONCOLAP)) {//                   
+                for (Nodo item : secciones) {
+                    if (item.tipo.equals(TipoNodo.SECTIONCOLAP)) {//                   
                         item.descender();
 //                    // Podriamos eliminarlo si esta vacio
 //                    if (item.isempty()) {
@@ -219,7 +219,7 @@ public class Node {
                 }
             }
             //*******EL CURSO YA SE ANALIZO Y PROCEDE A DESCARGARSWE
-            if (tipo.equals(TypeNode.CURSO)) {
+            if (tipo.equals(TipoNodo.CURSO)) {
                 // Reconstruccion de la cookie utilizable para HttpClients           
                 CookieStore cookieAlmacen = new BasicCookieStore();
                 BasicClientCookie cookie = new BasicClientCookie(COOKIE_SESION, cookies.get(COOKIE_SESION));
@@ -227,13 +227,13 @@ public class Node {
                 cookie.setPath("/");
                 cookieAlmacen.addCookie(cookie);
                 SocketConfig socketConfig = SocketConfig.custom()
-                .setSoTimeout(240 * 1000)
-                .build();
+                        .setSoTimeout(240 * 1000)
+                        .build();
                 try (CloseableHttpClient httpclient = HttpClients.custom()
                         .setDefaultCookieStore(cookieAlmacen)
                         .setDefaultSocketConfig(socketConfig)
                         .build()) {
-                    descargarEnLocal(Opciones.getDownloadPath(), httpclient, Opciones.getIU());
+                    descargarEnLocal(OpcionesSyncMoodle.getPathDescarga(), httpclient, OpcionesSyncMoodle.getIU());
 
                     httpclient.close();
                     logRegistro = new LogRecord(Level.INFO, EXISTO);
@@ -253,14 +253,14 @@ public class Node {
             logRegistro.setSourceClassName(this.getClass().getName());
         } finally {
             if (logRegistro != null) {
-                LoggSyn.log(logRegistro);
+                LogSincronizacion.log(logRegistro);
             }
         }
     }
 
     /**
-     * Descenso de un Node TypeNode.FOLDER, se trata de forma diferente que en
-     * el metodo descender
+     * Descenso de un Nodo TipoNodo.FOLDER, se trata de forma diferente que en
+ el metodo descender
      *
      * @see https://jsoup.org/apidocs/org/jsoup/Connection.html#get--
      * @see https://jsoup.org/cookbook/extracting-data/selector-syntax
@@ -275,13 +275,13 @@ public class Node {
                     .get();
             String auxNombre;
             String auxUrl;
-            Node auxHijo;
+            Nodo auxHijo;
             archivos = doc2.select(JSOUP_CARPETA_BUSCA_LINKS);
 
             for (Element resource : archivos) {
                 auxNombre = resource.text();
                 auxUrl = resource.attr("href");
-                auxHijo = new Node(auxUrl, auxNombre, TypeNode.ARCHIVO, cookies);
+                auxHijo = new Nodo(auxUrl, auxNombre, TipoNodo.ARCHIVO, cookies);
                 archivosAniadir(auxHijo);
             }
         } catch (Exception e) {
@@ -295,36 +295,36 @@ public class Node {
             logRegistro.setSourceClassName(this.getClass().getName());
         } finally {
             if (logRegistro != null) {
-                LoggSyn.log(logRegistro);
+                LogSincronizacion.log(logRegistro);
             }
         }
     }
 
     /**
-     * Identifica la Section: TypeNode.SECTIONEXPAND creara un Node
-     * representativo. TypeNode.SECTIONCOLAP procesara el contenido, y en caso
-     * de que la section este expandia en el Node General, creara un subNode
-     * aniadiendo el contenido a este, a su vez dicho Node al Node General.
+     * Identifica la Section: TipoNodo.SECTIONEXPAND creara un Nodo
+ representativo. TipoNodo.SECTIONCOLAP procesara el contenido, y en caso
+ de que la section este expandia en el Nodo General, creara un subNode
+ aniadiendo el contenido a este, a su vez dicho Nodo al Nodo General.
      *
      *
      * @param seccion Texto identificativo de la Section
-     * @param padre Node raiz de la estructura
+     * @param padre Nodo raiz de la estructura
      * @param seccionGeneral Indica que la section es la section general.
-     * Utilizado para crear un Sub Node representativo de TypeNode.SECTIONEXPAND
+ Utilizado para crear un Sub Nodo representativo de TipoNodo.SECTIONEXPAND
      *
      * @throws IOException Posible error con la I/O de datos.
      */
-    public void procesarSeccion(Document seccion, Node padre, boolean seccionGeneral) throws IOException {
+    public void procesarSeccion(Document seccion, Nodo padre, boolean seccionGeneral) throws IOException {
         Element elementoColapsado = seccion.selectFirst(JSOUP_SECCIONES_COLLAPSADAS);
-        Node auxHijo = padre;
+        Nodo auxHijo = padre;
 
         if (elementoColapsado != null && elementoColapsado.hasText()) {
-            padre.seccionAniadir(new Node(elementoColapsado.attr("href"),
-                    elementoColapsado.text(), TypeNode.SECTIONCOLAP, cookies));
+            padre.seccionAniadir(new Nodo(elementoColapsado.attr("href"),
+                    elementoColapsado.text(), TipoNodo.SECTIONCOLAP, cookies));
         } else if (seccion.selectFirst("a") != null) {
             // Sections expandidas
-            if (padre.tipo.equals(TypeNode.CURSO) && !seccionGeneral) {
-                auxHijo = new Node("cccc", seccion.selectFirst(JSOUP_SECCIONES_EXPANDIDAS_NOMBRE).text(), TypeNode.SECTIONEXPAND, cookies);
+            if (padre.tipo.equals(TipoNodo.CURSO) && !seccionGeneral) {
+                auxHijo = new Nodo("cccc", seccion.selectFirst(JSOUP_SECCIONES_EXPANDIDAS_NOMBRE).text(), TipoNodo.SECTIONEXPAND, cookies);
                 padre.seccionAniadir(auxHijo);
             }
             procesarSeccion(seccion.selectFirst(JSOUP_SECCIONES_AREA_DATOS).toString(), auxHijo);
@@ -332,19 +332,19 @@ public class Node {
     }
 
     /**
-     * Procesa una section convirtiendola en una estructura arborea de Node's.
+     * Procesa una section convirtiendola en una estructura arborea de Nodo's.
      *
      *
      * @param seccion Texto identificativo de la Section
-     * @param padre Node raiz de la estructura
+     * @param padre Nodo raiz de la estructura
      *
      * @throws IOException Posible error con la I/O de datos.
      */
-    public void procesarSeccion(String seccion, Node padre) throws IOException {
+    public void procesarSeccion(String seccion, Nodo padre) throws IOException {
         String auxCadena;
         Document doc;
         Element auxElement;
-        Node auxHijo;
+        Nodo auxHijo;
         List<String> listaRecursos = reconstruccionSeccion(seccion);
 
         if (listaRecursos.size() == 1) {
@@ -379,7 +379,7 @@ public class Node {
                     // y no hace falta
                     if (!auxCadena.isEmpty()) {
                         //********* ANIADIMOS UN NODO REPRESENTATIVO DE LA SECTION
-                        auxHijo = new Node("cccc", auxCadena, TypeNode.SECTIONEXPAND, cookies);
+                        auxHijo = new Nodo("cccc", auxCadena, TipoNodo.SECTIONEXPAND, cookies);
                         padre.seccionAniadir(auxHijo);
                     }
                     procesarSubSeccion(line, 1, auxHijo);
@@ -513,21 +513,21 @@ public class Node {
 
     /**
      * Procesa una SUBsection de forma recursiva tratando los niveles (_lvl) de
-     * identado convirtiendo la SUBsection en una estructura arborea de Node's
+     * identado convirtiendo la SUBsection en una estructura arborea de Nodo's
      *
      * @param _seccion Texto identificativo de la SUBSection
      * @param nivel Nivel de la SUBSection que se quiere procesar
-     * @param padre Node raiz de la estructura
+     * @param padre Nodo raiz de la estructura
      *
      * @throws IOException Posible error con la I/O de datos.
      */
-    public void procesarSubSeccion(String _seccion, int nivel, Node padre) throws IOException {
+    public void procesarSubSeccion(String _seccion, int nivel, Nodo padre) throws IOException {
         String auxSemilla = String.format(SEMILLA, nivel);
         String[] subSections = _seccion.split(auxSemilla);
         Document doc;
         String auxCadena;
         Element auxElement;
-        Node nodeSon;
+        Nodo nodeSon;
         int indexURLNoName = 0;
 
         // Dividimos en SUBSection del nivel esperado _lvl
@@ -555,7 +555,7 @@ public class Node {
                     if (auxCadena.length() > 1) {
                         // Para eviar SubSections vacias, utilizadas para aniadir
                         //  un hueco visualmente.
-                        nodeSon = new Node("cccc", auxCadena, TypeNode.SECTIONEXPAND, null);
+                        nodeSon = new Nodo("cccc", auxCadena, TipoNodo.SECTIONEXPAND, null);
                         padre.seccionAniadir(nodeSon);
                     }
                 } else if (auxElement != null) {
@@ -564,7 +564,7 @@ public class Node {
                     if (auxCadena.length() > 1) {
                         // Para eviar SubSections vacias, utilizadas para aniadir
                         //  un hueco visualmente. AQUI NO DEBERIA HACER FALTA.
-                        nodeSon = new Node("cccc", auxCadena, TypeNode.SECTIONEXPAND, null);
+                        nodeSon = new Nodo("cccc", auxCadena, TipoNodo.SECTIONEXPAND, null);
                         padre.seccionAniadir(nodeSon);
                     }
                 }
@@ -578,26 +578,26 @@ public class Node {
     }
 
     /**
-     * Encuentra todos los enlaces utiles y los aniade al Node "padre" al que
+     * Encuentra todos los enlaces utiles y los aniade al Nodo "padre" al que
      * pertenencen.
      *
      * @param seccion section sobre la que se desea encontrar todos los enlaces
-     * @param padre Node "padre" al cual aniadiremos los enlaces encontrados
+     * @param padre Nodo "padre" al cual aniadiremos los enlaces encontrados
      * @param indiceUrlSinNombre indexado numeracion para enlaces encontrados
      * que no tengan nombre propio.
      *
      * @throws IOException Posible error con la I/O de datos.
      * @return Devuelve el indexado numerico
      */
-    public int encontrarRecursos(Document seccion, Node padre, int indiceUrlSinNombre) throws IOException {
+    public int encontrarRecursos(Document seccion, Nodo padre, int indiceUrlSinNombre) throws IOException {
         String[] aux = null;
         String name = "";
         String typeAux = "";
         String url = "";
-        TypeNode type = null;
+        TipoNodo type = null;
         Elements links = seccion.select("a");
         Element auxElement;
-        Node auxSon;
+        Nodo auxSon;
         // Para cuando ponen un link como Texto, en vez de aniadirlo como una 
         //  URL; darle una numeracion y nombre pordefecto.
         int indexURLNoName = indiceUrlSinNombre;
@@ -618,18 +618,18 @@ public class Node {
                     typeAux = aux[3].replaceAll(LIMPIEZA_TIPO, "");
                     typeAux = typeAux.replaceAll(LIMPIEZA_TIPO_FIN, "");
                 }
-                type = TypeNode.getEnum(typeAux);
+                type = TipoNodo.getEnum(typeAux);
             } else {
                 // Se trata de una URL puesta como texto plano
-                type = TypeNode.URL;
+                type = TipoNodo.URL;
                 name = ENLACE_NOMBRE_DEFECTO + indexURLNoName;
                 indexURLNoName++;
             }
 
-            if (type != TypeNode.FORO && !url.contains(A_RESERVADOR_01)) {
-                auxSon = new Node(url, Jsoup.parse(name).text(), type, cookies);
+            if (type != TipoNodo.FORO && !url.contains(A_RESERVADOR_01)) {
+                auxSon = new Nodo(url, Jsoup.parse(name).text(), type, cookies);
                 padre.archivosAniadir(auxSon);
-                if (type.equals(TypeNode.FOLDER)) {
+                if (type.equals(TipoNodo.FOLDER)) {
                     auxSon.descenderCarpeta();
                 }
             }
@@ -656,7 +656,7 @@ public class Node {
         if (getClass() != obj.getClass()) {
             return false;
         }
-        final Node other = (Node) obj;
+        final Nodo other = (Nodo) obj;
         if (!Objects.equals(this.nombre, other.nombre) && !this.tipo.equals(other.tipo)) {
             return false;
         }
@@ -669,18 +669,18 @@ public class Node {
     }
 
     /**
-     * Imprime por la Salida estandar (out), una representacion del Node actual
+     * Imprime por la Salida estandar (out), una representacion del Nodo actual
      * imprimiendo las sections & files correspondientes y atendiendo su
-     * indetizacion respecto a su Node "padre"
+     * indetizacion respecto a su Nodo "padre"
      *
-     * @param _lvl identizacion respecto al Node "padre"
+     * @param _lvl identizacion respecto al Nodo "padre"
      */
     public void listar(int _lvl) {
 //        try {
         String lvlAux = new String(new char[_lvl]).replace("\0", "\t");
         String size = "";
 
-        if (tipo == TypeNode.SECTIONCOLAP && archivos != null) {
+        if (tipo == TipoNodo.SECTIONCOLAP && archivos != null) {
             size = "Size: " + archivos.size() + " -- ";
         } else {
             size = "Size: 0 -- ";
@@ -688,13 +688,13 @@ public class Node {
         System.out.println(lvlAux + size + this.toString());
 
         if (archivos != null) {
-            for (Node fil : archivos) {
+            for (Nodo fil : archivos) {
                 fil.listar(_lvl + 1);
             }
         }
 
         if (secciones != null) {
-            for (Node sect : secciones) {
+            for (Nodo sect : secciones) {
                 sect.listar(_lvl + 1);
             }
         }
@@ -706,25 +706,25 @@ public class Node {
     }
 
     /**
-     * Aniade un Node(hijo) representativo de una seccion al actual (padre)
+     * Aniade un Nodo(hijo) representativo de una seccion al actual (padre)
      *
      * @param _node
      */
-    public void seccionAniadir(Node _node) {
+    public void seccionAniadir(Nodo _node) {
         if (secciones == null) {
-            secciones = new HashSet<Node>();
+            secciones = new HashSet<Nodo>();
         }
         secciones.add(_node);
     }
 
     /**
-     * Aniade un Node(hijo) representativo de un archivo al actual (padre)
+     * Aniade un Nodo(hijo) representativo de un archivo al actual (padre)
      *
      * @param _node
      */
-    public void archivosAniadir(Node _node) {
+    public void archivosAniadir(Nodo _node) {
         if (archivos == null) {
-            archivos = new HashSet<Node>();
+            archivos = new HashSet<Nodo>();
         }
         archivos.add(_node);
     }
@@ -754,17 +754,17 @@ public class Node {
     }
 
     /**
-     * Creacion del contenido representativo del Node en el Sistema de Ficheros
+     * Creacion del contenido representativo del Nodo en el Sistema de Ficheros
      * (Local)
      *
      * @param pathDescarga path del SF donde descargar
      * @param httpclient cliente Http utilizado para descargar los archivos
      */
-    private void descargarEnLocal(String pathDescarga, CloseableHttpClient httpclient,InterfaceController iu) { //, UnsupportedOperationException {
+    private void descargarEnLocal(String pathDescarga, CloseableHttpClient httpclient, InterfaceController iu) { //, UnsupportedOperationException {
         LogRecord logRegistro = null;
         try {
             //**************SI PUEDE SER UN DIRECTORIO Y NO EXISTE LO CREAS**********
-            if (tipo == TypeNode.CURSO || tipo == TypeNode.FOLDER || tipo == TypeNode.SECTIONCOLAP || tipo == TypeNode.SECTIONEXPAND) {
+            if (tipo == TipoNodo.CURSO || tipo == TipoNodo.FOLDER || tipo == TipoNodo.SECTIONCOLAP || tipo == TipoNodo.SECTIONEXPAND) {
                 File carpeta = new File(pathDescarga + File.separator + nombre);
                 if (!carpeta.exists()) {
                     carpeta.mkdir();
@@ -772,24 +772,24 @@ public class Node {
             }
             //**************************DESCARGAR LOS ARCHIVOS**********************
             if (archivos != null) {
-                for (Node item : archivos) {
+                for (Nodo item : archivos) {
                     item.descargarEnLocal(pathDescarga + File.separator + nombre, httpclient, iu);
                 }
             }
             //**************************DESCARGAR LAS SECTIONS**********************
             if (secciones != null) {
-                for (Node item : secciones) {
+                for (Nodo item : secciones) {
                     item.descargarEnLocal(pathDescarga + File.separator + nombre, httpclient, iu);
                 }
             }
             //********COMPROVAMOS QUE TIPO ES Y QUE NO ESTA DESCARGADO**********
-            if (tipo.equals(TypeNode.ARCHIVO) && !archivoExiste(pathDescarga, nombre)) {
+            if (tipo.equals(TipoNodo.ARCHIVO) && !archivoExiste(pathDescarga, nombre)) {
                 descargarArchivo(pathDescarga, httpclient, iu);
 //                iu.addTreeItem(pathDescarga, this.nombre, this.tipo);
-            } else if (tipo.equals(TypeNode.URL) && !archivoExiste(pathDescarga, nombre+".htm")) {
+            } else if (tipo.equals(TipoNodo.URL) && !archivoExiste(pathDescarga, nombre + ".htm")) {
                 descargarEnlaceWeb(pathDescarga, httpclient, iu);
 //                iu.addTreeItem(pathDescarga, this.nombre, this.tipo);
-            } else if (tipo.equals(TypeNode.OTHER) && !archivoExiste(pathDescarga, nombre)) {
+            } else if (tipo.equals(TipoNodo.OTHER) && !archivoExiste(pathDescarga, nombre)) {
                 //Se puede dar el caso de que no reconocio el tipo o el profesor se 
                 //  olvido, lo lanzamos como file y en caso de no ser file se tratara 
                 //  en el propio metodo
@@ -801,7 +801,7 @@ public class Node {
 ////            e.printStackTrace(new PrintWriter(errors));
 //            logRegistro = new LogRecord(Level.WARNING, "Recurso caido: " + nombre + " on " + pathDescarga + "\n");
 //            logRegistro.setSourceMethodName("descargarEnLocal");
-//            logRegistro.setSourceClassName(this.getClass().getName());
+//            logRegistro.setSourceClassName(this.getClass().getNombre());
         } catch (Exception e) {
             // Exception (MalformedURLException | HttpStatusException | UnsupportedMimeTypeException | SocketTimeoutException | IOException)
             // Consultar Connection Javadoc: https://jsoup.org/apidocs/org/jsoup/Connection.html#get--
@@ -812,13 +812,13 @@ public class Node {
             logRegistro.setSourceClassName(this.getClass().getName());
         } finally {
             if (logRegistro != null) {
-                LoggSyn.log(logRegistro);
+                LogSincronizacion.log(logRegistro);
             }
         }
     }
 
     /**
-     * Conecta con la URL de un Node archivo, obtencion de la extension esperada
+     * Conecta con la URL de un Nodo archivo, obtencion de la extension esperada
      * y creacion en el SF de un archivo con dicha extension. NOTA: los archivos
      * binarios no tiene extension y se descargaran igual.
      *
@@ -844,7 +844,7 @@ public class Node {
         int bytesBuffered = 0;
         int len = 0;
         byte[] buffer = new byte[10240];
-        HttpRequestBase request = new HttpPost(url); 
+        HttpRequestBase request = new HttpPost(url);
 //        RequestConfig.Builder requestConfig = RequestConfig.custom();
 //        requestConfig.setConnectTimeout(500 * 1000);
 //        requestConfig.setConnectionRequestTimeout(500 * 1000);
@@ -886,7 +886,7 @@ public class Node {
                 if (formato != null && url.compareTo(formato) != 0) {
                     this.url = formato;
                     response.close();
-                    request = new HttpPost(url); 
+                    request = new HttpPost(url);
 //                    request.setConfig(requestConfig.build());
                     response = httpclient.execute(request);
 //                    response = httpclient.execute(new HttpPost(this.url));
@@ -909,28 +909,28 @@ public class Node {
                     }
                     //Comprobacion de existencia
 //                    if(!archivoExiste(pathDescarga, nombreConFormato)){
-                        fos = new FileOutputStream(new File(pathDescarga + File.separator + nombreConFormato));
+                    fos = new FileOutputStream(new File(pathDescarga + File.separator + nombreConFormato));
 //                      System.out.println("Downloadinwg " + _pathdownload + File.separator + nameFormat);
 
-                        while ((len = is.read(buffer)) != -1) {
-                            fos.write(buffer, 0, len);
-                            bytesBuffered += len;
-                            if (bytesBuffered > 1024 * 1024) {
-                                fos.flush();
-                            }
+                    while ((len = is.read(buffer)) != -1) {
+                        fos.write(buffer, 0, len);
+                        bytesBuffered += len;
+                        if (bytesBuffered > 1024 * 1024) {
+                            fos.flush();
                         }
-                        iu.addTreeItem(pathDescarga + File.separator + nombreConFormato, this.nombre, this.tipo);
+                    }
+                    iu.addTreeItem(pathDescarga + File.separator + nombreConFormato, this.nombre);
 //                    }
                 }
             } else {
-                // Se trata de un Node TypeNode.OTHER, el cual no refleja una URL
+                // Se trata de un Nodo TipoNodo.OTHER, el cual no refleja una URL
                 // que podamos tratar de descargar, entonces la tratara como un 
                 // Link URL
                 response.close();
                 response = null;
                 //Comprobacion de existencia
 //                if(!archivoExiste(pathDescarga, nombre+".htm")){
-                    descargarEnlaceWeb(pathDescarga, httpclient, iu);
+                descargarEnlaceWeb(pathDescarga, httpclient, iu);
 //                }
             }
         } catch (Exception e) {
@@ -947,7 +947,7 @@ public class Node {
                     is.close();
 
                 } catch (IOException ex) {
-                    Logger.getLogger(Node.class
+                    Logger.getLogger(Nodo.class
                             .getName()).log(Level.SEVERE, null, ex);
                 }
             }
@@ -956,7 +956,7 @@ public class Node {
                     fos.close();
 
                 } catch (IOException ex) {
-                    Logger.getLogger(Node.class
+                    Logger.getLogger(Nodo.class
                             .getName()).log(Level.SEVERE, null, ex);
                 }
             }
@@ -965,12 +965,12 @@ public class Node {
                     response.close();
 
                 } catch (IOException ex) {
-                    Logger.getLogger(Node.class
+                    Logger.getLogger(Nodo.class
                             .getName()).log(Level.SEVERE, null, ex);
                 }
             }
             if (logRegistro != null) {
-                LoggSyn.log(logRegistro);
+                LogSincronizacion.log(logRegistro);
             }
         }
     }
@@ -1013,9 +1013,9 @@ public class Node {
     }
 
     /**
-     * Dada un Node TypeNode.URL obtendra el link final al que direcciona, y
-     * creara un archivo URL en el Sistema de Ficheros que enlazara con dicho
-     * Link.
+     * Dada un Nodo TipoNodo.URL obtendra el link final al que direcciona, y
+ creara un archivo URL en el Sistema de Ficheros que enlazara con dicho
+ Link.
      *
      * @param pathDescarga path del local donde descargar
      * @param httpclient cliente Http utilizado para conectar a la Url
@@ -1033,7 +1033,7 @@ public class Node {
         String urlAux = this.url;
         String line = null;
         LogRecord logRegistro = null;
-        HttpRequestBase request = new HttpPost(url); 
+        HttpRequestBase request = new HttpPost(url);
 //        RequestConfig.Builder requestConfig = RequestConfig.custom();
 //        requestConfig.setConnectTimeout(180 * 1000);
 //        requestConfig.setConnectionRequestTimeout(180 * 1000);
@@ -1060,17 +1060,17 @@ public class Node {
                             break;
                         }
                     }
-                }else{
+                } else {
                     urlAux = redirectURIs.get(0).toString();
                 }
-                    
+
             }
             fw = new FileWriter(pathDescarga + File.separator + nombre + ".htm");
             String seed = "<script type=\"text/javascript\" src=\"/712BCC42-17A0-D44D-A1E8-AA762A409D44/main.js\" charset=\"UTF-8\"></script><script>window.googleJavaScriptRedirect=1</script><META name=\"referrer\" content=\"origin\"><script>var n={navigateTo:function(b,a,d){if(b!=a&&b.google){if(b.google.r){b.google.r=0;b.location.href=d;a.location.replace(\"about:blank\");}}else{a.location.replace(d);}}};n.navigateTo(window.parent,window,\"%s\");\n"
                     + "</script><noscript><META http-equiv=\"refresh\" content=\"0;URL='%s'\"></noscript>";
             seed = String.format(seed, urlAux, urlAux);
             fw.write(seed);
-            iu.addTreeItem(pathDescarga + File.separator + nombre + ".htm", this.nombre, this.tipo);
+            iu.addTreeItem(pathDescarga + File.separator + nombre + ".htm", this.nombre);
         } catch (Exception e) {
             //El enlace esta caido, podemos capturar al error o crear en enlace
             // con la Url caid y que los alumnos al ver en enlace que no va 
@@ -1118,12 +1118,12 @@ public class Node {
         if (listOfFiles != null) {
             for (File file : listOfFiles) {
                 if (file.isFile()) {
-//                    String[] filename = file.getName().split(EXTENSION_ARCHIVO); //split filename from it's extension
+//                    String[] filename = file.getNombre().split(EXTENSION_ARCHIVO); //split filename from it's extension
 //                    if (filename[0].equalsIgnoreCase(archivo)) { //matching defined filename         
 //                        return true;
 //                    }
                     if (file.getName().contains(archivo)) {
-//                    if (file.getName().equals(archivo)) { //matching defined filename         
+//                    if (file.getNombre().equals(archivo)) { //matching defined filename         
                         return true;
                     }
                 }

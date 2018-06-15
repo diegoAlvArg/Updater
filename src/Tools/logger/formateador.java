@@ -1,14 +1,15 @@
-package Sincronice.Moodle.tools;
+package Tools.logger;
 
+//#4 Java
 import java.util.Date;
 import java.util.logging.Formatter;
 import java.util.logging.LogRecord;
 
 /**
  *
- * @author Usuario
+ * @author Diego
  */
-public class MyFormatter extends Formatter {
+public class formateador extends Formatter {
 
     @Override
     public String format(LogRecord record) {

@@ -3,7 +3,7 @@
  */
 package Updater.tools;
 
-import Tools.language.ResourceLeng;
+import Tools.lenguaje.ResourceLeng;
 import application.HelloWorld;
 import java.awt.Desktop;
 import java.awt.SystemTray;
@@ -157,8 +157,25 @@ public final class ActionTool {
     public static void customNotification(String title, String text, Duration d, NotificationType t) {
         customNotification(HelloWorld.getResource(), title, text, d, t);
     }
+    
+    public static void customNotificationWithParam(String title, String text, Duration d, NotificationType t) {
+        switch (t) {
+            case ERROR:
+                notificationError(title, text, d);
+                break;
+            case INFORMATION:
+                notificationInfo(title, text, d);
+                break;
+            case WARNING:
+                notificationWarning(title, text, d);
+                break;
+            default:
+                break;
+        }
+    }
 
     private static void notificationError(String title, String text, Duration d) {
+        System.err.println("showing error\n");
         if (Platform.isFxApplicationThread()) {
             Platform.runLater(()
                     -> ActionTool.showNotification(

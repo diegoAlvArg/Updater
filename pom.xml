@@ -19,12 +19,14 @@
 
     <build>
         <!-- <finalName>XR3PlayerUpdater</finalName> -->
+        <!--
         <sourceDirectory>src</sourceDirectory>
         <resources>
             <resource>
                 <directory>resources</directory>
             </resource>
         </resources>
+        -->
         <!-- <testSourceDirectory>testing</testSourceDirectory> -->
         <plugins>
             <!--<plugin> <groupId>org.apache.maven.plugins</groupId> <artifactId>maven-source-plugin</artifactId> 

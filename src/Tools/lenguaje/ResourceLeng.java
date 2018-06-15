@@ -3,13 +3,11 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package Tools.language;
+package Tools.lenguaje;
 
-import java.util.Collection;
-import java.util.Collections;
+//#4 Java
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Set;
 
 /**
  * @version 1.0
@@ -129,7 +127,33 @@ public class ResourceLeng extends BasicLeng {
     public final static String UPDATE_INFO = "update_info";
     public final static String UPDATE_INFO_TEXT = "update_info_text";
     
-    
+    //**********TAB OpcionTareas****************************************************************
+    public final static String TAB_DELIVERY = "tab_dely";
+    public final static String C1_TEXT = "c1_text";
+    public final static String C2_TEXT = "c2_text";
+    public final static String C3_TEXT = "c3_text";
+    public final static String C4_TEXT = "c4_text";
+    public final static String C5_TEXT = "c5_text";
+    public final static String STATE_1_TEXT = "state_1_text";
+    public final static String STATE_1_TOOL = "state_1_tool";
+    public final static String STATE_2_TEXT = "state_2_text";
+    public final static String STATE_2_TOOL = "state_2_tool";
+    public final static String STATE_3_TEXT = "state_3_text";
+    public final static String STATE_3_TOOL = "state_3_tool";
+    public final static String STATE_4_TEXT = "state_4_text";
+    public final static String STATE_4_TOOL = "state_4_tool";
+    public final static String STATE_5_TEXT = "state_5_text";
+    public final static String STATE_5_TOOL = "state_5_tool";
+    public final static String FORMAT_TIME = "format_time";
+    public final static String FORMAT_TIME_NO_DAYS = "format_time_no_days";
+    public final static String INFO_FILE = "info_file";
+    public final static String INFO_NOTE = "info_note";
+    public final static String BUTTON_1_TEXT = "button_1_text";
+    public final static String BUTTON_1_TOOL = "button_1_tool";
+    public final static String BUTTON_24_TEXT = "button_24_text";
+    public final static String BUTTON_24_TOOL = "button_24_tool";
+    public final static String BUTTON_35_TEXT = "button_35_text";
+    public final static String BUTTON_35_TOOL = "button_35_tool";
     
     //**********SystemTray Options**************************************************************
     public final static String SYS_TRAY_TOOLTIP = "sys_tray_tooltip";
@@ -143,6 +167,7 @@ public class ResourceLeng extends BasicLeng {
     public final static String TRACE_INIT = "trace_init";
     public final static String TRACE_USER_NO = "trace_user_no";
     public final static String TRACE_USER_OK = "trace_user_ok";
+    public final static String TRACE_USER_LOST = "trace_user_lost";
     public final static String TRACE_DATES_ERROR = "trace_dates_error";
     public final static String TRACE_TREE_ERROR = "trace_tree_error";
     public final static String TRACE_LANGUAGE_UNKNOW = "trace_language_unknow";
@@ -153,4 +178,15 @@ public class ResourceLeng extends BasicLeng {
     public final static String TRACE_ERROR_DATES_CORRUPT = "trace_error_dates_corrupt";
     public final static String TRACE_TIMER_END = "trace_timer_end";
     public final static String TRACE_TIMER_LATE = "trace_timer_late";
+    public final static String TRACE_LANGUAGUE_FAULT = "trace_languague_fault";
+    public final static String TRACE_INIT_LOAD_XML = "trace_init_load_xml";
+    public final static String TRACE_INIT_LOAD_CONTROL = "trace_init_load_control";
+    public final static String TRACE_EVENT_USER_NEW = "trace_event_user_new";
+    public final static String TRACE_EVENT_USER_EDIT = "trace_event_user_edit";
+    public final static String TRACE_EVENT_USER_END = "trace_event_user_end";
+    
+    //**********OTHER*************************************************************************
+    public final static String MESSAGE_TITLE_UPDATE_FAIL = "message_title_update_fail";
+    public final static String MESSAGE_TEXT_UPDATE_FAIL = "message_text_update_fail";
+    
 }

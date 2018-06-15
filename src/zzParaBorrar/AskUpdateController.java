@@ -24,7 +24,7 @@ import javafx.scene.control.Button;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
-import Tools.language.ResourceLeng;
+import Tools.lenguaje.ResourceLeng;
 import application.HelloWorld;
 
 /**

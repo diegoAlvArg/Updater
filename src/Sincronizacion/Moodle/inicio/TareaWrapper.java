@@ -1,21 +1,23 @@
-package Sincronice.Moodle.init;
+package Sincronizacion.Moodle.inicio;
 
-import Sincronice.moodle.tree.Node;
+//#1 Static import
+import Sincronizacion.Moodle.estructura.Nodo;
+//#4 Java
 import java.util.concurrent.Callable;
 
 /**
  *
  * @author Diego Alvarez
- * 
- * Task para lanzar un Node "raiz". Metido en un callable porque queremos 
- *  gestionarlo con un executor.
+ 
+ Task para lanzar un Nodo "raiz". Metido en un callable porque queremos 
+  gestionarlo con un executor.
  */
-public class TaskWrap implements Callable<Void> {
+public class TareaWrapper implements Callable<Void> {
 
-    private final Node curso;
+    private final Nodo curso;
     private final int id;
 
-    public TaskWrap(Node _node, int _id) {
+    public TareaWrapper(Nodo _node, int _id) {
         this.curso = _node;
         this.id = _id;
     }

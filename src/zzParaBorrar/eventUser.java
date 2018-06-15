@@ -2,9 +2,9 @@ package zzParaBorrar;
 
 import Updater.tools.ActionTool;
 import Updater.tools.NotificationType;
-import Tools.language.ResourceLeng;
+import Tools.lenguaje.ResourceLeng;
 import application.HelloWorld;
-import application.InterfaceController;
+import application.controller.InterfaceController;
 import application.events.validator;
 import com.github.sardine.Sardine;
 import com.github.sardine.SardineFactory;

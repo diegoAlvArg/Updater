@@ -1,32 +1,2556 @@
 
-Thu May 24 17:17:15 CEST 2018 --- Thread: 13   application.InterfaceController
+
+Sat Jun 02 20:04:03 CEST 2018 --- Thread: 20   Tools.logger.LoggGen.log
+INFO: CMD: [java, -jar, C:\Users\Usuario\Documents\NetBeansProjects\Updater\dist\XR3PlayerUpdater.jar, 11]
+Sat Jun 02 20:04:04 CEST 2018 --- Thread: 13   application.Main
+INFO: Updater inicio correcto (TR000)
+Sat Jun 02 20:04:13 CEST 2018 --- Thread: 24   XR3PlayerUpdater
+INFO: El updater levanta App y procede a cerrar (TR020)
+Sat Jun 02 20:04:14 CEST 2018 --- Thread: 13   application.HelloWorld
+INFO: loading FXML
+Sat Jun 02 20:04:14 CEST 2018 --- Thread: 13   application.InterfaceController
 INFO: Levantando interfaz (TR000)
-Thu May 24 17:17:15 CEST 2018 --- Thread: 13   application.InterfaceController
-INFO: Datos no recuperados (TR011)
-Thu May 24 17:17:27 CEST 2018 --- Thread: 13   application.HelloWorld
+Sat Jun 02 20:04:14 CEST 2018 --- Thread: 13   application.InterfaceController
+INFO: Cargando datos de usuario (TR010)
+Sat Jun 02 20:06:05 CEST 2018 --- Thread: 20   Tools.logger.LoggGen.log
+INFO: CMD: [java, -jar, C:\Users\Usuario\Documents\NetBeansProjects\Updater\dist\XR3PlayerUpdater.jar, 11]
+Sun Jun 03 11:27:27 CEST 2018 --- Thread: 13   Tools.logger.LoggGen.log
+INFO: CMD: [java, -jar, C:\Users\Usuario\Documents\NetBeansProjects\Updater\dist\XR3PlayerUpdater.jar, 11]
+Sun Jun 03 11:27:27 CEST 2018 --- Thread: 13   application.HelloWorld
+INFO: Cargando interfaz (TR080)
+Sun Jun 03 11:27:28 CEST 2018 --- Thread: 13   application.controller.InterfaceController
+INFO: Cargando controlador (TR081)
+Sun Jun 03 11:27:28 CEST 2018 --- Thread: 13   application.controller.InterfaceController
+INFO: Cargando datos de usuario (TR010)
+Sun Jun 03 11:27:32 CEST 2018 --- Thread: 13   application.HelloWorld
 INFO: Cerrando App desde ventana (TR040)
 
 
-Thu May 24 17:18:20 CEST 2018 --- Thread: 13   application.InterfaceController
-INFO: Levantando interfaz (TR000)
-Thu May 24 17:18:20 CEST 2018 --- Thread: 13   application.InterfaceController
-INFO: Datos no recuperados (TR011)
-Thu May 24 17:18:27 CEST 2018 --- Thread: 13   application.HelloWorld
+Sun Jun 03 11:27:39 CEST 2018 --- Thread: 13   application.HelloWorld
+INFO: Cargando interfaz (TR080)
+Sun Jun 03 11:27:40 CEST 2018 --- Thread: 13   application.controller.InterfaceController
+INFO: Cargando controlador (TR081)
+Sun Jun 03 11:27:40 CEST 2018 --- Thread: 13   application.controller.InterfaceController
+INFO: Cargando datos de usuario (TR010)
+Sun Jun 03 11:27:51 CEST 2018 --- Thread: 13   application.HelloWorld
 INFO: Cerrando App desde ventana (TR040)
 
 
-Thu May 24 17:20:12 CEST 2018 --- Thread: 13   application.InterfaceController
-INFO: Levantando interfaz (TR000)
-Thu May 24 17:20:12 CEST 2018 --- Thread: 13   application.InterfaceController
-INFO: Datos no recuperados (TR011)
-Thu May 24 17:20:15 CEST 2018 --- Thread: 13   application.HelloWorld
+Sun Jun 03 11:30:41 CEST 2018 --- Thread: 13   Tools.logger.LoggGen.log
+INFO: CMD: [java, -jar, C:\Users\Usuario\Documents\NetBeansProjects\Updater\dist\XR3PlayerUpdater.jar, 11]
+Sun Jun 03 11:30:43 CEST 2018 --- Thread: 13   application.Main
+INFO: Updater inicio correcto (TR000)
+Sun Jun 03 11:31:27 CEST 2018 --- Thread: 13   Tools.logger.LoggGen.log
+INFO: CMD: [java, -jar, C:\Users\Usuario\Documents\NetBeansProjects\Updater\dist\XR3PlayerUpdater.jar, 11]
+Sun Jun 03 11:31:28 CEST 2018 --- Thread: 13   application.Main
+INFO: Updater inicio correcto (TR000)
+Tue Jun 05 12:30:57 CEST 2018 --- Thread: 13   application.HelloWorld
+INFO: Cargando interfaz (TR080)
+Tue Jun 05 12:30:59 CEST 2018 --- Thread: 13   application.controller.InterfaceController
+INFO: Cargando controlador (TR081)
+Tue Jun 05 12:30:59 CEST 2018 --- Thread: 13   application.controller.InterfaceController
+INFO: Cargando datos de usuario (TR010)
+Tue Jun 05 12:36:05 CEST 2018 --- Thread: 13   application.HelloWorld
 INFO: Cerrando App desde ventana (TR040)
 
 
-Thu May 24 17:20:39 CEST 2018 --- Thread: 13   application.InterfaceController
-INFO: Levantando interfaz (TR000)
-Thu May 24 17:20:39 CEST 2018 --- Thread: 13   application.InterfaceController
-INFO: Datos no recuperados (TR011)
-Thu May 24 17:20:59 CEST 2018 --- Thread: 13   application.HelloWorld
+Tue Jun 05 12:43:32 CEST 2018 --- Thread: 13   application.HelloWorld
+INFO: Cargando interfaz (TR080)
+Tue Jun 05 12:43:33 CEST 2018 --- Thread: 13   application.controller.InterfaceController
+INFO: Cargando controlador (TR081)
+Tue Jun 05 12:43:33 CEST 2018 --- Thread: 13   application.controller.InterfaceController
+INFO: Cargando datos de usuario (TR010)
+Tue Jun 05 12:43:36 CEST 2018 --- Thread: 13   application.controller.InterfaceController
+INFO: Editando un usuario existente (TR091)
+Tue Jun 05 12:44:07 CEST 2018 --- Thread: 13   application.controller.InterfaceController
+INFO: Finalizando evento perfil usuario (TR092)
+Tue Jun 05 12:54:00 CEST 2018 --- Thread: 13   application.controller.InterfaceController$3
+SEVERE: Iniciando sincronizacion programada (TR070)
+Tue Jun 05 13:00:00 CEST 2018 --- Thread: 13   application.controller.InterfaceController$3
+SEVERE: Iniciando sincronizacion programada (TR070)
+Tue Jun 05 13:05:00 CEST 2018 --- Thread: 13   application.controller.InterfaceController$3
+SEVERE: Iniciando sincronizacion programada (TR070)
+Tue Jun 05 13:10:00 CEST 2018 --- Thread: 13   application.controller.InterfaceController$3
+SEVERE: Iniciando sincronizacion programada (TR070)
+Tue Jun 05 13:16:00 CEST 2018 --- Thread: 13   application.controller.InterfaceController$3
+SEVERE: Iniciando sincronizacion programada (TR070)
+Tue Jun 05 13:21:00 CEST 2018 --- Thread: 13   application.controller.InterfaceController$3
+SEVERE: Iniciando sincronizacion programada (TR070)
+Tue Jun 05 13:22:08 CEST 2018 --- Thread: 13   application.HelloWorld
 INFO: Cerrando App desde ventana (TR040)
 
+
+Thu Jun 07 14:01:36 CEST 2018 --- Thread: 13   application.HelloWorld
+INFO: Cargando interfaz (TR080)
+Thu Jun 07 14:01:37 CEST 2018 --- Thread: 13   application.controller.InterfaceController
+INFO: Cargando controlador (TR081)
+Thu Jun 07 14:01:37 CEST 2018 --- Thread: 13   application.HelloWorld
+SEVERE: 
+javafx.fxml.LoadException: 
+file:/C:/Users/Usuario/Documents/NetBeansProjects/Updater/dist/HelloWorld.jar!/Resources/fxml/interface.fxml
+
+	at javafx.fxml.FXMLLoader.constructLoadException(FXMLLoader.java:2601)
+	at javafx.fxml.FXMLLoader.loadImpl(FXMLLoader.java:2579)
+	at javafx.fxml.FXMLLoader.loadImpl(FXMLLoader.java:2441)
+	at javafx.fxml.FXMLLoader.loadImpl(FXMLLoader.java:3214)
+	at javafx.fxml.FXMLLoader.loadImpl(FXMLLoader.java:3175)
+	at javafx.fxml.FXMLLoader.loadImpl(FXMLLoader.java:3148)
+	at javafx.fxml.FXMLLoader.loadImpl(FXMLLoader.java:3124)
+	at javafx.fxml.FXMLLoader.load(FXMLLoader.java:3116)
+	at application.HelloWorld.start(HelloWorld.java:145)
+	at com.sun.javafx.application.LauncherImpl.lambda$launchApplication1$162(LauncherImpl.java:863)
+	at com.sun.javafx.application.PlatformImpl.lambda$runAndWait$175(PlatformImpl.java:326)
+	at com.sun.javafx.application.PlatformImpl.lambda$null$173(PlatformImpl.java:295)
+	at java.security.AccessController.doPrivileged(Native Method)
+	at com.sun.javafx.application.PlatformImpl.lambda$runLater$174(PlatformImpl.java:294)
+	at com.sun.glass.ui.InvokeLaterDispatcher$Future.run(InvokeLaterDispatcher.java:95)
+	at com.sun.glass.ui.win.WinApplication._runLoop(Native Method)
+	at com.sun.glass.ui.win.WinApplication.lambda$null$148(WinApplication.java:191)
+	at java.lang.Thread.run(Thread.java:745)
+Caused by: java.lang.NullPointerException
+	at application.controller.InterfaceController.setLanguague(InterfaceController.java:870)
+	at application.controller.InterfaceController.initialize(InterfaceController.java:174)
+	at javafx.fxml.FXMLLoader.loadImpl(FXMLLoader.java:2548)
+	... 16 more
+
+Thu Jun 07 14:01:37 CEST 2018 --- Thread: 13   application.HelloWorld
+INFO: Cerrando App desde ventana (TR040)
+
+
+Thu Jun 07 14:03:37 CEST 2018 --- Thread: 13   application.HelloWorld
+INFO: Cargando interfaz (TR080)
+Thu Jun 07 14:03:37 CEST 2018 --- Thread: 13   application.controller.InterfaceController
+INFO: Cargando controlador (TR081)
+Thu Jun 07 14:03:38 CEST 2018 --- Thread: 13   application.controller.InterfaceController
+INFO: Cargando datos de usuario (TR010)
+Thu Jun 07 14:03:47 CEST 2018 --- Thread: 13   application.controller.InterfaceController
+INFO: Cambiando idioma a Ingles (TR030)
+Thu Jun 07 14:03:51 CEST 2018 --- Thread: 13   application.HelloWorld
+INFO: Closing App from window (TR040)
+
+
+Thu Jun 07 14:03:59 CEST 2018 --- Thread: 13   application.HelloWorld
+INFO: Cargando interfaz (TR080)
+Thu Jun 07 14:03:59 CEST 2018 --- Thread: 13   application.controller.InterfaceController
+INFO: Cargando controlador (TR081)
+Thu Jun 07 14:03:59 CEST 2018 --- Thread: 13   application.controller.InterfaceController
+INFO: Cargando datos de usuario (TR010)
+Thu Jun 07 14:04:36 CEST 2018 --- Thread: 13   application.HelloWorld
+INFO: Cerrando App desde ventana (TR040)
+
+
+Thu Jun 07 14:07:43 CEST 2018 --- Thread: 13   application.HelloWorld
+INFO: Cargando interfaz (TR080)
+Thu Jun 07 14:07:43 CEST 2018 --- Thread: 13   application.controller.InterfaceController
+INFO: Cargando controlador (TR081)
+Thu Jun 07 14:07:43 CEST 2018 --- Thread: 13   application.controller.InterfaceController
+INFO: Cargando datos de usuario (TR010)
+Thu Jun 07 14:07:48 CEST 2018 --- Thread: 13   application.HelloWorld
+INFO: Cerrando App desde ventana (TR040)
+
+
+Thu Jun 07 14:08:04 CEST 2018 --- Thread: 13   application.HelloWorld
+INFO: Cargando interfaz (TR080)
+Thu Jun 07 14:08:04 CEST 2018 --- Thread: 13   application.controller.InterfaceController
+INFO: Cargando controlador (TR081)
+Thu Jun 07 14:08:04 CEST 2018 --- Thread: 13   application.controller.InterfaceController
+INFO: Cargando datos de usuario (TR010)
+Thu Jun 07 14:08:09 CEST 2018 --- Thread: 13   application.HelloWorld
+INFO: Cerrando App desde ventana (TR040)
+
+
+Thu Jun 07 19:04:22 CEST 2018 --- Thread: 13   application.HelloWorld
+INFO: Cargando interfaz (TR080)
+Thu Jun 07 19:04:23 CEST 2018 --- Thread: 13   application.controller.InterfaceController
+INFO: Cargando controlador (TR081)
+Thu Jun 07 19:04:24 CEST 2018 --- Thread: 13   application.controller.InterfaceController
+INFO: Cargando datos de usuario (TR010)
+Thu Jun 07 19:04:33 CEST 2018 --- Thread: 13   application.controller.InterfaceController
+INFO: Cambiando idioma a Ingles (TR030)
+Thu Jun 07 19:04:43 CEST 2018 --- Thread: 13   application.HelloWorld
+INFO: Closing App from window (TR040)
+
+
+Thu Jun 07 19:07:33 CEST 2018 --- Thread: 13   application.HelloWorld
+INFO: Cargando interfaz (TR080)
+Thu Jun 07 19:07:34 CEST 2018 --- Thread: 13   application.controller.InterfaceController
+INFO: Cargando controlador (TR081)
+Thu Jun 07 19:07:34 CEST 2018 --- Thread: 13   application.controller.InterfaceController
+INFO: Cargando datos de usuario (TR010)
+Thu Jun 07 19:07:55 CEST 2018 --- Thread: 13   application.HelloWorld
+INFO: Cerrando App desde ventana (TR040)
+
+
+Thu Jun 07 19:10:07 CEST 2018 --- Thread: 13   application.HelloWorld
+INFO: Cargando interfaz (TR080)
+Thu Jun 07 19:10:08 CEST 2018 --- Thread: 13   application.controller.InterfaceController
+INFO: Cargando controlador (TR081)
+Thu Jun 07 19:10:08 CEST 2018 --- Thread: 13   application.controller.InterfaceController
+INFO: Cargando datos de usuario (TR010)
+Thu Jun 07 19:10:23 CEST 2018 --- Thread: 13   application.HelloWorld
+INFO: Cerrando App desde ventana (TR040)
+
+
+Thu Jun 07 19:17:03 CEST 2018 --- Thread: 13   application.HelloWorld
+INFO: Cargando interfaz (TR080)
+Thu Jun 07 19:17:04 CEST 2018 --- Thread: 13   application.controller.InterfaceController
+INFO: Cargando controlador (TR081)
+Thu Jun 07 19:17:04 CEST 2018 --- Thread: 13   application.controller.InterfaceController
+INFO: Cargando datos de usuario (TR010)
+Thu Jun 07 19:17:12 CEST 2018 --- Thread: 13   application.HelloWorld
+INFO: Cerrando App desde ventana (TR040)
+
+
+Thu Jun 07 19:17:20 CEST 2018 --- Thread: 13   application.HelloWorld
+INFO: Cargando interfaz (TR080)
+Thu Jun 07 19:17:20 CEST 2018 --- Thread: 13   application.controller.InterfaceController
+INFO: Cargando controlador (TR081)
+Thu Jun 07 19:17:21 CEST 2018 --- Thread: 13   application.controller.InterfaceController
+INFO: Cargando datos de usuario (TR010)
+Thu Jun 07 19:17:33 CEST 2018 --- Thread: 13   application.HelloWorld
+INFO: Cerrando App desde ventana (TR040)
+
+
+Thu Jun 07 19:18:05 CEST 2018 --- Thread: 16   application.HelloWorld
+INFO: Cargando interfaz (TR080)
+Thu Jun 07 19:18:06 CEST 2018 --- Thread: 16   application.controller.InterfaceController
+INFO: Cargando controlador (TR081)
+Thu Jun 07 19:18:06 CEST 2018 --- Thread: 16   application.controller.InterfaceController
+INFO: Cargando datos de usuario (TR010)
+Thu Jun 07 19:28:13 CEST 2018 --- Thread: 13   application.HelloWorld
+INFO: Cargando interfaz (TR080)
+Thu Jun 07 19:28:14 CEST 2018 --- Thread: 13   application.controller.InterfaceController
+INFO: Cargando controlador (TR081)
+Thu Jun 07 19:28:14 CEST 2018 --- Thread: 13   application.controller.InterfaceController
+INFO: Cargando datos de usuario (TR010)
+Thu Jun 07 19:29:38 CEST 2018 --- Thread: 13   application.HelloWorld
+INFO: Cerrando App desde ventana (TR040)
+
+
+Thu Jun 07 19:30:44 CEST 2018 --- Thread: 13   application.HelloWorld
+INFO: Cargando interfaz (TR080)
+Thu Jun 07 19:30:45 CEST 2018 --- Thread: 13   application.controller.InterfaceController
+INFO: Cargando controlador (TR081)
+Thu Jun 07 19:30:45 CEST 2018 --- Thread: 13   application.controller.InterfaceController
+INFO: Cargando datos de usuario (TR010)
+Thu Jun 07 19:30:53 CEST 2018 --- Thread: 13   application.HelloWorld
+INFO: Cerrando App desde ventana (TR040)
+
+
+Thu Jun 07 19:35:21 CEST 2018 --- Thread: 13   application.HelloWorld
+INFO: Cargando interfaz (TR080)
+Thu Jun 07 19:35:21 CEST 2018 --- Thread: 13   application.controller.InterfaceController
+INFO: Cargando controlador (TR081)
+Thu Jun 07 19:35:21 CEST 2018 --- Thread: 13   application.controller.InterfaceController
+INFO: Cargando datos de usuario (TR010)
+Thu Jun 07 19:35:36 CEST 2018 --- Thread: 13   application.HelloWorld
+INFO: Cerrando App desde ventana (TR040)
+
+
+Thu Jun 07 19:36:22 CEST 2018 --- Thread: 13   application.HelloWorld
+INFO: Cargando interfaz (TR080)
+Thu Jun 07 19:36:23 CEST 2018 --- Thread: 13   application.controller.InterfaceController
+INFO: Cargando controlador (TR081)
+Thu Jun 07 19:36:23 CEST 2018 --- Thread: 13   application.controller.InterfaceController
+INFO: Cargando datos de usuario (TR010)
+Thu Jun 07 19:36:31 CEST 2018 --- Thread: 13   application.HelloWorld
+INFO: Cerrando App desde ventana (TR040)
+
+
+Thu Jun 07 19:38:23 CEST 2018 --- Thread: 13   application.HelloWorld
+INFO: Cargando interfaz (TR080)
+Thu Jun 07 19:38:23 CEST 2018 --- Thread: 13   application.controller.InterfaceController
+INFO: Cargando controlador (TR081)
+Thu Jun 07 19:38:23 CEST 2018 --- Thread: 13   application.controller.InterfaceController
+INFO: Cargando datos de usuario (TR010)
+Thu Jun 07 19:38:31 CEST 2018 --- Thread: 13   application.HelloWorld
+INFO: Cerrando App desde ventana (TR040)
+
+
+Thu Jun 07 19:39:07 CEST 2018 --- Thread: 13   application.HelloWorld
+INFO: Cargando interfaz (TR080)
+Thu Jun 07 19:39:07 CEST 2018 --- Thread: 13   application.controller.InterfaceController
+INFO: Cargando controlador (TR081)
+Thu Jun 07 19:39:08 CEST 2018 --- Thread: 13   application.controller.InterfaceController
+INFO: Cargando datos de usuario (TR010)
+Thu Jun 07 19:39:13 CEST 2018 --- Thread: 13   application.HelloWorld
+INFO: Cerrando App desde ventana (TR040)
+
+
+Thu Jun 07 19:39:54 CEST 2018 --- Thread: 13   application.HelloWorld
+INFO: Cargando interfaz (TR080)
+Thu Jun 07 19:39:54 CEST 2018 --- Thread: 13   application.controller.InterfaceController
+INFO: Cargando controlador (TR081)
+Thu Jun 07 19:39:54 CEST 2018 --- Thread: 13   application.controller.InterfaceController
+INFO: Cargando datos de usuario (TR010)
+Thu Jun 07 19:40:13 CEST 2018 --- Thread: 13   application.HelloWorld
+INFO: Cerrando App desde ventana (TR040)
+
+
+Thu Jun 07 19:44:21 CEST 2018 --- Thread: 13   application.HelloWorld
+INFO: Cargando interfaz (TR080)
+Thu Jun 07 19:44:22 CEST 2018 --- Thread: 13   application.controller.InterfaceController
+INFO: Cargando controlador (TR081)
+Thu Jun 07 19:44:22 CEST 2018 --- Thread: 13   application.controller.InterfaceController
+INFO: Cargando datos de usuario (TR010)
+Thu Jun 07 19:44:31 CEST 2018 --- Thread: 13   application.HelloWorld
+INFO: Cerrando App desde ventana (TR040)
+
+
+Thu Jun 07 19:45:37 CEST 2018 --- Thread: 16   application.HelloWorld
+INFO: Cargando interfaz (TR080)
+Thu Jun 07 19:45:38 CEST 2018 --- Thread: 16   application.controller.InterfaceController
+INFO: Cargando controlador (TR081)
+Thu Jun 07 19:45:38 CEST 2018 --- Thread: 16   application.controller.InterfaceController
+INFO: Cargando datos de usuario (TR010)
+Thu Jun 07 19:46:35 CEST 2018 --- Thread: 13   application.HelloWorld
+INFO: Cargando interfaz (TR080)
+Thu Jun 07 19:46:35 CEST 2018 --- Thread: 13   application.controller.InterfaceController
+INFO: Cargando controlador (TR081)
+Thu Jun 07 19:46:35 CEST 2018 --- Thread: 13   application.controller.InterfaceController
+INFO: Cargando datos de usuario (TR010)
+Thu Jun 07 19:46:43 CEST 2018 --- Thread: 13   application.HelloWorld
+INFO: Cerrando App desde ventana (TR040)
+
+
+Thu Jun 07 19:46:58 CEST 2018 --- Thread: 16   application.HelloWorld
+INFO: Cargando interfaz (TR080)
+Thu Jun 07 19:46:58 CEST 2018 --- Thread: 16   application.controller.InterfaceController
+INFO: Cargando controlador (TR081)
+Thu Jun 07 19:47:28 CEST 2018 --- Thread: 13   application.HelloWorld
+INFO: Cargando interfaz (TR080)
+Thu Jun 07 19:47:28 CEST 2018 --- Thread: 13   application.controller.InterfaceController
+INFO: Cargando controlador (TR081)
+Thu Jun 07 19:47:28 CEST 2018 --- Thread: 13   application.controller.InterfaceController
+INFO: Cargando datos de usuario (TR010)
+Thu Jun 07 19:47:34 CEST 2018 --- Thread: 13   application.HelloWorld
+INFO: Cerrando App desde ventana (TR040)
+
+
+Thu Jun 07 19:47:56 CEST 2018 --- Thread: 16   application.HelloWorld
+INFO: Cargando interfaz (TR080)
+Thu Jun 07 19:47:56 CEST 2018 --- Thread: 16   application.controller.InterfaceController
+INFO: Cargando controlador (TR081)
+Thu Jun 07 19:48:20 CEST 2018 --- Thread: 16   application.controller.InterfaceController
+INFO: Cargando datos de usuario (TR010)
+Thu Jun 07 19:49:43 CEST 2018 --- Thread: 13   application.HelloWorld
+INFO: Cargando interfaz (TR080)
+Thu Jun 07 19:49:44 CEST 2018 --- Thread: 13   application.controller.InterfaceController
+INFO: Cargando controlador (TR081)
+Thu Jun 07 19:49:44 CEST 2018 --- Thread: 13   application.controller.InterfaceController
+INFO: Cargando datos de usuario (TR010)
+Thu Jun 07 19:49:51 CEST 2018 --- Thread: 13   application.HelloWorld
+INFO: Cerrando App desde ventana (TR040)
+
+
+Thu Jun 07 19:50:21 CEST 2018 --- Thread: 13   application.HelloWorld
+INFO: Cargando interfaz (TR080)
+Thu Jun 07 19:50:21 CEST 2018 --- Thread: 13   application.controller.InterfaceController
+INFO: Cargando controlador (TR081)
+Thu Jun 07 19:50:21 CEST 2018 --- Thread: 13   application.controller.InterfaceController
+INFO: Cargando datos de usuario (TR010)
+Thu Jun 07 19:50:26 CEST 2018 --- Thread: 13   application.HelloWorld
+INFO: Cerrando App desde ventana (TR040)
+
+
+Thu Jun 07 19:51:50 CEST 2018 --- Thread: 16   application.HelloWorld
+INFO: Cargando interfaz (TR080)
+Thu Jun 07 19:51:51 CEST 2018 --- Thread: 16   application.controller.InterfaceController
+INFO: Cargando controlador (TR081)
+Thu Jun 07 19:52:19 CEST 2018 --- Thread: 16   application.controller.InterfaceController
+INFO: Cargando datos de usuario (TR010)
+Thu Jun 07 19:52:29 CEST 2018 --- Thread: 16   application.HelloWorld
+INFO: Cerrando App desde ventana (TR040)
+
+
+Thu Jun 07 19:55:07 CEST 2018 --- Thread: 13   application.HelloWorld
+INFO: Cargando interfaz (TR080)
+Thu Jun 07 19:55:07 CEST 2018 --- Thread: 13   application.controller.InterfaceController
+INFO: Cargando controlador (TR081)
+Thu Jun 07 19:55:08 CEST 2018 --- Thread: 13   application.controller.InterfaceController
+INFO: Cargando datos de usuario (TR010)
+Thu Jun 07 19:55:15 CEST 2018 --- Thread: 13   application.HelloWorld
+INFO: Cerrando App desde ventana (TR040)
+
+
+Thu Jun 07 20:02:38 CEST 2018 --- Thread: 13   application.HelloWorld
+INFO: Cargando interfaz (TR080)
+Thu Jun 07 20:02:39 CEST 2018 --- Thread: 13   application.controller.InterfaceController
+INFO: Cargando controlador (TR081)
+Thu Jun 07 20:02:39 CEST 2018 --- Thread: 13   application.controller.InterfaceController
+INFO: Cargando datos de usuario (TR010)
+Thu Jun 07 20:02:46 CEST 2018 --- Thread: 13   application.HelloWorld
+INFO: Cerrando App desde ventana (TR040)
+
+
+Thu Jun 07 20:03:06 CEST 2018 --- Thread: 13   application.HelloWorld
+INFO: Cargando interfaz (TR080)
+Thu Jun 07 20:03:06 CEST 2018 --- Thread: 13   application.controller.InterfaceController
+INFO: Cargando controlador (TR081)
+Thu Jun 07 20:03:06 CEST 2018 --- Thread: 13   application.controller.InterfaceController
+INFO: Cargando datos de usuario (TR010)
+Thu Jun 07 20:03:12 CEST 2018 --- Thread: 13   application.controller.InterfaceController
+INFO: Cambiando idioma a Ingles (TR030)
+Thu Jun 07 20:03:16 CEST 2018 --- Thread: 13   application.HelloWorld
+INFO: Closing App from window (TR040)
+
+
+Thu Jun 07 20:04:16 CEST 2018 --- Thread: 13   application.HelloWorld
+INFO: Cargando interfaz (TR080)
+Thu Jun 07 20:04:16 CEST 2018 --- Thread: 13   application.controller.InterfaceController
+INFO: Cargando controlador (TR081)
+Thu Jun 07 20:04:17 CEST 2018 --- Thread: 13   application.controller.InterfaceController
+INFO: Cargando datos de usuario (TR010)
+Thu Jun 07 20:04:26 CEST 2018 --- Thread: 13   application.HelloWorld
+INFO: Cerrando App desde ventana (TR040)
+
+
+Thu Jun 07 20:06:09 CEST 2018 --- Thread: 13   application.HelloWorld
+INFO: Cargando interfaz (TR080)
+Thu Jun 07 20:06:09 CEST 2018 --- Thread: 13   application.controller.InterfaceController
+INFO: Cargando controlador (TR081)
+Thu Jun 07 20:06:09 CEST 2018 --- Thread: 13   application.controller.InterfaceController
+INFO: Cargando datos de usuario (TR010)
+Thu Jun 07 20:06:17 CEST 2018 --- Thread: 13   application.HelloWorld
+INFO: Cerrando App desde ventana (TR040)
+
+
+Thu Jun 07 20:07:20 CEST 2018 --- Thread: 13   application.HelloWorld
+INFO: Cargando interfaz (TR080)
+Thu Jun 07 20:07:21 CEST 2018 --- Thread: 13   application.controller.InterfaceController
+INFO: Cargando controlador (TR081)
+Thu Jun 07 20:07:21 CEST 2018 --- Thread: 13   application.controller.InterfaceController
+INFO: Cargando datos de usuario (TR010)
+Thu Jun 07 20:07:28 CEST 2018 --- Thread: 13   application.HelloWorld
+INFO: Cerrando App desde ventana (TR040)
+
+
+Thu Jun 07 20:08:27 CEST 2018 --- Thread: 13   application.HelloWorld
+INFO: Cargando interfaz (TR080)
+Thu Jun 07 20:08:28 CEST 2018 --- Thread: 13   application.controller.InterfaceController
+INFO: Cargando controlador (TR081)
+Thu Jun 07 20:08:28 CEST 2018 --- Thread: 13   application.controller.InterfaceController
+INFO: Cargando datos de usuario (TR010)
+Thu Jun 07 20:08:35 CEST 2018 --- Thread: 13   application.HelloWorld
+INFO: Cerrando App desde ventana (TR040)
+
+
+Thu Jun 07 20:10:44 CEST 2018 --- Thread: 13   application.HelloWorld
+INFO: Cargando interfaz (TR080)
+Thu Jun 07 20:10:44 CEST 2018 --- Thread: 13   application.controller.InterfaceController
+INFO: Cargando controlador (TR081)
+Thu Jun 07 20:10:44 CEST 2018 --- Thread: 13   application.controller.InterfaceController
+INFO: Cargando datos de usuario (TR010)
+Thu Jun 07 20:10:51 CEST 2018 --- Thread: 13   application.HelloWorld
+INFO: Cerrando App desde ventana (TR040)
+
+
+Thu Jun 07 20:11:22 CEST 2018 --- Thread: 13   application.HelloWorld
+INFO: Cargando interfaz (TR080)
+Thu Jun 07 20:11:22 CEST 2018 --- Thread: 13   application.controller.InterfaceController
+INFO: Cargando controlador (TR081)
+Thu Jun 07 20:11:23 CEST 2018 --- Thread: 13   application.controller.InterfaceController
+INFO: Cargando datos de usuario (TR010)
+Thu Jun 07 20:11:31 CEST 2018 --- Thread: 13   application.controller.InterfaceController
+INFO: Cambiando idioma a Ingles (TR030)
+Thu Jun 07 20:11:35 CEST 2018 --- Thread: 13   application.HelloWorld
+INFO: Closing App from window (TR040)
+
+
+Thu Jun 07 20:11:57 CEST 2018 --- Thread: 13   application.HelloWorld
+INFO: Cargando interfaz (TR080)
+Thu Jun 07 20:11:58 CEST 2018 --- Thread: 13   application.controller.InterfaceController
+INFO: Cargando controlador (TR081)
+Thu Jun 07 20:11:58 CEST 2018 --- Thread: 13   application.controller.InterfaceController
+INFO: Cargando datos de usuario (TR010)
+Thu Jun 07 20:12:06 CEST 2018 --- Thread: 13   application.HelloWorld
+INFO: Cerrando App desde ventana (TR040)
+
+
+Thu Jun 07 20:16:04 CEST 2018 --- Thread: 13   application.HelloWorld
+INFO: Cargando interfaz (TR080)
+Thu Jun 07 20:16:04 CEST 2018 --- Thread: 13   application.controller.InterfaceController
+INFO: Cargando controlador (TR081)
+Thu Jun 07 20:16:04 CEST 2018 --- Thread: 13   application.controller.InterfaceController
+INFO: Cargando datos de usuario (TR010)
+Thu Jun 07 20:16:11 CEST 2018 --- Thread: 13   application.HelloWorld
+INFO: Cerrando App desde ventana (TR040)
+
+
+Thu Jun 07 20:19:14 CEST 2018 --- Thread: 13   application.HelloWorld
+INFO: Cargando interfaz (TR080)
+Thu Jun 07 20:19:14 CEST 2018 --- Thread: 13   application.controller.InterfaceController
+INFO: Cargando controlador (TR081)
+Thu Jun 07 20:19:14 CEST 2018 --- Thread: 13   application.controller.InterfaceController
+INFO: Cargando datos de usuario (TR010)
+Thu Jun 07 20:19:28 CEST 2018 --- Thread: 13   application.HelloWorld
+INFO: Cerrando App desde ventana (TR040)
+
+
+Thu Jun 07 20:20:12 CEST 2018 --- Thread: 13   application.HelloWorld
+INFO: Cargando interfaz (TR080)
+Thu Jun 07 20:20:13 CEST 2018 --- Thread: 13   application.controller.InterfaceController
+INFO: Cargando controlador (TR081)
+Thu Jun 07 20:20:13 CEST 2018 --- Thread: 13   application.controller.InterfaceController
+INFO: Cargando datos de usuario (TR010)
+Thu Jun 07 20:20:20 CEST 2018 --- Thread: 13   application.HelloWorld
+INFO: Cerrando App desde ventana (TR040)
+
+
+Thu Jun 07 20:23:41 CEST 2018 --- Thread: 13   application.HelloWorld
+INFO: Cargando interfaz (TR080)
+Thu Jun 07 20:23:41 CEST 2018 --- Thread: 13   application.controller.InterfaceController
+INFO: Cargando controlador (TR081)
+Thu Jun 07 20:23:41 CEST 2018 --- Thread: 13   application.controller.InterfaceController
+INFO: Cargando datos de usuario (TR010)
+Thu Jun 07 20:23:47 CEST 2018 --- Thread: 13   application.HelloWorld
+INFO: Cerrando App desde ventana (TR040)
+
+
+Thu Jun 07 20:26:14 CEST 2018 --- Thread: 13   application.HelloWorld
+INFO: Cargando interfaz (TR080)
+Thu Jun 07 20:26:15 CEST 2018 --- Thread: 13   application.controller.InterfaceController
+INFO: Cargando controlador (TR081)
+Thu Jun 07 20:26:15 CEST 2018 --- Thread: 13   application.controller.InterfaceController
+INFO: Cargando datos de usuario (TR010)
+Thu Jun 07 20:26:21 CEST 2018 --- Thread: 13   application.HelloWorld
+INFO: Cerrando App desde ventana (TR040)
+
+
+Thu Jun 07 20:30:37 CEST 2018 --- Thread: 13   application.HelloWorld
+INFO: Cargando interfaz (TR080)
+Thu Jun 07 20:30:37 CEST 2018 --- Thread: 13   application.controller.InterfaceController
+INFO: Cargando controlador (TR081)
+Thu Jun 07 20:30:37 CEST 2018 --- Thread: 13   application.controller.InterfaceController
+INFO: Cargando datos de usuario (TR010)
+Thu Jun 07 20:31:10 CEST 2018 --- Thread: 13   application.HelloWorld
+INFO: Cerrando App desde ventana (TR040)
+
+
+Thu Jun 07 20:32:27 CEST 2018 --- Thread: 13   application.HelloWorld
+INFO: Cargando interfaz (TR080)
+Thu Jun 07 20:32:28 CEST 2018 --- Thread: 13   application.controller.InterfaceController
+INFO: Cargando controlador (TR081)
+Thu Jun 07 20:32:28 CEST 2018 --- Thread: 13   application.controller.InterfaceController
+INFO: Cargando datos de usuario (TR010)
+Thu Jun 07 20:32:33 CEST 2018 --- Thread: 13   application.HelloWorld
+INFO: Cerrando App desde ventana (TR040)
+
+
+Thu Jun 07 21:11:41 CEST 2018 --- Thread: 13   application.HelloWorld
+INFO: Cargando interfaz (TR080)
+Thu Jun 07 21:11:42 CEST 2018 --- Thread: 13   application.controller.InterfaceController
+INFO: Cargando controlador (TR081)
+Thu Jun 07 21:11:42 CEST 2018 --- Thread: 13   application.controller.InterfaceController
+INFO: Cargando datos de usuario (TR010)
+Thu Jun 07 21:11:47 CEST 2018 --- Thread: 13   application.HelloWorld
+INFO: Cerrando App desde ventana (TR040)
+
+
+Thu Jun 07 21:27:23 CEST 2018 --- Thread: 13   application.HelloWorld
+INFO: Cargando interfaz (TR080)
+Thu Jun 07 21:27:23 CEST 2018 --- Thread: 13   application.controller.InterfaceController
+INFO: Cargando controlador (TR081)
+Thu Jun 07 21:27:24 CEST 2018 --- Thread: 13   application.controller.InterfaceController
+INFO: Cargando datos de usuario (TR010)
+Thu Jun 07 21:27:28 CEST 2018 --- Thread: 13   application.HelloWorld
+INFO: Cerrando App desde ventana (TR040)
+
+
+Thu Jun 07 21:30:37 CEST 2018 --- Thread: 13   application.HelloWorld
+INFO: Cargando interfaz (TR080)
+Thu Jun 07 21:30:37 CEST 2018 --- Thread: 13   application.controller.InterfaceController
+INFO: Cargando controlador (TR081)
+Thu Jun 07 21:30:37 CEST 2018 --- Thread: 13   application.controller.InterfaceController
+INFO: Cargando datos de usuario (TR010)
+Thu Jun 07 21:30:52 CEST 2018 --- Thread: 13   application.HelloWorld
+INFO: Cerrando App desde ventana (TR040)
+
+
+Thu Jun 07 22:48:25 CEST 2018 --- Thread: 13   application.HelloWorld
+INFO: Cargando interfaz (TR080)
+Thu Jun 07 22:48:25 CEST 2018 --- Thread: 13   application.controller.InterfaceController
+INFO: Cargando controlador (TR081)
+Thu Jun 07 22:48:25 CEST 2018 --- Thread: 13   application.controller.InterfaceController
+INFO: Cargando datos de usuario (TR010)
+Thu Jun 07 22:50:28 CEST 2018 --- Thread: 13   application.HelloWorld
+INFO: Cerrando App desde ventana (TR040)
+
+
+Thu Jun 07 22:53:19 CEST 2018 --- Thread: 13   application.HelloWorld
+INFO: Cargando interfaz (TR080)
+Thu Jun 07 22:53:20 CEST 2018 --- Thread: 13   application.controller.InterfaceController
+INFO: Cargando controlador (TR081)
+Thu Jun 07 22:53:20 CEST 2018 --- Thread: 13   application.controller.InterfaceController
+INFO: Cargando datos de usuario (TR010)
+Thu Jun 07 22:53:32 CEST 2018 --- Thread: 13   application.HelloWorld
+INFO: Cerrando App desde ventana (TR040)
+
+
+Thu Jun 07 23:00:11 CEST 2018 --- Thread: 13   application.HelloWorld
+INFO: Cargando interfaz (TR080)
+Thu Jun 07 23:00:11 CEST 2018 --- Thread: 13   application.controller.InterfaceController
+INFO: Cargando controlador (TR081)
+Thu Jun 07 23:00:12 CEST 2018 --- Thread: 13   application.controller.InterfaceController
+INFO: Cargando datos de usuario (TR010)
+Thu Jun 07 23:04:03 CEST 2018 --- Thread: 13   application.HelloWorld
+INFO: Cargando interfaz (TR080)
+Thu Jun 07 23:04:04 CEST 2018 --- Thread: 13   application.controller.InterfaceController
+INFO: Cargando controlador (TR081)
+Thu Jun 07 23:04:04 CEST 2018 --- Thread: 13   application.controller.InterfaceController
+INFO: Cargando datos de usuario (TR010)
+Thu Jun 07 23:04:46 CEST 2018 --- Thread: 13   application.HelloWorld
+INFO: Cerrando App desde ventana (TR040)
+
+
+Thu Jun 07 23:07:08 CEST 2018 --- Thread: 13   application.HelloWorld
+INFO: Cargando interfaz (TR080)
+Thu Jun 07 23:07:08 CEST 2018 --- Thread: 13   application.controller.InterfaceController
+INFO: Cargando controlador (TR081)
+Thu Jun 07 23:07:08 CEST 2018 --- Thread: 13   application.controller.InterfaceController
+INFO: Cargando datos de usuario (TR010)
+Thu Jun 07 23:11:03 CEST 2018 --- Thread: 13   application.HelloWorld
+INFO: Cerrando App desde ventana (TR040)
+
+
+Thu Jun 07 23:12:48 CEST 2018 --- Thread: 13   application.HelloWorld
+INFO: Cargando interfaz (TR080)
+Thu Jun 07 23:12:49 CEST 2018 --- Thread: 13   application.controller.InterfaceController
+INFO: Cargando controlador (TR081)
+Thu Jun 07 23:12:49 CEST 2018 --- Thread: 13   application.controller.InterfaceController
+INFO: Cargando datos de usuario (TR010)
+Thu Jun 07 23:13:02 CEST 2018 --- Thread: 13   application.HelloWorld
+INFO: Cerrando App desde ventana (TR040)
+
+
+Thu Jun 07 23:23:01 CEST 2018 --- Thread: 13   application.HelloWorld
+INFO: Cargando interfaz (TR080)
+Thu Jun 07 23:23:01 CEST 2018 --- Thread: 13   application.controller.InterfaceController
+INFO: Cargando controlador (TR081)
+Thu Jun 07 23:23:01 CEST 2018 --- Thread: 13   application.controller.InterfaceController
+INFO: Cargando datos de usuario (TR010)
+Thu Jun 07 23:23:28 CEST 2018 --- Thread: 13   application.HelloWorld
+INFO: Cerrando App desde ventana (TR040)
+
+
+Thu Jun 07 23:24:56 CEST 2018 --- Thread: 13   application.HelloWorld
+INFO: Cargando interfaz (TR080)
+Thu Jun 07 23:24:57 CEST 2018 --- Thread: 13   application.controller.InterfaceController
+INFO: Cargando controlador (TR081)
+Thu Jun 07 23:24:57 CEST 2018 --- Thread: 13   application.controller.InterfaceController
+INFO: Cargando datos de usuario (TR010)
+Thu Jun 07 23:25:14 CEST 2018 --- Thread: 13   application.controller.InterfaceController
+INFO: Cambiando idioma a Ingles (TR030)
+Thu Jun 07 23:26:19 CEST 2018 --- Thread: 13   application.HelloWorld
+INFO: Cargando interfaz (TR080)
+Thu Jun 07 23:26:19 CEST 2018 --- Thread: 13   application.controller.InterfaceController
+INFO: Cargando controlador (TR081)
+Thu Jun 07 23:26:19 CEST 2018 --- Thread: 13   application.controller.InterfaceController
+INFO: Cargando datos de usuario (TR010)
+Thu Jun 07 23:26:32 CEST 2018 --- Thread: 13   application.HelloWorld
+INFO: Cerrando App desde ventana (TR040)
+
+
+Thu Jun 07 23:28:23 CEST 2018 --- Thread: 13   application.HelloWorld
+INFO: Cargando interfaz (TR080)
+Thu Jun 07 23:28:24 CEST 2018 --- Thread: 13   application.controller.InterfaceController
+INFO: Cargando controlador (TR081)
+Thu Jun 07 23:28:24 CEST 2018 --- Thread: 13   application.controller.InterfaceController
+INFO: Cargando datos de usuario (TR010)
+Thu Jun 07 23:28:43 CEST 2018 --- Thread: 13   application.HelloWorld
+INFO: Cerrando App desde ventana (TR040)
+
+
+Thu Jun 07 23:29:24 CEST 2018 --- Thread: 13   application.HelloWorld
+INFO: Cargando interfaz (TR080)
+Thu Jun 07 23:29:25 CEST 2018 --- Thread: 13   application.controller.InterfaceController
+INFO: Cargando controlador (TR081)
+Thu Jun 07 23:29:25 CEST 2018 --- Thread: 13   application.controller.InterfaceController
+INFO: Cargando datos de usuario (TR010)
+Thu Jun 07 23:29:43 CEST 2018 --- Thread: 13   application.HelloWorld
+INFO: Cerrando App desde ventana (TR040)
+
+
+Thu Jun 07 23:30:42 CEST 2018 --- Thread: 13   application.HelloWorld
+INFO: Cargando interfaz (TR080)
+Thu Jun 07 23:30:43 CEST 2018 --- Thread: 13   application.controller.InterfaceController
+INFO: Cargando controlador (TR081)
+Thu Jun 07 23:30:43 CEST 2018 --- Thread: 13   application.controller.InterfaceController
+INFO: Cargando datos de usuario (TR010)
+Thu Jun 07 23:33:27 CEST 2018 --- Thread: 13   application.HelloWorld
+INFO: Cargando interfaz (TR080)
+Thu Jun 07 23:33:27 CEST 2018 --- Thread: 13   application.controller.InterfaceController
+INFO: Cargando controlador (TR081)
+Thu Jun 07 23:33:27 CEST 2018 --- Thread: 13   application.controller.InterfaceController
+INFO: Cargando datos de usuario (TR010)
+Thu Jun 07 23:33:41 CEST 2018 --- Thread: 13   application.HelloWorld
+INFO: Cerrando App desde ventana (TR040)
+
+
+Thu Jun 07 23:35:07 CEST 2018 --- Thread: 13   application.HelloWorld
+INFO: Cargando interfaz (TR080)
+Thu Jun 07 23:35:08 CEST 2018 --- Thread: 13   application.controller.InterfaceController
+INFO: Cargando controlador (TR081)
+Thu Jun 07 23:35:08 CEST 2018 --- Thread: 13   application.controller.InterfaceController
+INFO: Cargando datos de usuario (TR010)
+Thu Jun 07 23:35:15 CEST 2018 --- Thread: 13   application.HelloWorld
+INFO: Cerrando App desde ventana (TR040)
+
+
+Thu Jun 07 23:37:27 CEST 2018 --- Thread: 13   application.HelloWorld
+INFO: Cargando interfaz (TR080)
+Thu Jun 07 23:37:28 CEST 2018 --- Thread: 13   application.controller.InterfaceController
+INFO: Cargando controlador (TR081)
+Thu Jun 07 23:37:28 CEST 2018 --- Thread: 13   application.controller.InterfaceController
+INFO: Cargando datos de usuario (TR010)
+Thu Jun 07 23:37:57 CEST 2018 --- Thread: 13   application.HelloWorld
+INFO: Cerrando App desde ventana (TR040)
+
+
+Thu Jun 07 23:38:52 CEST 2018 --- Thread: 13   application.HelloWorld
+INFO: Cargando interfaz (TR080)
+Thu Jun 07 23:38:53 CEST 2018 --- Thread: 13   application.controller.InterfaceController
+INFO: Cargando controlador (TR081)
+Thu Jun 07 23:38:53 CEST 2018 --- Thread: 13   application.controller.InterfaceController
+INFO: Cargando datos de usuario (TR010)
+Thu Jun 07 23:39:04 CEST 2018 --- Thread: 13   application.HelloWorld
+INFO: Cerrando App desde ventana (TR040)
+
+
+Thu Jun 07 23:39:49 CEST 2018 --- Thread: 13   application.HelloWorld
+INFO: Cargando interfaz (TR080)
+Thu Jun 07 23:39:50 CEST 2018 --- Thread: 13   application.controller.InterfaceController
+INFO: Cargando controlador (TR081)
+Thu Jun 07 23:39:50 CEST 2018 --- Thread: 13   application.controller.InterfaceController
+INFO: Cargando datos de usuario (TR010)
+Thu Jun 07 23:44:02 CEST 2018 --- Thread: 13   application.HelloWorld
+INFO: Cargando interfaz (TR080)
+Thu Jun 07 23:44:02 CEST 2018 --- Thread: 13   application.controller.InterfaceController
+INFO: Cargando controlador (TR081)
+Thu Jun 07 23:44:02 CEST 2018 --- Thread: 13   application.controller.InterfaceController
+INFO: Cargando datos de usuario (TR010)
+Thu Jun 07 23:47:04 CEST 2018 --- Thread: 13   application.HelloWorld
+INFO: Cargando interfaz (TR080)
+Thu Jun 07 23:47:05 CEST 2018 --- Thread: 13   application.controller.InterfaceController
+INFO: Cargando controlador (TR081)
+Thu Jun 07 23:47:05 CEST 2018 --- Thread: 13   application.controller.InterfaceController
+INFO: Cargando datos de usuario (TR010)
+Thu Jun 07 23:47:25 CEST 2018 --- Thread: 13   application.HelloWorld
+INFO: Cerrando App desde ventana (TR040)
+
+
+Thu Jun 07 23:51:27 CEST 2018 --- Thread: 13   application.HelloWorld
+INFO: Cargando interfaz (TR080)
+Thu Jun 07 23:51:28 CEST 2018 --- Thread: 13   application.controller.InterfaceController
+INFO: Cargando controlador (TR081)
+Thu Jun 07 23:51:28 CEST 2018 --- Thread: 13   application.controller.InterfaceController
+INFO: Cargando datos de usuario (TR010)
+Thu Jun 07 23:52:17 CEST 2018 --- Thread: 13   application.HelloWorld
+INFO: Cargando interfaz (TR080)
+Thu Jun 07 23:52:17 CEST 2018 --- Thread: 13   application.controller.InterfaceController
+INFO: Cargando controlador (TR081)
+Thu Jun 07 23:52:17 CEST 2018 --- Thread: 13   application.controller.InterfaceController
+INFO: Cargando datos de usuario (TR010)
+Thu Jun 07 23:52:25 CEST 2018 --- Thread: 13   application.HelloWorld
+INFO: Cerrando App desde ventana (TR040)
+
+
+Thu Jun 07 23:56:19 CEST 2018 --- Thread: 13   application.HelloWorld
+INFO: Cargando interfaz (TR080)
+Thu Jun 07 23:56:20 CEST 2018 --- Thread: 13   application.controller.InterfaceController
+INFO: Cargando controlador (TR081)
+Thu Jun 07 23:56:20 CEST 2018 --- Thread: 13   application.controller.InterfaceController
+INFO: Cargando datos de usuario (TR010)
+Fri Jun 08 00:02:15 CEST 2018 --- Thread: 13   application.HelloWorld
+INFO: Cargando interfaz (TR080)
+Fri Jun 08 00:02:16 CEST 2018 --- Thread: 13   application.controller.InterfaceController
+INFO: Cargando controlador (TR081)
+Fri Jun 08 00:02:17 CEST 2018 --- Thread: 13   application.controller.InterfaceController
+INFO: Cargando datos de usuario (TR010)
+Fri Jun 08 00:02:30 CEST 2018 --- Thread: 13   application.HelloWorld
+INFO: Cerrando App desde ventana (TR040)
+
+
+Fri Jun 08 13:17:00 CEST 2018 --- Thread: 13   application.HelloWorld
+INFO: Cargando interfaz (TR080)
+Fri Jun 08 13:17:02 CEST 2018 --- Thread: 13   application.controller.InterfaceController
+INFO: Cargando controlador (TR081)
+Fri Jun 08 13:17:02 CEST 2018 --- Thread: 13   application.controller.InterfaceController
+INFO: Cargando datos de usuario (TR010)
+Fri Jun 08 13:17:13 CEST 2018 --- Thread: 13   application.HelloWorld
+INFO: Cerrando App desde ventana (TR040)
+
+
+Fri Jun 08 14:01:02 CEST 2018 --- Thread: 13   application.HelloWorld
+INFO: Cargando interfaz (TR080)
+Fri Jun 08 14:01:03 CEST 2018 --- Thread: 13   application.controller.InterfaceController
+INFO: Cargando controlador (TR081)
+Fri Jun 08 14:01:03 CEST 2018 --- Thread: 13   application.controller.InterfaceController
+INFO: Cargando datos de usuario (TR010)
+Fri Jun 08 14:01:19 CEST 2018 --- Thread: 13   application.HelloWorld
+INFO: Cerrando App desde ventana (TR040)
+
+
+Fri Jun 08 14:02:06 CEST 2018 --- Thread: 13   application.HelloWorld
+INFO: Cargando interfaz (TR080)
+Fri Jun 08 14:02:07 CEST 2018 --- Thread: 13   application.controller.InterfaceController
+INFO: Cargando controlador (TR081)
+Fri Jun 08 14:02:07 CEST 2018 --- Thread: 13   application.controller.InterfaceController
+INFO: Cargando datos de usuario (TR010)
+Fri Jun 08 14:02:25 CEST 2018 --- Thread: 13   application.HelloWorld
+INFO: Cerrando App desde ventana (TR040)
+
+
+Fri Jun 08 14:03:29 CEST 2018 --- Thread: 13   application.HelloWorld
+INFO: Cargando interfaz (TR080)
+Fri Jun 08 14:03:29 CEST 2018 --- Thread: 13   application.controller.InterfaceController
+INFO: Cargando controlador (TR081)
+Fri Jun 08 14:03:30 CEST 2018 --- Thread: 13   application.controller.InterfaceController
+INFO: Cargando datos de usuario (TR010)
+Fri Jun 08 14:04:12 CEST 2018 --- Thread: 13   application.HelloWorld
+INFO: Cerrando App desde ventana (TR040)
+
+
+Fri Jun 08 14:04:37 CEST 2018 --- Thread: 13   application.HelloWorld
+INFO: Cargando interfaz (TR080)
+Fri Jun 08 14:04:38 CEST 2018 --- Thread: 13   application.controller.InterfaceController
+INFO: Cargando controlador (TR081)
+Fri Jun 08 14:04:38 CEST 2018 --- Thread: 13   application.controller.InterfaceController
+INFO: Cargando datos de usuario (TR010)
+Fri Jun 08 14:05:09 CEST 2018 --- Thread: 13   application.HelloWorld
+INFO: Cerrando App desde ventana (TR040)
+
+
+Fri Jun 08 19:27:19 CEST 2018 --- Thread: 13   application.HelloWorld
+INFO: Cargando interfaz (TR080)
+Fri Jun 08 19:27:20 CEST 2018 --- Thread: 13   application.controller.InterfaceController
+INFO: Cargando controlador (TR081)
+Fri Jun 08 19:27:20 CEST 2018 --- Thread: 13   application.controller.InterfaceController
+INFO: Cargando datos de usuario (TR010)
+Fri Jun 08 19:27:33 CEST 2018 --- Thread: 13   application.HelloWorld
+INFO: Cerrando App desde ventana (TR040)
+
+
+Fri Jun 08 19:31:51 CEST 2018 --- Thread: 13   application.HelloWorld
+INFO: Cargando interfaz (TR080)
+Fri Jun 08 19:31:52 CEST 2018 --- Thread: 13   application.controller.InterfaceController
+INFO: Cargando controlador (TR081)
+Fri Jun 08 19:31:52 CEST 2018 --- Thread: 13   application.controller.InterfaceController
+INFO: Cargando datos de usuario (TR010)
+Fri Jun 08 19:32:12 CEST 2018 --- Thread: 13   application.HelloWorld
+INFO: Cerrando App desde ventana (TR040)
+
+
+Fri Jun 08 19:38:59 CEST 2018 --- Thread: 13   application.HelloWorld
+INFO: Cargando interfaz (TR080)
+Fri Jun 08 19:39:00 CEST 2018 --- Thread: 13   application.controller.InterfaceController
+INFO: Cargando controlador (TR081)
+Fri Jun 08 19:39:00 CEST 2018 --- Thread: 13   application.controller.InterfaceController
+INFO: Cargando datos de usuario (TR010)
+Fri Jun 08 19:40:45 CEST 2018 --- Thread: 13   application.HelloWorld
+INFO: Cargando interfaz (TR080)
+Fri Jun 08 19:40:46 CEST 2018 --- Thread: 13   application.controller.InterfaceController
+INFO: Cargando controlador (TR081)
+Fri Jun 08 19:40:46 CEST 2018 --- Thread: 13   application.controller.InterfaceController
+INFO: Cargando datos de usuario (TR010)
+Fri Jun 08 19:40:54 CEST 2018 --- Thread: 13   application.HelloWorld
+INFO: Cerrando App desde ventana (TR040)
+
+
+Fri Jun 08 19:41:49 CEST 2018 --- Thread: 16   application.HelloWorld
+INFO: Cargando interfaz (TR080)
+Fri Jun 08 19:41:50 CEST 2018 --- Thread: 16   application.controller.InterfaceController
+INFO: Cargando controlador (TR081)
+Fri Jun 08 19:41:50 CEST 2018 --- Thread: 16   application.controller.InterfaceController
+INFO: Cargando datos de usuario (TR010)
+Fri Jun 08 19:47:40 CEST 2018 --- Thread: 13   application.HelloWorld
+INFO: Cargando interfaz (TR080)
+Fri Jun 08 19:47:41 CEST 2018 --- Thread: 13   application.controller.InterfaceController
+INFO: Cargando controlador (TR081)
+Fri Jun 08 19:47:41 CEST 2018 --- Thread: 13   application.controller.InterfaceController
+INFO: Cargando datos de usuario (TR010)
+Fri Jun 08 19:49:39 CEST 2018 --- Thread: 13   application.HelloWorld
+INFO: Cerrando App desde ventana (TR040)
+
+
+Fri Jun 08 21:44:24 CEST 2018 --- Thread: 13   application.HelloWorld
+INFO: Cargando interfaz (TR080)
+Fri Jun 08 21:44:25 CEST 2018 --- Thread: 13   application.controller.InterfaceController
+INFO: Cargando controlador (TR081)
+Fri Jun 08 21:44:25 CEST 2018 --- Thread: 13   application.controller.InterfaceController
+INFO: Cargando datos de usuario (TR010)
+Fri Jun 08 21:44:33 CEST 2018 --- Thread: 13   application.HelloWorld
+INFO: Cerrando App desde ventana (TR040)
+
+
+Fri Jun 08 21:44:49 CEST 2018 --- Thread: 13   application.HelloWorld
+INFO: Cargando interfaz (TR080)
+Fri Jun 08 21:44:49 CEST 2018 --- Thread: 13   application.controller.InterfaceController
+INFO: Cargando controlador (TR081)
+Fri Jun 08 21:44:50 CEST 2018 --- Thread: 13   application.controller.InterfaceController
+INFO: Cargando datos de usuario (TR010)
+Fri Jun 08 21:44:56 CEST 2018 --- Thread: 13   application.HelloWorld
+INFO: Cerrando App desde ventana (TR040)
+
+
+Fri Jun 08 21:58:09 CEST 2018 --- Thread: 13   application.controller.InterfaceController
+INFO: Cargando controlador (TR081)
+Fri Jun 08 21:58:09 CEST 2018 --- Thread: 13   application.controller.InterfaceController
+INFO: Cargando datos de usuario (TR010)
+Fri Jun 08 22:03:00 CEST 2018 --- Thread: 13   application.controller.InterfaceController$3
+SEVERE: Iniciando sincronizacion programada (TR070)
+Fri Jun 08 22:09:00 CEST 2018 --- Thread: 13   application.controller.InterfaceController$3
+SEVERE: Iniciando sincronizacion programada (TR070)
+Fri Jun 08 22:14:00 CEST 2018 --- Thread: 13   application.controller.InterfaceController$3
+SEVERE: Iniciando sincronizacion programada (TR070)
+Fri Jun 08 22:20:00 CEST 2018 --- Thread: 13   application.controller.InterfaceController$3
+SEVERE: Iniciando sincronizacion programada (TR070)
+Fri Jun 08 22:20:16 CEST 2018 --- Thread: 13   application.HelloWorld
+INFO: Cerrando App desde ventana (TR040)
+
+
+Fri Jun 08 22:20:30 CEST 2018 --- Thread: 13   application.controller.InterfaceController
+INFO: Cargando controlador (TR081)
+Fri Jun 08 22:20:30 CEST 2018 --- Thread: 13   application.controller.InterfaceController
+INFO: Cargando datos de usuario (TR010)
+Fri Jun 08 22:20:43 CEST 2018 --- Thread: 13   application.HelloWorld
+INFO: Cerrando App desde ventana (TR040)
+
+
+Sat Jun 09 12:56:28 CEST 2018 --- Thread: 13   application.controller.InterfaceController
+INFO: Cargando controlador (TR081)
+Sat Jun 09 12:56:29 CEST 2018 --- Thread: 13   application.controller.InterfaceController
+INFO: Cargando datos de usuario (TR010)
+Sat Jun 09 12:56:54 CEST 2018 --- Thread: 13   application.HelloWorld
+INFO: Cerrando App desde ventana (TR040)
+
+
+Sat Jun 09 12:58:53 CEST 2018 --- Thread: 13   application.controller.InterfaceController
+INFO: Cargando controlador (TR081)
+Sat Jun 09 12:58:53 CEST 2018 --- Thread: 13   application.controller.InterfaceController
+INFO: Cargando datos de usuario (TR010)
+Sat Jun 09 12:59:47 CEST 2018 --- Thread: 13   application.HelloWorld
+INFO: Cerrando App desde ventana (TR040)
+
+
+Sat Jun 09 13:00:03 CEST 2018 --- Thread: 13   application.controller.InterfaceController
+INFO: Cargando controlador (TR081)
+Sat Jun 09 13:00:03 CEST 2018 --- Thread: 13   application.controller.InterfaceController
+INFO: Cargando datos de usuario (TR010)
+Sat Jun 09 13:00:19 CEST 2018 --- Thread: 13   application.HelloWorld
+INFO: Cerrando App desde ventana (TR040)
+
+
+Sat Jun 09 13:00:50 CEST 2018 --- Thread: 13   application.controller.InterfaceController
+INFO: Cargando controlador (TR081)
+Sat Jun 09 13:00:50 CEST 2018 --- Thread: 13   application.controller.InterfaceController
+INFO: Cargando datos de usuario (TR010)
+Sat Jun 09 13:01:22 CEST 2018 --- Thread: 13   application.HelloWorld
+INFO: Cerrando App desde ventana (TR040)
+
+
+Sat Jun 09 14:59:05 CEST 2018 --- Thread: 13   application.controller.InterfaceController
+INFO: Cargando controlador (TR081)
+Sat Jun 09 14:59:05 CEST 2018 --- Thread: 13   application.controller.InterfaceController
+INFO: Cargando datos de usuario (TR010)
+Sat Jun 09 14:59:26 CEST 2018 --- Thread: 13   application.HelloWorld
+INFO: Cerrando App desde ventana (TR040)
+
+
+Sat Jun 09 22:19:16 CEST 2018 --- Thread: 13   application.controller.InterfaceController
+INFO: Cargando controlador (TR081)
+Sat Jun 09 22:19:16 CEST 2018 --- Thread: 13   application.controller.InterfaceController
+INFO: Cargando datos de usuario (TR010)
+Sat Jun 09 22:19:40 CEST 2018 --- Thread: 13   application.HelloWorld
+INFO: Cerrando App desde ventana (TR040)
+
+
+Sat Jun 09 22:23:07 CEST 2018 --- Thread: 13   application.controller.InterfaceController
+INFO: Cargando controlador (TR081)
+Sat Jun 09 22:23:07 CEST 2018 --- Thread: 13   application.controller.InterfaceController
+INFO: Cargando datos de usuario (TR010)
+Sat Jun 09 22:23:13 CEST 2018 --- Thread: 13   application.HelloWorld
+INFO: Cerrando App desde ventana (TR040)
+
+
+Sat Jun 09 22:23:35 CEST 2018 --- Thread: 13   application.controller.InterfaceController
+INFO: Cargando controlador (TR081)
+Sat Jun 09 22:23:35 CEST 2018 --- Thread: 13   application.controller.InterfaceController
+INFO: Cargando datos de usuario (TR010)
+Sat Jun 09 22:24:00 CEST 2018 --- Thread: 13   application.HelloWorld
+INFO: Cerrando App desde ventana (TR040)
+
+
+Sun Jun 10 11:05:23 CEST 2018 --- Thread: 13   application.controller.InterfaceController
+INFO: Cargando controlador (TR081)
+Sun Jun 10 11:05:23 CEST 2018 --- Thread: 13   application.controller.InterfaceController
+INFO: Cargando datos de usuario (TR010)
+Sun Jun 10 11:05:55 CEST 2018 --- Thread: 13   application.HelloWorld
+INFO: Cerrando App desde ventana (TR040)
+
+
+Sun Jun 10 11:07:36 CEST 2018 --- Thread: 13   application.controller.InterfaceController
+INFO: Cargando controlador (TR081)
+Sun Jun 10 11:07:36 CEST 2018 --- Thread: 13   application.controller.InterfaceController
+INFO: Cargando datos de usuario (TR010)
+Sun Jun 10 11:07:44 CEST 2018 --- Thread: 13   application.HelloWorld
+INFO: Cerrando App desde ventana (TR040)
+
+
+Sun Jun 10 11:08:44 CEST 2018 --- Thread: 13   application.controller.InterfaceController
+INFO: Cargando controlador (TR081)
+Sun Jun 10 11:08:44 CEST 2018 --- Thread: 13   application.controller.InterfaceController
+INFO: Cargando datos de usuario (TR010)
+Sun Jun 10 11:09:30 CEST 2018 --- Thread: 13   application.HelloWorld
+INFO: Cerrando App desde ventana (TR040)
+
+
+Sun Jun 10 11:18:01 CEST 2018 --- Thread: 13   application.controller.InterfaceController
+INFO: Cargando controlador (TR081)
+Sun Jun 10 11:18:01 CEST 2018 --- Thread: 13   application.controller.InterfaceController
+INFO: Cargando datos de usuario (TR010)
+Sun Jun 10 11:18:30 CEST 2018 --- Thread: 13   application.HelloWorld
+INFO: Cerrando App desde ventana (TR040)
+
+
+Sun Jun 10 11:23:53 CEST 2018 --- Thread: 13   application.controller.InterfaceController
+INFO: Cargando controlador (TR081)
+Sun Jun 10 11:23:53 CEST 2018 --- Thread: 13   application.controller.InterfaceController
+INFO: Cargando datos de usuario (TR010)
+Sun Jun 10 11:27:46 CEST 2018 --- Thread: 13   application.controller.InterfaceController
+INFO: Cargando controlador (TR081)
+Sun Jun 10 11:27:46 CEST 2018 --- Thread: 13   application.controller.InterfaceController
+INFO: Cargando datos de usuario (TR010)
+Sun Jun 10 11:28:22 CEST 2018 --- Thread: 13   application.HelloWorld
+INFO: Cerrando App desde ventana (TR040)
+
+
+Sun Jun 10 11:28:52 CEST 2018 --- Thread: 13   application.controller.InterfaceController
+INFO: Cargando controlador (TR081)
+Sun Jun 10 11:28:53 CEST 2018 --- Thread: 13   application.controller.InterfaceController
+INFO: Cargando datos de usuario (TR010)
+Sun Jun 10 11:29:08 CEST 2018 --- Thread: 13   application.HelloWorld
+INFO: Cerrando App desde ventana (TR040)
+
+
+Sun Jun 10 11:38:36 CEST 2018 --- Thread: 13   application.controller.InterfaceController
+INFO: Cargando controlador (TR081)
+Sun Jun 10 11:38:36 CEST 2018 --- Thread: 13   application.controller.InterfaceController
+INFO: Cargando datos de usuario (TR010)
+Sun Jun 10 11:39:30 CEST 2018 --- Thread: 13   application.controller.InterfaceController
+INFO: Cargando controlador (TR081)
+Sun Jun 10 11:39:30 CEST 2018 --- Thread: 13   application.controller.InterfaceController
+INFO: Cargando datos de usuario (TR010)
+Sun Jun 10 11:40:09 CEST 2018 --- Thread: 13   application.HelloWorld
+INFO: Cerrando App desde ventana (TR040)
+
+
+Sun Jun 10 11:41:42 CEST 2018 --- Thread: 13   application.controller.InterfaceController
+INFO: Cargando controlador (TR081)
+Sun Jun 10 11:41:42 CEST 2018 --- Thread: 13   application.controller.InterfaceController
+INFO: Cargando datos de usuario (TR010)
+Sun Jun 10 11:41:55 CEST 2018 --- Thread: 13   application.HelloWorld
+INFO: Cerrando App desde ventana (TR040)
+
+
+Sun Jun 10 11:51:43 CEST 2018 --- Thread: 13   application.controller.InterfaceController
+INFO: Cargando controlador (TR081)
+Sun Jun 10 11:51:43 CEST 2018 --- Thread: 13   application.controller.InterfaceController
+INFO: Cargando datos de usuario (TR010)
+Sun Jun 10 11:52:34 CEST 2018 --- Thread: 13   application.HelloWorld
+INFO: Cerrando App desde ventana (TR040)
+
+
+Sun Jun 10 12:01:25 CEST 2018 --- Thread: 13   application.controller.InterfaceController
+INFO: Cargando controlador (TR081)
+Sun Jun 10 12:01:26 CEST 2018 --- Thread: 13   application.controller.InterfaceController
+INFO: Cargando datos de usuario (TR010)
+Sun Jun 10 12:01:32 CEST 2018 --- Thread: 13   application.HelloWorld
+INFO: Cerrando App desde ventana (TR040)
+
+
+Sun Jun 10 12:02:05 CEST 2018 --- Thread: 13   application.controller.InterfaceController
+INFO: Cargando controlador (TR081)
+Sun Jun 10 12:02:05 CEST 2018 --- Thread: 13   application.controller.InterfaceController
+INFO: Cargando datos de usuario (TR010)
+Sun Jun 10 12:09:12 CEST 2018 --- Thread: 13   application.controller.InterfaceController
+INFO: Cargando controlador (TR081)
+Sun Jun 10 12:09:12 CEST 2018 --- Thread: 13   application.controller.InterfaceController
+INFO: Cargando datos de usuario (TR010)
+Sun Jun 10 12:09:45 CEST 2018 --- Thread: 13   application.controller.InterfaceController
+INFO: Cargando controlador (TR081)
+Sun Jun 10 12:09:45 CEST 2018 --- Thread: 13   application.controller.InterfaceController
+INFO: Cargando datos de usuario (TR010)
+Sun Jun 10 12:10:52 CEST 2018 --- Thread: 13   application.HelloWorld
+INFO: Cerrando App desde ventana (TR040)
+
+
+Sun Jun 10 14:12:10 CEST 2018 --- Thread: 13   application.controller.InterfaceController
+INFO: Cargando controlador (TR081)
+Sun Jun 10 14:12:10 CEST 2018 --- Thread: 13   application.controller.InterfaceController
+INFO: Cargando datos de usuario (TR010)
+Sun Jun 10 14:12:46 CEST 2018 --- Thread: 13   application.HelloWorld
+INFO: Cerrando App desde ventana (TR040)
+
+
+Sun Jun 10 14:16:56 CEST 2018 --- Thread: 13   application.controller.InterfaceController
+INFO: Cargando controlador (TR081)
+Sun Jun 10 14:16:56 CEST 2018 --- Thread: 13   application.controller.InterfaceController
+INFO: Cargando datos de usuario (TR010)
+Sun Jun 10 14:17:02 CEST 2018 --- Thread: 13   application.HelloWorld
+INFO: Cerrando App desde ventana (TR040)
+
+
+Sun Jun 10 15:00:18 CEST 2018 --- Thread: 13   application.controller.InterfaceController
+INFO: Cargando controlador (TR081)
+Sun Jun 10 15:00:18 CEST 2018 --- Thread: 13   application.controller.InterfaceController
+INFO: Cargando datos de usuario (TR010)
+Sun Jun 10 15:00:29 CEST 2018 --- Thread: 13   application.controller.InterfaceController
+INFO: Cambiando idioma a Ingles (TR030)
+Sun Jun 10 15:00:48 CEST 2018 --- Thread: 13   application.HelloWorld
+INFO: Closing App from window (TR040)
+
+
+Sun Jun 10 21:42:55 CEST 2018 --- Thread: 13   application.controller.InterfaceController
+INFO: Cargando controlador (TR081)
+Sun Jun 10 21:42:56 CEST 2018 --- Thread: 13   application.controller.InterfaceController
+INFO: Cargando datos de usuario (TR010)
+Sun Jun 10 21:43:19 CEST 2018 --- Thread: 13   application.HelloWorld
+INFO: Cerrando App desde ventana (TR040)
+
+
+Mon Jun 11 11:19:40 CEST 2018 --- Thread: 13   application.controller.InterfaceController
+INFO: Cargando controlador (TR081)
+Mon Jun 11 11:19:40 CEST 2018 --- Thread: 13   application.controller.InterfaceController
+INFO: Cargando datos de usuario (TR010)
+Mon Jun 11 11:19:41 CEST 2018 --- Thread: 13   application.HelloWorld
+INFO: Cerrando App desde ventana (TR040)
+
+
+Mon Jun 11 11:21:38 CEST 2018 --- Thread: 13   application.controller.InterfaceController
+INFO: Cargando controlador (TR081)
+Mon Jun 11 11:21:38 CEST 2018 --- Thread: 13   application.controller.InterfaceController
+INFO: Cargando datos de usuario (TR010)
+Mon Jun 11 11:21:58 CEST 2018 --- Thread: 13   application.HelloWorld
+INFO: Cerrando App desde ventana (TR040)
+
+
+Mon Jun 11 11:22:44 CEST 2018 --- Thread: 13   application.controller.InterfaceController
+INFO: Cargando controlador (TR081)
+Mon Jun 11 11:22:44 CEST 2018 --- Thread: 13   application.controller.InterfaceController
+INFO: Cargando datos de usuario (TR010)
+Mon Jun 11 11:22:49 CEST 2018 --- Thread: 13   application.HelloWorld
+INFO: Cerrando App desde ventana (TR040)
+
+
+Mon Jun 11 11:23:37 CEST 2018 --- Thread: 13   application.controller.InterfaceController
+INFO: Cargando controlador (TR081)
+Mon Jun 11 11:23:37 CEST 2018 --- Thread: 13   application.controller.InterfaceController
+INFO: Cargando datos de usuario (TR010)
+Mon Jun 11 11:23:44 CEST 2018 --- Thread: 13   application.HelloWorld
+INFO: Cerrando App desde ventana (TR040)
+
+
+Mon Jun 11 11:24:24 CEST 2018 --- Thread: 13   application.controller.InterfaceController
+INFO: Cargando controlador (TR081)
+Mon Jun 11 11:24:24 CEST 2018 --- Thread: 13   application.controller.InterfaceController
+INFO: Cargando datos de usuario (TR010)
+Mon Jun 11 11:24:35 CEST 2018 --- Thread: 13   application.HelloWorld
+INFO: Cerrando App desde ventana (TR040)
+
+
+Mon Jun 11 11:25:04 CEST 2018 --- Thread: 13   application.controller.InterfaceController
+INFO: Cargando controlador (TR081)
+Mon Jun 11 11:25:04 CEST 2018 --- Thread: 13   application.controller.InterfaceController
+INFO: Cargando datos de usuario (TR010)
+Mon Jun 11 11:25:10 CEST 2018 --- Thread: 13   application.HelloWorld
+INFO: Cerrando App desde ventana (TR040)
+
+
+Mon Jun 11 11:25:54 CEST 2018 --- Thread: 13   application.controller.InterfaceController
+INFO: Cargando controlador (TR081)
+Mon Jun 11 11:25:54 CEST 2018 --- Thread: 13   application.controller.InterfaceController
+INFO: Cargando datos de usuario (TR010)
+Mon Jun 11 11:26:04 CEST 2018 --- Thread: 13   application.HelloWorld
+INFO: Cerrando App desde ventana (TR040)
+
+
+Mon Jun 11 11:26:59 CEST 2018 --- Thread: 13   application.controller.InterfaceController
+INFO: Cargando controlador (TR081)
+Mon Jun 11 11:26:59 CEST 2018 --- Thread: 13   application.controller.InterfaceController
+INFO: Cargando datos de usuario (TR010)
+Mon Jun 11 11:27:12 CEST 2018 --- Thread: 13   application.HelloWorld
+INFO: Cerrando App desde ventana (TR040)
+
+
+Mon Jun 11 11:30:21 CEST 2018 --- Thread: 13   application.controller.InterfaceController
+INFO: Cargando controlador (TR081)
+Mon Jun 11 11:30:21 CEST 2018 --- Thread: 13   application.controller.InterfaceController
+INFO: Cargando datos de usuario (TR010)
+Mon Jun 11 11:32:44 CEST 2018 --- Thread: 13   application.controller.InterfaceController
+INFO: Cargando controlador (TR081)
+Mon Jun 11 11:32:44 CEST 2018 --- Thread: 13   application.controller.InterfaceController
+INFO: Cargando datos de usuario (TR010)
+Mon Jun 11 11:32:58 CEST 2018 --- Thread: 13   application.HelloWorld
+INFO: Cerrando App desde ventana (TR040)
+
+
+Mon Jun 11 11:36:39 CEST 2018 --- Thread: 13   application.controller.InterfaceController
+INFO: Cargando controlador (TR081)
+Mon Jun 11 11:36:39 CEST 2018 --- Thread: 13   application.controller.InterfaceController
+INFO: Cargando datos de usuario (TR010)
+Mon Jun 11 11:36:56 CEST 2018 --- Thread: 13   application.HelloWorld
+INFO: Cerrando App desde ventana (TR040)
+
+
+Mon Jun 11 11:52:43 CEST 2018 --- Thread: 13   application.controller.InterfaceController
+INFO: Cargando controlador (TR081)
+Mon Jun 11 11:52:43 CEST 2018 --- Thread: 13   application.controller.InterfaceController
+INFO: Cargando datos de usuario (TR010)
+Mon Jun 11 11:53:07 CEST 2018 --- Thread: 13   application.HelloWorld
+INFO: Cerrando App desde ventana (TR040)
+
+
+Mon Jun 11 11:54:01 CEST 2018 --- Thread: 13   application.controller.InterfaceController
+INFO: Cargando controlador (TR081)
+Mon Jun 11 11:54:02 CEST 2018 --- Thread: 13   application.controller.InterfaceController
+INFO: Cargando datos de usuario (TR010)
+Mon Jun 11 11:54:07 CEST 2018 --- Thread: 13   application.HelloWorld
+INFO: Cerrando App desde ventana (TR040)
+
+
+Mon Jun 11 11:55:08 CEST 2018 --- Thread: 16   application.controller.InterfaceController
+INFO: Cargando controlador (TR081)
+Mon Jun 11 11:55:17 CEST 2018 --- Thread: 16   application.controller.InterfaceController
+INFO: Cargando datos de usuario (TR010)
+Mon Jun 11 11:58:51 CEST 2018 --- Thread: 13   application.controller.InterfaceController
+INFO: Cargando controlador (TR081)
+Mon Jun 11 11:58:51 CEST 2018 --- Thread: 13   application.controller.InterfaceController
+INFO: Cargando datos de usuario (TR010)
+Mon Jun 11 11:59:29 CEST 2018 --- Thread: 13   application.controller.InterfaceController
+INFO: Cargando controlador (TR081)
+Mon Jun 11 11:59:30 CEST 2018 --- Thread: 13   application.controller.InterfaceController
+INFO: Cargando datos de usuario (TR010)
+Mon Jun 11 11:59:41 CEST 2018 --- Thread: 13   application.HelloWorld
+INFO: Cerrando App desde ventana (TR040)
+
+
+Mon Jun 11 12:00:11 CEST 2018 --- Thread: 13   application.controller.InterfaceController
+INFO: Cargando controlador (TR081)
+Mon Jun 11 12:00:11 CEST 2018 --- Thread: 13   application.controller.InterfaceController
+INFO: Cargando datos de usuario (TR010)
+Mon Jun 11 12:01:41 CEST 2018 --- Thread: 13   application.HelloWorld
+INFO: Cerrando App desde ventana (TR040)
+
+
+Mon Jun 11 12:15:51 CEST 2018 --- Thread: 13   application.controller.InterfaceController
+INFO: Cargando controlador (TR081)
+Mon Jun 11 12:15:51 CEST 2018 --- Thread: 13   application.controller.InterfaceController
+INFO: Cargando datos de usuario (TR010)
+Mon Jun 11 12:16:02 CEST 2018 --- Thread: 13   application.HelloWorld
+INFO: Cerrando App desde ventana (TR040)
+
+
+Mon Jun 11 12:16:47 CEST 2018 --- Thread: 13   application.controller.InterfaceController
+INFO: Cargando controlador (TR081)
+Mon Jun 11 12:16:47 CEST 2018 --- Thread: 13   application.controller.InterfaceController
+INFO: Cargando datos de usuario (TR010)
+Mon Jun 11 12:16:55 CEST 2018 --- Thread: 13   application.HelloWorld
+INFO: Cerrando App desde ventana (TR040)
+
+
+Mon Jun 11 12:18:37 CEST 2018 --- Thread: 13   application.controller.InterfaceController
+INFO: Cargando controlador (TR081)
+Mon Jun 11 12:18:37 CEST 2018 --- Thread: 13   application.controller.InterfaceController
+INFO: Cargando datos de usuario (TR010)
+Mon Jun 11 12:18:46 CEST 2018 --- Thread: 13   application.HelloWorld
+INFO: Cerrando App desde ventana (TR040)
+
+
+Mon Jun 11 12:20:34 CEST 2018 --- Thread: 13   application.controller.InterfaceController
+INFO: Cargando controlador (TR081)
+Mon Jun 11 12:20:34 CEST 2018 --- Thread: 13   application.controller.InterfaceController
+INFO: Cargando datos de usuario (TR010)
+Mon Jun 11 12:21:18 CEST 2018 --- Thread: 13   application.HelloWorld
+INFO: Cerrando App desde ventana (TR040)
+
+
+Mon Jun 11 12:21:59 CEST 2018 --- Thread: 13   application.controller.InterfaceController
+INFO: Cargando controlador (TR081)
+Mon Jun 11 12:21:59 CEST 2018 --- Thread: 13   application.controller.InterfaceController
+INFO: Cargando datos de usuario (TR010)
+Mon Jun 11 12:22:09 CEST 2018 --- Thread: 13   application.HelloWorld
+INFO: Cerrando App desde ventana (TR040)
+
+
+Mon Jun 11 12:22:33 CEST 2018 --- Thread: 13   application.controller.InterfaceController
+INFO: Cargando controlador (TR081)
+Mon Jun 11 12:22:33 CEST 2018 --- Thread: 13   application.controller.InterfaceController
+INFO: Cargando datos de usuario (TR010)
+Mon Jun 11 12:23:56 CEST 2018 --- Thread: 13   application.controller.InterfaceController
+INFO: Cargando controlador (TR081)
+Mon Jun 11 12:23:56 CEST 2018 --- Thread: 13   application.controller.InterfaceController
+INFO: Cargando datos de usuario (TR010)
+Mon Jun 11 12:24:45 CEST 2018 --- Thread: 13   application.controller.InterfaceController
+INFO: Cargando controlador (TR081)
+Mon Jun 11 12:24:45 CEST 2018 --- Thread: 13   application.controller.InterfaceController
+INFO: Cargando datos de usuario (TR010)
+Mon Jun 11 12:24:53 CEST 2018 --- Thread: 13   application.HelloWorld
+INFO: Cerrando App desde ventana (TR040)
+
+
+Mon Jun 11 12:25:36 CEST 2018 --- Thread: 13   application.controller.InterfaceController
+INFO: Cargando controlador (TR081)
+Mon Jun 11 12:25:37 CEST 2018 --- Thread: 13   application.controller.InterfaceController
+INFO: Cargando datos de usuario (TR010)
+Mon Jun 11 12:26:45 CEST 2018 --- Thread: 13   application.controller.InterfaceController
+INFO: Cargando controlador (TR081)
+Mon Jun 11 12:26:45 CEST 2018 --- Thread: 13   application.controller.InterfaceController
+INFO: Cargando datos de usuario (TR010)
+Mon Jun 11 12:26:58 CEST 2018 --- Thread: 13   application.HelloWorld
+INFO: Cerrando App desde ventana (TR040)
+
+
+Mon Jun 11 12:27:23 CEST 2018 --- Thread: 13   application.controller.InterfaceController
+INFO: Cargando controlador (TR081)
+Mon Jun 11 12:27:23 CEST 2018 --- Thread: 13   application.controller.InterfaceController
+INFO: Cargando datos de usuario (TR010)
+Mon Jun 11 12:27:28 CEST 2018 --- Thread: 13   application.HelloWorld
+INFO: Cerrando App desde ventana (TR040)
+
+
+Mon Jun 11 12:28:15 CEST 2018 --- Thread: 13   application.controller.InterfaceController
+INFO: Cargando controlador (TR081)
+Mon Jun 11 12:28:15 CEST 2018 --- Thread: 13   application.controller.InterfaceController
+INFO: Cargando datos de usuario (TR010)
+Mon Jun 11 12:28:20 CEST 2018 --- Thread: 13   application.HelloWorld
+INFO: Cerrando App desde ventana (TR040)
+
+
+Mon Jun 11 12:28:59 CEST 2018 --- Thread: 13   application.controller.InterfaceController
+INFO: Cargando controlador (TR081)
+Mon Jun 11 12:28:59 CEST 2018 --- Thread: 13   application.controller.InterfaceController
+INFO: Cargando datos de usuario (TR010)
+Mon Jun 11 12:29:10 CEST 2018 --- Thread: 13   application.HelloWorld
+INFO: Cerrando App desde ventana (TR040)
+
+
+Mon Jun 11 12:29:59 CEST 2018 --- Thread: 13   application.controller.InterfaceController
+INFO: Cargando controlador (TR081)
+Mon Jun 11 12:30:00 CEST 2018 --- Thread: 13   application.controller.InterfaceController
+INFO: Cargando datos de usuario (TR010)
+Mon Jun 11 12:30:56 CEST 2018 --- Thread: 13   application.controller.InterfaceController
+INFO: Cargando controlador (TR081)
+Mon Jun 11 12:30:56 CEST 2018 --- Thread: 13   application.controller.InterfaceController
+INFO: Cargando datos de usuario (TR010)
+Mon Jun 11 12:31:19 CEST 2018 --- Thread: 13   application.HelloWorld
+INFO: Cerrando App desde ventana (TR040)
+
+
+Mon Jun 11 12:31:48 CEST 2018 --- Thread: 13   application.controller.InterfaceController
+INFO: Cargando controlador (TR081)
+Mon Jun 11 12:31:48 CEST 2018 --- Thread: 13   application.controller.InterfaceController
+INFO: Cargando datos de usuario (TR010)
+Mon Jun 11 12:32:39 CEST 2018 --- Thread: 13   application.HelloWorld
+INFO: Cerrando App desde ventana (TR040)
+
+
+Mon Jun 11 12:33:25 CEST 2018 --- Thread: 16   application.controller.InterfaceController
+INFO: Cargando controlador (TR081)
+Mon Jun 11 12:33:36 CEST 2018 --- Thread: 16   application.controller.InterfaceController
+INFO: Cargando datos de usuario (TR010)
+Mon Jun 11 12:52:55 CEST 2018 --- Thread: 13   application.controller.InterfaceController
+INFO: Cargando controlador (TR081)
+Mon Jun 11 12:52:55 CEST 2018 --- Thread: 13   application.controller.InterfaceController
+INFO: Cargando datos de usuario (TR010)
+Mon Jun 11 12:53:17 CEST 2018 --- Thread: 13   application.HelloWorld
+INFO: Cerrando App desde ventana (TR040)
+
+
+Mon Jun 11 12:53:52 CEST 2018 --- Thread: 13   application.controller.InterfaceController
+INFO: Cargando controlador (TR081)
+Mon Jun 11 12:53:52 CEST 2018 --- Thread: 13   application.controller.InterfaceController
+INFO: Cargando datos de usuario (TR010)
+Mon Jun 11 12:54:31 CEST 2018 --- Thread: 13   application.HelloWorld
+INFO: Cerrando App desde ventana (TR040)
+
+
+Mon Jun 11 12:55:42 CEST 2018 --- Thread: 13   application.controller.InterfaceController
+INFO: Cargando controlador (TR081)
+Mon Jun 11 12:55:43 CEST 2018 --- Thread: 13   application.controller.InterfaceController
+INFO: Cargando datos de usuario (TR010)
+Mon Jun 11 12:55:53 CEST 2018 --- Thread: 13   application.HelloWorld
+INFO: Cerrando App desde ventana (TR040)
+
+
+Mon Jun 11 12:56:24 CEST 2018 --- Thread: 13   application.controller.InterfaceController
+INFO: Cargando controlador (TR081)
+Mon Jun 11 12:56:24 CEST 2018 --- Thread: 13   application.controller.InterfaceController
+INFO: Cargando datos de usuario (TR010)
+Mon Jun 11 12:56:48 CEST 2018 --- Thread: 13   application.HelloWorld
+INFO: Cerrando App desde ventana (TR040)
+
+
+Mon Jun 11 12:57:35 CEST 2018 --- Thread: 13   application.controller.InterfaceController
+INFO: Cargando controlador (TR081)
+Mon Jun 11 12:57:35 CEST 2018 --- Thread: 13   application.controller.InterfaceController
+INFO: Cargando datos de usuario (TR010)
+Mon Jun 11 12:58:08 CEST 2018 --- Thread: 13   application.HelloWorld
+INFO: Cerrando App desde ventana (TR040)
+
+
+Mon Jun 11 13:14:42 CEST 2018 --- Thread: 13   application.controller.InterfaceController
+INFO: Cargando controlador (TR081)
+Mon Jun 11 13:14:43 CEST 2018 --- Thread: 13   application.controller.InterfaceController
+INFO: Cargando datos de usuario (TR010)
+Mon Jun 11 13:14:59 CEST 2018 --- Thread: 13   application.HelloWorld
+INFO: Cerrando App desde ventana (TR040)
+
+
+Mon Jun 11 13:15:34 CEST 2018 --- Thread: 13   application.controller.InterfaceController
+INFO: Cargando controlador (TR081)
+Mon Jun 11 13:15:34 CEST 2018 --- Thread: 13   application.controller.InterfaceController
+INFO: Cargando datos de usuario (TR010)
+Mon Jun 11 13:16:51 CEST 2018 --- Thread: 13   application.controller.InterfaceController
+INFO: Cargando controlador (TR081)
+Mon Jun 11 13:16:51 CEST 2018 --- Thread: 13   application.controller.InterfaceController
+INFO: Cargando datos de usuario (TR010)
+Mon Jun 11 13:16:52 CEST 2018 --- Thread: 13   application.HelloWorld
+INFO: Cerrando App desde ventana (TR040)
+
+
+Mon Jun 11 13:20:00 CEST 2018 --- Thread: 13   application.controller.InterfaceController
+INFO: Cargando controlador (TR081)
+Mon Jun 11 13:20:00 CEST 2018 --- Thread: 13   application.controller.InterfaceController
+INFO: Cargando datos de usuario (TR010)
+Mon Jun 11 13:20:12 CEST 2018 --- Thread: 13   application.HelloWorld
+INFO: Cerrando App desde ventana (TR040)
+
+
+Mon Jun 11 13:20:31 CEST 2018 --- Thread: 13   application.controller.InterfaceController
+INFO: Cargando controlador (TR081)
+Mon Jun 11 13:20:31 CEST 2018 --- Thread: 13   application.controller.InterfaceController
+INFO: Cargando datos de usuario (TR010)
+Mon Jun 11 13:20:34 CEST 2018 --- Thread: 13   application.HelloWorld
+INFO: Cerrando App desde ventana (TR040)
+
+
+Mon Jun 11 14:06:34 CEST 2018 --- Thread: 13   application.controller.InterfaceController
+INFO: Cargando controlador (TR081)
+Mon Jun 11 14:06:34 CEST 2018 --- Thread: 13   application.controller.InterfaceController
+INFO: Cargando datos de usuario (TR010)
+Mon Jun 11 14:06:45 CEST 2018 --- Thread: 13   application.HelloWorld
+INFO: Cerrando App desde ventana (TR040)
+
+
+Mon Jun 11 14:07:13 CEST 2018 --- Thread: 13   application.controller.InterfaceController
+INFO: Cargando controlador (TR081)
+Mon Jun 11 14:07:13 CEST 2018 --- Thread: 13   application.controller.InterfaceController
+INFO: Cargando datos de usuario (TR010)
+Mon Jun 11 14:07:23 CEST 2018 --- Thread: 13   application.HelloWorld
+INFO: Cerrando App desde ventana (TR040)
+
+
+Mon Jun 11 14:09:40 CEST 2018 --- Thread: 13   application.controller.InterfaceController
+INFO: Cargando controlador (TR081)
+Mon Jun 11 14:09:41 CEST 2018 --- Thread: 13   application.controller.InterfaceController
+INFO: Cargando datos de usuario (TR010)
+Mon Jun 11 14:09:54 CEST 2018 --- Thread: 13   application.HelloWorld
+INFO: Cerrando App desde ventana (TR040)
+
+
+Mon Jun 11 16:00:07 CEST 2018 --- Thread: 13   application.controller.InterfaceController
+INFO: Cargando controlador (TR081)
+Mon Jun 11 16:00:07 CEST 2018 --- Thread: 13   application.controller.InterfaceController
+INFO: Cargando datos de usuario (TR010)
+Mon Jun 11 16:00:30 CEST 2018 --- Thread: 13   application.HelloWorld
+INFO: Cerrando App desde ventana (TR040)
+
+
+Mon Jun 11 16:00:50 CEST 2018 --- Thread: 13   application.controller.InterfaceController
+INFO: Cargando controlador (TR081)
+Mon Jun 11 16:00:50 CEST 2018 --- Thread: 13   application.controller.InterfaceController
+INFO: Cargando datos de usuario (TR010)
+Mon Jun 11 16:01:08 CEST 2018 --- Thread: 13   application.HelloWorld
+INFO: Cerrando App desde ventana (TR040)
+
+
+Mon Jun 11 16:05:09 CEST 2018 --- Thread: 13   application.controller.InterfaceController
+INFO: Cargando controlador (TR081)
+Mon Jun 11 16:05:09 CEST 2018 --- Thread: 13   application.controller.InterfaceController
+INFO: Cargando datos de usuario (TR010)
+Mon Jun 11 16:05:21 CEST 2018 --- Thread: 13   application.HelloWorld
+INFO: Cerrando App desde ventana (TR040)
+
+
+Mon Jun 11 16:06:26 CEST 2018 --- Thread: 13   application.controller.InterfaceController
+INFO: Cargando controlador (TR081)
+Mon Jun 11 16:06:26 CEST 2018 --- Thread: 13   application.controller.InterfaceController
+INFO: Cargando datos de usuario (TR010)
+Mon Jun 11 16:06:36 CEST 2018 --- Thread: 13   application.HelloWorld
+INFO: Cerrando App desde ventana (TR040)
+
+
+Mon Jun 11 16:08:12 CEST 2018 --- Thread: 13   application.controller.InterfaceController
+INFO: Cargando controlador (TR081)
+Mon Jun 11 16:08:12 CEST 2018 --- Thread: 13   application.controller.InterfaceController
+INFO: Cargando datos de usuario (TR010)
+Mon Jun 11 16:08:25 CEST 2018 --- Thread: 13   application.HelloWorld
+INFO: Cerrando App desde ventana (TR040)
+
+
+Mon Jun 11 16:09:05 CEST 2018 --- Thread: 13   application.controller.InterfaceController
+INFO: Cargando controlador (TR081)
+Mon Jun 11 16:09:05 CEST 2018 --- Thread: 13   application.controller.InterfaceController
+INFO: Cargando datos de usuario (TR010)
+Mon Jun 11 16:10:02 CEST 2018 --- Thread: 13   application.controller.InterfaceController
+INFO: Cargando controlador (TR081)
+Mon Jun 11 16:10:03 CEST 2018 --- Thread: 13   application.controller.InterfaceController
+INFO: Cargando datos de usuario (TR010)
+Mon Jun 11 16:10:07 CEST 2018 --- Thread: 13   application.HelloWorld
+INFO: Cerrando App desde ventana (TR040)
+
+
+Mon Jun 11 16:12:53 CEST 2018 --- Thread: 16   application.controller.InterfaceController
+INFO: Cargando controlador (TR081)
+Mon Jun 11 16:12:58 CEST 2018 --- Thread: 16   application.controller.InterfaceController
+INFO: Cargando datos de usuario (TR010)
+Mon Jun 11 16:17:18 CEST 2018 --- Thread: 13   application.controller.InterfaceController
+INFO: Cargando controlador (TR081)
+Mon Jun 11 16:17:18 CEST 2018 --- Thread: 13   application.controller.InterfaceController
+INFO: Cargando datos de usuario (TR010)
+Mon Jun 11 16:17:40 CEST 2018 --- Thread: 13   application.HelloWorld
+INFO: Cerrando App desde ventana (TR040)
+
+
+Mon Jun 11 16:25:57 CEST 2018 --- Thread: 13   application.controller.InterfaceController
+INFO: Cargando controlador (TR081)
+Mon Jun 11 16:25:57 CEST 2018 --- Thread: 13   application.controller.InterfaceController
+INFO: Cargando datos de usuario (TR010)
+Mon Jun 11 16:27:10 CEST 2018 --- Thread: 13   application.HelloWorld
+INFO: Cerrando App desde ventana (TR040)
+
+
+Mon Jun 11 16:31:48 CEST 2018 --- Thread: 13   application.controller.InterfaceController
+INFO: Cargando controlador (TR081)
+Mon Jun 11 16:31:48 CEST 2018 --- Thread: 13   application.controller.InterfaceController
+INFO: Cargando datos de usuario (TR010)
+Mon Jun 11 16:32:01 CEST 2018 --- Thread: 13   application.HelloWorld
+INFO: Cerrando App desde ventana (TR040)
+
+
+Mon Jun 11 16:32:53 CEST 2018 --- Thread: 13   application.controller.InterfaceController
+INFO: Cargando controlador (TR081)
+Mon Jun 11 16:32:53 CEST 2018 --- Thread: 13   application.controller.InterfaceController
+INFO: Cargando datos de usuario (TR010)
+Mon Jun 11 16:36:21 CEST 2018 --- Thread: 13   application.controller.InterfaceController
+INFO: Cargando controlador (TR081)
+Mon Jun 11 16:36:22 CEST 2018 --- Thread: 13   application.controller.InterfaceController
+INFO: Cargando datos de usuario (TR010)
+Mon Jun 11 16:37:32 CEST 2018 --- Thread: 13   application.controller.InterfaceController
+INFO: Cargando controlador (TR081)
+Mon Jun 11 16:37:32 CEST 2018 --- Thread: 13   application.controller.InterfaceController
+INFO: Cargando datos de usuario (TR010)
+Mon Jun 11 16:38:52 CEST 2018 --- Thread: 13   application.controller.InterfaceController
+INFO: Cargando controlador (TR081)
+Mon Jun 11 16:38:52 CEST 2018 --- Thread: 13   application.controller.InterfaceController
+INFO: Cargando datos de usuario (TR010)
+Mon Jun 11 16:39:01 CEST 2018 --- Thread: 13   application.HelloWorld
+INFO: Cerrando App desde ventana (TR040)
+
+
+Mon Jun 11 16:39:51 CEST 2018 --- Thread: 13   application.controller.InterfaceController
+INFO: Cargando controlador (TR081)
+Mon Jun 11 16:39:51 CEST 2018 --- Thread: 13   application.controller.InterfaceController
+INFO: Cargando datos de usuario (TR010)
+Mon Jun 11 16:39:57 CEST 2018 --- Thread: 13   application.HelloWorld
+INFO: Cerrando App desde ventana (TR040)
+
+
+Mon Jun 11 16:40:28 CEST 2018 --- Thread: 13   application.controller.InterfaceController
+INFO: Cargando controlador (TR081)
+Mon Jun 11 16:40:28 CEST 2018 --- Thread: 13   application.controller.InterfaceController
+INFO: Cargando datos de usuario (TR010)
+Mon Jun 11 16:41:09 CEST 2018 --- Thread: 13   application.HelloWorld
+INFO: Cerrando App desde ventana (TR040)
+
+
+Mon Jun 11 16:42:35 CEST 2018 --- Thread: 13   application.controller.InterfaceController
+INFO: Cargando controlador (TR081)
+Mon Jun 11 16:42:35 CEST 2018 --- Thread: 13   application.controller.InterfaceController
+INFO: Cargando datos de usuario (TR010)
+Mon Jun 11 16:43:21 CEST 2018 --- Thread: 13   application.controller.InterfaceController
+INFO: Cargando controlador (TR081)
+Mon Jun 11 16:43:21 CEST 2018 --- Thread: 13   application.controller.InterfaceController
+INFO: Cargando datos de usuario (TR010)
+Mon Jun 11 17:27:40 CEST 2018 --- Thread: 13   application.controller.InterfaceController
+INFO: Cargando controlador (TR081)
+Mon Jun 11 17:27:40 CEST 2018 --- Thread: 13   application.controller.InterfaceController
+INFO: Cargando datos de usuario (TR010)
+Mon Jun 11 17:27:52 CEST 2018 --- Thread: 13   application.HelloWorld
+INFO: Cerrando App desde ventana (TR040)
+
+
+Mon Jun 11 17:28:47 CEST 2018 --- Thread: 13   application.controller.InterfaceController
+INFO: Cargando controlador (TR081)
+Mon Jun 11 17:28:47 CEST 2018 --- Thread: 13   application.controller.InterfaceController
+INFO: Cargando datos de usuario (TR010)
+Mon Jun 11 17:28:48 CEST 2018 --- Thread: 13   application.HelloWorld
+INFO: Cerrando App desde ventana (TR040)
+
+
+Mon Jun 11 18:20:51 CEST 2018 --- Thread: 13   application.controller.InterfaceController
+INFO: Cargando controlador (TR081)
+Mon Jun 11 18:20:51 CEST 2018 --- Thread: 13   application.controller.InterfaceController
+INFO: Cargando datos de usuario (TR010)
+Mon Jun 11 18:25:00 CEST 2018 --- Thread: 13   application.controller.InterfaceController$6
+SEVERE: Iniciando sincronizacion programada (TR070)
+Mon Jun 11 18:45:45 CEST 2018 --- Thread: 13   application.controller.InterfaceController
+INFO: Cargando controlador (TR081)
+Mon Jun 11 18:45:45 CEST 2018 --- Thread: 13   application.controller.InterfaceController
+INFO: Cargando datos de usuario (TR010)
+Mon Jun 11 18:45:57 CEST 2018 --- Thread: 13   application.HelloWorld
+INFO: Cerrando App desde ventana (TR040)
+
+
+Mon Jun 11 18:46:54 CEST 2018 --- Thread: 13   application.controller.InterfaceController
+INFO: Cargando controlador (TR081)
+Mon Jun 11 18:46:54 CEST 2018 --- Thread: 13   application.controller.InterfaceController
+INFO: Cargando datos de usuario (TR010)
+Mon Jun 11 18:47:15 CEST 2018 --- Thread: 13   application.HelloWorld
+INFO: Cerrando App desde ventana (TR040)
+
+
+Mon Jun 11 18:47:41 CEST 2018 --- Thread: 13   application.controller.InterfaceController
+INFO: Cargando controlador (TR081)
+Mon Jun 11 18:47:41 CEST 2018 --- Thread: 13   application.controller.InterfaceController
+INFO: Cargando datos de usuario (TR010)
+Mon Jun 11 18:48:01 CEST 2018 --- Thread: 13   application.HelloWorld
+INFO: Cerrando App desde ventana (TR040)
+
+
+Mon Jun 11 18:49:44 CEST 2018 --- Thread: 13   application.controller.InterfaceController
+INFO: Cargando controlador (TR081)
+Mon Jun 11 18:49:45 CEST 2018 --- Thread: 13   application.controller.InterfaceController
+INFO: Cargando datos de usuario (TR010)
+Mon Jun 11 18:49:59 CEST 2018 --- Thread: 13   application.HelloWorld
+INFO: Cerrando App desde ventana (TR040)
+
+
+Mon Jun 11 18:50:50 CEST 2018 --- Thread: 13   application.controller.InterfaceController
+INFO: Cargando controlador (TR081)
+Mon Jun 11 18:50:51 CEST 2018 --- Thread: 13   application.controller.InterfaceController
+INFO: Cargando datos de usuario (TR010)
+Mon Jun 11 18:51:17 CEST 2018 --- Thread: 13   application.HelloWorld
+INFO: Cerrando App desde ventana (TR040)
+
+
+Mon Jun 11 18:53:27 CEST 2018 --- Thread: 13   application.controller.InterfaceController
+INFO: Cargando controlador (TR081)
+Mon Jun 11 18:53:27 CEST 2018 --- Thread: 13   application.controller.InterfaceController
+INFO: Cargando datos de usuario (TR010)
+Mon Jun 11 18:53:56 CEST 2018 --- Thread: 13   application.HelloWorld
+INFO: Cerrando App desde ventana (TR040)
+
+
+Mon Jun 11 18:56:25 CEST 2018 --- Thread: 13   application.controller.InterfaceController
+INFO: Cargando controlador (TR081)
+Mon Jun 11 18:56:25 CEST 2018 --- Thread: 13   application.controller.InterfaceController
+INFO: Cargando datos de usuario (TR010)
+Mon Jun 11 18:56:36 CEST 2018 --- Thread: 13   application.HelloWorld
+INFO: Cerrando App desde ventana (TR040)
+
+
+Mon Jun 11 18:57:19 CEST 2018 --- Thread: 13   application.controller.InterfaceController
+INFO: Cargando controlador (TR081)
+Mon Jun 11 18:57:20 CEST 2018 --- Thread: 13   application.controller.InterfaceController
+INFO: Cargando datos de usuario (TR010)
+Mon Jun 11 18:57:38 CEST 2018 --- Thread: 13   application.HelloWorld
+INFO: Cerrando App desde ventana (TR040)
+
+
+Mon Jun 11 18:58:03 CEST 2018 --- Thread: 13   application.controller.InterfaceController
+INFO: Cargando controlador (TR081)
+Mon Jun 11 18:58:03 CEST 2018 --- Thread: 13   application.controller.InterfaceController
+INFO: Cargando datos de usuario (TR010)
+Mon Jun 11 18:58:11 CEST 2018 --- Thread: 13   application.controller.InterfaceController
+INFO: Cambiando idioma a Ingles (TR030)
+Mon Jun 11 18:58:22 CEST 2018 --- Thread: 13   application.HelloWorld
+INFO: Closing App from window (TR040)
+
+
+Mon Jun 11 20:18:48 CEST 2018 --- Thread: 13   application.controller.InterfaceController
+INFO: Cargando controlador (TR081)
+Mon Jun 11 20:18:48 CEST 2018 --- Thread: 13   application.controller.InterfaceController
+INFO: Cargando datos de usuario (TR010)
+Mon Jun 11 20:19:08 CEST 2018 --- Thread: 13   application.HelloWorld
+INFO: Cerrando App desde ventana (TR040)
+
+
+Mon Jun 11 20:21:04 CEST 2018 --- Thread: 13   application.controller.InterfaceController
+INFO: Cargando controlador (TR081)
+Mon Jun 11 20:21:04 CEST 2018 --- Thread: 13   application.controller.InterfaceController
+INFO: Cargando datos de usuario (TR010)
+Mon Jun 11 20:21:22 CEST 2018 --- Thread: 13   application.HelloWorld
+INFO: Cerrando App desde ventana (TR040)
+
+
+Mon Jun 11 20:21:51 CEST 2018 --- Thread: 13   application.controller.InterfaceController
+INFO: Cargando controlador (TR081)
+Mon Jun 11 20:21:51 CEST 2018 --- Thread: 13   application.controller.InterfaceController
+INFO: Cargando datos de usuario (TR010)
+Mon Jun 11 20:22:01 CEST 2018 --- Thread: 13   application.HelloWorld
+INFO: Cerrando App desde ventana (TR040)
+
+
+Mon Jun 11 20:22:28 CEST 2018 --- Thread: 13   application.controller.InterfaceController
+INFO: Cargando controlador (TR081)
+Mon Jun 11 20:22:29 CEST 2018 --- Thread: 13   application.controller.InterfaceController
+INFO: Cargando datos de usuario (TR010)
+Mon Jun 11 20:22:58 CEST 2018 --- Thread: 13   application.HelloWorld
+INFO: Cerrando App desde ventana (TR040)
+
+
+Mon Jun 11 20:23:37 CEST 2018 --- Thread: 13   application.controller.InterfaceController
+INFO: Cargando controlador (TR081)
+Mon Jun 11 20:23:38 CEST 2018 --- Thread: 13   application.controller.InterfaceController
+INFO: Cargando datos de usuario (TR010)
+Mon Jun 11 20:23:56 CEST 2018 --- Thread: 13   application.controller.InterfaceController
+INFO: Cambiando idioma a Ingles (TR030)
+Mon Jun 11 20:24:06 CEST 2018 --- Thread: 13   application.HelloWorld
+INFO: Closing App from window (TR040)
+
+
+Mon Jun 11 20:24:32 CEST 2018 --- Thread: 13   application.controller.InterfaceController
+INFO: Cargando controlador (TR081)
+Mon Jun 11 20:24:32 CEST 2018 --- Thread: 13   application.controller.InterfaceController
+INFO: Cargando datos de usuario (TR010)
+Mon Jun 11 20:24:53 CEST 2018 --- Thread: 13   application.HelloWorld
+INFO: Cerrando App desde ventana (TR040)
+
+
+Mon Jun 11 21:25:52 CEST 2018 --- Thread: 13   application.controller.InterfaceController
+INFO: Cargando controlador (TR081)
+Mon Jun 11 21:25:52 CEST 2018 --- Thread: 13   application.controller.InterfaceController
+INFO: Cargando datos de usuario (TR010)
+Mon Jun 11 21:26:08 CEST 2018 --- Thread: 13   application.HelloWorld
+INFO: Cerrando App desde ventana (TR040)
+
+
+Mon Jun 11 22:01:18 CEST 2018 --- Thread: 13   application.controller.InterfaceController
+INFO: Cargando controlador (TR081)
+Mon Jun 11 22:01:18 CEST 2018 --- Thread: 13   application.controller.InterfaceController
+INFO: Cargando datos de usuario (TR010)
+Mon Jun 11 22:01:45 CEST 2018 --- Thread: 13   application.HelloWorld
+INFO: Cerrando App desde ventana (TR040)
+
+
+Mon Jun 11 22:02:30 CEST 2018 --- Thread: 13   application.controller.InterfaceController
+INFO: Cargando controlador (TR081)
+Mon Jun 11 22:02:30 CEST 2018 --- Thread: 13   application.controller.InterfaceController
+INFO: Cargando datos de usuario (TR010)
+Mon Jun 11 22:03:00 CEST 2018 --- Thread: 13   application.HelloWorld
+INFO: Cerrando App desde ventana (TR040)
+
+
+Mon Jun 11 22:05:09 CEST 2018 --- Thread: 13   application.controller.InterfaceController
+INFO: Cargando controlador (TR081)
+Mon Jun 11 22:05:10 CEST 2018 --- Thread: 13   application.controller.InterfaceController
+INFO: Cargando datos de usuario (TR010)
+Mon Jun 11 22:05:16 CEST 2018 --- Thread: 13   application.HelloWorld
+INFO: Cerrando App desde ventana (TR040)
+
+
+Tue Jun 12 10:38:41 CEST 2018 --- Thread: 13   application.controller.InterfaceController
+INFO: Cargando controlador (TR081)
+Tue Jun 12 10:38:41 CEST 2018 --- Thread: 13   application.controller.InterfaceController
+INFO: Cargando datos de usuario (TR010)
+Tue Jun 12 10:38:53 CEST 2018 --- Thread: 13   application.HelloWorld
+INFO: Cerrando App desde ventana (TR040)
+
+
+Tue Jun 12 10:48:32 CEST 2018 --- Thread: 13   application.controller.InterfaceController
+INFO: Cargando controlador (TR081)
+Tue Jun 12 10:48:32 CEST 2018 --- Thread: 13   application.controller.InterfaceController
+INFO: Cargando datos de usuario (TR010)
+Tue Jun 12 10:48:40 CEST 2018 --- Thread: 13   application.HelloWorld
+INFO: Cerrando App desde ventana (TR040)
+
+
+Tue Jun 12 12:32:19 CEST 2018 --- Thread: 13   application.controller.InterfaceController
+INFO: Cargando controlador (TR081)
+Tue Jun 12 12:32:19 CEST 2018 --- Thread: 13   application.HelloWorld
+SEVERE: 
+javafx.fxml.LoadException: 
+file:/C:/Users/Usuario/Documents/NetBeansProjects/Updater/dist/HelloWorld.jar!/Resources/fxml/interface.fxml
+
+	at javafx.fxml.FXMLLoader.constructLoadException(FXMLLoader.java:2601)
+	at javafx.fxml.FXMLLoader.loadImpl(FXMLLoader.java:2579)
+	at javafx.fxml.FXMLLoader.loadImpl(FXMLLoader.java:2441)
+	at javafx.fxml.FXMLLoader.loadImpl(FXMLLoader.java:3214)
+	at javafx.fxml.FXMLLoader.loadImpl(FXMLLoader.java:3175)
+	at javafx.fxml.FXMLLoader.loadImpl(FXMLLoader.java:3148)
+	at javafx.fxml.FXMLLoader.loadImpl(FXMLLoader.java:3124)
+	at javafx.fxml.FXMLLoader.load(FXMLLoader.java:3116)
+	at application.HelloWorld.start(HelloWorld.java:141)
+	at com.sun.javafx.application.LauncherImpl.lambda$launchApplication1$162(LauncherImpl.java:863)
+	at com.sun.javafx.application.PlatformImpl.lambda$runAndWait$175(PlatformImpl.java:326)
+	at com.sun.javafx.application.PlatformImpl.lambda$null$173(PlatformImpl.java:295)
+	at java.security.AccessController.doPrivileged(Native Method)
+	at com.sun.javafx.application.PlatformImpl.lambda$runLater$174(PlatformImpl.java:294)
+	at com.sun.glass.ui.InvokeLaterDispatcher$Future.run(InvokeLaterDispatcher.java:95)
+	at com.sun.glass.ui.win.WinApplication._runLoop(Native Method)
+	at com.sun.glass.ui.win.WinApplication.lambda$null$148(WinApplication.java:191)
+	at java.lang.Thread.run(Thread.java:745)
+Caused by: java.util.MissingResourceException: Can't find resource for bundle java.util.PropertyResourceBundle, key button_1_text
+	at java.util.ResourceBundle.getObject(ResourceBundle.java:450)
+	at java.util.ResourceBundle.getString(ResourceBundle.java:407)
+	at application.controller.InterfaceController.setLanguague(InterfaceController.java:1245)
+	at application.controller.InterfaceController.initialize(InterfaceController.java:217)
+	at javafx.fxml.FXMLLoader.loadImpl(FXMLLoader.java:2548)
+	... 16 more
+
+Tue Jun 12 12:32:19 CEST 2018 --- Thread: 13   application.HelloWorld
+INFO: Cerrando App desde ventana (TR040)
+
+
+Tue Jun 12 12:33:12 CEST 2018 --- Thread: 13   application.controller.InterfaceController
+INFO: Cargando controlador (TR081)
+Tue Jun 12 12:33:12 CEST 2018 --- Thread: 13   application.HelloWorld
+SEVERE: 
+javafx.fxml.LoadException: 
+file:/C:/Users/Usuario/Documents/NetBeansProjects/Updater/dist/HelloWorld.jar!/Resources/fxml/interface.fxml
+
+	at javafx.fxml.FXMLLoader.constructLoadException(FXMLLoader.java:2601)
+	at javafx.fxml.FXMLLoader.loadImpl(FXMLLoader.java:2579)
+	at javafx.fxml.FXMLLoader.loadImpl(FXMLLoader.java:2441)
+	at javafx.fxml.FXMLLoader.loadImpl(FXMLLoader.java:3214)
+	at javafx.fxml.FXMLLoader.loadImpl(FXMLLoader.java:3175)
+	at javafx.fxml.FXMLLoader.loadImpl(FXMLLoader.java:3148)
+	at javafx.fxml.FXMLLoader.loadImpl(FXMLLoader.java:3124)
+	at javafx.fxml.FXMLLoader.load(FXMLLoader.java:3116)
+	at application.HelloWorld.start(HelloWorld.java:141)
+	at com.sun.javafx.application.LauncherImpl.lambda$launchApplication1$162(LauncherImpl.java:863)
+	at com.sun.javafx.application.PlatformImpl.lambda$runAndWait$175(PlatformImpl.java:326)
+	at com.sun.javafx.application.PlatformImpl.lambda$null$173(PlatformImpl.java:295)
+	at java.security.AccessController.doPrivileged(Native Method)
+	at com.sun.javafx.application.PlatformImpl.lambda$runLater$174(PlatformImpl.java:294)
+	at com.sun.glass.ui.InvokeLaterDispatcher$Future.run(InvokeLaterDispatcher.java:95)
+	at com.sun.glass.ui.win.WinApplication._runLoop(Native Method)
+	at com.sun.glass.ui.win.WinApplication.lambda$null$148(WinApplication.java:191)
+	at java.lang.Thread.run(Thread.java:745)
+Caused by: java.util.MissingResourceException: Can't find resource for bundle java.util.PropertyResourceBundle, key button_1_text
+	at java.util.ResourceBundle.getObject(ResourceBundle.java:450)
+	at java.util.ResourceBundle.getString(ResourceBundle.java:407)
+	at application.controller.InterfaceController.setLanguague(InterfaceController.java:1245)
+	at application.controller.InterfaceController.initialize(InterfaceController.java:217)
+	at javafx.fxml.FXMLLoader.loadImpl(FXMLLoader.java:2548)
+	... 16 more
+
+Tue Jun 12 12:33:12 CEST 2018 --- Thread: 13   application.HelloWorld
+INFO: Cerrando App desde ventana (TR040)
+
+
+Tue Jun 12 13:03:11 CEST 2018 --- Thread: 13   application.controller.InterfaceController
+INFO: Cargando controlador (TR081)
+Tue Jun 12 13:03:11 CEST 2018 --- Thread: 13   application.controller.InterfaceController
+INFO: Cargando datos de usuario (TR010)
+Tue Jun 12 13:03:25 CEST 2018 --- Thread: 13   application.HelloWorld
+INFO: Cerrando App desde ventana (TR040)
+
+
+Tue Jun 12 13:04:26 CEST 2018 --- Thread: 13   application.controller.InterfaceController
+INFO: Cargando controlador (TR081)
+Tue Jun 12 13:04:26 CEST 2018 --- Thread: 13   application.controller.InterfaceController
+INFO: Cargando datos de usuario (TR010)
+Tue Jun 12 13:04:36 CEST 2018 --- Thread: 13   application.HelloWorld
+INFO: Cerrando App desde ventana (TR040)
+
+
+Tue Jun 12 13:06:18 CEST 2018 --- Thread: 13   application.controller.InterfaceController
+INFO: Cargando controlador (TR081)
+Tue Jun 12 13:06:18 CEST 2018 --- Thread: 13   application.controller.InterfaceController
+INFO: Cargando datos de usuario (TR010)
+Tue Jun 12 13:06:27 CEST 2018 --- Thread: 13   application.HelloWorld
+INFO: Cerrando App desde ventana (TR040)
+
+
+Tue Jun 12 13:10:48 CEST 2018 --- Thread: 13   application.controller.InterfaceController
+INFO: Cargando controlador (TR081)
+Tue Jun 12 13:10:48 CEST 2018 --- Thread: 13   application.controller.InterfaceController
+INFO: Cargando datos de usuario (TR010)
+Tue Jun 12 13:11:00 CEST 2018 --- Thread: 13   application.HelloWorld
+INFO: Cerrando App desde ventana (TR040)
+
+
+Tue Jun 12 13:13:01 CEST 2018 --- Thread: 13   application.controller.InterfaceController
+INFO: Cargando controlador (TR081)
+Tue Jun 12 13:13:01 CEST 2018 --- Thread: 13   application.controller.InterfaceController
+INFO: Cargando datos de usuario (TR010)
+Tue Jun 12 13:13:02 CEST 2018 --- Thread: 13   application.HelloWorld
+INFO: Cerrando App desde ventana (TR040)
+
+
+Tue Jun 12 13:14:07 CEST 2018 --- Thread: 13   application.controller.InterfaceController
+INFO: Cargando controlador (TR081)
+Tue Jun 12 13:14:08 CEST 2018 --- Thread: 13   application.controller.InterfaceController
+INFO: Cargando datos de usuario (TR010)
+Tue Jun 12 13:15:50 CEST 2018 --- Thread: 13   application.controller.InterfaceController
+INFO: Cargando controlador (TR081)
+Tue Jun 12 13:15:51 CEST 2018 --- Thread: 13   application.controller.InterfaceController
+INFO: Cargando datos de usuario (TR010)
+Tue Jun 12 13:16:00 CEST 2018 --- Thread: 13   application.HelloWorld
+INFO: Cerrando App desde ventana (TR040)
+
+
+Tue Jun 12 13:18:17 CEST 2018 --- Thread: 13   application.controller.InterfaceController
+INFO: Cargando controlador (TR081)
+Tue Jun 12 13:18:18 CEST 2018 --- Thread: 13   application.controller.InterfaceController
+INFO: Cargando datos de usuario (TR010)
+Tue Jun 12 13:18:32 CEST 2018 --- Thread: 13   application.HelloWorld
+INFO: Cerrando App desde ventana (TR040)
+
+
+Tue Jun 12 13:21:44 CEST 2018 --- Thread: 13   application.controller.InterfaceController
+INFO: Cargando controlador (TR081)
+Tue Jun 12 13:21:44 CEST 2018 --- Thread: 13   application.controller.InterfaceController
+INFO: Cargando datos de usuario (TR010)
+Tue Jun 12 13:21:54 CEST 2018 --- Thread: 13   application.HelloWorld
+INFO: Cerrando App desde ventana (TR040)
+
+
+Tue Jun 12 13:23:48 CEST 2018 --- Thread: 13   application.controller.InterfaceController
+INFO: Cargando controlador (TR081)
+Tue Jun 12 13:23:48 CEST 2018 --- Thread: 13   application.controller.InterfaceController
+INFO: Cargando datos de usuario (TR010)
+Tue Jun 12 13:23:56 CEST 2018 --- Thread: 13   application.HelloWorld
+INFO: Cerrando App desde ventana (TR040)
+
+
+Tue Jun 12 13:25:44 CEST 2018 --- Thread: 13   application.controller.InterfaceController
+INFO: Cargando controlador (TR081)
+Tue Jun 12 13:25:44 CEST 2018 --- Thread: 13   application.controller.InterfaceController
+INFO: Cargando datos de usuario (TR010)
+Tue Jun 12 13:25:54 CEST 2018 --- Thread: 13   application.HelloWorld
+INFO: Cerrando App desde ventana (TR040)
+
+
+Tue Jun 12 13:26:30 CEST 2018 --- Thread: 16   application.controller.InterfaceController
+INFO: Cargando controlador (TR081)
+Tue Jun 12 13:26:38 CEST 2018 --- Thread: 16   application.controller.InterfaceController
+INFO: Cargando datos de usuario (TR010)
+Tue Jun 12 13:29:15 CEST 2018 --- Thread: 13   application.controller.InterfaceController
+INFO: Cargando controlador (TR081)
+Tue Jun 12 13:29:15 CEST 2018 --- Thread: 13   application.controller.InterfaceController
+INFO: Cargando datos de usuario (TR010)
+Tue Jun 12 13:29:25 CEST 2018 --- Thread: 13   application.HelloWorld
+INFO: Cerrando App desde ventana (TR040)
+
+
+Tue Jun 12 13:30:09 CEST 2018 --- Thread: 13   application.controller.InterfaceController
+INFO: Cargando controlador (TR081)
+Tue Jun 12 13:30:09 CEST 2018 --- Thread: 13   application.controller.InterfaceController
+INFO: Cargando datos de usuario (TR010)
+Tue Jun 12 13:30:16 CEST 2018 --- Thread: 13   application.HelloWorld
+INFO: Cerrando App desde ventana (TR040)
+
+
+Tue Jun 12 13:32:06 CEST 2018 --- Thread: 13   application.controller.InterfaceController
+INFO: Cargando controlador (TR081)
+Tue Jun 12 13:32:06 CEST 2018 --- Thread: 13   application.controller.InterfaceController
+INFO: Cargando datos de usuario (TR010)
+Tue Jun 12 13:32:12 CEST 2018 --- Thread: 13   application.HelloWorld
+INFO: Cerrando App desde ventana (TR040)
+
+
+Tue Jun 12 13:32:43 CEST 2018 --- Thread: 13   application.controller.InterfaceController
+INFO: Cargando controlador (TR081)
+Tue Jun 12 13:32:43 CEST 2018 --- Thread: 13   application.controller.InterfaceController
+INFO: Cargando datos de usuario (TR010)
+Tue Jun 12 13:32:49 CEST 2018 --- Thread: 13   application.HelloWorld
+INFO: Cerrando App desde ventana (TR040)
+
+
+Tue Jun 12 13:35:13 CEST 2018 --- Thread: 13   application.controller.InterfaceController
+INFO: Cargando controlador (TR081)
+Tue Jun 12 13:35:14 CEST 2018 --- Thread: 13   application.controller.InterfaceController
+INFO: Cargando datos de usuario (TR010)
+Tue Jun 12 13:35:27 CEST 2018 --- Thread: 13   application.HelloWorld
+INFO: Cerrando App desde ventana (TR040)
+
+
+Tue Jun 12 13:39:26 CEST 2018 --- Thread: 13   application.controller.InterfaceController
+INFO: Cargando controlador (TR081)
+Tue Jun 12 13:39:27 CEST 2018 --- Thread: 13   application.controller.InterfaceController
+INFO: Cargando datos de usuario (TR010)
+Tue Jun 12 13:39:33 CEST 2018 --- Thread: 13   application.HelloWorld
+INFO: Cerrando App desde ventana (TR040)
+
+
+Tue Jun 12 13:40:06 CEST 2018 --- Thread: 13   application.controller.InterfaceController
+INFO: Cargando controlador (TR081)
+Tue Jun 12 13:40:06 CEST 2018 --- Thread: 13   application.controller.InterfaceController
+INFO: Cargando datos de usuario (TR010)
+Tue Jun 12 13:40:54 CEST 2018 --- Thread: 13   application.HelloWorld
+INFO: Cerrando App desde ventana (TR040)
+
+
+Tue Jun 12 13:41:04 CEST 2018 --- Thread: 13   application.controller.InterfaceController
+INFO: Cargando controlador (TR081)
+Tue Jun 12 13:41:04 CEST 2018 --- Thread: 13   application.controller.InterfaceController
+INFO: Cargando datos de usuario (TR010)
+Tue Jun 12 13:42:01 CEST 2018 --- Thread: 13   application.HelloWorld
+INFO: Cerrando App desde ventana (TR040)
+
+
+Tue Jun 12 13:52:47 CEST 2018 --- Thread: 13   application.controller.InterfaceController
+INFO: Cargando controlador (TR081)
+Tue Jun 12 13:52:47 CEST 2018 --- Thread: 13   application.controller.InterfaceController
+INFO: Cargando datos de usuario (TR010)
+Tue Jun 12 13:52:53 CEST 2018 --- Thread: 13   application.HelloWorld
+INFO: Cerrando App desde ventana (TR040)
+
+
+Tue Jun 12 14:17:52 CEST 2018 --- Thread: 13   application.controller.InterfaceController
+INFO: Cargando controlador (TR081)
+Tue Jun 12 14:17:53 CEST 2018 --- Thread: 13   application.controller.InterfaceController
+INFO: Cargando datos de usuario (TR010)
+Tue Jun 12 14:18:08 CEST 2018 --- Thread: 13   application.HelloWorld
+INFO: Cerrando App desde ventana (TR040)
+
+
+Tue Jun 12 15:42:28 CEST 2018 --- Thread: 13   application.controller.InterfaceController
+INFO: Cargando controlador (TR081)
+Tue Jun 12 15:42:28 CEST 2018 --- Thread: 13   application.controller.InterfaceController
+INFO: Cargando datos de usuario (TR010)
+Tue Jun 12 15:42:35 CEST 2018 --- Thread: 13   application.HelloWorld
+INFO: Cerrando App desde ventana (TR040)
+
+
+Tue Jun 12 15:53:58 CEST 2018 --- Thread: 13   application.controller.InterfaceController
+INFO: Cargando controlador (TR081)
+Tue Jun 12 15:53:58 CEST 2018 --- Thread: 13   application.controller.InterfaceController
+INFO: Cargando datos de usuario (TR010)
+Tue Jun 12 15:54:04 CEST 2018 --- Thread: 13   application.HelloWorld
+INFO: Cerrando App desde ventana (TR040)
+
+
+Tue Jun 12 21:52:17 CEST 2018 --- Thread: 13   application.controller.InterfaceController
+INFO: Cargando controlador (TR081)
+Tue Jun 12 21:52:17 CEST 2018 --- Thread: 13   application.controller.InterfaceController
+INFO: Cargando datos de usuario (TR010)
+Tue Jun 12 21:52:25 CEST 2018 --- Thread: 13   application.HelloWorld
+INFO: Cerrando App desde ventana (TR040)
+
+
+Wed Jun 13 13:11:22 CEST 2018 --- Thread: 13   application.controller.InterfaceController
+INFO: Cargando controlador (TR081)
+Wed Jun 13 13:11:23 CEST 2018 --- Thread: 13   application.controller.InterfaceController
+INFO: Cargando datos de usuario (TR010)
+Wed Jun 13 13:11:42 CEST 2018 --- Thread: 13   application.HelloWorld
+INFO: Cerrando App desde ventana (TR040)
+
+
+Wed Jun 13 13:12:51 CEST 2018 --- Thread: 16   application.controller.InterfaceController
+INFO: Cargando controlador (TR081)
+Wed Jun 13 13:12:55 CEST 2018 --- Thread: 16   application.controller.InterfaceController
+INFO: Cargando datos de usuario (TR010)
+Wed Jun 13 13:16:29 CEST 2018 --- Thread: 13   application.controller.InterfaceController
+INFO: Cargando controlador (TR081)
+Wed Jun 13 13:16:30 CEST 2018 --- Thread: 13   application.controller.InterfaceController
+INFO: Cargando datos de usuario (TR010)
+Wed Jun 13 13:16:44 CEST 2018 --- Thread: 13   application.HelloWorld
+INFO: Cerrando App desde ventana (TR040)
+
+
+Wed Jun 13 13:18:39 CEST 2018 --- Thread: 16   application.controller.InterfaceController
+INFO: Cargando controlador (TR081)
+Wed Jun 13 13:18:46 CEST 2018 --- Thread: 16   application.controller.InterfaceController
+INFO: Cargando datos de usuario (TR010)
+Wed Jun 13 13:20:47 CEST 2018 --- Thread: 13   application.controller.InterfaceController
+INFO: Cargando controlador (TR081)
+Wed Jun 13 13:20:47 CEST 2018 --- Thread: 13   application.controller.InterfaceController
+INFO: Cargando datos de usuario (TR010)
+Wed Jun 13 13:21:03 CEST 2018 --- Thread: 13   application.HelloWorld
+INFO: Cerrando App desde ventana (TR040)
+
+
+Wed Jun 13 19:55:03 CEST 2018 --- Thread: 13   application.controller.InterfaceController
+INFO: Cargando controlador (TR081)
+Wed Jun 13 19:55:03 CEST 2018 --- Thread: 13   application.controller.InterfaceController
+INFO: Cargando datos de usuario (TR010)
+Wed Jun 13 19:55:09 CEST 2018 --- Thread: 13   application.HelloWorld
+INFO: Cerrando App desde ventana (TR040)
+
+
+Wed Jun 13 19:57:38 CEST 2018 --- Thread: 13   application.controller.InterfaceController
+INFO: Cargando controlador (TR081)
+Wed Jun 13 19:57:39 CEST 2018 --- Thread: 13   application.controller.InterfaceController
+INFO: Cargando datos de usuario (TR010)
+Wed Jun 13 19:57:43 CEST 2018 --- Thread: 13   application.HelloWorld
+INFO: Cerrando App desde ventana (TR040)
+
+
+Wed Jun 13 20:00:23 CEST 2018 --- Thread: 16   application.controller.InterfaceController
+INFO: Cargando controlador (TR081)
+Wed Jun 13 20:00:25 CEST 2018 --- Thread: 16   application.controller.InterfaceController
+INFO: Cargando datos de usuario (TR010)
+Wed Jun 13 20:01:42 CEST 2018 --- Thread: 16   application.HelloWorld
+INFO: Cerrando App desde ventana (TR040)
+
+
+Wed Jun 13 20:03:18 CEST 2018 --- Thread: 13   application.controller.InterfaceController
+INFO: Cargando controlador (TR081)
+Wed Jun 13 20:03:19 CEST 2018 --- Thread: 13   application.controller.InterfaceController
+INFO: Cargando datos de usuario (TR010)
+Wed Jun 13 20:03:21 CEST 2018 --- Thread: 13   application.HelloWorld
+INFO: Cerrando App desde ventana (TR040)
+
+
+Wed Jun 13 20:04:08 CEST 2018 --- Thread: 13   application.controller.InterfaceController
+INFO: Cargando controlador (TR081)
+Wed Jun 13 20:04:08 CEST 2018 --- Thread: 13   application.controller.InterfaceController
+INFO: Cargando datos de usuario (TR010)
+Wed Jun 13 20:04:15 CEST 2018 --- Thread: 13   application.HelloWorld
+INFO: Cerrando App desde ventana (TR040)
+
+
+Wed Jun 13 20:05:10 CEST 2018 --- Thread: 13   application.controller.InterfaceController
+INFO: Cargando controlador (TR081)
+Wed Jun 13 20:05:11 CEST 2018 --- Thread: 13   application.controller.InterfaceController
+INFO: Cargando datos de usuario (TR010)
+Wed Jun 13 20:05:15 CEST 2018 --- Thread: 13   application.HelloWorld
+INFO: Cerrando App desde ventana (TR040)
+
+
+Wed Jun 13 20:06:57 CEST 2018 --- Thread: 13   application.controller.InterfaceController
+INFO: Cargando controlador (TR081)
+Wed Jun 13 20:06:58 CEST 2018 --- Thread: 13   application.controller.InterfaceController
+INFO: Cargando datos de usuario (TR010)
+Wed Jun 13 20:07:04 CEST 2018 --- Thread: 13   application.HelloWorld
+INFO: Cerrando App desde ventana (TR040)
+
+
+Wed Jun 13 21:35:00 CEST 2018 --- Thread: 13   application.controller.InterfaceController
+INFO: Cargando controlador (TR081)
+Wed Jun 13 21:35:00 CEST 2018 --- Thread: 13   application.controller.InterfaceController
+INFO: Cargando datos de usuario (TR010)
+Wed Jun 13 21:35:04 CEST 2018 --- Thread: 13   application.HelloWorld
+INFO: Cerrando App desde ventana (TR040)
+
+
+Wed Jun 13 21:38:31 CEST 2018 --- Thread: 13   application.controller.InterfaceController
+INFO: Cargando controlador (TR081)
+Wed Jun 13 21:38:31 CEST 2018 --- Thread: 13   application.controller.InterfaceController
+INFO: Cargando datos de usuario (TR010)
+Wed Jun 13 21:39:54 CEST 2018 --- Thread: 13   application.HelloWorld
+INFO: Cerrando App desde ventana (TR040)
+
+
+Wed Jun 13 22:02:51 CEST 2018 --- Thread: 13   application.controller.InterfaceController
+INFO: Cargando controlador (TR081)
+Wed Jun 13 22:02:52 CEST 2018 --- Thread: 13   application.controller.InterfaceController
+INFO: Cargando datos de usuario (TR010)
+Wed Jun 13 22:03:00 CEST 2018 --- Thread: 13   application.HelloWorld
+INFO: Cerrando App desde ventana (TR040)
+
+
+Wed Jun 13 22:03:46 CEST 2018 --- Thread: 16   application.controller.InterfaceController
+INFO: Cargando controlador (TR081)
+Wed Jun 13 22:05:56 CEST 2018 --- Thread: 16   application.controller.InterfaceController
+INFO: Cargando datos de usuario (TR010)
+Wed Jun 13 22:07:03 CEST 2018 --- Thread: 13   application.controller.InterfaceController
+INFO: Cargando controlador (TR081)
+Wed Jun 13 22:07:03 CEST 2018 --- Thread: 13   application.controller.InterfaceController
+INFO: Cargando datos de usuario (TR010)
+Wed Jun 13 22:07:07 CEST 2018 --- Thread: 13   application.HelloWorld
+INFO: Cerrando App desde ventana (TR040)
+
+
+Wed Jun 13 22:07:30 CEST 2018 --- Thread: 13   application.controller.InterfaceController
+INFO: Cargando controlador (TR081)
+Wed Jun 13 22:07:30 CEST 2018 --- Thread: 13   application.controller.InterfaceController
+INFO: Cargando datos de usuario (TR010)
+Wed Jun 13 22:07:35 CEST 2018 --- Thread: 13   application.HelloWorld
+INFO: Cerrando App desde ventana (TR040)
+
+
+Wed Jun 13 22:08:54 CEST 2018 --- Thread: 13   application.controller.InterfaceController
+INFO: Cargando controlador (TR081)
+Wed Jun 13 22:08:54 CEST 2018 --- Thread: 13   application.controller.InterfaceController
+INFO: Cargando datos de usuario (TR010)
+Wed Jun 13 22:09:21 CEST 2018 --- Thread: 13   application.HelloWorld
+INFO: Cerrando App desde ventana (TR040)
+
+
+Wed Jun 13 22:10:03 CEST 2018 --- Thread: 13   application.controller.InterfaceController
+INFO: Cargando controlador (TR081)
+Wed Jun 13 22:10:04 CEST 2018 --- Thread: 13   application.controller.InterfaceController
+INFO: Cargando datos de usuario (TR010)
+Wed Jun 13 22:10:14 CEST 2018 --- Thread: 13   application.HelloWorld
+INFO: Cerrando App desde ventana (TR040)
+
+
+Wed Jun 13 22:13:14 CEST 2018 --- Thread: 13   application.controller.InterfaceController
+INFO: Cargando controlador (TR081)
+Wed Jun 13 22:13:14 CEST 2018 --- Thread: 13   application.controller.InterfaceController
+INFO: Cargando datos de usuario (TR010)
+Wed Jun 13 22:13:18 CEST 2018 --- Thread: 13   application.HelloWorld
+INFO: Cerrando App desde ventana (TR040)
+
+
+Thu Jun 14 11:25:49 CEST 2018 --- Thread: 13   application.controller.InterfaceController
+INFO: Cargando controlador (TR081)
+Thu Jun 14 11:25:50 CEST 2018 --- Thread: 13   application.controller.InterfaceController
+INFO: Cargando datos de usuario (TR010)
+Thu Jun 14 11:25:58 CEST 2018 --- Thread: 13   application.HelloWorld
+INFO: Cerrando App desde ventana (TR040)
+
+
+Thu Jun 14 11:46:34 CEST 2018 --- Thread: 13   application.controller.InterfaceController
+INFO: Cargando controlador (TR081)
+Thu Jun 14 11:46:35 CEST 2018 --- Thread: 13   application.controller.InterfaceController
+INFO: Cargando datos de usuario (TR010)
+Thu Jun 14 11:46:39 CEST 2018 --- Thread: 13   application.HelloWorld
+INFO: Cerrando App desde ventana (TR040)
+
+
+Thu Jun 14 11:47:28 CEST 2018 --- Thread: 13   application.controller.InterfaceController
+INFO: Cargando controlador (TR081)
+Thu Jun 14 11:47:28 CEST 2018 --- Thread: 13   application.controller.InterfaceController
+INFO: Cargando datos de usuario (TR010)
+Thu Jun 14 11:47:32 CEST 2018 --- Thread: 13   application.HelloWorld
+INFO: Cerrando App desde ventana (TR040)
+
+
+Thu Jun 14 11:49:30 CEST 2018 --- Thread: 16   application.controller.InterfaceController
+INFO: Cargando controlador (TR081)
+Thu Jun 14 11:51:05 CEST 2018 --- Thread: 16   application.controller.InterfaceController
+INFO: Cargando datos de usuario (TR010)
+Thu Jun 14 11:51:37 CEST 2018 --- Thread: 13   application.controller.InterfaceController
+INFO: Cargando controlador (TR081)
+Thu Jun 14 11:51:37 CEST 2018 --- Thread: 13   application.controller.InterfaceController
+INFO: Cargando datos de usuario (TR010)
+Thu Jun 14 11:51:38 CEST 2018 --- Thread: 13   application.HelloWorld
+INFO: Cerrando App desde ventana (TR040)
+
+
+Thu Jun 14 11:52:00 CEST 2018 --- Thread: 13   application.controller.InterfaceController
+INFO: Cargando controlador (TR081)
+Thu Jun 14 11:52:00 CEST 2018 --- Thread: 13   application.controller.InterfaceController
+INFO: Cargando datos de usuario (TR010)
+Thu Jun 14 11:52:01 CEST 2018 --- Thread: 13   application.HelloWorld
+INFO: Cerrando App desde ventana (TR040)
+
+
+Thu Jun 14 17:45:59 CEST 2018 --- Thread: 13   application.controller.InterfaceController
+INFO: Cargando controlador (TR081)
+Thu Jun 14 17:45:59 CEST 2018 --- Thread: 13   application.controller.InterfaceController
+INFO: Cargando datos de usuario (TR010)
+Thu Jun 14 17:47:06 CEST 2018 --- Thread: 13   application.controller.InterfaceController
+INFO: Cargando controlador (TR081)
+Thu Jun 14 17:47:06 CEST 2018 --- Thread: 13   application.controller.InterfaceController
+INFO: Cargando datos de usuario (TR010)
+Thu Jun 14 17:47:34 CEST 2018 --- Thread: 13   application.HelloWorld
+INFO: Cerrando App desde ventana (TR040)
+
+
+Thu Jun 14 17:48:36 CEST 2018 --- Thread: 13   application.controller.InterfaceController
+INFO: Cargando controlador (TR081)
+Thu Jun 14 17:48:36 CEST 2018 --- Thread: 13   application.controller.InterfaceController
+INFO: Cargando datos de usuario (TR010)
+Thu Jun 14 17:49:03 CEST 2018 --- Thread: 13   application.controller.InterfaceController
+INFO: Cargando controlador (TR081)
+Thu Jun 14 17:49:04 CEST 2018 --- Thread: 13   application.controller.InterfaceController
+INFO: Cargando datos de usuario (TR010)
+Thu Jun 14 17:49:13 CEST 2018 --- Thread: 13   application.HelloWorld
+INFO: Cerrando App desde ventana (TR040)
+
+
+Thu Jun 14 17:51:31 CEST 2018 --- Thread: 16   application.controller.InterfaceController
+INFO: Cargando controlador (TR081)
+Thu Jun 14 17:52:27 CEST 2018 --- Thread: 16   application.controller.InterfaceController
+INFO: Cargando controlador (TR081)
+Thu Jun 14 17:53:26 CEST 2018 --- Thread: 16   application.controller.InterfaceController
+INFO: Cargando controlador (TR081)
+Thu Jun 14 17:54:47 CEST 2018 --- Thread: 16   application.controller.InterfaceController
+INFO: Cargando controlador (TR081)
+Thu Jun 14 17:57:26 CEST 2018 --- Thread: 13   application.controller.InterfaceController
+INFO: Cargando controlador (TR081)
+Thu Jun 14 17:57:26 CEST 2018 --- Thread: 13   application.controller.InterfaceController
+INFO: Cargando datos de usuario (TR010)
+Thu Jun 14 17:57:35 CEST 2018 --- Thread: 13   application.HelloWorld
+INFO: Cerrando App desde ventana (TR040)
+
+
+Thu Jun 14 17:59:42 CEST 2018 --- Thread: 13   application.controller.InterfaceController
+INFO: Cargando controlador (TR081)
+Thu Jun 14 17:59:43 CEST 2018 --- Thread: 13   application.controller.InterfaceController
+INFO: Cargando datos de usuario (TR010)
+Thu Jun 14 17:59:56 CEST 2018 --- Thread: 13   application.HelloWorld
+INFO: Cerrando App desde ventana (TR040)
+
+
+Thu Jun 14 18:00:17 CEST 2018 --- Thread: 13   application.controller.InterfaceController
+INFO: Cargando controlador (TR081)
+Thu Jun 14 18:00:17 CEST 2018 --- Thread: 13   application.controller.InterfaceController
+INFO: Cargando datos de usuario (TR010)
+Thu Jun 14 18:00:18 CEST 2018 --- Thread: 13   application.HelloWorld
+INFO: Cerrando App desde ventana (TR040)
+
+
+Thu Jun 14 18:01:07 CEST 2018 --- Thread: 13   application.controller.InterfaceController
+INFO: Cargando controlador (TR081)
+Thu Jun 14 18:01:07 CEST 2018 --- Thread: 13   application.controller.InterfaceController
+INFO: Cargando datos de usuario (TR010)
+Thu Jun 14 18:01:08 CEST 2018 --- Thread: 13   application.HelloWorld
+INFO: Cerrando App desde ventana (TR040)
+
+
+Thu Jun 14 18:02:10 CEST 2018 --- Thread: 16   application.controller.InterfaceController
+INFO: Cargando controlador (TR081)
+Thu Jun 14 18:04:45 CEST 2018 --- Thread: 16   application.controller.InterfaceController
+INFO: Cargando datos de usuario (TR010)
+Thu Jun 14 18:05:00 CEST 2018 --- Thread: 16   application.HelloWorld
+INFO: Cerrando App desde ventana (TR040)
+
+
+Thu Jun 14 18:06:45 CEST 2018 --- Thread: 13   application.controller.InterfaceController
+INFO: Cargando controlador (TR081)
+Thu Jun 14 18:06:45 CEST 2018 --- Thread: 13   application.controller.InterfaceController
+INFO: Cargando datos de usuario (TR010)
+Thu Jun 14 18:06:46 CEST 2018 --- Thread: 13   application.HelloWorld
+INFO: Cerrando App desde ventana (TR040)
+
+
+Thu Jun 14 18:07:33 CEST 2018 --- Thread: 13   application.controller.InterfaceController
+INFO: Cargando controlador (TR081)
+Thu Jun 14 18:07:33 CEST 2018 --- Thread: 13   application.controller.InterfaceController
+INFO: Cargando datos de usuario (TR010)
+Thu Jun 14 18:07:34 CEST 2018 --- Thread: 13   application.HelloWorld
+INFO: Cerrando App desde ventana (TR040)
+
+
+Thu Jun 14 18:08:55 CEST 2018 --- Thread: 13   application.controller.InterfaceController
+INFO: Cargando controlador (TR081)
+Thu Jun 14 18:08:55 CEST 2018 --- Thread: 13   application.controller.InterfaceController
+INFO: Cargando datos de usuario (TR010)
+Thu Jun 14 18:09:02 CEST 2018 --- Thread: 13   application.HelloWorld
+INFO: Cerrando App desde ventana (TR040)
+
+
+Thu Jun 14 18:09:34 CEST 2018 --- Thread: 13   application.controller.InterfaceController
+INFO: Cargando controlador (TR081)
+Thu Jun 14 18:09:35 CEST 2018 --- Thread: 13   application.controller.InterfaceController
+INFO: Cargando datos de usuario (TR010)
+Thu Jun 14 18:09:55 CEST 2018 --- Thread: 13   application.HelloWorld
+INFO: Cerrando App desde ventana (TR040)
+
+
+Thu Jun 14 18:10:22 CEST 2018 --- Thread: 13   application.controller.InterfaceController
+INFO: Cargando controlador (TR081)
+Thu Jun 14 18:10:23 CEST 2018 --- Thread: 13   application.controller.InterfaceController
+INFO: Cargando datos de usuario (TR010)
+Thu Jun 14 18:10:24 CEST 2018 --- Thread: 13   application.HelloWorld
+INFO: Cerrando App desde ventana (TR040)
+
+
+Thu Jun 14 18:23:37 CEST 2018 --- Thread: 13   application.controller.InterfaceController
+INFO: Cargando controlador (TR081)
+Thu Jun 14 18:23:37 CEST 2018 --- Thread: 13   application.controller.InterfaceController
+INFO: Cargando datos de usuario (TR010)
+Thu Jun 14 18:23:38 CEST 2018 --- Thread: 13   application.HelloWorld
+INFO: Cerrando App desde ventana (TR040)
+
+
+Thu Jun 14 18:25:29 CEST 2018 --- Thread: 13   application.controller.InterfaceController
+INFO: Cargando controlador (TR081)
+Thu Jun 14 18:25:29 CEST 2018 --- Thread: 13   application.controller.InterfaceController
+INFO: Cargando datos de usuario (TR010)
+Thu Jun 14 18:25:36 CEST 2018 --- Thread: 13   application.HelloWorld
+INFO: Cerrando App desde ventana (TR040)
+
+
+Thu Jun 14 18:26:24 CEST 2018 --- Thread: 13   application.controller.InterfaceController
+INFO: Cargando controlador (TR081)
+Thu Jun 14 18:26:24 CEST 2018 --- Thread: 13   application.controller.InterfaceController
+INFO: Cargando datos de usuario (TR010)
+Thu Jun 14 18:26:25 CEST 2018 --- Thread: 13   application.HelloWorld
+INFO: Cerrando App desde ventana (TR040)
+
+
+Thu Jun 14 18:29:57 CEST 2018 --- Thread: 13   application.controller.InterfaceController
+INFO: Cargando controlador (TR081)
+Thu Jun 14 18:29:57 CEST 2018 --- Thread: 13   application.controller.InterfaceController
+INFO: Cargando datos de usuario (TR010)
+Thu Jun 14 18:29:58 CEST 2018 --- Thread: 13   application.HelloWorld
+INFO: Cerrando App desde ventana (TR040)
+
+
+Thu Jun 14 18:32:54 CEST 2018 --- Thread: 13   application.controller.InterfaceController
+INFO: Cargando controlador (TR081)
+Thu Jun 14 18:32:54 CEST 2018 --- Thread: 13   application.controller.InterfaceController
+INFO: Cargando datos de usuario (TR010)
+Thu Jun 14 18:32:55 CEST 2018 --- Thread: 13   application.HelloWorld
+INFO: Cerrando App desde ventana (TR040)
+
+
+Thu Jun 14 18:36:40 CEST 2018 --- Thread: 13   application.controller.InterfaceController
+INFO: Cargando controlador (TR081)
+Thu Jun 14 18:36:41 CEST 2018 --- Thread: 13   application.controller.InterfaceController
+INFO: Cargando datos de usuario (TR010)
+Thu Jun 14 18:36:48 CEST 2018 --- Thread: 13   application.HelloWorld
+INFO: Cerrando App desde ventana (TR040)
+
+
+Thu Jun 14 18:37:10 CEST 2018 --- Thread: 13   application.controller.InterfaceController
+INFO: Cargando controlador (TR081)
+Thu Jun 14 18:37:10 CEST 2018 --- Thread: 13   application.controller.InterfaceController
+INFO: Cargando datos de usuario (TR010)
+Thu Jun 14 18:37:11 CEST 2018 --- Thread: 13   application.HelloWorld
+INFO: Cerrando App desde ventana (TR040)
+
+
+Thu Jun 14 18:38:54 CEST 2018 --- Thread: 16   application.controller.InterfaceController
+INFO: Cargando controlador (TR081)
+Thu Jun 14 18:40:42 CEST 2018 --- Thread: 16   application.controller.InterfaceController
+INFO: Cargando datos de usuario (TR010)
+Thu Jun 14 18:43:02 CEST 2018 --- Thread: 13   application.controller.InterfaceController
+INFO: Cargando controlador (TR081)
+Thu Jun 14 18:43:02 CEST 2018 --- Thread: 13   application.HelloWorld
+SEVERE: 
+javafx.fxml.LoadException: 
+file:/C:/Users/Usuario/Documents/NetBeansProjects/Updater/dist/HelloWorld.jar!/Resources/fxml/interface.fxml
+
+	at javafx.fxml.FXMLLoader.constructLoadException(FXMLLoader.java:2601)
+	at javafx.fxml.FXMLLoader.loadImpl(FXMLLoader.java:2579)
+	at javafx.fxml.FXMLLoader.loadImpl(FXMLLoader.java:2441)
+	at javafx.fxml.FXMLLoader.loadImpl(FXMLLoader.java:3214)
+	at javafx.fxml.FXMLLoader.loadImpl(FXMLLoader.java:3175)
+	at javafx.fxml.FXMLLoader.loadImpl(FXMLLoader.java:3148)
+	at javafx.fxml.FXMLLoader.loadImpl(FXMLLoader.java:3124)
+	at javafx.fxml.FXMLLoader.load(FXMLLoader.java:3116)
+	at application.HelloWorld.start(HelloWorld.java:141)
+	at com.sun.javafx.application.LauncherImpl.lambda$launchApplication1$162(LauncherImpl.java:863)
+	at com.sun.javafx.application.PlatformImpl.lambda$runAndWait$175(PlatformImpl.java:326)
+	at com.sun.javafx.application.PlatformImpl.lambda$null$173(PlatformImpl.java:295)
+	at java.security.AccessController.doPrivileged(Native Method)
+	at com.sun.javafx.application.PlatformImpl.lambda$runLater$174(PlatformImpl.java:294)
+	at com.sun.glass.ui.InvokeLaterDispatcher$Future.run(InvokeLaterDispatcher.java:95)
+	at com.sun.glass.ui.win.WinApplication._runLoop(Native Method)
+	at com.sun.glass.ui.win.WinApplication.lambda$null$148(WinApplication.java:191)
+	at java.lang.Thread.run(Thread.java:745)
+Caused by: java.lang.NullPointerException
+	at application.controller.InterfaceController.loadData(InterfaceController.java:1206)
+	at application.controller.InterfaceController.initialize(InterfaceController.java:221)
+	at javafx.fxml.FXMLLoader.loadImpl(FXMLLoader.java:2548)
+	... 16 more
+
+Thu Jun 14 18:43:02 CEST 2018 --- Thread: 13   application.HelloWorld
+INFO: Cerrando App desde ventana (TR040)
+
+
+Thu Jun 14 18:43:10 CEST 2018 --- Thread: 13   application.controller.InterfaceController
+INFO: Cargando controlador (TR081)
+Thu Jun 14 18:43:10 CEST 2018 --- Thread: 13   application.HelloWorld
+SEVERE: 
+javafx.fxml.LoadException: 
+file:/C:/Users/Usuario/Documents/NetBeansProjects/Updater/dist/HelloWorld.jar!/Resources/fxml/interface.fxml
+
+	at javafx.fxml.FXMLLoader.constructLoadException(FXMLLoader.java:2601)
+	at javafx.fxml.FXMLLoader.loadImpl(FXMLLoader.java:2579)
+	at javafx.fxml.FXMLLoader.loadImpl(FXMLLoader.java:2441)
+	at javafx.fxml.FXMLLoader.loadImpl(FXMLLoader.java:3214)
+	at javafx.fxml.FXMLLoader.loadImpl(FXMLLoader.java:3175)
+	at javafx.fxml.FXMLLoader.loadImpl(FXMLLoader.java:3148)
+	at javafx.fxml.FXMLLoader.loadImpl(FXMLLoader.java:3124)
+	at javafx.fxml.FXMLLoader.load(FXMLLoader.java:3116)
+	at application.HelloWorld.start(HelloWorld.java:141)
+	at com.sun.javafx.application.LauncherImpl.lambda$launchApplication1$162(LauncherImpl.java:863)
+	at com.sun.javafx.application.PlatformImpl.lambda$runAndWait$175(PlatformImpl.java:326)
+	at com.sun.javafx.application.PlatformImpl.lambda$null$173(PlatformImpl.java:295)
+	at java.security.AccessController.doPrivileged(Native Method)
+	at com.sun.javafx.application.PlatformImpl.lambda$runLater$174(PlatformImpl.java:294)
+	at com.sun.glass.ui.InvokeLaterDispatcher$Future.run(InvokeLaterDispatcher.java:95)
+	at com.sun.glass.ui.win.WinApplication._runLoop(Native Method)
+	at com.sun.glass.ui.win.WinApplication.lambda$null$148(WinApplication.java:191)
+	at java.lang.Thread.run(Thread.java:745)
+Caused by: java.lang.NullPointerException
+	at application.controller.InterfaceController.loadData(InterfaceController.java:1206)
+	at application.controller.InterfaceController.initialize(InterfaceController.java:221)
+	at javafx.fxml.FXMLLoader.loadImpl(FXMLLoader.java:2548)
+	... 16 more
+
+Thu Jun 14 18:43:10 CEST 2018 --- Thread: 13   application.HelloWorld
+INFO: Cerrando App desde ventana (TR040)
+
+
+Thu Jun 14 18:46:10 CEST 2018 --- Thread: 13   application.controller.InterfaceController
+INFO: Cargando controlador (TR081)
+Thu Jun 14 18:46:10 CEST 2018 --- Thread: 13   application.HelloWorld
+SEVERE: 
+javafx.fxml.LoadException: 
+file:/C:/Users/Usuario/Documents/NetBeansProjects/Updater/dist/HelloWorld.jar!/Resources/fxml/interface.fxml
+
+	at javafx.fxml.FXMLLoader.constructLoadException(FXMLLoader.java:2601)
+	at javafx.fxml.FXMLLoader.loadImpl(FXMLLoader.java:2579)
+	at javafx.fxml.FXMLLoader.loadImpl(FXMLLoader.java:2441)
+	at javafx.fxml.FXMLLoader.loadImpl(FXMLLoader.java:3214)
+	at javafx.fxml.FXMLLoader.loadImpl(FXMLLoader.java:3175)
+	at javafx.fxml.FXMLLoader.loadImpl(FXMLLoader.java:3148)
+	at javafx.fxml.FXMLLoader.loadImpl(FXMLLoader.java:3124)
+	at javafx.fxml.FXMLLoader.load(FXMLLoader.java:3116)
+	at application.HelloWorld.start(HelloWorld.java:141)
+	at com.sun.javafx.application.LauncherImpl.lambda$launchApplication1$162(LauncherImpl.java:863)
+	at com.sun.javafx.application.PlatformImpl.lambda$runAndWait$175(PlatformImpl.java:326)
+	at com.sun.javafx.application.PlatformImpl.lambda$null$173(PlatformImpl.java:295)
+	at java.security.AccessController.doPrivileged(Native Method)
+	at com.sun.javafx.application.PlatformImpl.lambda$runLater$174(PlatformImpl.java:294)
+	at com.sun.glass.ui.InvokeLaterDispatcher$Future.run(InvokeLaterDispatcher.java:95)
+	at com.sun.glass.ui.win.WinApplication._runLoop(Native Method)
+	at com.sun.glass.ui.win.WinApplication.lambda$null$148(WinApplication.java:191)
+	at java.lang.Thread.run(Thread.java:745)
+Caused by: java.lang.NullPointerException
+	at application.controller.InterfaceController.loadData(InterfaceController.java:1206)
+	at application.controller.InterfaceController.initialize(InterfaceController.java:221)
+	at javafx.fxml.FXMLLoader.loadImpl(FXMLLoader.java:2548)
+	... 16 more
+
+Thu Jun 14 18:46:10 CEST 2018 --- Thread: 13   application.HelloWorld
+INFO: Cerrando App desde ventana (TR040)
+
+
+Thu Jun 14 18:48:44 CEST 2018 --- Thread: 16   application.controller.InterfaceController
+INFO: Cargando controlador (TR081)
+Thu Jun 14 18:50:47 CEST 2018 --- Thread: 13   application.controller.InterfaceController
+INFO: Cargando controlador (TR081)
+Thu Jun 14 18:50:47 CEST 2018 --- Thread: 13   application.controller.InterfaceController
+INFO: Cargando datos de usuario (TR010)
+Thu Jun 14 18:51:15 CEST 2018 --- Thread: 13   application.HelloWorld
+INFO: Cerrando App desde ventana (TR040)
+
+
+Thu Jun 14 18:51:46 CEST 2018 --- Thread: 13   application.controller.InterfaceController
+INFO: Cargando controlador (TR081)
+Thu Jun 14 18:51:46 CEST 2018 --- Thread: 13   application.controller.InterfaceController
+INFO: Cargando datos de usuario (TR010)
+Thu Jun 14 18:52:01 CEST 2018 --- Thread: 13   application.HelloWorld
+INFO: Cerrando App desde ventana (TR040)
+
+
+Thu Jun 14 18:53:15 CEST 2018 --- Thread: 13   application.controller.InterfaceController
+INFO: Cargando controlador (TR081)
+Thu Jun 14 18:53:15 CEST 2018 --- Thread: 13   application.controller.InterfaceController
+INFO: Cargando datos de usuario (TR010)
+Thu Jun 14 18:53:39 CEST 2018 --- Thread: 13   application.HelloWorld
+INFO: Cerrando App desde ventana (TR040)
+
+
+Fri Jun 15 10:16:57 CEST 2018 --- Thread: 13   application.controller.InterfaceController
+INFO: Cargando controlador (TR081)
+Fri Jun 15 10:16:57 CEST 2018 --- Thread: 13   application.controller.InterfaceController
+INFO: Cargando datos de usuario (TR010)
+Fri Jun 15 10:19:50 CEST 2018 --- Thread: 13   application.controller.InterfaceController
+INFO: Cargando controlador (TR081)
+Fri Jun 15 10:19:50 CEST 2018 --- Thread: 13   application.controller.InterfaceController
+INFO: Cargando datos de usuario (TR010)

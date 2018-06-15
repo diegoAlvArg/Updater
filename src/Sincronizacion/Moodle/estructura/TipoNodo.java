@@ -1,4 +1,4 @@
-package Sincronice.moodle.tree;
+package Sincronizacion.Moodle.estructura;
 
 /**
  * @author Diego Alvarez
@@ -6,7 +6,7 @@ package Sincronice.moodle.tree;
  * Tipificacion de la clase Node. Dicha clase se valdra de esta para el control 
  *  en parte de su logica
  */
-public enum TypeNode {
+public enum TipoNodo {
     CURSO("Curso"),
     SECTIONCOLAP("SectionCOL"),
     SECTIONEXPAND("SectionEXP"),
@@ -19,11 +19,11 @@ public enum TypeNode {
 
     private String value;
 
-    TypeNode(String _value) {
+    TipoNodo(String _value) {
         this.value = _value;
     }
 
-    private String getValue() {
+    private String getValor() {
         return value;
     }
 
@@ -32,17 +32,17 @@ public enum TypeNode {
         if (this.equals(SECTIONCOLAP) || this.equals(SECTIONEXPAND)) {
             return "Section";
         } else {
-            return this.getValue();
+            return this.getValor();
         }
 
     }
 
-    public static TypeNode getEnum(String _value) {
-        for (TypeNode b : TypeNode.values()) {
+    public static TipoNodo getEnum(String _value) {
+        for (TipoNodo b : TipoNodo.values()) {
             if (b.value.equalsIgnoreCase(_value)) {
                 return b;
             }
         }
-        return TypeNode.OTHER;
+        return TipoNodo.OTHER;
     }
 }

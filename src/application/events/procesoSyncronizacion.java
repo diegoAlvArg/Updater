@@ -1,7 +1,7 @@
 package application.events;
 
-import application.InterfaceController;
-import Sincronice.Naster.FileHelper;
+import application.controller.InterfaceController;
+import Sincronizacion.Naster.OpcionesSyncNaster;
 import java.io.IOException;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
@@ -10,8 +10,8 @@ import javafx.application.Platform;
 import javafx.concurrent.Service;
 import javafx.concurrent.Task;
 import org.apache.http.client.ClientProtocolException;
-import Sincronice.Moodle.init.Opciones;
-import Sincronice.Moodle.init.Opciones;
+import Sincronizacion.Moodle.inicio.OpcionesSyncMoodle;
+import Sincronizacion.Moodle.inicio.OpcionesSyncMoodle;
 import java.time.LocalDate;
 
 /**
@@ -81,25 +81,25 @@ public class procesoSyncronizacion {
             if (_user != null && _pass1 != null && _path != null && (pass2 != null || _useNas)) {
                 try {
                     if (_useNas) {
-                        FileHelper.synchronize(user, pass2, pathDowload, currentYear());
+                        OpcionesSyncNaster.sincronizar(user, pass2, pathDowload, currentYear());
                         // Creo que segun RQ hay que tratar de difernete forma
                     }
-                    Opciones.realizarActualizacionTotal(_user, _pass1, currentYear(), _path, _iu);
-//                Opciones.realizarActualizacionIndividual(6, _user, _pass1, "(2016-2017)", _path, _iu);
+                    OpcionesSyncMoodle.realizarActualizacionTotal(_user, _pass1, currentYear(), _path, _iu);
+//                OpcionesSyncMoodle.realizarActualizacionIndividual(6, _user, _pass1, "(2016-2017)", _path, _iu);
                 } catch (IOException ex) {
                     //Moodle esta caido
                     Logger.getLogger(procesoSyncronizacion.class.getName()).log(Level.SEVERE, null, ex);
                 } finally {
-                    if (Platform.isFxApplicationThread()) {
+//                    if (Platform.isFxApplicationThread()) {
                         Platform.runLater(
                                 () -> {
                                     System.err.println("acabando");
                                     _iu.syncroEnd();
                                 }
                         );
-                    } else {
-                        _iu.syncroEnd();
-                    }
+//                    } else {
+//                        _iu.syncroEnd();
+//                    }
 //                _iu.syncroEnd();
                 }
             } else {
@@ -123,7 +123,7 @@ public class procesoSyncronizacion {
         } else {
             respuesta = "(" + (today.getYear() - 1) + "-" + today.getYear() + ")";
         }
-        return respuesta;
-        //        return "(2016-2017)";     //Test mode
+//        return respuesta;
+                return "(2016-2017)";     //Test mode
     }
 }

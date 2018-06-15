@@ -1,8 +1,8 @@
-package Tools.userDates;
+package Tools.almacen;
 
-import Tools.language.ResourceLeng;
+import Tools.lenguaje.ResourceLeng;
 import application.HelloWorld;
-import application.LoggGen;
+import Tools.logger.LogGeneral;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.IOException;
@@ -91,7 +91,7 @@ public class UserInfo {
             logRegistro.setSourceClassName(UserInfo.class.getName());
         }finally{
             if (logRegistro != null) {
-                LoggGen.log(logRegistro);
+                LogGeneral.log(logRegistro);
             }
         }
 
@@ -121,7 +121,7 @@ public class UserInfo {
             logRegistro.setSourceClassName(UserInfo.class.getName());
         }finally{
             if (logRegistro != null) {
-                LoggGen.log(logRegistro);
+                LogGeneral.log(logRegistro);
             }
         }
     }
@@ -471,7 +471,7 @@ public class UserInfo {
 //            Logger.getLogger(UserInfo.class.getName()).log(Level.SEVERE, null, ex);
         } catch (Exception e) {
             respuesta = null;
-            LoggGen.log(new LogRecord(Level.SEVERE, HelloWorld
+            LogGeneral.log(new LogRecord(Level.SEVERE, HelloWorld
                     .getResource().getString(ResourceLeng.TRACE_DATES_ERROR)));
         } finally {
             semaphore.release();
