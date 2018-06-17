@@ -1,11 +1,11 @@
 package zzParaBorrar;
 
+import aplicacion.eventos.Validador;
 import actualizador.tools.ActionTool;
 import actualizador.tools.NotificationType;
 import Tools.lenguaje.ResourceLeng;
-import zzParaBorrar.HelloController;
 import aplicacion.HelloWorld;
-import aplicacion.eventos.Validador;
+import aplicacion.controlador.InterfaceController;
 import com.github.sardine.Sardine;
 import com.github.sardine.SardineFactory;
 import com.github.sardine.impl.SardineException;
@@ -17,9 +17,13 @@ import java.util.List;
 import java.util.Optional;
 import java.util.ResourceBundle;
 import java.util.concurrent.Semaphore;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.application.Platform;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
+import javafx.concurrent.Service;
+import javafx.concurrent.Task;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
@@ -44,7 +48,7 @@ import org.jsoup.nodes.Document;
  *
  * @author Usuario
  */
-public class EventUser_so {
+public class eventUser_semaphore {
 
 //    private String user;
 //    private String pass1;
@@ -57,7 +61,7 @@ public class EventUser_so {
     private List<String> auxResult;
     private boolean askAgain = false;
 
-    public EventUser_so(String user, String pass1, String pass2, boolean useNas, ResourceBundle rb, boolean askPath, HelloController iu) {
+    public eventUser_semaphore(String user, String pass1, String pass2, boolean useNas, ResourceBundle rb, boolean askPath, InterfaceController iu) {
 //        this.user = user;
 //        this.pass1 = pass1;
 //        this.pass2 = pass2;
@@ -208,7 +212,7 @@ public class EventUser_so {
         return respuesta;
     }
 
-    private void validateUser(List<String> dates, boolean checkPath, HelloController iu, EventUser_so aThis) {
+    private void validateUser(List<String> dates, boolean checkPath, InterfaceController iu, eventUser_semaphore aThis) {
  
             List<String> auxList = dates;
             int[] estados;

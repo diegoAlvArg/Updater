@@ -1,22 +1,17 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-package application.Data;
+package aplicacion.datos;
 
+//#4 Java
 import java.io.Serializable;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Locale;
-//import java.time.Duration;
 
 /**
  *
- * @author Usuario
+ * @author Diego
  */
-public class Delivery implements Serializable {
+public class Tareas implements Serializable {
 
     private String fuente;                      //---------------------------#C1 = D1' + D2'
     private String estado;                      //---------------------------#C2 && #C5     
@@ -33,7 +28,7 @@ public class Delivery implements Serializable {
 //    private String seedTime;
 //    private String seedTimeNoDays;
 
-    public Delivery(String curso, String nombre, int estado, String fichero, String tiempo, String languague, String nota) throws ParseException {
+    public Tareas(String curso, String nombre, int estado, String fichero, String tiempo, String languague, String nota) throws ParseException {
         this.nombre = nombre;
         this.curso = curso;        
         this.fuente = nombre + " - " + curso;
@@ -46,7 +41,7 @@ public class Delivery implements Serializable {
 
     }
 
-//    public Delivery(String curso, String nombre, int estado, String fichero, String tiempo, String languague) throws ParseException {
+//    public Tareas(String curso, String nombre, int estado, String fichero, String tiempo, String languague) throws ParseException {
 //        this(curso, nombre, estado, fichero, tiempo, languague, "");
 //    }
 
@@ -178,10 +173,10 @@ public class Delivery implements Serializable {
         if (obj == this) {
             return true;
         }
-        if (!(obj instanceof Delivery)) {
+        if (!(obj instanceof Tareas)) {
             return false;
         }
-        Delivery otherDel = (Delivery) obj;
+        Tareas otherDel = (Tareas) obj;
 
         return print().equals(otherDel.print());
     }

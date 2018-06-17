@@ -1,14 +1,14 @@
-package application.controller;
+package aplicacion.controlador;
 
 import Tools.logger.LogGeneral;
-import Tools.almacen.UserInfo;
-import Updater.tools.ActionTool;
-import Updater.tools.NotificationType;
+import Tools.almacen.InformacionUsuario;
+import actualizador.tools.ActionTool;
+import actualizador.tools.NotificationType;
 import Tools.lenguaje.ResourceLeng;
 import Tools.almacen.almacenTareas;
-import application.Data.BookCategory;
-import application.Data.Delivery;
-import application.HelloWorld;
+import aplicacion.datos.ItemArbol;
+import aplicacion.datos.Tareas;
+import aplicacion.HelloWorld;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
@@ -44,9 +44,9 @@ import javafx.scene.text.TextFlow;
 import javafx.stage.DirectoryChooser;
 import javafx.util.Duration;
 import javafx.util.StringConverter;
-import application.events.validator;
-import application.events.eventUser_semaphore;
-import application.events.procesoSyncronizacion;
+import aplicacion.eventos.Validador;
+import aplicacion.eventos.EventosUsuario;
+import aplicacion.eventos.ProcesoSyncronizacion;
 import java.util.HashMap;
 import javafx.scene.control.CheckBox;
 import java.io.PrintWriter;
@@ -86,16 +86,16 @@ public class InterfaceController implements Initializable {
      */
     private final int MAX_SBCLU = 1;
     private int numSyncro;
-    private Map<String, TreeItem<BookCategory>> cursosTrack = new HashMap<>();
+    private Map<String, TreeItem<ItemArbol>> cursosTrack = new HashMap<>();
     //*************************************** OptionInit
     @FXML
     private Tab OptionDelivery;
     @FXML
-    private TableView<Delivery> TableDeliverys;// = new TableView<Delivery>();
+    private TableView<Tareas> TableDeliverys;// = new TableView<Delivery>();
     @FXML
-    private TableColumn<Delivery, String> c1;
+    private TableColumn<Tareas, String> c1;
     @FXML
-    private TableColumn<Delivery, String> c2;
+    private TableColumn<Tareas, String> c2;
     private String STATE_1_TEXT;
     private String STATE_1_TOOL;
     private String STATE_2_TEXT;
@@ -119,12 +119,12 @@ public class InterfaceController implements Initializable {
     private String TBUTTON_35_TOOL;
 
     @FXML
-    private TableColumn<Delivery, String> c3;
+    private TableColumn<Tareas, String> c3;
     @FXML
-    private TableColumn<Delivery, String> c4;
+    private TableColumn<Tareas, String> c4;
     @FXML
-    private TableColumn<Delivery, Button> c5;
-    private Map<String, Delivery> tareasTrack = new HashMap<>();
+    private TableColumn<Tareas, Button> c5;
+    private Map<String, Tareas> tareasTrack = new HashMap<>();
     //*************************************** OptionConfig
     @FXML
     private Tab OptionConfig;
@@ -210,19 +210,19 @@ public class InterfaceController implements Initializable {
         setLanguague(auxRb);
         initializeSpinners();
 
-        if (!UserInfo.dataExits()) {
+        if (!InformacionUsuario.existenDatos()) {
             // No hay usuario
             initializationUserLoad(false, "", "");
 
             logRegistro = new LogRecord(Level.INFO, rb.getString(ResourceLeng.TRACE_USER_NO));
         } else {
             try {
-                initializationUserLoad(true, UserInfo.getUser(), UserInfo.getPath());
-                loadData(UserInfo.getUser());
+                initializationUserLoad(true, InformacionUsuario.getUser(), InformacionUsuario.getPath());
+                loadData(InformacionUsuario.getUser());
                 setNextUpdate();
 
-                TreeItem<BookCategory> rootItem = new TreeItem<BookCategory>();
-                CBNaster.setSelected(UserInfo.getUseNas());
+                TreeItem<ItemArbol> rootItem = new TreeItem<ItemArbol>();
+                CBNaster.setSelected(InformacionUsuario.getUseNas());
                 TListUpdates.setRoot(rootItem);
                 logRegistro = new LogRecord(Level.INFO, rb.getString(ResourceLeng.TRACE_USER_OK));
             } catch (NoSuchFieldException e) {
@@ -235,7 +235,7 @@ public class InterfaceController implements Initializable {
             LogGeneral.log(logRegistro);
 
         }
-        HelloWorld.setControlAction(this, "actualizarVesionEnd", "saveData");
+        HelloWorld.setMetodosControl(this, "actualizarVesionEnd", "saveData");
         initializeTableView();
 
 //        TableDeliverys.setItems(loadDummy());
@@ -248,7 +248,7 @@ public class InterfaceController implements Initializable {
      * el Scene builder o ha pelo pero no se.
      */
     private void initializeTreeView() {
-        TreeItem<BookCategory> rootItem = new TreeItem<BookCategory>();
+        TreeItem<ItemArbol> rootItem = new TreeItem<ItemArbol>();
         TListUpdates.setRoot(rootItem);
         TListUpdates.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> handleTreeViewClick((TreeItem) newValue));
     }
@@ -260,10 +260,10 @@ public class InterfaceController implements Initializable {
      * @param newValue treeItem que disparo el evento
      */
     private void handleTreeViewClick(TreeItem newValue) {
-        BookCategory aux = null;
+        ItemArbol aux = null;
         try {
-            aux = (BookCategory) newValue.getValue();
-            HelloWorld.getHostService().showDocument(aux.getCode());
+            aux = (ItemArbol) newValue.getValue();
+            HelloWorld.getHostService().showDocument(aux.getPathFichero());
         } catch (Exception e) {
             LogRecord logRegistro;
             StringWriter errors = new StringWriter();
@@ -300,7 +300,7 @@ public class InterfaceController implements Initializable {
         // Averiguaar donde meter  le nuevo elemento
         String curso = path.replace(LPathApplication.getText() + File.separator, "");
         curso = curso.substring(0, curso.indexOf(File.separator));
-        TreeItem<BookCategory> auxCurso;
+        TreeItem<ItemArbol> auxCurso;
         if (cursosTrack.containsKey(curso)) {
             // Existe, lo pedimos
             auxCurso = cursosTrack.get(curso);
@@ -311,9 +311,9 @@ public class InterfaceController implements Initializable {
                 miImage = new Image(op);
             } catch (IOException ex) {
 //                Logger.getLogger(InterfaceController.class
-//                        .getName()).log(Level.SEVERE, null, ex);
+//                        .getNombre()).log(Level.SEVERE, null, ex);
             }
-            BookCategory auxbook = new BookCategory(LPathApplication.getText()
+            ItemArbol auxbook = new ItemArbol(LPathApplication.getText()
                     + File.separator + curso, curso);
             auxCurso = new TreeItem<>(auxbook, new ImageView(miImage));
             cursosTrack.put(curso, auxCurso);
@@ -347,10 +347,10 @@ public class InterfaceController implements Initializable {
             miImage = new Image(op);
         } catch (IOException ex) {
 //            Logger.getLogger(InterfaceController.class
-//                    .getName()).log(Level.SEVERE, null, ex);
+//                    .getNombre()).log(Level.SEVERE, null, ex);
         }
-        BookCategory auxbook = new BookCategory(path, name);
-        TreeItem<BookCategory> auxItem = new TreeItem<>(auxbook, new ImageView(miImage));
+        ItemArbol auxbook = new ItemArbol(path, name);
+        TreeItem<ItemArbol> auxItem = new TreeItem<>(auxbook, new ImageView(miImage));
 
         // En el caso de que un TreeItem<BookCategory> ya este aniadido lo eliminamos
         for (TreeItem item : auxCurso.getChildren()) {
@@ -373,9 +373,9 @@ public class InterfaceController implements Initializable {
         // Son 3 refrescos, no deberia haber problema; sino habira que investigar 
         //  el solo refrescar solo la "tabla"
 
-        c1.setCellValueFactory(new PropertyValueFactory<Delivery, String>("fuente"));
+        c1.setCellValueFactory(new PropertyValueFactory<Tareas, String>("fuente"));
         c1.setCellFactory(c -> {
-            return new TableCell<Delivery, String>() {
+            return new TableCell<Tareas, String>() {
                 @Override
                 protected void updateItem(String item, boolean empty) {
 //                    super.updateItem(item, empty);
@@ -391,9 +391,9 @@ public class InterfaceController implements Initializable {
             };
         });
 
-        c2.setCellValueFactory(new PropertyValueFactory<Delivery, String>("estado"));
+        c2.setCellValueFactory(new PropertyValueFactory<Tareas, String>("estado"));
         c2.setCellFactory(c -> {
-            return new TableCell<Delivery, String>() {
+            return new TableCell<Tareas, String>() {
                 @Override
                 protected void updateItem(String item, boolean empty) {
 
@@ -431,8 +431,8 @@ public class InterfaceController implements Initializable {
         });
 
         //5 eventos por seg
-        c3.setCellValueFactory(new Callback<CellDataFeatures<Delivery, String>, ObservableValue<String>>() {
-            public ObservableValue<String> call(CellDataFeatures<Delivery, String> p) {
+        c3.setCellValueFactory(new Callback<CellDataFeatures<Tareas, String>, ObservableValue<String>>() {
+            public ObservableValue<String> call(CellDataFeatures<Tareas, String> p) {
                 // p.getValue() returns the Person instance for a particular TableView row
                 String respuesta = "";
                 String aux;// = p.getValue().getTiempo();
@@ -463,7 +463,7 @@ public class InterfaceController implements Initializable {
             }
         });
         c3.setCellFactory(c -> {
-            return new TableCell<Delivery, String>() {
+            return new TableCell<Tareas, String>() {
                 @Override
                 protected void updateItem(String item, boolean empty) {
 //                    super.updateItem(item, empty);
@@ -478,8 +478,8 @@ public class InterfaceController implements Initializable {
             };
         });
 //        c4.setCellValueFactory(new PropertyValueFactory<Delivery, String>("info"));
-        c4.setCellValueFactory(new Callback<CellDataFeatures<Delivery, String>, ObservableValue<String>>() {
-            public ObservableValue<String> call(CellDataFeatures<Delivery, String> p) {
+        c4.setCellValueFactory(new Callback<CellDataFeatures<Tareas, String>, ObservableValue<String>>() {
+            public ObservableValue<String> call(CellDataFeatures<Tareas, String> p) {
                 // p.getValue() returns the Person instance for a particular TableView row
                 String respuesta = "";
                 String aux = p.getValue().getInfo();
@@ -492,7 +492,7 @@ public class InterfaceController implements Initializable {
             }
         });
         c4.setCellFactory(c -> {
-            return new TableCell<Delivery, String>() {
+            return new TableCell<Tareas, String>() {
                 @Override
                 protected void updateItem(String item, boolean empty) {
 //                    super.updateItem(item, empty);
@@ -536,8 +536,8 @@ public class InterfaceController implements Initializable {
             };
         });
 
-        c5.setCellValueFactory(new Callback<CellDataFeatures<Delivery, Button>, ObservableValue<Button>>() {
-            public ObservableValue<Button> call(CellDataFeatures<Delivery, Button> p) {
+        c5.setCellValueFactory(new Callback<CellDataFeatures<Tareas, Button>, ObservableValue<Button>>() {
+            public ObservableValue<Button> call(CellDataFeatures<Tareas, Button> p) {
                 // p.getValue() returns the Person instance for a particular TableView row
                 String aux = p.getValue().getEstado();
                 if (aux != null) {
@@ -548,7 +548,7 @@ public class InterfaceController implements Initializable {
             }
         });
         c5.setCellFactory(c -> {
-            return new TableCell<Delivery, Button>() {
+            return new TableCell<Tareas, Button>() {
                 @Override
                 protected void updateItem(Button item, boolean empty) {
 //                    super.updateItem(item, empty);
@@ -580,7 +580,7 @@ public class InterfaceController implements Initializable {
                             default:
                         }
                         item.setText(textCell);
-                        System.err.println("jaja? " + item.getText());
+//                        System.err.println("jaja? " + item.getText());
                         item.setTooltip(auxTool);
 //                        item.setVisible(true);
                         super.setGraphic(item);
@@ -607,7 +607,7 @@ public class InterfaceController implements Initializable {
 
     }
 
-    public void eventColumn(Delivery dataRow) {
+    public void eventColumn(Tareas dataRow) {
         String pathFile = dataRow.getPathFile();
         if (!pathFile.isEmpty()) {
             HelloWorld.getHostService().showDocument(pathFile);
@@ -615,7 +615,7 @@ public class InterfaceController implements Initializable {
 //        System.out.println("cell clicked!");
     }
 
-    public void eventColumnAction(Delivery dataRow) {
+    public void eventColumnAction(Tareas dataRow) {
         System.out.println("cell clicked!");
     }
 
@@ -631,8 +631,8 @@ public class InterfaceController implements Initializable {
 
     public void addRow(String curso, String nombre, int estado, String fichero, String tiempo, String languague, String nota) {
         try {
-            Delivery del = new Delivery(curso, nombre, estado, fichero, tiempo, languague, nota);
-            Delivery aux;
+            Tareas del = new Tareas(curso, nombre, estado, fichero, tiempo, languague, nota);
+            Tareas aux;
             if (tareasTrack.containsKey(del.getFuente())) {
                 aux = tareasTrack.get(del.getFuente());
                 if (!aux.equals(del)) {
@@ -692,7 +692,7 @@ public class InterfaceController implements Initializable {
                 logRegistro.setSourceClassName(this.getClass().getName());
 
                 auxRb = ResourceBundle.getBundle("Resources.Languages.SystemMessages", auxLocale);
-                HelloWorld.changeTitle(auxRb.getString(ResourceLeng.APP_TITLE));
+                HelloWorld.cambiarTitulo(auxRb.getString(ResourceLeng.APP_TITLE));
                 HelloWorld.setResource(auxRb);
                 setLanguague(auxRb);
             }
@@ -792,14 +792,14 @@ public class InterfaceController implements Initializable {
                 IUserIcon.setImage(new Image(op));
             } catch (IOException ex) {
 //                Logger.getLogger(InterfaceController.class
-//                        .getName()).log(Level.SEVERE, null, ex);
+//                        .getNombre()).log(Level.SEVERE, null, ex);
             }
             LIdUser.setText(userId);
             LPathApplication.setText(path);
             initializeTreeView();
-            HelloWorld.addOptionPopup(this, "openHelp", ResourceLeng.SYS_TRAY_WIKI);
-            HelloWorld.addOptionPopup(this, "actualizarVersion", ResourceLeng.SYS_TRAY_UPDATE);
-            HelloWorld.addOptionPopup(this, "syncroNow", ResourceLeng.SYS_TRAY_SYNCRO);
+            HelloWorld.anidirOpcionSysTray(this, "openHelp", ResourceLeng.SYS_TRAY_WIKI);
+            HelloWorld.anidirOpcionSysTray(this, "actualizarVersion", ResourceLeng.SYS_TRAY_UPDATE);
+            HelloWorld.anidirOpcionSysTray(this, "syncroNow", ResourceLeng.SYS_TRAY_SYNCRO);
         }
 
         OptionInit.setDisable(!user);
@@ -843,7 +843,7 @@ public class InterfaceController implements Initializable {
         logRegistro.setSourceClassName(this.getClass().getName());
         LogGeneral.log(logRegistro);
 
-        new eventUser_semaphore("", "", "", false, rb, true, this);
+        new EventosUsuario("", "", "", false, rb, true, this);
         BNewUser.setDisable(true);
     }
 
@@ -861,8 +861,8 @@ public class InterfaceController implements Initializable {
             logRegistro.setSourceClassName(this.getClass().getName());
             LogGeneral.log(logRegistro);
 
-            new eventUser_semaphore(UserInfo.getUser(), UserInfo.getPass1(), UserInfo.getPass2(),
-                    UserInfo.getUseNas(), rb, false, this);
+            new EventosUsuario(InformacionUsuario.getUser(), InformacionUsuario.getPass1(), InformacionUsuario.getPass2(),
+                    InformacionUsuario.getUseNas(), rb, false, this);
             if (freqSecuence != null) {
                 freqSecuence.pause();
             }
@@ -883,11 +883,11 @@ public class InterfaceController implements Initializable {
     public void setUserInfo(List<String> dates, boolean isnew) {
         try {
             if (dates != null && isnew) {
-                UserInfo.createFile(dates.get(0), dates.get(1), dates.get(2), dates.get(3), String.valueOf(dates.get(4)));
+                InformacionUsuario.crearFichero(dates.get(0), dates.get(1), dates.get(2), dates.get(3), String.valueOf(dates.get(4)));
                 initializationUserLoad(true, dates.get(0), dates.get(3));
                 CBNaster.setSelected(Boolean.parseBoolean(dates.get(4)));
             } else if (dates != null) {
-                UserInfo.createFile(dates.get(0), dates.get(1), dates.get(2), UserInfo.getPath(), String.valueOf(dates.get(4)));
+                InformacionUsuario.crearFichero(dates.get(0), dates.get(1), dates.get(2), InformacionUsuario.getPath(), String.valueOf(dates.get(4)));
                 LIdUser.setText(dates.get(0));
                 CBNaster.setSelected(Boolean.parseBoolean(dates.get(4)));
             }
@@ -1020,7 +1020,7 @@ public class InterfaceController implements Initializable {
      * los botones de la App o la opcion en el Systray (si lo hubiera)
      */
     private void syncroStart() {
-        HelloWorld.changeEnable(ResourceLeng.SYS_TRAY_SYNCRO, false);
+        HelloWorld.cambiarDisponibilidadOpcionSysTray(ResourceLeng.SYS_TRAY_SYNCRO, false);
         BConfirm.setDisable(true);
         BUpdate.setDisable(true);
         BNewUser.setDisable(true);
@@ -1036,8 +1036,8 @@ public class InterfaceController implements Initializable {
 
         LTimeUpdate.setText(HelloWorld.getResource().getString(ResourceLeng.SYNCRO_NOW));
         try {
-            new procesoSyncronizacion(UserInfo.getUser(), UserInfo.getPass1(),
-                    UserInfo.getPass2(), UserInfo.getPath(),
+            new ProcesoSyncronizacion(InformacionUsuario.getUser(), InformacionUsuario.getPass1(),
+                    InformacionUsuario.getPass2(), InformacionUsuario.getPath(),
                     HelloWorld.getResource(), this, CBNaster.isSelected());
         } catch (NoSuchFieldException e) {
             wrongDates();
@@ -1056,7 +1056,7 @@ public class InterfaceController implements Initializable {
         BEditPath.setDisable(false);
         BEditUser.setDisable(false);
         BActualizar.setDisable(false);
-        HelloWorld.changeEnable(ResourceLeng.SYS_TRAY_SYNCRO, true);
+        HelloWorld.cambiarDisponibilidadOpcionSysTray(ResourceLeng.SYS_TRAY_SYNCRO, true);
 //        HelloWorld.showApp();
     }
 
@@ -1072,23 +1072,23 @@ public class InterfaceController implements Initializable {
         File selectedFile = null;
         String initialPath;
         try {
-            initialPath = UserInfo.getPath();
+            initialPath = InformacionUsuario.getPath();
             do {
                 DirectoryChooser directoryChooser = new DirectoryChooser();
                 directoryChooser.setInitialDirectory(new File(initialPath));
                 selectedFile = directoryChooser.showDialog(null);
-                if (validator.checkPermissions(selectedFile.getAbsolutePath())) {
+                if (Validador.checkPermissions(selectedFile.getAbsolutePath())) {
                     initialPath = selectedFile.getAbsolutePath();
                     break;
                 } else {
-                    ActionTool.customNotification(ResourceLeng.MESSAGE_TITLE_PATH_REJECT,
+                    ActionTool.mostrarNotificacion(ResourceLeng.MESSAGE_TITLE_PATH_REJECT,
                             ResourceLeng.MESSAGE_INFO_PATH_REJECT, Duration.seconds(15),
                             NotificationType.ERROR);
                 }
 
             } while (selectedFile != null);
             LPathApplication.setText(initialPath);
-            UserInfo.setPath(initialPath);
+            InformacionUsuario.setPath(initialPath);
         } catch (NoSuchFieldException e) {
             wrongDates();
         }
@@ -1104,15 +1104,16 @@ public class InterfaceController implements Initializable {
     public void useNasTer(ActionEvent event) {
         if (CBNaster.isSelected()) {
             try {
-                int resultado = eventUser_semaphore.validateCredentialsNaster(UserInfo.getUser(), UserInfo.getPass2());
+//                int resultado = EventosUsuario.validarCredencialesNaster(InformacionUsuario.getUser(), InformacionUsuario.getPass2());
+                int resultado = Validador.validarCredencialesNaster(InformacionUsuario.getUser(), InformacionUsuario.getPass2());
 
                 if (resultado == 2) {
                     CBNaster.setSelected(false);
-                    ActionTool.customNotification(ResourceLeng.MESSAGE_TITLE_NASTER_REJECT,
+                    ActionTool.mostrarNotificacion(ResourceLeng.MESSAGE_TITLE_NASTER_REJECT,
                             ResourceLeng.MESSAGE_INFO_NASTER_REJECT, Duration.seconds(15), NotificationType.WARNING);
                 } else {
                     // El caso de naster caido resultado == 1 lo trataremos mas adelante en la syncronizacion
-                    UserInfo.setUseNas("true");
+                    InformacionUsuario.setUseNas("true");
                 }
             } catch (NoSuchFieldException e) {
                 CBNaster.setSelected(false);
@@ -1120,12 +1121,12 @@ public class InterfaceController implements Initializable {
             }
         } else {
 
-            UserInfo.setUseNas("false");
+            InformacionUsuario.setUseNas("false");
         }
     }
 
     public void wrongDates() {
-        UserInfo.deleteFile();
+        InformacionUsuario.deleteFile();
         if (freqSecuence != null) {
             freqSecuence.stop();
             freqSecuence = null;
@@ -1163,11 +1164,11 @@ public class InterfaceController implements Initializable {
             IUserIcon.setImage(new Image(op));
         } catch (IOException ex) {
 //            Logger.getLogger(InterfaceController.class
-//                    .getName()).log(Level.SEVERE, null, ex);
+//                    .getNombre()).log(Level.SEVERE, null, ex);
         }
 
         ResourceBundle rb = HelloWorld.getResource();
-        ActionTool.customNotification(rb, ResourceLeng.ERROR_DATA_TITLE, ResourceLeng.ERROR_DATA_TEXT, Duration.seconds(15), NotificationType.ERROR);
+        ActionTool.mostrarNotificacion(rb, ResourceLeng.ERROR_DATA_TITLE, ResourceLeng.ERROR_DATA_TEXT, Duration.seconds(15), NotificationType.ERROR);
 
         LogRecord logRegistro = new LogRecord(Level.SEVERE, rb.getString(ResourceLeng.TRACE_ERROR_DATES_CORRUPT));
         logRegistro.setSourceClassName(this.getClass().getName());
@@ -1182,26 +1183,26 @@ public class InterfaceController implements Initializable {
     public void actualizarVersion() {
         BActualizar.setDisable(true);
 
-        HelloWorld.changeEnable(ResourceLeng.SYS_TRAY_UPDATE, false);
+        HelloWorld.cambiarDisponibilidadOpcionSysTray(ResourceLeng.SYS_TRAY_UPDATE, false);
         HelloWorld.actualizarVersion(true);
     }
 
     public void saveData() {
         try {
-            almacenTareas.guardarDatos(tareasTrack, UserInfo.getUser());
+            almacenTareas.guardarDatos(tareasTrack, InformacionUsuario.getUser());
         } catch (NoSuchFieldException ex) {
-            // Logger.getLogger(InterfaceController.class.getName()).log(Level.SEVERE, null, ex);
+            // Logger.getLogger(InterfaceController.class.getNombre()).log(Level.SEVERE, null, ex);
         }
     }
 
     public void loadData(String key) {
 
-        HashMap<String, Delivery> map = almacenTareas.loadData(key);
-        Delivery del;
+        HashMap<String, Tareas> map = almacenTareas.cargarDatos(key);
+        Tareas del;
         if (map != null) {
             tareasTrack = map;
 
-            for (Map.Entry<String, Delivery> entry : tareasTrack.entrySet()) {
+            for (Map.Entry<String, Tareas> entry : tareasTrack.entrySet()) {
 //                del = tareasTrack.get(entry.getKey());
 //                System.err.println(del.toString());
 //                TableDeliverys.getItems().add(del);
@@ -1211,10 +1212,10 @@ public class InterfaceController implements Initializable {
 
     }
 //
-//    public void actualizarVesionEnda() {
-////        System.err.println("Reactivando....");
-//        BActualizar.setDisable(false);
-//    }
+    public void actualizarVesionEnd() {
+//        System.err.println("Reactivando....");
+        BActualizar.setDisable(false);
+    }
 
     /**
      *

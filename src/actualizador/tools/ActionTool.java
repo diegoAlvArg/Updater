@@ -1,10 +1,11 @@
-/*
- * 
- */
-package Updater.tools;
+package actualizador.tools;
 
+//#1 Static import
+import aplicacion.HelloWorld;
 import Tools.lenguaje.ResourceLeng;
-import application.HelloWorld;
+//#3 Third party
+import org.controlsfx.control.Notifications;
+//#4 Java
 import java.awt.Desktop;
 import java.awt.SystemTray;
 import java.awt.TrayIcon;
@@ -18,9 +19,6 @@ import java.nio.file.StandardCopyOption;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-
-import org.controlsfx.control.Notifications;
-
 import javafx.application.Platform;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
@@ -30,11 +28,16 @@ import javafx.stage.StageStyle;
 import javafx.util.Duration;
 
 /**
- * A class which has a lot of useful methods.
- *
- * @version 1.0
+ * A class which has a lot of useful methods. 278
+ * 
  * @author GOXR3PLUS
+ * @version 1.0
  * @see https://github.com/goxr3plus/JavaFXApplicationAutoUpdater
+ * 
+ * @author Diego
+ * @version 1.1 Aniadido metodos para mostrar mensaje, independientemente del 
+ *  estado de la App
+ * 
  */
 public final class ActionTool {
 
@@ -138,76 +141,6 @@ public final class ActionTool {
 
     }
 
-    public static void customNotification(ResourceBundle rb, String title, String text, Duration d, NotificationType t) {
-        switch (t) {
-            case ERROR:
-                notificationError(rb.getString(title), rb.getString(text), d);
-                break;
-            case INFORMATION:
-                notificationInfo(rb.getString(title), rb.getString(text), d);
-                break;
-            case WARNING:
-                notificationWarning(rb.getString(title), rb.getString(text), d);
-                break;
-            default:
-                break;
-        }
-    }
-
-    public static void customNotification(String title, String text, Duration d, NotificationType t) {
-        customNotification(HelloWorld.getResource(), title, text, d, t);
-    }
-    
-    public static void customNotificationWithParam(String title, String text, Duration d, NotificationType t) {
-        switch (t) {
-            case ERROR:
-                notificationError(title, text, d);
-                break;
-            case INFORMATION:
-                notificationInfo(title, text, d);
-                break;
-            case WARNING:
-                notificationWarning(title, text, d);
-                break;
-            default:
-                break;
-        }
-    }
-
-    private static void notificationError(String title, String text, Duration d) {
-        System.err.println("showing error\n");
-        if (Platform.isFxApplicationThread()) {
-            Platform.runLater(()
-                    -> ActionTool.showNotification(
-                            title, text, d, NotificationType.ERROR));
-        } else if (SystemTray.isSupported()) {
-            TrayIcon trayIcon = HelloWorld.getSysTray();
-            trayIcon.displayMessage(title, text, TrayIcon.MessageType.ERROR);
-        }
-    }
-    private static void notificationInfo(String title, String text, Duration d) {
-        if (Platform.isFxApplicationThread()) {
-            Platform.runLater(()
-                    -> ActionTool.showNotification(
-                            title, text, d, NotificationType.INFORMATION));
-        } else if (SystemTray.isSupported()) {
-            TrayIcon trayIcon = HelloWorld.getSysTray();
-            trayIcon.displayMessage(title, text, TrayIcon.MessageType.INFO);
-        }
-    }
-    private static void notificationWarning(String title, String text, Duration d) {
-        if (Platform.isFxApplicationThread()) {
-            System.err.println("\tYes");
-            Platform.runLater(()
-                    -> ActionTool.showNotification(
-                            title, text, d, NotificationType.WARNING));
-        } else if (SystemTray.isSupported()) {
-            System.err.println("\tNO");
-            TrayIcon trayIcon = HelloWorld.getSysTray();
-            trayIcon.displayMessage(title, text, TrayIcon.MessageType.WARNING);
-        }
-    }
-
     /**
      * Makes a question to the user.
      *
@@ -227,5 +160,119 @@ public final class ActionTool {
 
         return questionAnswer[0];
     }
-
+    
+    
+    /**
+     * Metodo para  mostrar mensaje, sin especificar el lenguaje
+     * 
+     * @param titulo titulo del mensaje
+     * @param texto texto del mensaje
+     * @param d duracion del mensaje, solo durante modo escritorio
+     * @param t tipo de notificacion
+     */
+    public static void mostrarNotificacion(String titulo, String texto, Duration d, NotificationType t) {
+        ActionTool.mostrarNotificacion(HelloWorld.getResource(), titulo, texto, d, t);
+    }
+    /**
+     * Metodo para mostrar mensaje
+     * 
+     * @param rb resourceBundle del idioma sobre el que se muestra la notificacion
+     * @param titulo titulo del mensaje
+     * @param texto texto del mensaje
+     * @param d duracion del mensaje, solo durante modo escritorio
+     * @param t tipo de notificacion
+     */
+    public static void mostrarNotificacion(ResourceBundle rb, String titulo, String texto, Duration d, NotificationType t) {
+        switch (t) {
+            case ERROR:
+                notificarError(rb.getString(titulo), rb.getString(texto), d);
+                break;
+            case INFORMATION:
+                notificarInformacion(rb.getString(titulo), rb.getString(texto), d);
+                break;
+            case WARNING:
+                notificarAlerta(rb.getString(titulo), rb.getString(texto), d);
+                break;
+            default:
+                break;
+        }
+    }
+    /**
+     * Metodo para mostrar un mensaje, alguno de sus campos ha sido formateado
+     * 
+     * @param titulo titulo del mensaje
+     * @param texto texto del mensaje
+     * @param d duracion del mensaje, solo durante modo escritorio
+     * @param t tipo de notificacion
+     */
+    public static void mostrarNotificacionConParam(String titulo, String texto, Duration d, NotificationType t) {
+        switch (t) {
+            case ERROR:
+                notificarError(titulo, texto, d);
+                break;
+            case INFORMATION:
+                notificarInformacion(titulo, texto, d);
+                break;
+            case WARNING:
+                notificarAlerta(titulo, texto, d);
+                break;
+            default:
+                break;
+        }
+    }
+    
+    /**
+     * Metodo para mostrar un mensaje de Error
+     * 
+     * @param titulo titulo del mensaje
+     * @param texto texto del mensaje
+     * @param d duracion del mensaje, solo durante modo escritorio
+     */
+    private static void notificarError(String titulo, String texto, Duration d) {
+////        System.err.println("showing error\n");
+        if (Platform.isFxApplicationThread()) {
+            Platform.runLater(()
+                    -> ActionTool.showNotification(
+                            titulo, texto, d, NotificationType.ERROR));
+        } else if (SystemTray.isSupported()) {
+            TrayIcon trayIcon = HelloWorld.getSysTray();
+            trayIcon.displayMessage(titulo, texto, TrayIcon.MessageType.ERROR);
+        }
+    }
+    /**
+     * Metodo para mostrar un mensaje de Informacion
+     * 
+     * @param titulo titulo del mensaje
+     * @param texto texto del mensaje
+     * @param d duracion del mensaje, solo durante modo escritorio
+     */
+    private static void notificarInformacion(String titulo, String texto, Duration d) {
+        if (Platform.isFxApplicationThread()) {
+            Platform.runLater(()
+                    -> ActionTool.showNotification(
+                            titulo, texto, d, NotificationType.INFORMATION));
+        } else if (SystemTray.isSupported()) {
+            TrayIcon trayIcon = HelloWorld.getSysTray();
+            trayIcon.displayMessage(titulo, texto, TrayIcon.MessageType.INFO);
+        }
+    }
+    /**
+     * Metodo para mostrar un mensaje de Alerta
+     * 
+     * @param titulo texto del mensaje
+     * @param texto texto del mensaje
+     * @param d duracion del mensaje, solo durante modo escritorio
+     */
+    private static void notificarAlerta(String titulo, String texto, Duration d) {
+        if (Platform.isFxApplicationThread()) {
+            System.err.println("\tYes");
+            Platform.runLater(()
+                    -> ActionTool.showNotification(
+                            titulo, texto, d, NotificationType.WARNING));
+        } else if (SystemTray.isSupported()) {
+            System.err.println("\tNO");
+            TrayIcon trayIcon = HelloWorld.getSysTray();
+            trayIcon.displayMessage(titulo, texto, TrayIcon.MessageType.WARNING);
+        }
+    }
 }

@@ -3,16 +3,17 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package application.Data;
+package zzParaBorrar;
 
+import aplicacion.datos.Tareas;
 import javafx.scene.control.Button;
 
 /**
- *
+ * @deprecated 
  * @author Usuario
  */
 public class actionTable extends Button{
-     public actionTable(String text, Delivery focus) {
+     public actionTable(String text, Tareas focus) {
             super("Edit");
             setOnAction((event) -> {
                 

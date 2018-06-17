@@ -10,7 +10,7 @@ package zzParaBorrar;
 //#2 com.goole
 //#3 Third party
 //#4 Java
-//#5 JavaFx
+//#5 Javax
 
 
 
@@ -38,7 +38,7 @@ package zzParaBorrar;
 
 
 
-import application.controller.InterfaceController;
+import aplicacion.controlador.InterfaceController;
 import java.io.IOException;
 import java.util.ResourceBundle;
 import java.util.logging.Level;

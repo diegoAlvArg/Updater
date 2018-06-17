@@ -1,7 +1,4 @@
-/*
- * 
- */
-package Updater.tools;
+package actualizador.tools;
 
 /**
  * The type of the notification to be shown.

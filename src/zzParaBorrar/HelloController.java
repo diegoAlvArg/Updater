@@ -7,14 +7,14 @@ package zzParaBorrar;
 
 import Sincronizacion.Moodle.estructura.TipoNodo;
 import Tools.lenguaje.ResourceLeng;
-import Tools.almacen.UserInfo;
-import Updater.tools.ActionTool;
-import Updater.tools.NotificationType;
-import application.Data.BookCategory;
-import application.HelloWorld;
+import Tools.almacen.InformacionUsuario;
+import actualizador.tools.ActionTool;
+import actualizador.tools.NotificationType;
+import aplicacion.datos.ItemArbol;
+import aplicacion.HelloWorld;
 import Tools.logger.LogGeneral;
-import application.events.procesoSyncronizacion;
-import application.events.validator;
+import aplicacion.eventos.ProcesoSyncronizacion;
+import aplicacion.eventos.Validador;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
@@ -76,7 +76,7 @@ public class HelloController implements Initializable {
      */
     private final int MAX_SBCLU = 1;
     private int numSyncro;
-    private Map<String, TreeItem<BookCategory>> cursosTrack = new HashMap<>();
+    private Map<String, TreeItem<ItemArbol>> cursosTrack = new HashMap<>();
     //*************************************** OptionConfig
     @FXML
     private Tab OptionConfig;
@@ -157,17 +157,17 @@ public class HelloController implements Initializable {
         setLanguague(auxRb);
 
         initializeSpinners();
-        if (!UserInfo.dataExits()) {
+        if (!InformacionUsuario.existenDatos()) {
             // No hay usuario
             initializationUserLoad(false, "", "");
             logRegistro = new LogRecord(Level.INFO, rb.getString(ResourceLeng.TRACE_USER_NO));
         } else {
             try{
-                initializationUserLoad(true, UserInfo.getUser(), UserInfo.getPath());
+                initializationUserLoad(true, InformacionUsuario.getUser(), InformacionUsuario.getPath());
                 setNextUpdate();
 
-                TreeItem<BookCategory> rootItem = new TreeItem<BookCategory>();
-                CBNaster.setSelected(UserInfo.getUseNas());
+                TreeItem<ItemArbol> rootItem = new TreeItem<ItemArbol>();
+                CBNaster.setSelected(InformacionUsuario.getUseNas());
                 TListUpdates.setRoot(rootItem);
                 logRegistro = new LogRecord(Level.INFO, rb.getString(ResourceLeng.TRACE_USER_OK));
             }catch(NoSuchFieldException e){
@@ -271,14 +271,14 @@ public class HelloController implements Initializable {
                 IUserIcon.setImage(new Image(op));
             } catch (IOException ex) {
 //                Logger.getLogger(InterfaceController.class
-//                        .getName()).log(Level.SEVERE, null, ex);
+//                        .getNombre()).log(Level.SEVERE, null, ex);
             }
             LIdUser.setText(userId);
             LPathApplication.setText(path);
             initializeTreeView();
-            HelloWorld.addOptionPopup(this, "openHelp", ResourceLeng.SYS_TRAY_WIKI);
-            HelloWorld.addOptionPopup(this, "actualizarVersion", ResourceLeng.SYS_TRAY_UPDATE);
-            HelloWorld.addOptionPopup(this, "syncroNow", ResourceLeng.SYS_TRAY_SYNCRO);
+            HelloWorld.anidirOpcionSysTray(this, "openHelp", ResourceLeng.SYS_TRAY_WIKI);
+            HelloWorld.anidirOpcionSysTray(this, "actualizarVersion", ResourceLeng.SYS_TRAY_UPDATE);
+            HelloWorld.anidirOpcionSysTray(this, "syncroNow", ResourceLeng.SYS_TRAY_SYNCRO);
         }
 
         OptionInit.setDisable(!user);
@@ -310,7 +310,7 @@ public class HelloController implements Initializable {
         CBNaster.setVisible(user);
     }
     private void initializeTreeView() {
-        TreeItem<BookCategory> rootItem = new TreeItem<BookCategory>();
+        TreeItem<ItemArbol> rootItem = new TreeItem<ItemArbol>();
         TListUpdates.setRoot(rootItem);
         TListUpdates.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> handleTreeViewClick((TreeItem) newValue));
     }
@@ -321,10 +321,10 @@ public class HelloController implements Initializable {
      * @param newValue treeItem que disparo el evento
      */
     private void handleTreeViewClick(TreeItem newValue) {
-        BookCategory aux = null;
+        ItemArbol aux = null;
         try {
-            aux = (BookCategory) newValue.getValue();
-            HelloWorld.getHostService().showDocument(aux.getCode());
+            aux = (ItemArbol) newValue.getValue();
+            HelloWorld.getHostService().showDocument(aux.getPathFichero());
         } catch (Exception e) {
             LogRecord logRegistro;
             StringWriter errors = new StringWriter();
@@ -363,9 +363,9 @@ public class HelloController implements Initializable {
 ////                miImage = new Image(op);
 ////            } catch (IOException ex) {
 ////                Logger.getLogger(InterfaceController.class
-////                        .getName()).log(Level.SEVERE, null, ex);
+////                        .getNombre()).log(Level.SEVERE, null, ex);
 ////            }
-////            BookCategory auxbook = new BookCategory(LPathApplication.getText()
+////            ItemArbol auxbook = new ItemArbol(LPathApplication.getText()
 ////                    + File.separator + curso, curso);
 ////            auxCurso = new TreeItem<>(auxbook, new ImageView(miImage));
 ////            cursosTrack.put(curso, auxCurso);
@@ -399,9 +399,9 @@ public class HelloController implements Initializable {
 ////            miImage = new Image(op);
 ////        } catch (IOException ex) {
 //////            Logger.getLogger(InterfaceController.class
-//////                    .getName()).log(Level.SEVERE, null, ex);
+//////                    .getNombre()).log(Level.SEVERE, null, ex);
 ////        }
-////        BookCategory auxbook = new BookCategory(path, name);
+////        ItemArbol auxbook = new ItemArbol(path, name);
 ////        TreeItem<BookCategory> auxItem = new TreeItem<>(auxbook, new ImageView(miImage));
 ////        auxCurso.getChildren().add(0, auxItem);
 //    }   
@@ -451,7 +451,7 @@ public class HelloController implements Initializable {
                 logRegistro.setSourceClassName(this.getClass().getName());
                 
                 auxRb = ResourceBundle.getBundle("Resources.Languages.SystemMessages", auxLocale);
-                HelloWorld.changeTitle(auxRb.getString(ResourceLeng.APP_TITLE));
+                HelloWorld.cambiarTitulo(auxRb.getString(ResourceLeng.APP_TITLE));
                 HelloWorld.setResource(auxRb);
                 setLanguague(auxRb);
             }
@@ -479,8 +479,8 @@ public class HelloController implements Initializable {
      */
     public void editUser(ActionEvent event) {
         try{
-            new EventUser_so(UserInfo.getUser(), UserInfo.getPass1(), UserInfo.getPass2(),
-                    UserInfo.getUseNas(), HelloWorld.getResource(), false, this);
+            new EventUser_so(InformacionUsuario.getUser(), InformacionUsuario.getPass1(), InformacionUsuario.getPass2(),
+                    InformacionUsuario.getUseNas(), HelloWorld.getResource(), false, this);
             if (freqSecuence != null) {
                 freqSecuence.pause();
             }
@@ -500,11 +500,11 @@ public class HelloController implements Initializable {
     public void setUserInfo(List<String> dates, boolean isnew) {
         try{
             if (dates != null && isnew) {
-                UserInfo.createFile(dates.get(0), dates.get(1), dates.get(2), dates.get(3), String.valueOf(dates.get(4)));
+                InformacionUsuario.crearFichero(dates.get(0), dates.get(1), dates.get(2), dates.get(3), String.valueOf(dates.get(4)));
                 initializationUserLoad(true, dates.get(0), dates.get(3));
                 CBNaster.setSelected(Boolean.parseBoolean(dates.get(4)));
             } else if (dates != null) {
-                UserInfo.createFile(dates.get(0), dates.get(1), dates.get(2), UserInfo.getPath(), String.valueOf(dates.get(4)));
+                InformacionUsuario.crearFichero(dates.get(0), dates.get(1), dates.get(2), InformacionUsuario.getPath(), String.valueOf(dates.get(4)));
                 LIdUser.setText(dates.get(0));
                 CBNaster.setSelected(Boolean.parseBoolean(dates.get(4)));
             }
@@ -534,23 +534,23 @@ public class HelloController implements Initializable {
         File selectedFile = null;
         String initialPath;
         try{
-            initialPath = UserInfo.getPath();
+            initialPath = InformacionUsuario.getPath();
             do {
                 DirectoryChooser directoryChooser = new DirectoryChooser();
                 directoryChooser.setInitialDirectory(new File(initialPath));
                 selectedFile = directoryChooser.showDialog(null);
-                if (validator.checkPermissions(selectedFile.getAbsolutePath())) {
+                if (Validador.checkPermissions(selectedFile.getAbsolutePath())) {
                     initialPath = selectedFile.getAbsolutePath();
                     break;
                 } else {
-                    ActionTool.customNotification(ResourceLeng.MESSAGE_TITLE_PATH_REJECT,
+                    ActionTool.mostrarNotificacion(ResourceLeng.MESSAGE_TITLE_PATH_REJECT,
                         ResourceLeng.MESSAGE_INFO_PATH_REJECT, Duration.seconds(15),
                         NotificationType.ERROR);
                 }
 
             } while (selectedFile != null);
             LPathApplication.setText(initialPath);
-            UserInfo.setPath(initialPath);
+            InformacionUsuario.setPath(initialPath);
         }catch(NoSuchFieldException e){
            wrongDates();
         }
@@ -565,16 +565,16 @@ public class HelloController implements Initializable {
     public void useNasTer(ActionEvent event) {
         if(CBNaster.isSelected()){
             try{
-            int resultado = EventUser_so.validateCredentialsNaster(UserInfo.getUser(), UserInfo.getPass2());
+            int resultado = EventUser_so.validateCredentialsNaster(InformacionUsuario.getUser(), InformacionUsuario.getPass2());
  
             if (resultado == 2) {
                 ResourceBundle rb = HelloWorld.getResource();
                 CBNaster.setSelected(false);
-                ActionTool.customNotification(ResourceLeng.MESSAGE_TITLE_NASTER_REJECT,
+                ActionTool.mostrarNotificacion(ResourceLeng.MESSAGE_TITLE_NASTER_REJECT,
                         ResourceLeng.MESSAGE_INFO_NASTER_REJECT, Duration.seconds(15), NotificationType.WARNING);
             } else {
                 // El caso de naster caido resultado == 1 lo trataremos mas adelante en la syncronizacion
-                UserInfo.setUseNas("true");
+                InformacionUsuario.setUseNas("true");
             }
             }catch(NoSuchFieldException e){
                 CBNaster.setSelected(false);
@@ -582,11 +582,11 @@ public class HelloController implements Initializable {
             }
         }else{
             
-            UserInfo.setUseNas("false");
+            InformacionUsuario.setUseNas("false");
         }
     }
     public void wrongDates(){
-        UserInfo.deleteFile();
+        InformacionUsuario.deleteFile();
         if(freqSecuence != null){
             freqSecuence.stop();
             freqSecuence = null;
@@ -624,11 +624,11 @@ public class HelloController implements Initializable {
             IUserIcon.setImage(new Image(op));
         } catch (IOException ex) {
 //            Logger.getLogger(InterfaceController.class
-//                    .getName()).log(Level.SEVERE, null, ex);
+//                    .getNombre()).log(Level.SEVERE, null, ex);
         }
         
         ResourceBundle rb = HelloWorld.getResource();
-        ActionTool.customNotification(rb, ResourceLeng.ERROR_DATA_TITLE, ResourceLeng.ERROR_DATA_TEXT
+        ActionTool.mostrarNotificacion(rb, ResourceLeng.ERROR_DATA_TITLE, ResourceLeng.ERROR_DATA_TEXT
                 , Duration.seconds(15), NotificationType.ERROR);
         
         LogRecord logRegistro = new LogRecord(Level.SEVERE, rb.getString(ResourceLeng.TRACE_ERROR_DATES_CORRUPT));
@@ -713,7 +713,7 @@ public class HelloController implements Initializable {
      * Metodo que genera el evento de actualizar la App
      */
     public void actualizarVersion() {
-        HelloWorld.changeEnable(ResourceLeng.SYS_TRAY_UPDATE, false);
+        HelloWorld.cambiarDisponibilidadOpcionSysTray(ResourceLeng.SYS_TRAY_UPDATE, false);
         HelloWorld.actualizarVersion(true);
 //        System.err.println("called ok");
     }
@@ -765,7 +765,7 @@ public class HelloController implements Initializable {
      *  los botones de la App o la opcion en el Systray (si lo hubiera)
      */
     private void syncroStart() {
-        HelloWorld.changeEnable(ResourceLeng.SYS_TRAY_SYNCRO, false);
+        HelloWorld.cambiarDisponibilidadOpcionSysTray(ResourceLeng.SYS_TRAY_SYNCRO, false);
         BConfirm.setDisable(true);
         BUpdate.setDisable(true);
         BNewUser.setDisable(true);
@@ -781,8 +781,8 @@ public class HelloController implements Initializable {
         
         LTimeUpdate.setText(HelloWorld.getResource().getString(ResourceLeng.SYNCRO_NOW));
 //        try{
-//            new procesoSyncronizacion(UserInfo.getUser(), UserInfo.getPass1(),
-//                    UserInfo.getPass2(), UserInfo.getPath(),
+//            new ProcesoSyncronizacion(InformacionUsuario.getUser(), InformacionUsuario.getPass1(),
+//                    InformacionUsuario.getPass2(), InformacionUsuario.getPath(),
 //                    HelloWorld.getResource(), this, CBNaster.isSelected());
 //        }catch(NoSuchFieldException e){
 //            wrongDates();
@@ -800,7 +800,7 @@ public class HelloController implements Initializable {
         BEditPath.setDisable(false);
         BEditUser.setDisable(false);
         BActualizar.setDisable(false);
-        HelloWorld.changeEnable(ResourceLeng.SYS_TRAY_SYNCRO, true);
+        HelloWorld.cambiarDisponibilidadOpcionSysTray(ResourceLeng.SYS_TRAY_SYNCRO, true);
 //        HelloWorld.showApp();
     }
 

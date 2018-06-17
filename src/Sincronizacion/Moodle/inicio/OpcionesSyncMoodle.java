@@ -1,7 +1,7 @@
 package Sincronizacion.Moodle.inicio;
 
 //#1 Static import
-import application.controller.InterfaceController;
+import aplicacion.controlador.InterfaceController;
 import Sincronizacion.Moodle.estructura.Nodo;
 import Sincronizacion.Moodle.estructura.TipoNodo;
 //#3 Third party

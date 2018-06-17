@@ -126,7 +126,10 @@ public class ResourceLeng extends BasicLeng {
     public final static String UPDATE_CONTENT = "update_content";
     public final static String UPDATE_INFO = "update_info";
     public final static String UPDATE_INFO_TEXT = "update_info_text";
-    
+    public final static String UPDATE_NO_ETHERNET = "update_no_ethernet";
+    public final static String UPDATE_NO_ETHERNET_TEXT = "update_no_ethernet_text";
+    public final static String UPDATE_ERROR_FILE = "update_error_file";
+    public final static String UPDATE_ERROR_FILE_TEXT = "update_error_file_text";
     //**********TAB OpcionTareas****************************************************************
     public final static String TAB_DELIVERY = "tab_dely";
     public final static String C1_TEXT = "c1_text";
@@ -184,6 +187,10 @@ public class ResourceLeng extends BasicLeng {
     public final static String TRACE_EVENT_USER_NEW = "trace_event_user_new";
     public final static String TRACE_EVENT_USER_EDIT = "trace_event_user_edit";
     public final static String TRACE_EVENT_USER_END = "trace_event_user_end";
+    public final static String TRACE_STORE_SAVE = "trace_store_save";
+    public final static String TRACE_STORE_LOAD_FILE = "trace_store_load_file";
+    public final static String TRACE_STORE_LOAD_DATA = "trace_store_load_data";
+    
     
     //**********OTHER*************************************************************************
     public final static String MESSAGE_TITLE_UPDATE_FAIL = "message_title_update_fail";

@@ -6,7 +6,7 @@
 package zzParaBorrar;
 
 import zzParaBorrar.MainController;
-import application.HelloWorld;
+import aplicacion.HelloWorld;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -25,7 +25,7 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 import Tools.lenguaje.ResourceLeng;
-import application.HelloWorld;
+import aplicacion.HelloWorld;
 
 /**
  * FXML Controller class
@@ -75,28 +75,28 @@ public class AskUpdateController implements Initializable {
     }
 
     public void Yes(ActionEvent event) throws IOException {
-        HelloWorld.restartApplication("XR3PlayerUpdater", 0);
+        HelloWorld.inicarAplicacionExterna("XR3PlayerUpdater", 0);
     }
 
     public void No(ActionEvent event) throws IOException {
-        try {
-            ((Node) event.getSource()).getScene().getWindow().hide();
-            Stage primaryStage = new Stage();
-            FXMLLoader loader = new FXMLLoader();
-            Pane root = loader.load(getClass().getResource("/Resources/fxml/Main.fxml").openStream());
-//            Parent root = FXMLLoader.load(getClass().getResource("/Resources/fxml/Main.fxml"), rb);
-            MainController control = (MainController)loader.getController();
-            control.setStage(primaryStage);
-            
-            Scene scene = new Scene(root);
-            primaryStage.setTitle(HelloWorld.getResource().getString(ResourceLeng.APP_TITLE)
-                    + HelloWorld.internalInformation.get("Version"));
-            primaryStage.setScene(scene);
-            primaryStage.show();
-            HelloWorld.changeStage(primaryStage);
-        } catch (Exception ex) {
-            ex.printStackTrace();
-//            Logger.getLogger(UserController.class.getName()).log(Level.SEVERE, null, ex);
-        }
+//        try {
+//            ((Node) event.getSource()).getScene().getWindow().hide();
+//            Stage primaryStage = new Stage();
+//            FXMLLoader loader = new FXMLLoader();
+//            Pane root = loader.load(getClass().getResource("/Resources/fxml/Main.fxml").openStream());
+////            Parent root = FXMLLoader.load(getClass().getResource("/Resources/fxml/Main.fxml"), rb);
+//            MainController control = (MainController)loader.getController();
+//            control.setStage(primaryStage);
+//            
+//            Scene scene = new Scene(root);
+//            primaryStage.setTitle(HelloWorld.getResource().getString(ResourceLeng.APP_TITLE)
+//                    + HelloWorld.internalInformation.get("Version"));
+//            primaryStage.setScene(scene);
+//            primaryStage.show();
+//            HelloWorld.changeStage(primaryStage);
+//        } catch (Exception ex) {
+//            ex.printStackTrace();
+////            Logger.getLogger(UserController.class.getName()).log(Level.SEVERE, null, ex);
+//        }
     }
 }

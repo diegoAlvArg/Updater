@@ -1,7 +1,7 @@
 package Sincronizacion.Moodle.estructura;
 
 //#1 Static import
-import application.controller.InterfaceController;
+import aplicacion.controlador.InterfaceController;
 import Sincronizacion.Moodle.inicio.OpcionesSyncMoodle;
 import Tools.logger.LogSincronizacion;
 //#3 Third party

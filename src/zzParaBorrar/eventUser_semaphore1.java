@@ -1,28 +1,31 @@
-package application.events;
+package zzParaBorrar;
 
-import Updater.tools.ActionTool;
-import Updater.tools.NotificationType;
+//#1 Static import
+import aplicacion.eventos.*;
+import actualizador.tools.ActionTool;
+import actualizador.tools.NotificationType;
+import aplicacion.controlador.InterfaceController;
+import aplicacion.HelloWorld;
 import Tools.lenguaje.ResourceLeng;
-import application.HelloWorld;
-import application.controller.InterfaceController;
+//#3 Third party
 import com.github.sardine.Sardine;
 import com.github.sardine.SardineFactory;
 import com.github.sardine.impl.SardineException;
+import org.jsoup.Connection;
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
+//#4 Java
 import java.io.File;
 import java.io.IOException;
 import java.net.URI;
 import java.util.ArrayList;
+import java.util.concurrent.Semaphore;
 import java.util.List;
 import java.util.Optional;
 import java.util.ResourceBundle;
-import java.util.concurrent.Semaphore;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javafx.application.Platform;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
-import javafx.concurrent.Service;
-import javafx.concurrent.Task;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
@@ -39,28 +42,18 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.text.Font;
 import javafx.stage.DirectoryChooser;
 import javafx.util.Duration;
-import org.jsoup.Connection;
-import org.jsoup.Jsoup;
-import org.jsoup.nodes.Document;
 
 /**
- *
- * @author Usuario
+ * 417
+ * @author Diego
  */
-public class eventUser_semaphore {
+public class eventUser_semaphore1 {
 
-//    private String user;
-//    private String pass1;
-//    private String pass2;
-//    private ResourceBundle rb;
-//    private boolean askPath;
-//    private boolean useNas;
-//    private InterfaceController iu;
     private Semaphore semaphore = new Semaphore(0);
     private List<String> auxResult;
     private boolean askAgain = false;
 
-    public eventUser_semaphore(String user, String pass1, String pass2, boolean useNas, ResourceBundle rb, boolean askPath, InterfaceController iu) {
+    public eventUser_semaphore1(String user, String pass1, String pass2, boolean useNas, ResourceBundle rb, boolean askPath, InterfaceController iu) {
 //        this.user = user;
 //        this.pass1 = pass1;
 //        this.pass2 = pass2;
@@ -95,7 +88,7 @@ public class eventUser_semaphore {
             } while (askAgain);
 
             if (auxResult != null) {
-                ActionTool.customNotification(ResourceLeng.MESSAGE_TITLE_DATES_OK,
+                ActionTool.mostrarNotificacion(ResourceLeng.MESSAGE_TITLE_DATES_OK,
                         ResourceLeng.NONE, Duration.seconds(15), NotificationType.INFORMATION);
             }
             iu.setUserInfo(auxResult, askPath);
@@ -211,7 +204,7 @@ public class eventUser_semaphore {
         return respuesta;
     }
 
-    private void validateUser(List<String> dates, boolean checkPath, InterfaceController iu, eventUser_semaphore aThis) {
+    private void validateUser(List<String> dates, boolean checkPath, InterfaceController iu, eventUser_semaphore1 aThis) {
  
             List<String> auxList = dates;
             int[] estados;
@@ -249,7 +242,7 @@ public class eventUser_semaphore {
             //Comprobar permisos lectura
             if (checkPath && !auxList.get(3).isEmpty()) {
 
-                if (validator.checkPermissions(auxList.get(3))) {
+                if (Validador.checkPermissions(auxList.get(3))) {
                     estados[2] = 1;
                 } else {
                     estados[2] = 2;
@@ -260,7 +253,7 @@ public class eventUser_semaphore {
             askAgain = false;
             if (estados[0] == 1) {
                 askAgain = true;
-//                ActionTool.customNotification(rb, ResourceLeng.MESSAGE_TITLE_MOODLE_DOWN,
+//                ActionTool.mostrarNotificacion(rb, ResourceLeng.MESSAGE_TITLE_MOODLE_DOWN,
 //                        ResourceLeng.MESSAGE_INFO_DOWN_TEXT, Duration.seconds(15),
 //                        NotificationType.WARNING);
                 Platform.runLater(() -> 
@@ -272,7 +265,7 @@ public class eventUser_semaphore {
             } else if (estados[0] == 2) {
                 askAgain = false;
                 auxList.set(1, "");
-//                ActionTool.customNotification(rb, ResourceLeng.MESSAGE_TITLE_MOODLE_REJECT,
+//                ActionTool.mostrarNotificacion(rb, ResourceLeng.MESSAGE_TITLE_MOODLE_REJECT,
 //                        ResourceLeng.MESSAGE_INFO_NASTER_REJECT, Duration.seconds(15),
 //                        NotificationType.ERROR);
                  Platform.runLater(() -> 
@@ -282,7 +275,7 @@ public class eventUser_semaphore {
             }
             if (estados[1] == 1) {
                 askAgain &= true;
-//                ActionTool.customNotification(rb, ResourceLeng.MESSAGE_TITLE_NASTER_DOWN,
+//                ActionTool.mostrarNotificacion(rb, ResourceLeng.MESSAGE_TITLE_NASTER_DOWN,
 //                        ResourceLeng.MESSAGE_INFO_DOWN_TEXT, Duration.seconds(15),
 //                        NotificationType.WARNING);
                 Platform.runLater(() -> 
@@ -302,7 +295,7 @@ public class eventUser_semaphore {
                     //Si solo NASTER rechazo conexion la contraseña de NASTER esta mal
                     auxList.set(2, "");
                 }
-//                ActionTool.customNotification(rb, ResourceLeng.MESSAGE_TITLE_NASTER_REJECT,
+//                ActionTool.mostrarNotificacion(rb, ResourceLeng.MESSAGE_TITLE_NASTER_REJECT,
 //                        ResourceLeng.MESSAGE_INFO_NASTER_REJECT, Duration.seconds(15),
 //                        NotificationType.ERROR);
                 Platform.runLater(() -> 
@@ -316,7 +309,7 @@ public class eventUser_semaphore {
             } else if (checkPath && estados[2] == 2) {
                 askAgain &= false;
                 auxList.set(3, "");
-//                ActionTool.customNotification(rb, ResourceLeng.MESSAGE_TITLE_PATH_REJECT,
+//                ActionTool.mostrarNotificacion(rb, ResourceLeng.MESSAGE_TITLE_PATH_REJECT,
 //                        ResourceLeng.MESSAGE_INFO_PATH_REJECT, Duration.seconds(15),
 //                        NotificationType.ERROR);
                 Platform.runLater(() -> 
@@ -326,7 +319,7 @@ public class eventUser_semaphore {
             }
             if (estados[0] == 0 || estados[1] == 0 || (checkPath && estados[2] == 0)) {
                 askAgain &= false;
-//                ActionTool.customNotification(rb, ResourceLeng.MESSAGE_TITLE_FIELD_EMPTY,
+//                ActionTool.mostrarNotificacion(rb, ResourceLeng.MESSAGE_TITLE_FIELD_EMPTY,
 //                        ResourceLeng.MESSAGE_INFO_FIELD_EMPTY, Duration.seconds(15),
 //                        NotificationType.WARNING);
                  Platform.runLater(() -> 

@@ -1,22 +1,27 @@
-package zzParaBorrar;
+package aplicacion.eventos;
 
+//#1 Static import
 import actualizador.tools.ActionTool;
 import actualizador.tools.NotificationType;
-import Tools.lenguaje.ResourceLeng;
-import zzParaBorrar.HelloController;
+import aplicacion.controlador.InterfaceController;
 import aplicacion.HelloWorld;
-import aplicacion.eventos.Validador;
+import Tools.lenguaje.ResourceLeng;
+//#3 Third party
 import com.github.sardine.Sardine;
 import com.github.sardine.SardineFactory;
 import com.github.sardine.impl.SardineException;
+import org.jsoup.Connection;
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
+//#4 Java
 import java.io.File;
 import java.io.IOException;
 import java.net.URI;
 import java.util.ArrayList;
+import java.util.concurrent.Semaphore;
 import java.util.List;
 import java.util.Optional;
 import java.util.ResourceBundle;
-import java.util.concurrent.Semaphore;
 import javafx.application.Platform;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
@@ -36,49 +41,47 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.text.Font;
 import javafx.stage.DirectoryChooser;
 import javafx.util.Duration;
-import org.jsoup.Connection;
-import org.jsoup.Jsoup;
-import org.jsoup.nodes.Document;
+import static aplicacion.eventos.Validador.validarCredencialesMoodle;
+import static aplicacion.eventos.Validador.validarCredencialesNaster;
 
 /**
- *
- * @author Usuario
+ * 338
+ * @author Diego
  */
-public class EventUser_so {
+public class EventosUsuario {
 
-//    private String user;
-//    private String pass1;
-//    private String pass2;
-//    private ResourceBundle rb;
-//    private boolean askPath;
-//    private boolean useNas;
-//    private InterfaceController iu;
     private Semaphore semaphore = new Semaphore(0);
     private List<String> auxResult;
     private boolean askAgain = false;
-
-    public EventUser_so(String user, String pass1, String pass2, boolean useNas, ResourceBundle rb, boolean askPath, HelloController iu) {
-//        this.user = user;
-//        this.pass1 = pass1;
-//        this.pass2 = pass2;
-//        this.rb = rb;
-//        this.askPath = askPath;
-//        this.useNas = useNas;
-//        this.iu = iu;
-
+    
+    /**
+     * Creara un evento que genera un dialogo en el que se preguntara las 
+     *  credenciales del usuario y las validara hasta que sean correctas o se 
+     *  cancele el evento. Este evento cubre tanto la creacion como la edicion 
+     *  del usuario
+     * 
+     * @param usuario NIP del usuario
+     * @param contraseniaM contrasenia de Moodle
+     * @param contraseniaN contrasenia de Nas-Ter
+     * @param usarNas para indicar el uso de Nas-Ter
+     * @param rb Indicara el idioma en el momento actual de generar el evento
+     * @param preguntarPath para indicar si el campo de path debe ser preguntado
+     * @param control 
+     */
+    public EventosUsuario(String usuario, String contraseniaM, String contraseniaN, boolean usarNas, ResourceBundle rb, boolean preguntarPath, InterfaceController control) {
         Platform.runLater(() -> {
             System.err.println(Thread.currentThread().getId());
             do {
                 if (askAgain) {
-                    auxResult = askCredentials(rb, auxResult.get(0), auxResult.get(1), auxResult.get(2), auxResult.get(3), askPath, Boolean.parseBoolean(auxResult.get(4)));
+                    auxResult = preguntarCredenciales(rb, auxResult.get(0), auxResult.get(1), auxResult.get(2), auxResult.get(3), preguntarPath, Boolean.parseBoolean(auxResult.get(4)));
                 } else {
-                    auxResult = askCredentials(rb, user, pass1, pass2, "", askPath, useNas);
+                    auxResult = preguntarCredenciales(rb, usuario, contraseniaM, contraseniaN, "", preguntarPath, usarNas);
                 }
                 askAgain = false;
                 if (auxResult != null) {
 
                     new Thread(()
-                            -> validateUser(auxResult, askPath, iu, this)
+                            -> validarUsuario(auxResult, preguntarPath)//, control, this)
                     ).start();
                     try {
                         semaphore.acquire();
@@ -95,16 +98,28 @@ public class EventUser_so {
                 ActionTool.mostrarNotificacion(ResourceLeng.MESSAGE_TITLE_DATES_OK,
                         ResourceLeng.NONE, Duration.seconds(15), NotificationType.INFORMATION);
             }
-            iu.setUserInfo(auxResult, askPath);
-//            }
+            control.setUserInfo(auxResult, preguntarPath);
         });
     }
 
-    private List<String> askCredentials(ResourceBundle rb, String duser, String dpass1, String dpass2, String dpath, boolean showPath, boolean usingNas) {
+    /**
+     * Metodo que presentara un dialogo sobre los campos que se desean preguntar
+     *  
+     * @param rb Indicara el idioma en el momento actual de generar el evento
+     * @param usuario NIP del usuario
+     * @param contraseniaM contrasenia de Moodle
+     * @param contraseniaN contrasenia de Nas-Ter
+     * @param pathLocal path local donde la App funcionara
+     * @param preguntarPath para indicar si el campo de path debe ser preguntado
+     * @param usarNas para indicar el uso de Nas-Ter
+     * 
+     * @return List<String> con los campos pertinentes
+     */
+    private List<String> preguntarCredenciales(ResourceBundle rb, String usuario, String contraseniaM, String contraseniaN, String pathLocal, boolean preguntarPath, boolean usarNas) {
 
         // Create the custom dialog.
         Dialog<List<String>> dialog = new Dialog<>();
-        if (showPath) {
+        if (preguntarPath) {
             dialog.setTitle(rb.getString(ResourceLeng.ASK_TITLE_NEW_USER));
         } else {
             dialog.setTitle(rb.getString(ResourceLeng.ASK_TITLE_EDIT_USER));
@@ -139,13 +154,13 @@ public class EventUser_so {
             }
 
         });
-        password2.setDisable(!usingNas);
+        password2.setDisable(!usarNas);
 //--------------------------------------------------------------------------------------------------------------------
 //--------------------------------------------------------------------------------------------------------------------
         // Posible inicio tras recuperacion
-        username.setText(duser);
-        password1.setText(dpass1);
-        password2.setText(dpass2);
+        username.setText(usuario);
+        password1.setText(contraseniaM);
+        password2.setText(contraseniaN);
 
         // Montado del panel
         grid.add(new Label(rb.getString(ResourceLeng.ASK_LABEL_USER)), 0, 0);
@@ -158,7 +173,7 @@ public class EventUser_so {
         auxLabel.setTooltip(tooltip);
         grid.add(auxLabel, 3, 2);
         grid.add(useNas, 2, 2);
-        if (showPath) {
+        if (preguntarPath) {
             path.setPromptText(rb.getString(ResourceLeng.ASK_FIELD_PATH));
             path.setEditable(false);
             Button tempButton = new Button("...");
@@ -173,7 +188,7 @@ public class EventUser_so {
                 }
             });
 
-            path.setText(dpath);
+            path.setText(pathLocal);
             grid.add(new Label(rb.getString(ResourceLeng.ASK_LABEL_PATH)), 0, 3);
             grid.add(path, 1, 3);
             grid.add(tempButton, 2, 3);
@@ -181,10 +196,10 @@ public class EventUser_so {
 
         dialog.getDialogPane().setContent(grid);
 
-// Request focus on the username field by default.
+        // Request focus on the username field by default.
         Platform.runLater(() -> username.requestFocus());
 
-// Convert the result to a username-password-pair when the login button is clicked.
+        // Convert the result to List when the accept button is clicked.
         dialog.setResultConverter(dialogButton -> {
             List respuesta = null;
             if (dialogButton == acceptButtonType) {
@@ -194,23 +209,22 @@ public class EventUser_so {
                 respuesta.add(password2.getText());
                 respuesta.add(path.getText());
                 respuesta.add(String.valueOf(useNas.isSelected()));
-//                return new List<String>(username.getText(), password2.getText());
             }
             return respuesta;
         });
 
+        // Espera hasta que el dialogo devuelva una Lista de String
         Optional<List<String>> result = dialog.showAndWait();
         List<String> respuesta = null;
         if (result.isPresent()) {
-//            Arrays.asList("", "", "", "");;
             respuesta = result.get();
         }
         return respuesta;
     }
 
-    private void validateUser(List<String> dates, boolean checkPath, HelloController iu, EventUser_so aThis) {
- 
-            List<String> auxList = dates;
+    private void validarUsuario(List<String> datos, boolean comprobarPath){//, InterfaceController control, EventosUsuario aThis) {
+//    private void validarUsuario(List<String> datos, boolean comprobarPath, InterfaceController control, EventosUsuario aThis) {    
+            List<String> auxList = datos;
             int[] estados;
             boolean askAgain = true;
             ResourceBundle rb = HelloWorld.getResource();
@@ -224,18 +238,16 @@ public class EventUser_so {
             //      ESTADO 0: Path == ""                        REPETIMOS
             //      ESTADO 1: Tenemos permiso de E/L            SEGUIMOS PARA ALANTE
             //      ESTADO 2: No tenemos permisos de E/L
-//        while (auxList != null && askAgain) {
             estados = new int[]{0, 0, 0};
             //Comprobacion Moodle
             if (!auxList.get(0).isEmpty() && !auxList.get(1).isEmpty()) {
 
-                estados[0] = validateCredentialsMoodle(auxList.get(0), auxList.get(1));
+                estados[0] = validarCredencialesMoodle(auxList.get(0), auxList.get(1));
             }
             //Comprobar NAS-TER
             if (Boolean.parseBoolean(auxList.get(4))) {
                 if (!auxList.get(0).isEmpty() && !auxList.get(2).isEmpty()) {
-
-                    estados[1] = validateCredentialsNaster(auxList.get(0), auxList.get(2));
+                    estados[1] = validarCredencialesNaster(auxList.get(0), auxList.get(2));
                 } else {
                     estados[1] = 0;
                 }
@@ -244,7 +256,7 @@ public class EventUser_so {
             }
 
             //Comprobar permisos lectura
-            if (checkPath && !auxList.get(3).isEmpty()) {
+            if (comprobarPath && !auxList.get(3).isEmpty()) {
 
                 if (Validador.checkPermissions(auxList.get(3))) {
                     estados[2] = 1;
@@ -257,9 +269,6 @@ public class EventUser_so {
             askAgain = false;
             if (estados[0] == 1) {
                 askAgain = true;
-//                ActionTool.mostrarNotificacion(rb, ResourceLeng.MESSAGE_TITLE_MOODLE_DOWN,
-//                        ResourceLeng.MESSAGE_INFO_DOWN_TEXT, Duration.seconds(15),
-//                        NotificationType.WARNING);
                 Platform.runLater(() -> 
                          ActionTool.showNotification(rb.getString(ResourceLeng.MESSAGE_TITLE_MOODLE_DOWN),
                                 rb.getString(ResourceLeng.MESSAGE_INFO_DOWN_TEXT),
@@ -269,9 +278,6 @@ public class EventUser_so {
             } else if (estados[0] == 2) {
                 askAgain = false;
                 auxList.set(1, "");
-//                ActionTool.mostrarNotificacion(rb, ResourceLeng.MESSAGE_TITLE_MOODLE_REJECT,
-//                        ResourceLeng.MESSAGE_INFO_NASTER_REJECT, Duration.seconds(15),
-//                        NotificationType.ERROR);
                  Platform.runLater(() -> 
                          ActionTool.showNotification(rb.getString(ResourceLeng.MESSAGE_TITLE_MOODLE_REJECT),
                                 rb.getString(ResourceLeng.MESSAGE_INFO_MOODLE_REJECT),
@@ -279,9 +285,6 @@ public class EventUser_so {
             }
             if (estados[1] == 1) {
                 askAgain &= true;
-//                ActionTool.mostrarNotificacion(rb, ResourceLeng.MESSAGE_TITLE_NASTER_DOWN,
-//                        ResourceLeng.MESSAGE_INFO_DOWN_TEXT, Duration.seconds(15),
-//                        NotificationType.WARNING);
                 Platform.runLater(() -> 
                          ActionTool.showNotification(rb.getString(ResourceLeng.MESSAGE_TITLE_NASTER_DOWN),
                                 rb.getString(ResourceLeng.MESSAGE_INFO_DOWN_TEXT),
@@ -299,115 +302,37 @@ public class EventUser_so {
                     //Si solo NASTER rechazo conexion la contraseña de NASTER esta mal
                     auxList.set(2, "");
                 }
-//                ActionTool.mostrarNotificacion(rb, ResourceLeng.MESSAGE_TITLE_NASTER_REJECT,
-//                        ResourceLeng.MESSAGE_INFO_NASTER_REJECT, Duration.seconds(15),
-//                        NotificationType.ERROR);
                 Platform.runLater(() -> 
                          ActionTool.showNotification(rb.getString(ResourceLeng.MESSAGE_TITLE_NASTER_REJECT),
                                 rb.getString(ResourceLeng.MESSAGE_INFO_NASTER_REJECT),
                                 Duration.seconds(15), NotificationType.ERROR));
             }
 
-            if (checkPath && estados[2] == 1) {
+            if (comprobarPath && estados[2] == 1) {
                 askAgain &= true;
-            } else if (checkPath && estados[2] == 2) {
+            } else if (comprobarPath && estados[2] == 2) {
                 askAgain &= false;
                 auxList.set(3, "");
-//                ActionTool.mostrarNotificacion(rb, ResourceLeng.MESSAGE_TITLE_PATH_REJECT,
-//                        ResourceLeng.MESSAGE_INFO_PATH_REJECT, Duration.seconds(15),
-//                        NotificationType.ERROR);
                 Platform.runLater(() -> 
                          ActionTool.showNotification(rb.getString(ResourceLeng.MESSAGE_TITLE_PATH_REJECT),
                                 rb.getString(ResourceLeng.MESSAGE_INFO_PATH_REJECT),
                                 Duration.seconds(15), NotificationType.ERROR));
             }
-            if (estados[0] == 0 || estados[1] == 0 || (checkPath && estados[2] == 0)) {
+            if (estados[0] == 0 || estados[1] == 0 || (comprobarPath && estados[2] == 0)) {
                 askAgain &= false;
-//                ActionTool.mostrarNotificacion(rb, ResourceLeng.MESSAGE_TITLE_FIELD_EMPTY,
-//                        ResourceLeng.MESSAGE_INFO_FIELD_EMPTY, Duration.seconds(15),
-//                        NotificationType.WARNING);
                  Platform.runLater(() -> 
                          ActionTool.showNotification(rb.getString(ResourceLeng.MESSAGE_TITLE_FIELD_EMPTY),
                                 rb.getString(ResourceLeng.MESSAGE_INFO_FIELD_EMPTY),
                                 Duration.seconds(15), NotificationType.WARNING));
             }
             askAgain = !askAgain;
-//            if (askAgain) {
-//                auxList = askCredentials(rb, auxList.get(0), auxList.get(1),
-//                        auxList.get(2), auxList.get(3), checkPath, Boolean.parseBoolean(auxList.get(4)));
-//            }
-
-////        }
-            aThis.askAgain = askAgain;
-            aThis.auxResult = auxList;
-            aThis.semaphore.release();
+            this.askAgain = askAgain;
+            this.auxResult = auxList;
+            this.semaphore.release();
+//            aThis.askAgain = askAgain;
+//            aThis.auxResult = auxList;
+//            aThis.semaphore.release();
    
 
     }
-
-    /**
-     *
-     * Comprueba que es posible el acceso dado param user pass
-     *
-     * @param user
-     * @param pass
-     * @return 1-moodle caido, 2- credenciales erroneas, 3- credenciales Ok
-     */
-    public static int validateCredentialsMoodle(String user, String pass) {
-        int respuesta = 1;
-        String title = "";
-        try {
-            Connection.Response res = Jsoup.connect("https://moodle2.unizar.es/add/login/index.php")
-                    .timeout(18 * 1000)
-                    .data("username", user, "password", pass)
-                    .method(Connection.Method.POST)
-                    .execute();
-            Document doc = res.parse();
-            title = doc.select("head>title").text();
-            if (title.contains("ADD Unizar - Moodle 2")) {
-                respuesta = 2;
-            } else {
-                respuesta = 3;
-            }
-        } catch (IOException ex) {
-            // Se rechazo por un TimeOut lo que significa que moodle esta caido
-        } finally {
-            System.err.println("\tReturnning " + respuesta);
-//            System.err.println("\tTitle " + title);
-            return respuesta;
-        }
-    }
-
-    /**
-     *
-     * @param user
-     * @param pass
-     * @return 1-NasTer caido, 2- credenciales erroneas, 3- credenciales Ok
-     */
-    public static int validateCredentialsNaster(String user, String pass) {
-        int respuesta = 3;
-        System.err.println("User " + user + " ,Pass " + pass);
-        try {
-            Sardine sardineCon = SardineFactory.begin(user, pass);
-            URI url = URI.create("https://nas-ter.unizar.es/alumnos/" + user);
-            sardineCon.exists(url.toString());
-
-        } catch (SardineException e) {
-            // puede deberse a credenciales erroneas, o que el usuario no este 
-            //  dado de alta (no podemos saber)
-            respuesta = 2;
-        } catch (IOException e) {
-            // Salta el timeOut, parece que no se extablece la conexion
-            respuesta = 1;
-        } finally {
-            System.err.println("Nas " + respuesta);
-            return respuesta;
-        }
-    }
-
-//    @Override
-//    protected Void call() throws Exception {
-//        
-//        return null;
-//    }
 }

@@ -1,11 +1,11 @@
 package zzParaBorrar;
 
-import Updater.tools.ActionTool;
-import Updater.tools.NotificationType;
+import actualizador.tools.ActionTool;
+import actualizador.tools.NotificationType;
 import Tools.lenguaje.ResourceLeng;
-import application.HelloWorld;
-import application.controller.InterfaceController;
-import application.events.validator;
+import aplicacion.HelloWorld;
+import aplicacion.controlador.InterfaceController;
+import aplicacion.eventos.Validador;
 import com.github.sardine.Sardine;
 import com.github.sardine.SardineFactory;
 import com.github.sardine.impl.SardineException;
@@ -101,7 +101,7 @@ public class eventUser extends Service<Void> {
 
                         if (auxList != null) {
 //                            rb = HelloWorld.getResource();
-                            ActionTool.customNotification(ResourceLeng.MESSAGE_TITLE_DATES_OK,
+                            ActionTool.mostrarNotificacion(ResourceLeng.MESSAGE_TITLE_DATES_OK,
                                     ResourceLeng.NONE, Duration.seconds(15), NotificationType.INFORMATION);
 //                            Platform.runLater(() -> Platform.runLater(()
 //                                    -> ActionTool.showNotification(rb.getString(ResourceLeng.MESSAGE_TITLE_DATES_OK),
@@ -261,7 +261,7 @@ public class eventUser extends Service<Void> {
             //Comprobar permisos lectura
             if (checkPath && !auxList.get(3).isEmpty()) {
 
-                if (validator.checkPermissions(auxList.get(3))) {
+                if (Validador.checkPermissions(auxList.get(3))) {
                     estados[2] = 1;
                 } else {
                     estados[2] = 2;
@@ -272,7 +272,7 @@ public class eventUser extends Service<Void> {
             askAgain = false;
             if (estados[0] == 1) {
                 askAgain = true;
-                ActionTool.customNotification(rb, ResourceLeng.MESSAGE_TITLE_MOODLE_DOWN,
+                ActionTool.mostrarNotificacion(rb, ResourceLeng.MESSAGE_TITLE_MOODLE_DOWN,
                         ResourceLeng.MESSAGE_INFO_DOWN_TEXT, Duration.seconds(15),
                         NotificationType.WARNING);
 //                Platform.runLater(() -> Platform.runLater(()
@@ -284,7 +284,7 @@ public class eventUser extends Service<Void> {
             } else if (estados[0] == 2) {
                 askAgain = false;
                 auxList.set(1, "");
-                ActionTool.customNotification(rb, ResourceLeng.MESSAGE_TITLE_MOODLE_REJECT,
+                ActionTool.mostrarNotificacion(rb, ResourceLeng.MESSAGE_TITLE_MOODLE_REJECT,
                         ResourceLeng.MESSAGE_INFO_NASTER_REJECT, Duration.seconds(15),
                         NotificationType.ERROR);
 //                Platform.runLater(() -> Platform.runLater(()
@@ -294,7 +294,7 @@ public class eventUser extends Service<Void> {
             }
             if (estados[1] == 1) {
                 askAgain &= true;
-                ActionTool.customNotification(rb, ResourceLeng.MESSAGE_TITLE_NASTER_DOWN,
+                ActionTool.mostrarNotificacion(rb, ResourceLeng.MESSAGE_TITLE_NASTER_DOWN,
                         ResourceLeng.MESSAGE_INFO_DOWN_TEXT, Duration.seconds(15),
                         NotificationType.WARNING);
 //                Platform.runLater(() -> Platform.runLater(()
@@ -314,7 +314,7 @@ public class eventUser extends Service<Void> {
                     //Si solo NASTER rechazo conexion la contraseña de NASTER esta mal
                     auxList.set(2, "");
                 }
-                ActionTool.customNotification(rb, ResourceLeng.MESSAGE_TITLE_NASTER_REJECT,
+                ActionTool.mostrarNotificacion(rb, ResourceLeng.MESSAGE_TITLE_NASTER_REJECT,
                         ResourceLeng.MESSAGE_INFO_NASTER_REJECT, Duration.seconds(15),
                         NotificationType.ERROR);
 //                Platform.runLater(() -> Platform.runLater(()
@@ -328,7 +328,7 @@ public class eventUser extends Service<Void> {
             } else if (checkPath && estados[2] == 2) {
                 askAgain &= false;
                 auxList.set(3, "");
-                ActionTool.customNotification(rb, ResourceLeng.MESSAGE_TITLE_PATH_REJECT,
+                ActionTool.mostrarNotificacion(rb, ResourceLeng.MESSAGE_TITLE_PATH_REJECT,
                         ResourceLeng.MESSAGE_INFO_PATH_REJECT, Duration.seconds(15),
                         NotificationType.ERROR);
 //                Platform.runLater(() -> Platform.runLater(()
@@ -338,7 +338,7 @@ public class eventUser extends Service<Void> {
             }
             if (estados[0] == 0 || estados[1] == 0 || (checkPath && estados[2] == 0)) {
                 askAgain &= false;
-                ActionTool.customNotification(rb, ResourceLeng.MESSAGE_TITLE_FIELD_EMPTY,
+                ActionTool.mostrarNotificacion(rb, ResourceLeng.MESSAGE_TITLE_FIELD_EMPTY,
                         ResourceLeng.MESSAGE_INFO_FIELD_EMPTY, Duration.seconds(15),
                         NotificationType.WARNING);
 //                Platform.runLater(() -> Platform.runLater(()

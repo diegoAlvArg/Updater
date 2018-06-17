@@ -1,15 +1,10 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-package application;
+package zzParaBorrar;
 
 import Tools.logger.LogGeneral;
-import static Updater.main.VersionCheck.howIsLastUpdate;
-import Updater.tools.ActionTool;
-import Updater.tools.InfoTool;
-import Updater.tools.NotificationType;
+import static actualizador.main.VersionCheck.howIsLastUpdate;
+import actualizador.tools.ActionTool;
+import actualizador.tools.InfoTool;
+import actualizador.tools.NotificationType;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.IOException;
@@ -24,8 +19,8 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 import Tools.lenguaje.ResourceLeng;
-import Tools.logger.LogSincronizacion;
 import java.awt.SystemTray;
+import Tools.logger.LogSincronizacion;
 import java.awt.TrayIcon;
 import java.util.Optional;
 import javafx.application.HostServices;
@@ -49,7 +44,7 @@ import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 
 /**
- *
+ * T 6013   C 551
  * @author Diego Alvarez
  */
 public class HelloWorld extends Application {
@@ -246,7 +241,7 @@ public class HelloWorld extends Application {
 //                Platform.runLater(() -> ActionTool.showNotification(String.format(rb.getString(ResourceLeng.MESSAGE_TITLE_UPDATE_FAIL), appName),
 //                        String.format(rb.getString(ResourceLeng.MESSAGE_TEXT_UPDATE_FAIL), applicationPath[0])
 //                        , Duration.seconds(10), NotificationType.ERROR));
-            Platform.runLater(() -> ActionTool.customNotificationWithParam(String.format(rb.getString(ResourceLeng.MESSAGE_TITLE_UPDATE_FAIL), appName),
+            Platform.runLater(() -> ActionTool.mostrarNotificacionConParam(String.format(rb.getString(ResourceLeng.MESSAGE_TITLE_UPDATE_FAIL), appName),
                     String.format(rb.getString(ResourceLeng.MESSAGE_TEXT_UPDATE_FAIL), applicationPath[0]),
                     Duration.seconds(10), NotificationType.ERROR));
 
@@ -262,7 +257,13 @@ public class HelloWorld extends Application {
         int currentVersion = (int) internalInformation.get("Version");
         int lastVersion = howIsLastUpdate();
 
-        if (currentVersion < lastVersion) {
+        if(lastVersion == -1){
+            ActionTool.mostrarNotificacion(rb, ResourceLeng.UPDATE_NO_ETHERNET,
+                    ResourceLeng.UPDATE_NO_ETHERNET_TEXT, Duration.seconds(10), NotificationType.ERROR);
+        }else if(lastVersion == -2){
+            ActionTool.mostrarNotificacion(rb, ResourceLeng.UPDATE_ERROR_FILE,
+                    ResourceLeng.UPDATE_ERROR_FILE_TEXT, Duration.seconds(10), NotificationType.WARNING);
+        }else if (currentVersion < lastVersion) {
             saveData();
             if (Platform.isFxApplicationThread()) {
                 Alert alert = new Alert(Alert.AlertType.CONFIRMATION); //Idioma en botones
@@ -298,7 +299,7 @@ public class HelloWorld extends Application {
                 }
             }
         } else if (mostrarMensaje) {
-            ActionTool.customNotification(rb, ResourceLeng.UPDATE_INFO,
+            ActionTool.mostrarNotificacion(rb, ResourceLeng.UPDATE_INFO,
                     ResourceLeng.UPDATE_INFO_TEXT, Duration.seconds(10), NotificationType.INFORMATION);
 //            changeEnable(ResourceLeng.SYS_TRAY_UPDATE, true);
         }
@@ -528,7 +529,7 @@ public class HelloWorld extends Application {
 
     public static void testNotification() {
         System.out.println("jajajaj");
-        ActionTool.customNotification("title", "msj", Duration.seconds(15), NotificationType.INFORMATION);
+        ActionTool.mostrarNotificacion("title", "msj", Duration.seconds(15), NotificationType.INFORMATION);
     }
 
     public static TrayIcon getSysTray() {
@@ -547,10 +548,10 @@ public class HelloWorld extends Application {
 //        }
     }
 
-    /**
-     * @param args the command line arguments
-     */
-    public static void main(String[] args) throws Exception {
-        launch(args);
-    }
+//    /**
+//     * @param args the command line arguments
+//     */
+//    public static void main(String[] args) throws Exception {
+//        launch(args);
+//    }
 }

@@ -1,21 +1,19 @@
-/*
- * 
- */
-package Updater.tools;
+package actualizador.tools;
 
+//#1 Static import
+import aplicacion.HelloWorld;
+//#4 Java
 import java.io.File;
 import java.net.URISyntaxException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-
 import javafx.scene.image.Image;
-import application.HelloWorld;
 
 /**
  * Provides useful methods for retrieving informations.
  *
- * @version 1.0
  * @author GOXR3PLUS
+ * @version 1.0
  * @see https://github.com/goxr3plus/JavaFXApplicationAutoUpdater
  */
 public final class InfoTool {

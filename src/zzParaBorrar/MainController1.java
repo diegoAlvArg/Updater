@@ -5,9 +5,8 @@
  */
 package zzParaBorrar;
 
-import application.*;
 import zzParaBorrar.*;
-import application.HelloWorld;
+import aplicacion.HelloWorld;
 import java.net.URL;
 import java.util.Locale;
 import java.util.ResourceBundle;
@@ -21,7 +20,7 @@ import javafx.scene.control.Label;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 import Tools.lenguaje.ResourceLeng;
-import application.HelloWorld;
+import aplicacion.HelloWorld;
 import java.io.File;
 import javafx.application.HostServices;
 //import javafx.application.HostServices;
@@ -108,7 +107,7 @@ public class MainController1 implements Initializable {
 
 //        miStado.setTitle("aaaa");
 //        miStado.setTitle(rb.getString(ResourceLeng.APP_TITLE) + HelloWorld.internalInformation.get("Version"));
-        HelloWorld.changeTitle(rb.getString(ResourceLeng.APP_TITLE));
+        HelloWorld.cambiarTitulo(rb.getString(ResourceLeng.APP_TITLE));
     }
 
     public void setStage(Stage _stage) {
