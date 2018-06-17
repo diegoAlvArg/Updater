@@ -5,7 +5,7 @@ import Tools.almacen.InformacionUsuario;
 import actualizador.tools.ActionTool;
 import actualizador.tools.NotificationType;
 import Tools.lenguaje.ResourceLeng;
-import Tools.almacen.almacenTareas;
+import Tools.almacen.AlmacenTareas;
 import aplicacion.datos.ItemArbol;
 import aplicacion.datos.Tareas;
 import aplicacion.HelloWorld;
@@ -1189,7 +1189,7 @@ public class InterfaceController implements Initializable {
 
     public void saveData() {
         try {
-            almacenTareas.guardarDatos(tareasTrack, InformacionUsuario.getUser());
+            AlmacenTareas.guardarDatos(tareasTrack, InformacionUsuario.getUser());
         } catch (NoSuchFieldException ex) {
             // Logger.getLogger(InterfaceController.class.getNombre()).log(Level.SEVERE, null, ex);
         }
@@ -1197,7 +1197,7 @@ public class InterfaceController implements Initializable {
 
     public void loadData(String key) {
 
-        HashMap<String, Tareas> map = almacenTareas.cargarDatos(key);
+        HashMap<String, Tareas> map = AlmacenTareas.cargarDatos(key);
         Tareas del;
         if (map != null) {
             tareasTrack = map;

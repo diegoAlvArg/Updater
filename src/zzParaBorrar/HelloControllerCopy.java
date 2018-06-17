@@ -62,7 +62,7 @@ import javafx.util.StringConverter;
  *
  * @author Usuario
  */
-public class HelloController implements Initializable {
+public class HelloControllerCopy implements Initializable {
 
     @FXML
     private TabPane TTabpane;

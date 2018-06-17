@@ -3,7 +3,7 @@ package zzParaBorrar;
 import actualizador.tools.ActionTool;
 import actualizador.tools.NotificationType;
 import Tools.lenguaje.ResourceLeng;
-import zzParaBorrar.HelloController;
+import zzParaBorrar.HelloControllerCopy;
 import aplicacion.HelloWorld;
 import aplicacion.eventos.Validador;
 import com.github.sardine.Sardine;
@@ -57,7 +57,7 @@ public class EventUser_so {
     private List<String> auxResult;
     private boolean askAgain = false;
 
-    public EventUser_so(String user, String pass1, String pass2, boolean useNas, ResourceBundle rb, boolean askPath, HelloController iu) {
+    public EventUser_so(String user, String pass1, String pass2, boolean useNas, ResourceBundle rb, boolean askPath, HelloControllerCopy iu) {
 //        this.user = user;
 //        this.pass1 = pass1;
 //        this.pass2 = pass2;
@@ -208,7 +208,7 @@ public class EventUser_so {
         return respuesta;
     }
 
-    private void validateUser(List<String> dates, boolean checkPath, HelloController iu, EventUser_so aThis) {
+    private void validateUser(List<String> dates, boolean checkPath, HelloControllerCopy iu, EventUser_so aThis) {
  
             List<String> auxList = dates;
             int[] estados;
