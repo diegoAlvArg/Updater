@@ -1189,7 +1189,9 @@ public class InterfaceController implements Initializable {
 
     public void saveData() {
         try {
-            AlmacenTareas.guardarDatos(tareasTrack, InformacionUsuario.getUser());
+            if(InformacionUsuario.existenDatos()){
+                AlmacenTareas.guardarDatos(tareasTrack, InformacionUsuario.getUser());
+            }
         } catch (NoSuchFieldException ex) {
             // Logger.getLogger(InterfaceController.class.getNombre()).log(Level.SEVERE, null, ex);
         }
