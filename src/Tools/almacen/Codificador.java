@@ -20,18 +20,18 @@ import javax.crypto.spec.SecretKeySpec;
  *
  * NOTA: Revisar catch de generarKey()
  */
-public class Codificador2 {
+public class Codificador {
 
-    private static Codificador2 instance = null;
+    private static Codificador instance = null;
     private SecretKeySpec secretKey;
 
-    protected Codificador2() {
+    protected Codificador() {
         setKey(generarKey());
     }
 
-    public synchronized static Codificador2 getInstande() {
+    public synchronized static Codificador getInstande() {
         if (instance == null) {
-            instance = new Codificador2();
+            instance = new Codificador();
         }
         return instance;
     }
