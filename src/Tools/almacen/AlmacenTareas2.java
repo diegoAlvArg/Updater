@@ -35,7 +35,7 @@ import javax.crypto.spec.SecretKeySpec;
  *
  * @author Diego
  */
-public class almacenTareas {
+public class AlmacenTareas2 {
 
     /**
      * Metodo que almacenara una Colection Map<> de Tareas en un fichero que

@@ -1,5 +1,6 @@
 package Tools.almacen;
 
+//#4 Java
 import java.io.UnsupportedEncodingException;
 import java.net.InetAddress;
 import java.net.NetworkInterface;
@@ -13,26 +14,34 @@ import javax.crypto.Cipher;
 import javax.crypto.spec.SecretKeySpec;
 
 /**
+ * 130
  *
- * @author Usuario
+ * @author Diego
+ *
+ * NOTA: Revisar catch de generarKey()
  */
-public class codificador {
+public class Codificador2 {
 
-    private static codificador instance = null;
+    private static Codificador2 instance = null;
     private SecretKeySpec secretKey;
 
-    protected codificador() {
-        setKey(generateKey());
+    protected Codificador2() {
+        setKey(generarKey());
     }
 
-    public synchronized static codificador getInstande() {
+    public synchronized static Codificador2 getInstande() {
         if (instance == null) {
-            instance = new codificador();
+            instance = new Codificador2();
         }
         return instance;
     }
 
-    private String generateKey() {
+    /**
+     * Generador de la key para encriptar, en base a la MAC del computador
+     *
+     * @return
+     */
+    private String generarKey() {
         String respuesta = "WendolynVon";
         InetAddress ip;
         try {
@@ -52,14 +61,21 @@ public class codificador {
             respuesta = sb.toString();
 
         } catch (UnknownHostException e) {
+            // Trabajando en local saltara esto??--------------------------------------------------------------------------------
             e.printStackTrace();
         } catch (SocketException e) {
+            // Trabajando en local saltara esto??--------------------------------------------------------------------------------
             e.printStackTrace();
         } finally {
             return respuesta;
         }
     }
 
+    /**
+     * Establece la key a utilizar para encriptar/desencriptar
+     *
+     * @param myKey
+     */
     private void setKey(String myKey) {
         MessageDigest sha = null;
         byte[] keyByte;
@@ -76,22 +92,35 @@ public class codificador {
         }
     }
 
-    public synchronized String encrypt(String strToEncrypt) {
+    /**
+     * Cifra la cadena de entrada en base a una key.
+     *
+     * @param cadena
+     *
+     * @return String cifrado, Null en caso de error
+     */
+    public synchronized String encriptar(String cadena) {
         try {
             Cipher cipher = Cipher.getInstance("AES/ECB/PKCS5Padding");
             cipher.init(Cipher.ENCRYPT_MODE, secretKey);
-            return Base64.getEncoder().encodeToString(cipher.doFinal(strToEncrypt.getBytes("UTF-8")));
+            return Base64.getEncoder().encodeToString(cipher.doFinal(cadena.getBytes("UTF-8")));
         } catch (Exception e) {
             System.out.println("Error while encrypting: " + e.toString());
         }
         return null;
     }
-    
-    public synchronized String decrypt(String strToDecrypt) {
+
+    /**
+     * Desencripta la cadena de entrada en base a una key
+     *
+     * @param cadena
+     * @return String desencriptado, Null en caso de error
+     */
+    public synchronized String desencriptar(String cadena) {
         try {
             Cipher cipher = Cipher.getInstance("AES/ECB/PKCS5PADDING");
             cipher.init(Cipher.DECRYPT_MODE, secretKey);
-            return new String(cipher.doFinal(Base64.getDecoder().decode(strToDecrypt)));
+            return new String(cipher.doFinal(Base64.getDecoder().decode(cadena)));
         } catch (Exception e) {
             e.printStackTrace();
             System.out.println("Error while decrypting: " + e.toString());
