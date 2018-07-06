@@ -48,7 +48,7 @@ import java.util.logging.LogRecord;
  * Clase que forma una estructura arborea representativa del contenido Moodle y
  * descarga o crea el contenido en replica en el Sistema Local
  */
-public class Nodo {
+public class Nodo extends MarcasScrapping{
 
     private String url;
     private String nombre;
@@ -59,57 +59,7 @@ public class Nodo {
     private Set<Nodo> secciones;
     private Set<Nodo> archivos;
 
-    //********MARKs ON SCRAPPING
-    final String SALTAR_NAVEGACION = "Saltar Navegación";
-    //*******Seed para identificar identados
-    final String SEMILLA = "<div class=\"mod-indent mod-indent-%d\"></div>";
-
-    final String COOKIE_SESION = "MoodleSession";
-    final String DOMINIO_MOODLE = ".moodle2.unizar.es";
-    final String EXISTO = "Suscesfull update";
-
-    //****** SPLIT
-    final String SECCIONES_DIVISION = "<li id=\"section-[0-9]+";
-    final String SECCIONES_CABECERA = "<li id=\"section-";
-    final String SECCIONES_AREA_TITULO_SENIAL = "<div class=\"no-overflow\">";
-    final String SECCIONES_AREA_TITULO_ZONA = "<div class=\"no-overflow\"><div class=\"no-overflow\">";
-    final String SECCIONES_AREA_ETIQUETA = "<li class=\"";
-    final String SECCIONES_AREA_ETIQUETA_FIN = "\" id=";
-    final String SECCIONES_AREA_SENIAL = "<div class=\"";
-    final String SECCIONES_AREA_SENIAL_FIN = "\"></div>";
-    final String SECCIONES_SPAN_DIVISION = "<span ";
-
-    //****** JSOUP
-    final String JSOUP_LI_ETIQUETA = "li";
-    final String JSOUP_A_ETIQUETA = "a";
-    final String JSOUP_SPAN_ETIQUETA = "span";
-    final String JSOUP_LI_ETIQUETA_CLASS = "<li class=";
-    final String JSOUP_CARPETA_BUSCA_LINKS = "span[id=\"maincontent\"]+h2+div>div>ul>li>ul>li>span>a";
-    /**
-     * \s A whitespace character, short for [ \t\n\x0b\r\f]
-     */
-    final String JSOUP_SECCIONES = "<div>[\\s]+<div class=\"mod-indent-outer\">";
-    final String JSOUP_SECCIONES_COLLAPSADAS = "h3>a";
-    final String JSOUP_SECCIONES_EXPANDIDAS_NOMBRE = "li>span";
-    final String JSOUP_SECCIONES_AREA_DATOS = "li[role]";
-    final String JSOUP_SECCIONES_AREA_TITULO = "div[class=\"no-overflow\"]>div[class=\"no-overflow\"]>p";
-    final String JSOUP_SECCIONES_AREA_TIPO = "li>div[class]";
-
-    final String P_ETIQUETA_FIN = "</p>";
-    final String ETIQUETA_FIN = "</";
-    final String LI_ETIQEUTA = "activity label modtype_label ";
-    final String LIMPIEZA_NOMBRE = "class=\"[A-Za-z\\s]*\">";
-    final String LIMPIEZA_TIPO = "class=\"[A-Za-z\\s]*\"> ";
-    final String LIMPIEZA_TIPO_FIN = "<\\/span>";
-    final String ENLACE_NOMBRE_DEFECTO = "Enlace ";
-    final String EXTENSION_ARCHIVO = "\\.(?=[^\\.]+$)";
-
-    final String NO_REDIRECCION_AREA = "<div id=\"content\" class=\"span9";
-    final String NO_RIDIRECCION_INDICE = "https://moodle2.unizar.es/add/pluginfile.php/";
-    final String NO_RIDIRECCION_INDICE_FIN = "\" alt=\"\" />";
-
-    final String A_RESERVADOR_01 = "mailto";
-
+    
     /**
      * Constructor
      *
@@ -121,17 +71,8 @@ public class Nodo {
     public Nodo(String url, String nombre, TipoNodo tipo, Map<String, String> cookies) {
         this.url = url;
 
-        String auxCadena = nombre;
-        auxCadena = auxCadena.replaceAll("\\\\", "_");
-        auxCadena = auxCadena.replaceAll("/", "-");
-        auxCadena = auxCadena.replaceAll(":", ",");
-        auxCadena = auxCadena.replaceAll("¿", "");
-        auxCadena = auxCadena.replaceAll("\\?", "");
-        auxCadena = auxCadena.replaceAll("\\*", "");
-        auxCadena = auxCadena.replaceAll("\"", "'");
-        auxCadena = auxCadena.replaceAll("<", "'");
-        auxCadena = auxCadena.replaceAll(">", "'");
-        auxCadena = auxCadena.replaceAll("\\|", "'");
+        String auxCadena = Normalizador.normalizarNombre(nombre);
+        
         while (auxCadena.endsWith(".")) {
             auxCadena = auxCadena.substring(0, auxCadena.length() - 1);
         }
@@ -345,7 +286,7 @@ public class Nodo {
         Document doc;
         Element auxElement;
         Nodo auxHijo;
-        List<String> listaRecursos = reconstruccionSeccion(seccion);
+        List<String> listaRecursos = reconstruirSeccion(seccion);
 
         if (listaRecursos.size() == 1) {
             // No tiene SUBSection, podemos procesarlo directamente
@@ -383,7 +324,7 @@ public class Nodo {
                         padre.seccionAniadir(auxHijo);
                     }
                     procesarSubSeccion(line, 1, auxHijo);
-                    if (!padre.equals(auxHijo) && auxHijo.archivosVacios() && auxHijo.seccionesVacios()) {
+                    if (!padre.equals(auxHijo) && auxHijo.archivosVacios() && auxHijo.seccionesVacias()) {
                         //Se puede haber colado a de elementos reservados
                         padre.secciones.remove(auxHijo);
                     }
@@ -405,7 +346,7 @@ public class Nodo {
      * segun Label & identado
      *
      */
-    private List<String> reconstruccionSeccion(String seccion) {
+    private List<String> reconstruirSeccion(String seccion) {
         String[] lista = null;
         List<String> listaRespuesta = new ArrayList<>();
         Document doc;
@@ -515,15 +456,15 @@ public class Nodo {
      * Procesa una SUBsection de forma recursiva tratando los niveles (_lvl) de
      * identado convirtiendo la SUBsection en una estructura arborea de Nodo's
      *
-     * @param _seccion Texto identificativo de la SUBSection
+     * @param seccion Texto identificativo de la SUBSection
      * @param nivel Nivel de la SUBSection que se quiere procesar
      * @param padre Nodo raiz de la estructura
      *
      * @throws IOException Posible error con la I/O de datos.
      */
-    public void procesarSubSeccion(String _seccion, int nivel, Nodo padre) throws IOException {
+    public void procesarSubSeccion(String seccion, int nivel, Nodo padre) throws IOException {
         String auxSemilla = String.format(SEMILLA, nivel);
-        String[] subSections = _seccion.split(auxSemilla);
+        String[] subSections = seccion.split(auxSemilla);
         Document doc;
         String auxCadena;
         Element auxElement;
@@ -672,7 +613,7 @@ public class Nodo {
      * Imprime por la Salida estandar (out), una representacion del Nodo actual
      * imprimiendo las sections & files correspondientes y atendiendo su
      * indetizacion respecto a su Nodo "padre"
-     *
+     * @deprecated 
      * @param _lvl identizacion respecto al Nodo "padre"
      */
     public void listar(int _lvl) {
@@ -708,25 +649,25 @@ public class Nodo {
     /**
      * Aniade un Nodo(hijo) representativo de una seccion al actual (padre)
      *
-     * @param _node
+     * @param nodoHijo
      */
-    public void seccionAniadir(Nodo _node) {
+    public void seccionAniadir(Nodo nodoHijo) {
         if (secciones == null) {
             secciones = new HashSet<Nodo>();
         }
-        secciones.add(_node);
+        secciones.add(nodoHijo);
     }
 
     /**
      * Aniade un Nodo(hijo) representativo de un archivo al actual (padre)
      *
-     * @param _node
+     * @param nodoHijo
      */
-    public void archivosAniadir(Nodo _node) {
+    public void archivosAniadir(Nodo nodoHijo) {
         if (archivos == null) {
             archivos = new HashSet<Nodo>();
         }
-        archivos.add(_node);
+        archivos.add(nodoHijo);
     }
 
     /**
@@ -745,7 +686,7 @@ public class Nodo {
      * @return True set<> secciones == null | secciones.size() == 0. False en
      * caso contrario
      */
-    private boolean seccionesVacios() {
+    private boolean seccionesVacias() {
         if (secciones != null) {
             return secciones.isEmpty();
         } else {

@@ -137,16 +137,25 @@ public class ResourceLeng extends BasicLeng {
     public final static String C3_TEXT = "c3_text";
     public final static String C4_TEXT = "c4_text";
     public final static String C5_TEXT = "c5_text";
+    public final static String STATE_0_TEXT = "state_0_text";
+    public final static String STATE_0_TOOL = "state_0_tool";
     public final static String STATE_1_TEXT = "state_1_text";
     public final static String STATE_1_TOOL = "state_1_tool";
     public final static String STATE_2_TEXT = "state_2_text";
-    public final static String STATE_2_TOOL = "state_2_tool";
+    public final static String STATE_2_TOOL = "state_2_tool";    
     public final static String STATE_3_TEXT = "state_3_text";
     public final static String STATE_3_TOOL = "state_3_tool";
     public final static String STATE_4_TEXT = "state_4_text";
     public final static String STATE_4_TOOL = "state_4_tool";
     public final static String STATE_5_TEXT = "state_5_text";
     public final static String STATE_5_TOOL = "state_5_tool";
+    public final static String STATE_6_TEXT = "state_6_text";
+    public final static String STATE_6_TOOL = "state_6_tool";
+    public final static String STATE_7_TEXT = "state_7_text";
+    public final static String STATE_7_TOOL = "state_7_tool";
+    public final static String STATE_8_TEXT = "state_8_text";
+    public final static String STATE_8_TOOL = "state_8_tool";
+    
     public final static String FORMAT_TIME = "format_time";
     public final static String FORMAT_TIME_NO_DAYS = "format_time_no_days";
     public final static String INFO_FILE = "info_file";
@@ -157,7 +166,8 @@ public class ResourceLeng extends BasicLeng {
     public final static String BUTTON_24_TOOL = "button_24_tool";
     public final static String BUTTON_35_TEXT = "button_35_text";
     public final static String BUTTON_35_TOOL = "button_35_tool";
-    
+    public final static String ERROR_RECOVER_TITLE = "error_recover_title";
+    public final static String ERROR_RECOVER_TEXT = "error_recover_text";
     //**********SystemTray Options**************************************************************
     public final static String SYS_TRAY_TOOLTIP = "sys_tray_tooltip";
     public final static String SYS_TRAY_EXIT = "sys_tray_exit";

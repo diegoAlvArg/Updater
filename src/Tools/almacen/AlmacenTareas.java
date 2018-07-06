@@ -56,7 +56,8 @@ public class AlmacenTareas {
             oos.writeObject(store);
 
 //            System.out.printf("Serialized HashMap data is saved");
-            encriptar("Wendy is: " + key, ficheroTemporal.toFile(), ficheroFinal.toFile());
+//            encriptar("Wendy is: " + key, ficheroTemporal.toFile(), ficheroFinal.toFile());
+            criptografiar(Cipher.ENCRYPT_MODE, "Wendy is: " + key, ficheroTemporal.toFile(), ficheroFinal.toFile());
         } catch (IOException ex) {
             StringWriter errors = new StringWriter();
             ex.printStackTrace(new PrintWriter(errors));
@@ -91,7 +92,8 @@ public class AlmacenTareas {
             oos.writeObject(store);
 
             System.out.printf("Serialized HashMap data is saved");
-            encriptar("Wendy is: " + key, fileTemp.toFile(), fileSource.toFile());
+//            encriptar("Wendy is: " + key, fileTemp.toFile(), fileSource.toFile());
+            criptografiar(Cipher.ENCRYPT_MODE, "Wendy is: " + key, fileTemp.toFile(),  fileSource.toFile());
 //            pathfile.toFile().delete();
         } catch (IOException ex) {
             ex.printStackTrace();
@@ -139,8 +141,9 @@ public class AlmacenTareas {
         HashMap<String, Tareas> respuesta = new HashMap<>();
         LogRecord logRegistro = null;
         StringWriter errors = null;
-        desencriptar("Wendy is: " + key, ficheroFinal.toFile(), ficheroTemporal.toFile());
-
+//        desencriptar("Wendy is: " + key, ficheroFinal.toFile(), ficheroTemporal.toFile());
+        criptografiar(Cipher.DECRYPT_MODE, "Wendy is: " + key, ficheroFinal.toFile(), ficheroTemporal.toFile());
+        
         try (FileInputStream fis = new FileInputStream(ficheroTemporal.toFile());
                 ObjectInputStream ois = new ObjectInputStream(fis);) {
 
@@ -175,6 +178,7 @@ public class AlmacenTareas {
      * Metodo que encripta en base a una key el ficheroEntrada y da como
      * resultado el ficheroSalida
      *
+     * @deprecated 
      * @param key clave con la que se encripta los datos
      * @param ficheroEntrada fichero que contiene los datos originales
      * @param ficheroSalida fichero que contendra los datos encriptados
@@ -186,7 +190,7 @@ public class AlmacenTareas {
     /**
      * Metodo que desencripta un ficheroEntrada en base a una key y da como
      * resultado el ficheroSalida
-     *
+     * @deprecated 
      * @param key clave con la que se desencripta los datos
      * @param ficehroEntrada fichero que contiene los datos encriptados
      * @param ficheroSalida fichero que contendra los datos desencriptados

@@ -32,9 +32,9 @@ import java.util.Set;
 public class OpcionesSyncNaster {
 
     //Constantes config para conexion
-    private static final String CARPETASINC = "probando";
+    private static final String CARPETA_SINC = "probando";
     private static final long TAMANIO_BUFFER_COPIA = 16 * 1024 * 1024; // 16 MB
-    private static final String URLNAS = "https://nas-ter.unizar.es/alumnos/";
+    private static final String URL_NAS = "https://nas-ter.unizar.es/alumnos/";
 
     private static Sardine sardineCon;
 
@@ -58,7 +58,7 @@ public class OpcionesSyncNaster {
         int respuesta = 0;
         try {
             sardineCon = SardineFactory.begin(usuario, contrasenia);
-            URI url = URI.create(URLNAS + "/" + usuario + "/" + CARPETASINC);
+            URI url = URI.create(URL_NAS + "/" + usuario + "/" + CARPETA_SINC);
             // Para comprobar que la carpeta que se utiliza para sincronizar existe
             //  de esta forma no molestaremos con lo que tenga el usuario
             if (!sardineCon.exists((url.toString()))) {

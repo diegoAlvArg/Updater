@@ -17,9 +17,9 @@ public class TareaWrapper implements Callable<Void> {
     private final Nodo curso;
     private final int id;
 
-    public TareaWrapper(Nodo _node, int _id) {
-        this.curso = _node;
-        this.id = _id;
+    public TareaWrapper(Nodo node, int id) {
+        this.curso = node;
+        this.id = id;
     }
 
     @Override

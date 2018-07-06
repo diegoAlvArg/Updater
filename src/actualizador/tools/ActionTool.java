@@ -2,7 +2,6 @@ package actualizador.tools;
 
 //#1 Static import
 import aplicacion.HelloWorld;
-import Tools.lenguaje.ResourceLeng;
 //#3 Third party
 import org.controlsfx.control.Notifications;
 //#4 Java

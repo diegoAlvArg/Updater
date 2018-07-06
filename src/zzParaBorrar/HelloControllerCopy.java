@@ -586,7 +586,7 @@ public class HelloControllerCopy implements Initializable {
         }
     }
     public void wrongDates(){
-        InformacionUsuario.deleteFile();
+        InformacionUsuario.borrarFichero();
         if(freqSecuence != null){
             freqSecuence.stop();
             freqSecuence = null;

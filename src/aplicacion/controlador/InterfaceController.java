@@ -81,10 +81,6 @@ public class InterfaceController implements Initializable {
     private Tab OptionInit;
     @FXML
     private TreeView TListUpdates;
-    /**
-     * Max Syncronization Before Clean List Update
-     */
-    private final int MAX_SBCLU = 1;
     private int numSyncro;
     private Map<String, TreeItem<ItemArbol>> cursosTrack = new HashMap<>();
     //*************************************** OptionInit
@@ -95,36 +91,15 @@ public class InterfaceController implements Initializable {
     @FXML
     private TableColumn<Tareas, String> c1;
     @FXML
-    private TableColumn<Tareas, String> c2;
-    private String STATE_1_TEXT;
-    private String STATE_1_TOOL;
-    private String STATE_2_TEXT;
-    private String STATE_2_TOOL;
-    private String STATE_3_TEXT;
-    private String STATE_3_TOOL;
-    private String STATE_4_TEXT;
-    private String STATE_4_TOOL;
-    private String STATE_5_TEXT;
-    private String STATE_5_TOOL;
-    private String seedTime;
-    private String seedTimeNoDays;
-    private Timeline timeline;
-    private String TABLE_FILE;
-    private String TABLE_NOTE;
-    private String TBUTTON_1_TEXT;
-    private String TBUTTON_1_TOOL;
-    private String TBUTTON_24_TEXT;
-    private String TBUTTON_24_TOOL;
-    private String TBUTTON_35_TEXT;
-    private String TBUTTON_35_TOOL;
-
-    @FXML
+    private TableColumn<Tareas, String> c2; 
+   @FXML
     private TableColumn<Tareas, String> c3;
     @FXML
     private TableColumn<Tareas, String> c4;
     @FXML
     private TableColumn<Tareas, Button> c5;
     private Map<String, Tareas> tareasTrack = new HashMap<>();
+    private Timeline timeline;
     //*************************************** OptionConfig
     @FXML
     private Tab OptionConfig;
@@ -405,26 +380,47 @@ public class InterfaceController implements Initializable {
                         Tooltip auxTool = null;
                         String textCell = null;
                         switch (item) {
+                            case "0":
+                                textCell = ConfigControl.STATE_0_TEXT;
+                                auxTool = new Tooltip(ConfigControl.STATE_0_TOOL);
+                                break;
                             case "1":
-                                textCell = STATE_1_TEXT;
-                                auxTool = new Tooltip(STATE_1_TOOL);
+                                textCell = ConfigControl.STATE_1_TEXT;
+                                auxTool = new Tooltip(ConfigControl.STATE_1_TOOL);
                                 break;
                             case "2":
-                            case "4":
-                                textCell = STATE_2_TEXT;
-                                auxTool = new Tooltip(STATE_2_TOOL);
+                                textCell = ConfigControl.STATE_2_TEXT;
+                                auxTool = new Tooltip(ConfigControl.STATE_2_TOOL);
                                 break;
                             case "3":
+                                textCell = ConfigControl.STATE_3_TEXT;
+                                auxTool = new Tooltip(ConfigControl.STATE_3_TOOL);
+                                break;
+                            case "4":
+                                textCell = ConfigControl.STATE_4_TEXT;
+                                auxTool = new Tooltip(ConfigControl.STATE_4_TOOL);
+                                break;
                             case "5":
-                                textCell = STATE_3_TEXT;
-                                auxTool = new Tooltip(STATE_3_TOOL);
+                                textCell = ConfigControl.STATE_5_TEXT;
+                                auxTool = new Tooltip(ConfigControl.STATE_5_TOOL);
+                                break;
+                            case "6":
+                                textCell = ConfigControl.STATE_6_TEXT;
+                                auxTool = new Tooltip(ConfigControl.STATE_6_TOOL);
+                                break;
+                            case "7":
+                                textCell = ConfigControl.STATE_7_TEXT;
+                                auxTool = new Tooltip(ConfigControl.STATE_7_TOOL);
+                                break;
+                            case "8":
+                                textCell = ConfigControl.STATE_8_TEXT;
+                                auxTool = new Tooltip(ConfigControl.STATE_8_TOOL);
                                 break;
                             default:
                         }
 
                         super.setTooltip(auxTool);
                         setText(textCell);
-//                        System.out.println(item);
                     }
                 }
             };
@@ -442,14 +438,14 @@ public class InterfaceController implements Initializable {
                         long diff = Long.valueOf(aux);
                         if (diff <= 0) {
                             respuesta = " ";
-                        } else if (diff < 86400000) {
-                            String hms = String.format(seedTimeNoDays,
+                        } else if (diff < 86400000) { // 86.400 1 dia
+                            String hms = String.format(ConfigControl.seedTimeNoDays,
                                     TimeUnit.MILLISECONDS.toHours(diff) % 24,
                                     TimeUnit.MILLISECONDS.toMinutes(diff) % 60);//,
 //                                TimeUnit.MILLISECONDS.toSeconds(diff) % 60);
                             respuesta = hms;
                         } else {
-                            String hms = String.format(seedTime,
+                            String hms = String.format(ConfigControl.seedTime,
                                     TimeUnit.MILLISECONDS.toDays(diff),
                                     TimeUnit.MILLISECONDS.toHours(diff) % 24,
                                     TimeUnit.MILLISECONDS.toMinutes(diff) % 60);//,
@@ -509,9 +505,9 @@ public class InterfaceController implements Initializable {
                             if (line.contains("S: ")) {
                                 auxString = line.replaceAll("S: ", "");
                                 if (auxString != null && !auxString.isEmpty()) {
-                                    cellTool = TABLE_FILE + auxString;
+                                    cellTool = ConfigControl.TABLE_FILE + auxString;
                                     auxString = ".." + auxString.substring(auxString.lastIndexOf("//"));
-                                    cellText = TABLE_FILE + auxString;
+                                    cellText = ConfigControl.TABLE_FILE + auxString;
                                 }
                             } else if (line.contains("N: ")) {
                                 if (auxString != null) {
@@ -520,8 +516,8 @@ public class InterfaceController implements Initializable {
                                 }
                                 auxString = line.replaceAll("N: ", "");
                                 if (auxString != null && !auxString.isEmpty()) {
-                                    cellTool += TABLE_NOTE + auxString;
-                                    cellText += TABLE_NOTE + auxString;
+                                    cellTool += ConfigControl.TABLE_NOTE + auxString;
+                                    cellText += ConfigControl.TABLE_NOTE + auxString;
                                 }
                             } else {
 
@@ -564,18 +560,18 @@ public class InterfaceController implements Initializable {
                         System.err.println("jaj? " + textStatus);
                         switch (textStatus) {
                             case "1":
-                                textCell = TBUTTON_1_TEXT;
-                                auxTool = new Tooltip(TBUTTON_1_TOOL);
+                                textCell = ConfigControl.TBUTTON_1_TEXT;
+                                auxTool = new Tooltip(ConfigControl.TBUTTON_1_TOOL);
                                 break;
                             case "2":
                             case "4":
-                                textCell = TBUTTON_24_TEXT;
-                                auxTool = new Tooltip(TBUTTON_24_TOOL);
+                                textCell = ConfigControl.TBUTTON_24_TEXT;
+                                auxTool = new Tooltip(ConfigControl.TBUTTON_24_TOOL);
                                 break;
                             case "3":
                             case "5":
-                                textCell = TBUTTON_35_TEXT;
-                                auxTool = new Tooltip(TBUTTON_35_TOOL);
+                                textCell = ConfigControl.TBUTTON_35_TEXT;
+                                auxTool = new Tooltip(ConfigControl.TBUTTON_35_TOOL);
                                 break;
                             default:
                         }
@@ -620,9 +616,10 @@ public class InterfaceController implements Initializable {
     }
 
     public void loadDummys() {
-//        addRow("Bases de datos", "practica 5", 1, "C://demo//TestB.pdf", "Friday, 22 June 2018, 19:30 AM", "en", "7");
-//        addRow("Bases de datos", "practica 4", 1, "", "Friday, 22 June 2018, 19:30 AM", "en");
-//        addRow("Bases de datos", "practica 5", 1, "C://demo//TestB.pdf", "Friday, 22 June 2018, 19:30 AM", "en", "9");
+//        addRow("Bases de datos", "practica 5", 1, "C://demo//TestB.pdf", "Friday, 6 July 2018, 19:30 AM", "en", "7");
+//        addRow("Bases de datos", "practica 4", 1, "", "Friday, 6 July 2018, 19:30 AM", "en");
+//        addRow("Bases de datos", "practica 5", 1, "C://demo//TestB.pdf", "Friday, 6 July 2018, 19:30 AM", "en", "9");
+//        addRow("Bases de datos", "practica 0", 4, "C://demo//TestB.pdf", "Friday, 13 July 2018, 19:30 AM", "en", "9");
     }
 
     public void addRow(String curso, String nombre, int estado, String fichero, String tiempo, String languague) {
@@ -1027,7 +1024,7 @@ public class InterfaceController implements Initializable {
         BEditPath.setDisable(true);
         BEditUser.setDisable(true);
         BActualizar.setDisable(true);
-        if (numSyncro == MAX_SBCLU) {
+        if (numSyncro == ConfigControl.MAX_SBCLU) {
             cleanTreeview();
             numSyncro = 0;
         } else {
@@ -1126,7 +1123,7 @@ public class InterfaceController implements Initializable {
     }
 
     public void wrongDates() {
-        InformacionUsuario.deleteFile();
+        InformacionUsuario.borrarFichero();
         if (freqSecuence != null) {
             freqSecuence.stop();
             freqSecuence = null;
@@ -1189,7 +1186,7 @@ public class InterfaceController implements Initializable {
 
     public void saveData() {
         try {
-            if(InformacionUsuario.existenDatos()){
+            if (InformacionUsuario.existenDatos()) {
                 AlmacenTareas.guardarDatos(tareasTrack, InformacionUsuario.getUser());
             }
         } catch (NoSuchFieldException ex) {
@@ -1198,22 +1195,32 @@ public class InterfaceController implements Initializable {
     }
 
     public void loadData(String key) {
-
+        System.err.println("loading data");
         HashMap<String, Tareas> map = AlmacenTareas.cargarDatos(key);
         Tareas del;
+        ResourceBundle rb = HelloWorld.getResource();
         if (map != null) {
             tareasTrack = map;
 
             for (Map.Entry<String, Tareas> entry : tareasTrack.entrySet()) {
+                if (tareasTrack.get(entry.getKey()).getEstado().equals("4")) {
+                    ActionTool.mostrarNotificacionConParam(rb.getString(ResourceLeng.ERROR_RECOVER_TITLE),
+                            String.format(rb.getString(ResourceLeng.ERROR_RECOVER_TEXT),
+                                    tareasTrack.get(entry.getKey()).getFuente()), Duration.seconds(15),
+                            NotificationType.WARNING);
+                } else {
+                    TableDeliverys.getItems().add(tareasTrack.get(entry.getKey()));
+                }
 //                del = tareasTrack.get(entry.getKey());
 //                System.err.println(del.toString());
 //                TableDeliverys.getItems().add(del);
-                TableDeliverys.getItems().add(tareasTrack.get(entry.getKey()));
+
             }
         }
 
     }
 //
+
     public void actualizarVesionEnd() {
 //        System.err.println("Reactivando....");
         BActualizar.setDisable(false);
@@ -1243,37 +1250,14 @@ public class InterfaceController implements Initializable {
         this.OptionInit.setText(rb.getString(ResourceLeng.TAB_INIT));
         //******* Tab OpcionTareas
         this.OptionDelivery.setText(rb.getString(ResourceLeng.TAB_DELIVERY));
+
         this.c1.setText(rb.getString(ResourceLeng.C1_TEXT));
-        STATE_1_TEXT = rb.getString(ResourceLeng.STATE_1_TEXT);
-        STATE_1_TOOL = rb.getString(ResourceLeng.STATE_1_TOOL);
-
         this.c2.setText(rb.getString(ResourceLeng.C2_TEXT));
-        STATE_2_TEXT = rb.getString(ResourceLeng.STATE_2_TEXT);
-        STATE_2_TOOL = rb.getString(ResourceLeng.STATE_2_TOOL);
-
         this.c3.setText(rb.getString(ResourceLeng.C3_TEXT));
-        STATE_3_TEXT = rb.getString(ResourceLeng.STATE_3_TEXT);
-        STATE_3_TOOL = rb.getString(ResourceLeng.STATE_3_TOOL);
-
         this.c4.setText(rb.getString(ResourceLeng.C4_TEXT));
-        STATE_4_TEXT = rb.getString(ResourceLeng.STATE_4_TEXT);
-        STATE_4_TOOL = rb.getString(ResourceLeng.STATE_4_TOOL);
-
         this.c5.setText(rb.getString(ResourceLeng.C5_TEXT));
-        STATE_5_TEXT = rb.getString(ResourceLeng.STATE_5_TEXT);
-        STATE_5_TOOL = rb.getString(ResourceLeng.STATE_5_TOOL);
 
-        this.seedTime = rb.getString(ResourceLeng.FORMAT_TIME);
-        this.seedTimeNoDays = rb.getString(ResourceLeng.FORMAT_TIME_NO_DAYS);
-        this.TABLE_FILE = rb.getString(ResourceLeng.INFO_FILE);
-        this.TABLE_NOTE = rb.getString(ResourceLeng.INFO_NOTE);
-
-        this.TBUTTON_1_TEXT = rb.getString(ResourceLeng.BUTTON_1_TEXT);
-        this.TBUTTON_1_TOOL = rb.getString(ResourceLeng.BUTTON_1_TOOL);
-        this.TBUTTON_24_TEXT = rb.getString(ResourceLeng.BUTTON_24_TEXT);
-        this.TBUTTON_24_TOOL = rb.getString(ResourceLeng.BUTTON_24_TOOL);
-        this.TBUTTON_35_TEXT = rb.getString(ResourceLeng.BUTTON_35_TEXT);
-        this.TBUTTON_35_TOOL = rb.getString(ResourceLeng.BUTTON_35_TOOL);
+        ConfigControl.setLanguage(rb);
 
         TableDeliverys.refresh();
         //******* Tab OptionConfig

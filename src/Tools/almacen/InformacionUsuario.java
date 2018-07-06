@@ -52,7 +52,7 @@ public class InformacionUsuario {
             semaforoFichero.acquire();
             Path pathfile = Paths.get(defaultPath);
             Files.createDirectories(pathfile.getParent());
-            Codificador codex = Codificador.getInstande();
+            Codificador codex = Codificador.getInstance();
             try (BufferedWriter writer = Files.newBufferedWriter(pathfile, Charset.forName("UTF-8"))) {
                 writer.write(codex.encriptar("USER==" + user) + "\n");
                 writer.write(codex.encriptar("PASS1==" + pass1) + "\n");
@@ -81,7 +81,7 @@ public class InformacionUsuario {
         LogRecord logRegistro = null;
         List<String> respuesta = new ArrayList<>();
         List<String> list = new ArrayList<>();
-        Codificador codex = Codificador.getInstande();
+        Codificador codex = Codificador.getInstance();
 
         try (BufferedReader br = Files.newBufferedReader(Paths.get(defaultPath))) {
             list = br.lines().collect(Collectors.toList());
@@ -109,7 +109,7 @@ public class InformacionUsuario {
     private static void reescribirFichero(List<String> data) {
         LogRecord logRegistro = null;
         Path pathfile = Paths.get(defaultPath);
-        Codificador codex = Codificador.getInstande();
+        Codificador codex = Codificador.getInstance();
 
         try (BufferedWriter writer = Files.newBufferedWriter(pathfile, Charset.forName("UTF-8"))) {
             for (String line : data) {
@@ -191,7 +191,7 @@ public class InformacionUsuario {
     /**
      * Metodo que elimina el fichero donde se almacenan los datos.
      */
-    public static void deleteFile() {
+    public static void borrarFichero() {
         try {
             Path pathfile = Paths.get(defaultPath);
             Files.deleteIfExists(pathfile);

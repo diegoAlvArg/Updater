@@ -2,14 +2,13 @@ package Tools.almacen;
 
 //#4 Java
 import java.io.UnsupportedEncodingException;
-import java.net.InetAddress;
 import java.net.NetworkInterface;
 import java.net.SocketException;
-import java.net.UnknownHostException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.Arrays;
 import java.util.Base64;
+import java.util.Enumeration;
 import javax.crypto.Cipher;
 import javax.crypto.spec.SecretKeySpec;
 
@@ -17,7 +16,14 @@ import javax.crypto.spec.SecretKeySpec;
  * 130
  *
  * @author Diego
- *
+ * @version 1.0
+ * 
+ * @author Diego
+ * @version 1.1 Se ha cambiado la generacion de la Key en base a la respuesta de 
+ * Alexandre Fenyo 
+ * @see https://stackoverflow.com/questions/45270549/getting-mac-address-without-internet-connection-in-java
+ * 
+ * 
  * NOTA: Revisar catch de generarKey()
  */
 public class Codificador {
@@ -29,7 +35,7 @@ public class Codificador {
         setKey(generarKey());
     }
 
-    public synchronized static Codificador getInstande() {
+    public synchronized static Codificador getInstance() {
         if (instance == null) {
             instance = new Codificador();
         }
@@ -40,32 +46,33 @@ public class Codificador {
      * Generador de la key para encriptar, en base a la MAC del computador
      *
      * @return
+     * 
+     * @see https://docs.oracle.com/javase/8/docs/api/java/net/NetworkInterface.html#getNetworkInterfaces--
+     * @see https://docs.oracle.com/javase/8/docs/api/java/net/NetworkInterface.html#getHardwareAddress--
      */
     private String generarKey() {
         String respuesta = "WendolynVon";
-        InetAddress ip;
+        Enumeration<NetworkInterface> e;
+        NetworkInterface aux;
+        StringBuilder sb = new StringBuilder();
         try {
-
-            ip = InetAddress.getLocalHost();
-//            System.out.println("Current IP address : " + ip.getHostAddress());
-
-            NetworkInterface network = NetworkInterface.getByInetAddress(ip);
-
-            byte[] mac = network.getHardwareAddress();
-
-//            System.out.print("Current MAC address : ");
-            StringBuilder sb = new StringBuilder();
-            for (int i = 0; i < mac.length; i++) {
-                sb.append(String.format("%02X%s", mac[i], (i < mac.length - 1) ? "-" : ""));
+            e = NetworkInterface.getNetworkInterfaces();
+            while (e.hasMoreElements()) {
+                aux = e.nextElement();
+                byte[] mac = aux.getHardwareAddress();
+                if (mac != null && !aux.isVirtual()) {
+                    if (aux.getDisplayName().contains("Wi-Fi") || aux.getDisplayName().contains("Controller")) {
+                        for (int i = 0; i < mac.length; i++) {
+                            sb.append(String.format("%02X%s", mac[i], (i < mac.length - 1) ? "-" : ""));
+                        }
+                        sb.append(":"); //En el caso de mas de 1
+                    }
+                }
             }
             respuesta = sb.toString();
-
-        } catch (UnknownHostException e) {
-            // Trabajando en local saltara esto??--------------------------------------------------------------------------------
-            e.printStackTrace();
-        } catch (SocketException e) {
-            // Trabajando en local saltara esto??--------------------------------------------------------------------------------
-            e.printStackTrace();
+        } catch (SocketException ex) {
+            // La documentacion no es clara de cuando puede ocurrir este error
+            
         } finally {
             return respuesta;
         }
