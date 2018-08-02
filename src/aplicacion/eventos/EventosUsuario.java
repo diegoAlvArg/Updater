@@ -3,9 +3,10 @@ package aplicacion.eventos;
 //#1 Static import
 import actualizador.tools.ActionTool;
 import actualizador.tools.NotificationType;
-import aplicacion.controlador.InterfaceController;
+//import aplicacion.controlador.InterfaceController;
 import aplicacion.HelloWorld;
 import Tools.lenguaje.ResourceLeng;
+import aplicacion.controlador.TabConfigController;
 //#3 Third party
 import com.github.sardine.Sardine;
 import com.github.sardine.SardineFactory;
@@ -68,8 +69,8 @@ public class EventosUsuario {
      * @param preguntarPath para indicar si el campo de path debe ser preguntado
      * @param control 
      */
-    public EventosUsuario(String usuario, String contraseniaM, String contraseniaN, boolean usarNas, ResourceBundle rb, boolean preguntarPath, InterfaceController control) {
-        Platform.runLater(() -> {
+    public EventosUsuario(String usuario, String contraseniaM, String contraseniaN, boolean usarNas, ResourceBundle rb, boolean preguntarPath, TabConfigController control) {
+        Platform.runLater(() -> { 
             System.err.println(Thread.currentThread().getId());
             do {
                 if (askAgain) {
@@ -87,9 +88,9 @@ public class EventosUsuario {
                         semaphore.acquire();
                         System.err.println(Thread.currentThread().getId());
                     } catch (InterruptedException ex) {
-                        System.err.println("aa");
+//                        System.err.println("aa");
                         ex.printStackTrace();
-                        System.err.println("bb");
+//                        System.err.println("bb");
                     }
                 }
             } while (askAgain);

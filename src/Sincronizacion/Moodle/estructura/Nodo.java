@@ -1,9 +1,10 @@
 package Sincronizacion.Moodle.estructura;
 
 //#1 Static import
-import aplicacion.controlador.InterfaceController;
+//import aplicacion.controlador.InterfaceController;
 import Sincronizacion.Moodle.inicio.OpcionesSyncMoodle;
 import Tools.logger.LogSincronizacion;
+import aplicacion.controlador.MainController;
 //#3 Third party
 import org.apache.http.client.CookieStore;
 import org.apache.http.client.methods.CloseableHttpResponse;
@@ -216,13 +217,27 @@ public class Nodo extends MarcasScrapping{
                     .get();
             String auxNombre;
             String auxUrl;
+            TipoNodo tipo;           
+            int index = 0;
             Nodo auxHijo;
-            archivos = doc2.select(JSOUP_CARPETA_BUSCA_LINKS);
-
-            for (Element resource : archivos) {
-                auxNombre = resource.text();
+            Element seccion = doc2.selectFirst("div[role=main]");
+            Elements enlaces = Jsoup.parse(seccion.toString()).select("a:eq(0)");
+   
+        
+        
+            for (Element resource : enlaces) {
+                if(resource.toString().contains(".pdf")){
+                    tipo = TipoNodo.ARCHIVO;
+                }else{
+                    tipo = TipoNodo.OTHER;
+                }
                 auxUrl = resource.attr("href");
-                auxHijo = new Nodo(auxUrl, auxNombre, TipoNodo.ARCHIVO, cookies);
+                auxNombre = resource.text();
+                if(auxNombre.isEmpty() || auxUrl.equals(auxNombre)){
+                    auxNombre = "Enlace_" + index;
+                    index++;
+                }
+                auxHijo = new Nodo(auxUrl, auxNombre, tipo, cookies);
                 archivosAniadir(auxHijo);
             }
         } catch (Exception e) {
@@ -239,6 +254,38 @@ public class Nodo extends MarcasScrapping{
                 LogSincronizacion.log(logRegistro);
             }
         }
+        
+        
+//        try {
+//            Document doc2 = Jsoup.connect(url)
+//                    .timeout(80 * 1000)
+//                    .cookies(cookies)
+//                    .get();
+//            String auxNombre;
+//            String auxUrl;
+//            Nodo auxHijo;
+//            archivos = doc2.select(JSOUP_CARPETA_BUSCA_LINKS);
+//
+//            for (Element resource : archivos) {
+//                auxNombre = resource.text();
+//                auxUrl = resource.attr("href");
+//                auxHijo = new Nodo(auxUrl, auxNombre, TipoNodo.ARCHIVO, cookies);
+//                archivosAniadir(auxHijo);
+//            }
+//        } catch (Exception e) {
+//            // Se podria mejorar mandandolo hacia arriba para saber el curso en el que esta el folder.
+//            // Exception (MalformedURLException | HttpStatusException | UnsupportedMimeTypeException | SocketTimeoutException | IOException)
+//            // Consultar Connection Javadoc: https://jsoup.org/apidocs/org/jsoup/Connection.html#get--
+//            StringWriter errors = new StringWriter();
+//            e.printStackTrace(new PrintWriter(errors));
+//            logRegistro = new LogRecord(Level.WARNING, tipo + ":" + nombre + "\n" + errors.toString());
+//            logRegistro.setSourceMethodName("descenderCarpeta");
+//            logRegistro.setSourceClassName(this.getClass().getName());
+//        } finally {
+//            if (logRegistro != null) {
+//                LogSincronizacion.log(logRegistro);
+//            }
+//        }
     }
 
     /**
@@ -570,7 +617,7 @@ public class Nodo extends MarcasScrapping{
             if (type != TipoNodo.FORO && !url.contains(A_RESERVADOR_01)) {
                 auxSon = new Nodo(url, Jsoup.parse(name).text(), type, cookies);
                 padre.archivosAniadir(auxSon);
-                if (type.equals(TipoNodo.FOLDER)) {
+                if (type.equals(TipoNodo.FOLDER) || type.equals(TipoNodo.PAGE)) {
                     auxSon.descenderCarpeta();
                 }
             }
@@ -701,7 +748,7 @@ public class Nodo extends MarcasScrapping{
      * @param pathDescarga path del SF donde descargar
      * @param httpclient cliente Http utilizado para descargar los archivos
      */
-    private void descargarEnLocal(String pathDescarga, CloseableHttpClient httpclient, InterfaceController iu) { //, UnsupportedOperationException {
+    private void descargarEnLocal(String pathDescarga, CloseableHttpClient httpclient, MainController iu) { //, UnsupportedOperationException {
         LogRecord logRegistro = null;
         try {
             //**************SI PUEDE SER UN DIRECTORIO Y NO EXISTE LO CREAS**********
@@ -773,7 +820,7 @@ public class Nodo extends MarcasScrapping{
      * http://hc.apache.org/httpcomponents-core-ga/httpcore/apidocs/org/apache/http/HttpEntity.html#isChunked()
      *
      */
-    private void descargarArchivo(String pathDescarga, CloseableHttpClient httpclient, InterfaceController iu) {
+    private void descargarArchivo(String pathDescarga, CloseableHttpClient httpclient, MainController iu) {
         HttpClientContext context = HttpClientContext.create();
         CloseableHttpResponse response = null;
         HttpEntity entity;
@@ -888,8 +935,10 @@ public class Nodo extends MarcasScrapping{
                     is.close();
 
                 } catch (IOException ex) {
+                    StringWriter errors = new StringWriter();
+                    ex.printStackTrace(new PrintWriter(errors));
                     Logger.getLogger(Nodo.class
-                            .getName()).log(Level.SEVERE, null, ex);
+                            .getName()).log(Level.SEVERE, null, errors.toString());
                 }
             }
             if (fos != null) {
@@ -897,8 +946,10 @@ public class Nodo extends MarcasScrapping{
                     fos.close();
 
                 } catch (IOException ex) {
+                    StringWriter errors = new StringWriter();
+                    ex.printStackTrace(new PrintWriter(errors));
                     Logger.getLogger(Nodo.class
-                            .getName()).log(Level.SEVERE, null, ex);
+                            .getName()).log(Level.SEVERE, null, errors.toString());
                 }
             }
             if (response != null) {
@@ -906,8 +957,10 @@ public class Nodo extends MarcasScrapping{
                     response.close();
 
                 } catch (IOException ex) {
+                    StringWriter errors = new StringWriter();
+                    ex.printStackTrace(new PrintWriter(errors));
                     Logger.getLogger(Nodo.class
-                            .getName()).log(Level.SEVERE, null, ex);
+                            .getName()).log(Level.SEVERE, null, errors.toString());
                 }
             }
             if (logRegistro != null) {
@@ -963,7 +1016,7 @@ public class Nodo extends MarcasScrapping{
      * @throws Exception posibles excepciones debido a Jsoup
      * @see https://jsoup.org/apidocs/org/jsoup/Connection.html#get--
      */
-    private void descargarEnlaceWeb(String pathDescarga, CloseableHttpClient httpclient, InterfaceController iu) throws Exception {
+    private void descargarEnlaceWeb(String pathDescarga, CloseableHttpClient httpclient, MainController iu) throws Exception {
         //Comprobar si la URL esta escondida en una section de moodle
         HttpClientContext context = HttpClientContext.create();
         CloseableHttpResponse response = null;

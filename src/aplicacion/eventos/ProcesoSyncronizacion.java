@@ -1,9 +1,10 @@
 package aplicacion.eventos;
 
 //#1 Static import
-import aplicacion.controlador.InterfaceController;
+//import aplicacion.controlador.InterfaceController;
 import Sincronizacion.Moodle.inicio.OpcionesSyncMoodle;
 import Sincronizacion.Naster.OpcionesSyncNaster;
+import aplicacion.controlador.MainController;
 //#4 Java
 import java.io.IOException;
 import java.time.LocalDate;
@@ -43,7 +44,7 @@ public class ProcesoSyncronizacion {
      *
      *
      */
-    public ProcesoSyncronizacion(String usuario, String contraseniaM, String contraseniaN, String pathDescarga, ResourceBundle rb, InterfaceController iuControl, boolean usarNas) {
+    public ProcesoSyncronizacion(String usuario, String contraseniaM, String contraseniaN, String pathDescarga, ResourceBundle rb, MainController iuControl, boolean usarNas) {
         lanzarProceso(usuario, contraseniaM, contraseniaN, pathDescarga, rb, iuControl, usarNas);
     }
 
@@ -53,34 +54,36 @@ public class ProcesoSyncronizacion {
      * un hilo huerfano.
      *
      * @param user identificador del usuario con el que logeamos
-     * @param pass1 passwd del usuario con el que logeamos en moodle
-     * @param pass2 passwd del usuario con el que logeamos en NASTER
-     * @param pathDowload path del local sobre el que realizaremos la
+     * @param contraseniaM passwd del usuario con el que logeamos en moodle
+     * @param contraseniaN passwd del usuario con el que logeamos en NASTER
+     * @param pathDescarga path del local sobre el que realizaremos la
      * sincronizacion
      * @param rb resourceBundle con los mensajes susceptibles a cambio de idioma
      * @param iuControl clase que maneja el control de la IU
-     * @param useNas boolean, indicara si haremos uso de Nas-ter
+     * @param usarNas boolean, indicara si haremos uso de Nas-ter
      */
-    private void lanzarProceso(String user, String pass1, String pass2, String pathDowload, ResourceBundle rb, InterfaceController iuControl, boolean useNas) {
+    private void lanzarProceso(String user, String contraseniaM, String contraseniaN, String pathDescarga, ResourceBundle rb, MainController iuControl, boolean usarNas) {
         final String _user = user;
-        final String _pass1 = pass1;
-        final String _pass2 = pass2;
-        final String _path = pathDowload;
+        final String _pass1 = contraseniaM;
+        final String _pass2 = contraseniaN;
+        final String _path = pathDescarga;
         final ResourceBundle _rb = rb;
-        final InterfaceController _iu = iuControl;
-        final boolean _useNas = useNas;
-        
+        final MainController _iu = iuControl;
+        final boolean _useNas = usarNas;
+        System.err.println("flag 00");
         new Thread(() -> {
-            if (_user != null && _pass1 != null && _path != null && (pass2 != null || _useNas)) {
+            System.err.println("flag 01");
+            if (_user != null && _pass1 != null && _path != null && (contraseniaN != null || _useNas)) {
+                System.err.println("flag 02A");
                 try {
                     if (_useNas) {
-                        OpcionesSyncNaster.sincronizar(user, pass2, pathDowload, getAnioActual());
+                        OpcionesSyncNaster.sincronizar(user, contraseniaN, pathDescarga, getAnioActual());
                         // Creo que segun RQ hay que tratar de difernete forma
                     }
                     OpcionesSyncMoodle.realizarActualizacionTotal(_user, _pass1, getAnioActual(), _path, _iu);
 //                OpcionesSyncMoodle.realizarActualizacionIndividual(6, _user, _pass1, "(2016-2017)", _path, _iu);
                 } catch (IOException ex) {
-                    //Moodle esta caido
+//                    Moodle esta caido
                     Logger.getLogger(ProcesoSyncronizacion.class.getName()).log(Level.SEVERE, null, ex);
                 } finally {
                         Platform.runLater(
@@ -91,6 +94,7 @@ public class ProcesoSyncronizacion {
                         );
                 }
             } else {
+                System.err.println("flag 02B");
                 _iu.wrongDates();
             }
         }).start();

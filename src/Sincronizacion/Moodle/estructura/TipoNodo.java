@@ -11,6 +11,7 @@ public enum TipoNodo {
     SECTIONCOLAP("SectionCOL"),
     SECTIONEXPAND("SectionEXP"),
     FOLDER("Carpeta"),
+    PAGE("Página"),
     ARCHIVO("Archivo"),
     URL("URL"),
     TAREA("Tarea"),

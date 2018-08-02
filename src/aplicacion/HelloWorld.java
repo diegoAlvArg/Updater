@@ -39,6 +39,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.TabPane;
+import javafx.scene.Parent;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 //#5 JavaFx
@@ -122,11 +123,12 @@ public class HelloWorld extends Application {
 
         logRegistro = new LogRecord(Level.INFO, rb.getString(ResourceLeng.TRACE_INIT_LOAD_XML));
         logRegistro.setSourceClassName(this.getClass().getName());
-        TabPane root = null;
-        
+//        TabPane root = null;
+        Parent root = null;// FXMLLoader.load(getClass().getResource("../view/Main.fxml"));
         try {
             //Carga de la interfaz y su controlador
-            root = (TabPane) FXMLLoader.load(getClass().getResource("/Resources/fxml/interface.fxml"), rb);
+//            root = (TabPane) FXMLLoader.load(getClass().getResource("/Resources/fxml/interface.fxml"), rb);
+            root = FXMLLoader.load(getClass().getResource("/Resources/fxml/Main.fxml"), rb);
         } catch (Exception e) {
             // Esta excepcion no deberia ser necesaria, pero podria ocurrir tras
             //  mala manipulacion del controlador

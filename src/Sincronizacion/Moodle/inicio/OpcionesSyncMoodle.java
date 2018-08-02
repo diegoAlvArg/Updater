@@ -1,9 +1,10 @@
 package Sincronizacion.Moodle.inicio;
 
 //#1 Static import
-import aplicacion.controlador.InterfaceController;
+//import aplicacion.controlador.InterfaceController;
 import Sincronizacion.Moodle.estructura.Nodo;
 import Sincronizacion.Moodle.estructura.TipoNodo;
+import aplicacion.controlador.MainController;
 //#3 Third party
 import org.apache.http.client.ClientProtocolException;
 import org.jsoup.Connection;
@@ -40,7 +41,7 @@ import java.util.Map;
 public class OpcionesSyncMoodle {
 
     private static String pathLocal;
-    private static InterfaceController iuControl;
+    private static MainController iuControl;
 
     /**
      *
@@ -55,12 +56,12 @@ public class OpcionesSyncMoodle {
      * @throws ClientProtocolException - in case of an http protocol error
      * @throws IOException - in case of a problem or the connection was aborted
      */
-    public static void realizarActualizacionTotal(String usuario, String contrasenia, String anio, String pathLocal, InterfaceController iuControl) throws ClientProtocolException, IOException {
+    public static void realizarActualizacionTotal(String usuario, String contrasenia, String anio, String pathLocal, MainController iuControl) throws ClientProtocolException, IOException {
         OpcionesSyncMoodle.pathLocal = pathLocal;
         OpcionesSyncMoodle.iuControl = iuControl;
         long time_start, time_end;
         time_start = System.currentTimeMillis();
-
+        System.err.println("init Syncro");
         Connection.Response res = Jsoup.connect("https://moodle2.unizar.es/add/login/index.php")
                 .data("username", usuario, "password", contrasenia)
                 .timeout(180 * 1000)
@@ -128,7 +129,7 @@ public class OpcionesSyncMoodle {
      * @throws ClientProtocolException - in case of an http protocol error
      * @throws IOException - in case of a problem or the connection was aborted
      */
-    public static void realizarActualizacionIndividual(int curso, String usuario, String contrasenia, String anio, String pathLocal, InterfaceController iuControl) throws ClientProtocolException, IOException {
+    public static void realizarActualizacionIndividual(int curso, String usuario, String contrasenia, String anio, String pathLocal, MainController iuControl) throws ClientProtocolException, IOException {
         OpcionesSyncMoodle.pathLocal = pathLocal;
         OpcionesSyncMoodle.iuControl = iuControl;
 //        long time_start, time_end;
@@ -190,7 +191,7 @@ public class OpcionesSyncMoodle {
      *
      * @return iuController
      */
-    public static InterfaceController getIU() {
+    public static MainController getIU() {
         return iuControl;
     }
 }

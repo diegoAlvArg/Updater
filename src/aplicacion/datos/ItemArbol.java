@@ -10,10 +10,7 @@ public class ItemArbol {
     private String pathFichero;
     private String nombre;
 
-    public ItemArbol() {
-
-    }
-
+    
     public ItemArbol(String pathFichero, String nombre) {
         this.pathFichero = pathFichero;
         this.nombre = nombre;
@@ -41,7 +38,7 @@ public class ItemArbol {
 
     @Override
     public String toString() {
-        return this.nombre;
+        return this.nombre;//--------------------------
     }
 
     @Override

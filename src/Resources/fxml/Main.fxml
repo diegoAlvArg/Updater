@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.layout.AnchorPane?>
+
+<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/9.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="aplicacion.controlador.MainController">
+    <children>
+        <TabPane fx:id="TTabpane" prefHeight="299.0" prefWidth="309.0" tabClosingPolicy="UNAVAILABLE" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+            <tabs>
+                <Tab closable="false" text="Tab 1" fx:id="tab01">
+                    <content>
+                        <fx:include fx:id="tab1" source="TabInit.fxml" />
+                    </content>
+                </Tab>
+                <Tab closable="false" text="Tab Config" fx:id="tab02">
+                    <content>
+                        <fx:include fx:id="tab2" source="TabDeliver.fxml" />
+                    </content>
+                </Tab>
+                <Tab closable="false" text="Tab Config" fx:id="tab03">
+                    <content>
+                        <fx:include fx:id="tab3" source="TabConfig.fxml" />
+                    </content>
+                </Tab>
+                <Tab closable="false" text="Tab Help" fx:id="tab04">
+                    <content>
+                        <fx:include fx:id="tab4" source="TabHelp.fxml" />
+                    </content>
+                </Tab>
+            </tabs>
+        </TabPane>
+    </children>
+</AnchorPane>

@@ -160,14 +160,26 @@ public class ResourceLeng extends BasicLeng {
     public final static String FORMAT_TIME_NO_DAYS = "format_time_no_days";
     public final static String INFO_FILE = "info_file";
     public final static String INFO_NOTE = "info_note";
-    public final static String BUTTON_1_TEXT = "button_1_text";
-    public final static String BUTTON_1_TOOL = "button_1_tool";
+    public final static String BUTTON_05_TEXT = "button_05_text";
+    public final static String BUTTON_05_TOOL = "button_05_tool";
+    public final static String BUTTON_1267_TEXT = "button_1267_text";
+    public final static String BUTTON_1267_TOOL = "button_1267_tool";
+    public final static String BUTTON_38_TEXT = "button_38_text";
+    public final static String BUTTON_38_TOOL = "button_38_tool";
+    public final static String BUTTON_4_TEXT = "button_4_text";
+    public final static String BUTTON_4_TOOL = "button_4_tool";
+    
+    
     public final static String BUTTON_24_TEXT = "button_24_text";
     public final static String BUTTON_24_TOOL = "button_24_tool";
     public final static String BUTTON_35_TEXT = "button_35_text";
     public final static String BUTTON_35_TOOL = "button_35_tool";
     public final static String ERROR_RECOVER_TITLE = "error_recover_title";
     public final static String ERROR_RECOVER_TEXT = "error_recover_text";
+    public final static String INFO_LEGACY_FILE_TITLE = "info_legacy_file_title";
+    public final static String INFO_LEGACY_FILE_TEXT = "info_legacy_file_text";
+    
+    
     //**********SystemTray Options**************************************************************
     public final static String SYS_TRAY_TOOLTIP = "sys_tray_tooltip";
     public final static String SYS_TRAY_EXIT = "sys_tray_exit";
@@ -205,5 +217,6 @@ public class ResourceLeng extends BasicLeng {
     //**********OTHER*************************************************************************
     public final static String MESSAGE_TITLE_UPDATE_FAIL = "message_title_update_fail";
     public final static String MESSAGE_TEXT_UPDATE_FAIL = "message_text_update_fail";
-    
+    public final static String BUSSY_USER_TITLE = "bussy_user_title";
+    public final static String BUSSY_USER_TEXT = "bussy_user_text";
 }

@@ -38,12 +38,20 @@ public class ConfigControl {
    
     protected static String TABLE_FILE;
     protected static String TABLE_NOTE;
-    protected static String TBUTTON_1_TEXT;
-    protected static String TBUTTON_1_TOOL;
-    protected static String TBUTTON_24_TEXT;
-    protected static String TBUTTON_24_TOOL;
-    protected static String TBUTTON_35_TEXT;
-    protected static String TBUTTON_35_TOOL;
+    
+    
+    protected static String TBUTTON_05_TEXT;
+    protected static String TBUTTON_05_TOOL;
+    protected static String TBUTTON_1267_TEXT;
+    protected static String TBUTTON_1267_TOOL;
+    protected static String TBUTTON_38_TEXT;
+    protected static String TBUTTON_38_TOOL;
+    protected static String TBUTTON_4_TEXT;
+    protected static String TBUTTON_4_TOOL;
+    
+    protected static String TBUTTON_5_TEXT;
+    protected static String TBUTTON_5_TOOL;
+ 
     
     protected static void setLanguage(ResourceBundle rb){
         STATE_0_TEXT = rb.getString(ResourceLeng.STATE_0_TEXT);
@@ -67,21 +75,18 @@ public class ConfigControl {
         STATE_8_TEXT = rb.getString(ResourceLeng.STATE_8_TEXT);
         STATE_8_TOOL = rb.getString(ResourceLeng.STATE_8_TOOL);
         
-        
-        
-        
-        
-        
-        
         seedTime = rb.getString(ResourceLeng.FORMAT_TIME);
         seedTimeNoDays = rb.getString(ResourceLeng.FORMAT_TIME_NO_DAYS);
         TABLE_FILE = rb.getString(ResourceLeng.INFO_FILE);
         TABLE_NOTE = rb.getString(ResourceLeng.INFO_NOTE);
-        TBUTTON_1_TEXT = rb.getString(ResourceLeng.BUTTON_1_TEXT);
-        TBUTTON_1_TOOL = rb.getString(ResourceLeng.BUTTON_1_TOOL);
-        TBUTTON_24_TEXT = rb.getString(ResourceLeng.BUTTON_24_TEXT);
-        TBUTTON_24_TOOL = rb.getString(ResourceLeng.BUTTON_24_TOOL);
-        TBUTTON_35_TEXT = rb.getString(ResourceLeng.BUTTON_35_TEXT);
-        TBUTTON_35_TOOL = rb.getString(ResourceLeng.BUTTON_35_TOOL);
+        
+        TBUTTON_05_TEXT = rb.getString(ResourceLeng.BUTTON_05_TEXT);
+        TBUTTON_05_TOOL = rb.getString(ResourceLeng.BUTTON_05_TOOL);
+        TBUTTON_1267_TEXT = rb.getString(ResourceLeng.BUTTON_1267_TEXT);
+        TBUTTON_1267_TOOL = rb.getString(ResourceLeng.BUTTON_1267_TOOL);
+        TBUTTON_38_TEXT = rb.getString(ResourceLeng.BUTTON_38_TEXT);
+        TBUTTON_38_TOOL = rb.getString(ResourceLeng.BUTTON_38_TOOL);
+        TBUTTON_4_TEXT = rb.getString(ResourceLeng.BUTTON_4_TEXT);
+        TBUTTON_4_TOOL = rb.getString(ResourceLeng.BUTTON_4_TOOL);
     }
 }
