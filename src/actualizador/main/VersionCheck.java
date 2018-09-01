@@ -2,8 +2,8 @@ package actualizador.main;
 
 //#1 Static import
 import aplicacion.HelloWorld;
-import Tools.lenguaje.ResourceLeng;
-import Tools.logger.LogGeneral;
+import tools.lenguaje.ResourceLeng;
+import tools.logger.LogGeneral;
 import actualizador.tools.InfoTool;
 //#3 Third party
 import org.jsoup.Jsoup;

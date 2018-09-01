@@ -1,13 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.control.*?>
-<?import java.lang.*?>
-<?import javafx.scene.layout.*?>
-<?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.control.TreeView?>
+<?import javafx.scene.layout.AnchorPane?>
 
 <AnchorPane prefHeight="206.0" prefWidth="226.0" xmlns="http://javafx.com/javafx/9.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="aplicacion.controlador.TabInitController">
     <children>
-        <TreeView fx:id="TListUpdates" layoutX="33.0" layoutY="49.0" prefHeight="274.0" prefWidth="519.0" showRoot="false" />
+        <TreeView fx:id="tListUpdates" layoutX="33.0" layoutY="49.0" prefHeight="274.0" prefWidth="519.0" showRoot="false" />
     </children>
 </AnchorPane>

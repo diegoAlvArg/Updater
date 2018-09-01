@@ -1,28 +1,23 @@
 package aplicacion.eventos;
 
+
 //#1 Static import
 import actualizador.tools.ActionTool;
 import actualizador.tools.NotificationType;
-//import aplicacion.controlador.InterfaceController;
-import aplicacion.HelloWorld;
-import Tools.lenguaje.ResourceLeng;
 import aplicacion.controlador.TabConfigController;
+import static aplicacion.eventos.Validador.validarCredencialesMoodle;
+import static aplicacion.eventos.Validador.validarCredencialesNaster;
+import aplicacion.HelloWorld;
+import tools.lenguaje.ResourceLeng;
 //#3 Third party
-import com.github.sardine.Sardine;
-import com.github.sardine.SardineFactory;
-import com.github.sardine.impl.SardineException;
-import org.jsoup.Connection;
-import org.jsoup.Jsoup;
-import org.jsoup.nodes.Document;
 //#4 Java
 import java.io.File;
-import java.io.IOException;
-import java.net.URI;
 import java.util.ArrayList;
 import java.util.concurrent.Semaphore;
 import java.util.List;
 import java.util.Optional;
 import java.util.ResourceBundle;
+//#5 JavaFx
 import javafx.application.Platform;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
@@ -42,18 +37,16 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.text.Font;
 import javafx.stage.DirectoryChooser;
 import javafx.util.Duration;
-import static aplicacion.eventos.Validador.validarCredencialesMoodle;
-import static aplicacion.eventos.Validador.validarCredencialesNaster;
 
 /**
- * 338
- * @author Diego
+ * 324
+ * @author Diego Alvarez
  */
 public class EventosUsuario {
 
-    private Semaphore semaphore = new Semaphore(0);
+    private Semaphore procesoFin = new Semaphore(0);
     private List<String> auxResult;
-    private boolean askAgain = false;
+    private boolean preguntarDeNuevo = false;
     
     /**
      * Creara un evento que genera un dialogo en el que se preguntara las 
@@ -73,33 +66,31 @@ public class EventosUsuario {
         Platform.runLater(() -> { 
             System.err.println(Thread.currentThread().getId());
             do {
-                if (askAgain) {
+                if (preguntarDeNuevo) {
                     auxResult = preguntarCredenciales(rb, auxResult.get(0), auxResult.get(1), auxResult.get(2), auxResult.get(3), preguntarPath, Boolean.parseBoolean(auxResult.get(4)));
                 } else {
                     auxResult = preguntarCredenciales(rb, usuario, contraseniaM, contraseniaN, "", preguntarPath, usarNas);
                 }
-                askAgain = false;
+                preguntarDeNuevo = false;
                 if (auxResult != null) {
 
                     new Thread(()
                             -> validarUsuario(auxResult, preguntarPath)//, control, this)
                     ).start();
                     try {
-                        semaphore.acquire();
+                        procesoFin.acquire();
                         System.err.println(Thread.currentThread().getId());
                     } catch (InterruptedException ex) {
-//                        System.err.println("aa");
-                        ex.printStackTrace();
-//                        System.err.println("bb");
+//                        ex.printStackTrace();
                     }
                 }
-            } while (askAgain);
+            } while (preguntarDeNuevo);
 
             if (auxResult != null) {
                 ActionTool.mostrarNotificacion(ResourceLeng.MESSAGE_TITLE_DATES_OK,
                         ResourceLeng.NONE, Duration.seconds(15), NotificationType.INFORMATION);
             }
-            control.setUserInfo(auxResult, preguntarPath);
+            control.establecerUsuario(auxResult, preguntarPath);
         });
     }
 
@@ -223,8 +214,7 @@ public class EventosUsuario {
         return respuesta;
     }
 
-    private void validarUsuario(List<String> datos, boolean comprobarPath){//, InterfaceController control, EventosUsuario aThis) {
-//    private void validarUsuario(List<String> datos, boolean comprobarPath, InterfaceController control, EventosUsuario aThis) {    
+    private void validarUsuario(List<String> datos, boolean comprobarPath){  
             List<String> auxList = datos;
             int[] estados;
             boolean askAgain = true;
@@ -327,13 +317,8 @@ public class EventosUsuario {
                                 Duration.seconds(15), NotificationType.WARNING));
             }
             askAgain = !askAgain;
-            this.askAgain = askAgain;
+            this.preguntarDeNuevo = askAgain;
             this.auxResult = auxList;
-            this.semaphore.release();
-//            aThis.askAgain = askAgain;
-//            aThis.auxResult = auxList;
-//            aThis.semaphore.release();
-   
-
+            this.procesoFin.release();
     }
 }

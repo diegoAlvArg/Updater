@@ -1,32 +1,40 @@
 package aplicacion.controlador;
 
-import Tools.almacen.InformacionUsuario;
-import Tools.lenguaje.ResourceLeng;
-import Tools.logger.LogGeneral;
+//#1 Static import
 import actualizador.tools.ActionTool;
 import actualizador.tools.NotificationType;
 import aplicacion.HelloWorld;
-import javafx.fxml.FXML;
-import javafx.scene.control.Tab;
-import aplicacion.controlador.TabInitController;
-import aplicacion.controlador.TabDeliverController;
-import aplicacion.controlador.TabHelpController;
-import aplicacion.controlador.TabConfigController;
-import java.net.URL;
-import java.util.ResourceBundle;
+//import aplicacion.controlador.TabConfigController; // No estoy seguro si se 
+//import aplicacion.controlador.TabDeliverController; //importa a lvl de 
+//import aplicacion.controlador.TabHelpController;  // javafx
+//import aplicacion.controlador.TabInitController;
+import tools.almacen.InformacionUsuario;
+import tools.lenguaje.ResourceLeng;
+import tools.logger.LogGeneral;
+//#4 Java
 import java.util.logging.Level;
 import java.util.logging.LogRecord;
+import java.util.ResourceBundle;
+//#5 JavaFx
 import javafx.animation.Animation;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.application.HostServices;
+import javafx.fxml.FXML;
+import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
 import javafx.util.Duration;
 
+/**
+ * Control principal, gestionara el flujo de datos entre las tablas hijas y
+ * recursos que puedan necesitar
+ * 
+ * @author Diego Alvarez 
+ */
 public class MainController {
 
     @FXML
-    private TabPane TTabpane;
+    private TabPane tTabPane;
 
     @FXML
     private Tab tab01;
@@ -51,20 +59,13 @@ public class MainController {
 
     private Timeline timeline;
     private boolean inUse;
+    private int numTareas;
+    private int numRecursos;
     
     @FXML
     public void initialize() {
         System.err.println("Application started");
-//        tab1Controller.init(this);
-//        tab2Controller.init(this);
-//        tab01.setText("bbb");
-//
-//        tab3Controller.init(null, this);
-//        tab4Controller.init(this);
-//        
-
         LogRecord logRegistro;
-
         ResourceBundle rb = HelloWorld.getResource();
 
         logRegistro = new LogRecord(Level.INFO, rb.getString(ResourceLeng.TRACE_INIT_LOAD_CONTROL));
@@ -77,10 +78,10 @@ public class MainController {
         //Tab 3 depende si usuario, que son las lineas siguientes.
 
         setLanguague(rb);
-        HelloWorld.setMetodosControl(this, "actualizarVesionEnd", "saveData");
-        HelloWorld.anidirOpcionSysTray(this, "openHelp", ResourceLeng.SYS_TRAY_WIKI);
+        HelloWorld.setMetodosControl(this, "actualizarVesionFin", "saveData");//---------------
+        HelloWorld.anidirOpcionSysTray(this, "abrirAyuda", ResourceLeng.SYS_TRAY_WIKI);
         HelloWorld.anidirOpcionSysTray(this, "actualizarVersion", ResourceLeng.SYS_TRAY_UPDATE);
-        HelloWorld.anidirOpcionSysTray(this, "syncroNow", ResourceLeng.SYS_TRAY_SYNCRO);
+        HelloWorld.anidirOpcionSysTray(this, "sincronizarAhora", ResourceLeng.SYS_TRAY_SYNCRO);
 //        
         if (!InformacionUsuario.existenDatos()) {
             // No hay usuario
@@ -90,12 +91,12 @@ public class MainController {
         } else {
             try {
                 tab3Controller.init(true, InformacionUsuario.getUser(), InformacionUsuario.getPath(), this);
-                tab3Controller.setNextUpdate();
-                
+                tab2Controller.cargarDatos(InformacionUsuario.getUser());
+                tab3Controller.setSiguienteAlarma();
+               
                 logRegistro = new LogRecord(Level.INFO, rb.getString(ResourceLeng.TRACE_USER_OK));
             } catch (NoSuchFieldException e) {
                 tab3Controller.init(false, "", "", this);
-//                initializationUserLoad(false, "", "");
                 logRegistro = new LogRecord(Level.INFO, rb.getString(ResourceLeng.TRACE_USER_LOST));
             }
         }
@@ -105,8 +106,7 @@ public class MainController {
                 new KeyFrame(
                         Duration.millis(60000), //60 seg 60000
                         event -> {
-                            refresh();
-//                            TableDeliverys.refresh();
+                            refrescar();
                         }
                 )
         );
@@ -120,14 +120,8 @@ public class MainController {
         }
     }
 
-//    /**
-//     * @deprecated 
-//     * @param text 
-//     */
-//    public void testButton(String text) {
-//        System.out.println("Call from " + text);
-//    }
-
+    
+    //-------------Tab Init--------------------------------------------------
     /**
      * Aniadira un nuevo item al treeView. Aniadienssolselo como "hijo" a un
      * nodo que lo represente, creando este si fuera necesario.
@@ -136,46 +130,105 @@ public class MainController {
      * @param name nombre con el que se representara
      * @param tipo tipo del item, para asignarle un icono
      */
-    public synchronized void addTreeItem(String path, String name) {
-        tab1Controller.addTreeItem(path, name, tab3Controller.getLPathApp());
+    public synchronized void aniadirRecurso(String path, String name) {
+        tab1Controller.aniadirElementoTree(path, name, tab3Controller.getLPathApp());
+        numRecursos++;
     }
-
-    //-------------Tab Config
-    public void syncroEnd() {
+    
+    
+    //-------------Tab Deliver--------------------------------------------------
+    /**
+     * 
+     */
+    public void finalizarEntregaTarea(){
+        tab2Controller.refrescar();
         liberarUsuario();
     }
-
-    protected void loggedSyncro() {
+    
+    public void aniadirTarea(String curso, String titulo, String fichero, String tiempo, String languague, String nota, String comentario, String url){
+        tab2Controller.anidirTarea(curso, titulo, fichero, tiempo, languague, nota, comentario, url);
+        numTareas++;
+    }
+    
+    public void guardarDatos(){
+        tab2Controller.guardarDatos();
+    }
+    //-------------Tab Config---------------------------------------------------
+    /**
+     * Metodo que sera llamado al finalizar una sincronizacion
+     */
+    public void finalizarSincronizacion() {  
+        ResourceBundle rb = getResource();
+        if(numRecursos == 0 && numTareas == 0){
+            //No hay nada nuevo
+            ActionTool.mostrarNotificacion(rb, ResourceLeng.SYNCRO_END_TITLE, ResourceLeng.SYNCRO_END_NO_NEWS, 
+                    Duration.seconds(10), NotificationType.INFORMATION);
+        }else{
+            String text = (numRecursos > 0) ? rb.getString(ResourceLeng.SYNCRO_NOW) : null;
+            if(text != null){
+                text = String.format(text, numRecursos) + "/n";
+            }else{
+                text = "";
+            }
+            text = (numTareas > 0) ? text + rb.getString(ResourceLeng.SYNCRO_END_DELIVERY) : text;
+            if(numTareas > 0){
+                text = String.format(text, numTareas);
+            }
+            ActionTool.mostrarNotificacionConParam(rb.getString(ResourceLeng.SYNCRO_END_TITLE),
+                    text, Duration.seconds(10), NotificationType.INFORMATION);
+        }
+            
+        liberarUsuario();
+    }
+    
+    /**
+     * Metodo que sera llamado antes de inicar una sincronizacion
+     */
+    protected void iniciarSincronizacion() {
         if (numSyncro == ConfigControl.MAX_SBCLU) {
-            tab1Controller.cleanTreeView();
+            tab1Controller.limpiarTreeView();
             numSyncro = 0;
         } else {
             numSyncro++;
         }
+        numTareas = 0;
+        numRecursos = 0;
     }
 
+    /**
+     * Metodo que sera llamado cuando haya que borrar el usuario 
+     * o no haya usuario
+     */
     protected void borrarRastroUsuario() {
         tab01.setDisable(true);
         tab02.setDisable(true);
-        TTabpane.getSelectionModel().select(tab03);
+        tTabPane.getSelectionModel().select(tab03);
     }
-
-    public void wrongDates() {
-        tab3Controller.wrongDates();
+    /**
+     * Metodo para iniciar el borrado de un usuario
+     * wrongDates
+     */
+    public void borrarUsuario() {
+        tab3Controller.borrarUsuario();
     }
-
-    protected void aparecioUsuario() {
+    /**
+     * Medoo que sera llamado cuando exista un usuario
+     * aparecioUsuarioa
+     */
+    protected void establecerUsuario() {
         tab01.setDisable(false);
         tab02.setDisable(false);
     }
 
-    protected void changeLanguague(ResourceBundle rb) {
+    protected void cambiarLenguage(ResourceBundle rb) {
         HelloWorld.cambiarTitulo(rb.getString(ResourceLeng.APP_TITLE));
         HelloWorld.setResource(rb);
         setLanguague(rb);
     }
     
-    
+    public void sincronizarAhora(){
+        tab3Controller.sincronizarSysTray();
+    }
 
     
     //--------------Tab Help
@@ -185,10 +238,13 @@ public class MainController {
     protected void actualizarVersion(boolean mostrarMensaje){
         HelloWorld.actualizarVersion(mostrarMensaje);
     }
-    public void actualizarVesionEnd() {
-        tab4Controller.actualizarVesionEnd();
+    public void actualizarVesionFin() {
+        tab4Controller.actualizarVesionFin();
     }
-
+    public void abrirAyuda(){
+        tab4Controller.abrirAyuda();
+    }
+    
     
     //--------------UTILS
     private void setLanguague(ResourceBundle rb) {
@@ -223,8 +279,8 @@ public class MainController {
     }
     
     
-    private void refresh() {
-        tab2Controller.refresh();
+    private void refrescar() {
+        tab2Controller.refrescar();
         System.err.println("popo");
     }
     
@@ -237,11 +293,19 @@ public class MainController {
         HelloWorld.cambiarDisponibilidadOpcionSysTray(method, state);
     }
     
-    protected synchronized boolean canUseUser(){
+    /**
+     * Metodo para ocupar el perfil del usuario. 
+     * canUseUser
+     * 
+     * @return 
+     *  TRUE: si como resultado hemos ocupado el usuario
+     *  FALSE: si el usuario no puede ser ocupado
+     */
+    protected synchronized boolean OcuparUsuario(){
         if(!inUse){
             //desactivar todo
             inUse = true;
-            tab3Controller.blockSincro();
+            tab3Controller.ocuparUsuario();
             return true;
         }else{
             ActionTool.mostrarNotificacion(ResourceLeng.BUSSY_USER_TITLE, ResourceLeng.BUSSY_USER_TEXT,
@@ -249,11 +313,19 @@ public class MainController {
             return false;
         }
     }
+    /**
+     * Metodo para liberar la ocupacion del usuario
+     */
     protected void liberarUsuario(){
         inUse = false;
-        tab3Controller.resumeUserFree();
+        tab3Controller.liberarUsuario();
     }
-    protected boolean inUseUser(){
+    /**
+     * Metodo que indicara el estado de ocupado/libre del usuario
+     * 
+     * @return 
+     */
+    protected boolean disponibleUsuario(){
         return inUse;
     }
     

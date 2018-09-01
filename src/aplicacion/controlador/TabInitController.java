@@ -1,11 +1,11 @@
 package aplicacion.controlador;
 
-
-import Tools.lenguaje.ResourceLeng;
-import Tools.logger.LogGeneral;
-import javafx.fxml.FXML;
-import aplicacion.controlador.MainController;
+//#1 Static import
+//import aplicacion.controlador.MainController;
 import aplicacion.datos.ItemArbol;
+import tools.lenguaje.ResourceLeng;
+import tools.logger.LogGeneral;
+//#4 Java
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
@@ -16,19 +16,26 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.LogRecord;
+//#5 JavaFx
+import javafx.fxml.FXML;
 import javafx.scene.control.TreeItem;
 import javafx.scene.control.TreeView;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 
+/** 169
+ * Controlador de la tabla Init, en la que existe un TreeView que llenaremos 
+ * de elementos que representan recursos descargados
+ * 
+ * @author Diego Alvarez
+ */
 public class TabInitController {
 
     private MainController main;
-
-    @FXML
-    private TreeView TListUpdates;
-//    private int numSyncro;
     private Map<String, TreeItem<ItemArbol>> cursosTrack = new HashMap<>();
+    
+    @FXML
+    private TreeView tListUpdates;
     
     
     //---------------------------------------------------EVENTO------------------------------------------------- 
@@ -36,8 +43,8 @@ public class TabInitController {
      *
      * Limpiara el treeView dejando solo el root
      */
-    protected void cleanTreeView() {
-        TListUpdates.getRoot().getChildren().clear();
+    protected void limpiarTreeView() {
+        tListUpdates.getRoot().getChildren().clear();
         cursosTrack.clear();
     }
 
@@ -49,13 +56,16 @@ public class TabInitController {
      * @param name nombre con el que se representara
      * @param tipo tipo del item, para asignarle un icono
      */
-    protected synchronized void addTreeItem(String path, String name, String sourceLocal) {
+    protected synchronized void aniadirElementoTree(String path, String name, String sourceLocal) {
         URL iconUrl = null;
         Image miImage = null;
         // Averiguaar donde meter  le nuevo elemento
         String curso = path.replace(sourceLocal + File.separator, "");
         curso = curso.substring(0, curso.indexOf(File.separator));
         TreeItem<ItemArbol> auxCurso;
+        String auxExtension = "";
+        int indexExt;
+        
         if (cursosTrack.containsKey(curso)) {
             // Existe, lo pedimos
             auxCurso = cursosTrack.get(curso);
@@ -72,12 +82,11 @@ public class TabInitController {
                     + File.separator + curso, curso);
             auxCurso = new TreeItem<>(auxbook, new ImageView(miImage));
             cursosTrack.put(curso, auxCurso);
-            TListUpdates.getRoot().getChildren().add(auxCurso);
+            tListUpdates.getRoot().getChildren().add(auxCurso);
         }
         //  Creacion de un elemento para el arbol
         //  Creacion de una Imagen (icono) representativa del tipo
-        int indexExt = path.lastIndexOf(".");
-        String auxExtension = "";
+        indexExt = path.lastIndexOf(".");
         if (indexExt > 0) {
             auxExtension = path.substring(indexExt);
         }
@@ -101,8 +110,8 @@ public class TabInitController {
         try (InputStream op = iconUrl.openStream()) {
             miImage = new Image(op);
         } catch (IOException ex) {
-//            Logger.getLogger(InterfaceController.class
-//                    .getNombre()).log(Level.SEVERE, null, ex);
+            //Esto nunca saltara, la imagen es seleccionada de las existentes 
+            //durante el compilado
         }
         ItemArbol auxbook = new ItemArbol(path, name);
         TreeItem<ItemArbol> auxItem = new TreeItem<>(auxbook, new ImageView(miImage));
@@ -123,7 +132,7 @@ public class TabInitController {
      *
      * @param newValue treeItem que disparo el evento
      */
-    private void handleTreeViewClick(TreeItem newValue) {
+    private void manejadorTreeViewClick(TreeItem newValue) {
         ItemArbol aux = null;
         try {
             aux = (ItemArbol) newValue.getValue();
@@ -142,7 +151,6 @@ public class TabInitController {
     }
 
     
-    //---------------------------------------------------UTILS-------------------------------------------------- 
     //---------------------------------------------------INIT---------------------------------------------------
     protected void init(MainController mainController) {
         main = mainController;
@@ -154,8 +162,8 @@ public class TabInitController {
      */
     private void initializeTreeView() {
         TreeItem<ItemArbol> rootItem = new TreeItem<ItemArbol>();
-        TListUpdates.setRoot(rootItem);
-        TListUpdates.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> handleTreeViewClick((TreeItem) newValue));
+        tListUpdates.setRoot(rootItem);
+        tListUpdates.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> manejadorTreeViewClick((TreeItem) newValue));
     }
 
 }

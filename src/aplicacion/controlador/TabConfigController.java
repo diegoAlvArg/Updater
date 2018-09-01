@@ -1,21 +1,16 @@
 package aplicacion.controlador;
 
-import Tools.almacen.InformacionUsuario;
-import Tools.lenguaje.ResourceLeng;
-import Tools.logger.LogGeneral;
+//#1 Static import
 import actualizador.tools.ActionTool;
 import actualizador.tools.NotificationType;
-import java.util.ResourceBundle;
-import javafx.fxml.FXML;
-import javafx.scene.control.Button;
-import javafx.scene.control.Hyperlink;
-import javafx.scene.control.Label;
-import javafx.scene.control.Tab;
-import javafx.scene.text.TextFlow;
-import aplicacion.controlador.MainController;
+//import aplicacion.controlador.MainController;
 import aplicacion.eventos.EventosUsuario;
 import aplicacion.eventos.ProcesoSyncronizacion;
 import aplicacion.eventos.Validador;
+import tools.almacen.InformacionUsuario;
+import tools.lenguaje.ResourceLeng;
+import tools.logger.LogGeneral;
+//#4 Java
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
@@ -27,12 +22,17 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.LogRecord;
+import java.util.ResourceBundle;
+//#5 JavaFx
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
+import javafx.fxml.FXML;
+import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.ComboBox;
+import javafx.scene.control.Label;
 import javafx.scene.control.Spinner;
 import javafx.scene.control.SpinnerValueFactory;
 import javafx.scene.image.Image;
@@ -42,56 +42,55 @@ import javafx.util.Duration;
 import javafx.util.StringConverter;
 
 /**
- *
- * @author Usuario
+ * 680
+ * @author Diego Alvarez
  */
 public class TabConfigController {// implements Initializable{
 
     private MainController main;
 
     @FXML
-    private Label LLanguague;
+    private Label lTituloLanguague;
     @FXML
-    private ComboBox CLanguague;
+    private ComboBox cLanguague;
     @FXML
-    private Spinner hourSpinner;
+    private Label lHoras;
     @FXML
-    private Spinner minutesSpinner;
+    private Spinner sHoras;
     @FXML
-    private ImageView IUserIcon;
+    private Label lMinutos;
     @FXML
-    private Button BNewUser;
+    private Spinner sMinutos;
     @FXML
-    private Button BEditUser;
+    private ImageView iUsuario;
     @FXML
-    private Label LIdUser;
+    private Button bNuevoUsuario;
     @FXML
-    private Label LPathApplication;
+    private Button bEditarUsuario;
     @FXML
-    private Label LHours;
+    private Label lIdUsuario;
     @FXML
-    private Label LMinutes;
+    private Label lTituloPathAplicacion;
     @FXML
-    private Button BConfirm;
+    private Label lPathAplicacion;
     @FXML
-    private Label LFeqSinc;
+    private CheckBox cUsoNaster;
     @FXML
-    private Button BEditPath;
+    private Button bConfirmar;
     @FXML
-    private Label LPathDownload;
+    private Label lTituloFrecuenciaSinc;
     @FXML
-    private Label LNextUpdate;
+    private Button bEditPath;
     @FXML
-    private Button BUpdate;
+    private Label lTituloSiguienteActualizacion;
     @FXML
-    private Label LCheckDate;
+    private Button bActualizar;
     @FXML
-    private Label LTimeUpdate;
-
-    private Timeline freqSecuence;
-    private Calendar momentoSigAct;
-    @FXML
-    private CheckBox CBNaster;
+    private Label lSiguienteActualizacion;
+    
+    private Timeline alarmaSincronizacion;
+    private Calendar momentoSiguienteActualizacion;
+   
 
     //---------------------------------------------------FXML---------------------------------------------------   
     /**
@@ -101,13 +100,14 @@ public class TabConfigController {// implements Initializable{
      * @param event
      */
     @FXML
-    private void changeLanguague(ActionEvent event) {
+    private void cambiarLenguague(ActionEvent event) {
         LogRecord logRegistro = null;
         ResourceBundle rb = main.getResource();
         ResourceBundle auxRb;
-        String languagueSelected = (String) CLanguague.getValue();
+        String languagueSelected = (String) cLanguague.getValue();
         String auxLanguage;
         Locale auxLocale = null;
+        
         if (languagueSelected != null) {
             for (Map.Entry<String, String> e : ResourceLeng.LANGUAGES.entrySet()) {
                 auxLanguage = rb.getString(e.getValue());
@@ -132,10 +132,7 @@ public class TabConfigController {// implements Initializable{
                 logRegistro.setSourceClassName(this.getClass().getName());
 
                 auxRb = ResourceBundle.getBundle("Resources.Languages.SystemMessages", auxLocale);
-//                HelloWorld.cambiarTitulo(auxRb.getString(ResourceLeng.APP_TITLE));
-//                HelloWorld.setResource(auxRb);
-//                setLanguague(auxRb);
-                main.changeLanguague(auxRb);
+                main.cambiarLenguage(auxRb);
             }
         }
         if (logRegistro != null) {
@@ -144,25 +141,25 @@ public class TabConfigController {// implements Initializable{
     }
 
     /**
-     * Tratara el evento generado pro el usuario en relacion a crear un nuevo
+     * Tratara el evento generado por el usuario en relacion a crear un nuevo
      * "perfil" de usuario.
      *
      * @param event
      */
     @FXML
-    private void createNewUser(ActionEvent event) {
-        if(main.canUseUser()){
+    private void crearNuevoUsuario(ActionEvent event) {
+        if(main.OcuparUsuario()){
             ResourceBundle rb = main.getResource();
             LogRecord logRegistro = new LogRecord(Level.INFO, rb.getString(ResourceLeng.TRACE_EVENT_USER_NEW));
             logRegistro.setSourceClassName(this.getClass().getName());
             LogGeneral.log(logRegistro);
 
             new EventosUsuario("", "", "", false, rb, true, this);
-            if (freqSecuence != null) {
-                freqSecuence.pause();
+            if (alarmaSincronizacion != null) {
+                alarmaSincronizacion.pause();
             }
-            BNewUser.setDisable(true);
-            BEditUser.setDisable(true);
+            bNuevoUsuario.setDisable(true);
+            bEditarUsuario.setDisable(true);
         }
     }
     /**
@@ -173,8 +170,8 @@ public class TabConfigController {// implements Initializable{
      * @param event
      */
     @FXML
-    private void editUser(ActionEvent event) {
-        if(main.canUseUser()){
+    private void editarUsuario(ActionEvent event) {
+        if(main.OcuparUsuario()){
             try {
                 ResourceBundle rb = main.getResource();
                 LogRecord logRegistro = new LogRecord(Level.INFO, rb.getString(ResourceLeng.TRACE_EVENT_USER_EDIT));
@@ -183,13 +180,13 @@ public class TabConfigController {// implements Initializable{
 
                 new EventosUsuario(InformacionUsuario.getUser(), InformacionUsuario.getPass1(), InformacionUsuario.getPass2(),
                         InformacionUsuario.getUseNas(), rb, false, this);
-                if (freqSecuence != null) {
-                    freqSecuence.pause();
+                if (alarmaSincronizacion != null) {
+                    alarmaSincronizacion.pause();
                 }
-                BNewUser.setDisable(true);
-                BEditUser.setDisable(true);
+                bNuevoUsuario.setDisable(true);
+                bEditarUsuario.setDisable(true);
             } catch (NoSuchFieldException e) {
-                wrongDates();
+                borrarUsuario();
             }
         }
     }
@@ -203,7 +200,7 @@ public class TabConfigController {// implements Initializable{
      * @param event
      */
     @FXML
-    private void chooseDirectory(ActionEvent event) {
+    private void cambiarDirectorio(ActionEvent event) {
         File selectedFile = null;
         String initialPath;
         try {
@@ -222,10 +219,10 @@ public class TabConfigController {// implements Initializable{
                 }
 
             } while (selectedFile != null);
-            LPathApplication.setText(initialPath);
+            lPathAplicacion.setText(initialPath);
             InformacionUsuario.setPath(initialPath);
         } catch (NoSuchFieldException e) {
-            wrongDates();
+            borrarUsuario();
         }
 
     }
@@ -234,53 +231,53 @@ public class TabConfigController {// implements Initializable{
      * Establece un Timer "alarma" segun los valores de los Spinner y la hora
      * actual a los 00 segundos; para el Timer que aun estubiera establecido.
      *
-     *
      */
     @FXML
-    protected void setNextUpdate() {
-        if (freqSecuence != null) {
-            freqSecuence.stop();
-            freqSecuence = null;
+    protected void setSiguienteAlarma() {
+        if (alarmaSincronizacion != null) {
+            alarmaSincronizacion.stop();
+            alarmaSincronizacion = null;
         }
-        int minutos = (int) minutesSpinner.getValue();
-        int horas = (int) hourSpinner.getValue();
+        int minutos = (int) sMinutos.getValue();
+        int horas = (int) sHoras.getValue();
 
-        momentoSigAct = Calendar.getInstance();
-        Calendar momentoActual = (Calendar) momentoSigAct.clone();
-        momentoSigAct.add(Calendar.MINUTE, minutos);
-        momentoSigAct.add(Calendar.HOUR_OF_DAY, horas); // adds hour
-        momentoSigAct.set(Calendar.SECOND, 0);
+        momentoSiguienteActualizacion = Calendar.getInstance();
+        Calendar momentoActual = (Calendar) momentoSiguienteActualizacion.clone();
+        momentoSiguienteActualizacion.add(Calendar.MINUTE, minutos);
+        momentoSiguienteActualizacion.add(Calendar.HOUR_OF_DAY, horas); // adds hour
+        momentoSiguienteActualizacion.set(Calendar.SECOND, 0);
 
         ResourceBundle rb = main.getResource();
-        setNextUpdateLabel(rb, momentoActual);
+        setSigueinteAlarmaLabel(rb, momentoActual);
 
-        long diff = momentoSigAct.getTime().getTime() - momentoActual.getTime().getTime();
-        freqSecuence = new Timeline(new KeyFrame(
+        long diff = momentoSiguienteActualizacion.getTime().getTime() - momentoActual.getTime().getTime();
+        alarmaSincronizacion = new Timeline(new KeyFrame(
                 Duration.seconds(diff / 1000), new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
                 LogRecord logRegistro = new LogRecord(Level.SEVERE, rb.getString(ResourceLeng.TRACE_TIMER_END));
                 logRegistro.setSourceClassName(this.getClass().getName());
                 LogGeneral.log(logRegistro);
-                syncroStart();
+                sincronizar();
             }
         }));
 
-        freqSecuence.setCycleCount(1);
-        freqSecuence.play();
-        if(main.inUseUser()){
-            freqSecuence.pause();
+        alarmaSincronizacion.setCycleCount(1);
+        alarmaSincronizacion.play();
+        if(main.disponibleUsuario()){
+            alarmaSincronizacion.pause();
         }
     }
+   
     /**
      * Metodo que inicia el proceso de sincronizacion, no asociado al Timer;
      * esto implicara para el Timer.
      */
     @FXML
-    private void syncroNow() {
-        if(!main.inUseUser()){
-            freqSecuence.stop();
-            syncroStart();
+    private void sincronizarAhora() {
+        if(!main.disponibleUsuario()){
+            alarmaSincronizacion.stop();
+            sincronizar();
         }
     }
 
@@ -291,14 +288,14 @@ public class TabConfigController {// implements Initializable{
      * @param event
      */
     @FXML
-    private void useNasTer(ActionEvent event) {
-        if (CBNaster.isSelected()) {
+    private void utilizarNasTer(ActionEvent event) {
+        if (cUsoNaster.isSelected()) {
             try {
 //                int resultado = EventosUsuario.validarCredencialesNaster(InformacionUsuario.getUser(), InformacionUsuario.getPass2());
                 int resultado = Validador.validarCredencialesNaster(InformacionUsuario.getUser(), InformacionUsuario.getPass2());
 
                 if (resultado == 2) {
-                    CBNaster.setSelected(false);
+                    cUsoNaster.setSelected(false);
                     ActionTool.mostrarNotificacion(ResourceLeng.MESSAGE_TITLE_NASTER_REJECT,
                             ResourceLeng.MESSAGE_INFO_NASTER_REJECT, Duration.seconds(15), NotificationType.WARNING);
                 } else {
@@ -306,17 +303,14 @@ public class TabConfigController {// implements Initializable{
                     InformacionUsuario.setUseNas("true");
                 }
             } catch (NoSuchFieldException e) {
-                CBNaster.setSelected(false);
-                wrongDates();
+                cUsoNaster.setSelected(false);
+                borrarUsuario();
             }
         } else {
 
             InformacionUsuario.setUseNas("false");
         }
     }
-
-    
-    
     //---------------------------------------------------EVENTO-------------------------------------------------  
     /**
      * Metodo que maneja el fin de los eventos edit/new User reactivara/creara
@@ -326,74 +320,61 @@ public class TabConfigController {// implements Initializable{
      * @param dates
      * @param isnew
      */
-    public void setUserInfo(List<String> dates, boolean isnew) {
+    public void establecerUsuario(List<String> dates, boolean isnew) {
         try {
             if (dates != null && isnew) {
                 InformacionUsuario.crearFichero(dates.get(0), dates.get(1), dates.get(2), dates.get(3), String.valueOf(dates.get(4)));
                 initializationUserLoad(true, dates.get(0), dates.get(3));
-                CBNaster.setSelected(Boolean.parseBoolean(dates.get(4)));
-                main.aparecioUsuario();
+                cUsoNaster.setSelected(Boolean.parseBoolean(dates.get(4)));
+                main.establecerUsuario();
             } else if (dates != null) {
                 InformacionUsuario.crearFichero(dates.get(0), dates.get(1), dates.get(2), InformacionUsuario.getPath(), String.valueOf(dates.get(4)));
-                LIdUser.setText(dates.get(0));
-                CBNaster.setSelected(Boolean.parseBoolean(dates.get(4)));
+                lIdUsuario.setText(dates.get(0));
+                cUsoNaster.setSelected(Boolean.parseBoolean(dates.get(4)));
             }
 
-            BEditUser.setDisable(false);
-            BNewUser.setDisable(false);
+            bEditarUsuario.setDisable(false);
+            bNuevoUsuario.setDisable(false);
             main.liberarUsuario();
 
             LogRecord logRegistro = new LogRecord(Level.INFO, main.getResource().getString(ResourceLeng.TRACE_EVENT_USER_END));
             logRegistro.setSourceClassName(this.getClass().getName());
             LogGeneral.log(logRegistro);
         } catch (NoSuchFieldException e) {
-            wrongDates();
+            borrarUsuario();
         }
     }
 
     
     /**
-     * Metodo que iniciara el proceso de sincronizacion. Limpiara el TreeView si
-     * es la X vez que lanzamos la sincronizaion.
+     * Metodo que iniciara el proceso de sincronizacion. 
      *
      * Adenas desactivara las interacciones que puedan lanzar este proceso como
      * los botones de la App o la opcion en el Systray (si lo hubiera)
      */
-    private void syncroStart() {
-        main.canUseUser();
+    private void sincronizar() {
+        main.OcuparUsuario();
         main.cambiarDisponibilidadOpcionSysTray(ResourceLeng.SYS_TRAY_SYNCRO, false);
-//        BConfirm.setDisable(true);
-//        BUpdate.setDisable(true);
-////        BNewUser.setDisable(true);
-        BEditPath.setDisable(true);
-//        BEditUser.setDisable(true);
-        main.loggedSyncro();
+        bEditPath.setDisable(true);
+        main.iniciarSincronizacion();
 
-        
-        LTimeUpdate.setText(main.getResource().getString(ResourceLeng.SYNCRO_NOW));
+        lSiguienteActualizacion.setText(main.getResource().getString(ResourceLeng.SYNCRO_NOW));
         try {
             new ProcesoSyncronizacion(InformacionUsuario.getUser(), InformacionUsuario.getPass1(),
                     InformacionUsuario.getPass2(), InformacionUsuario.getPath(),
-                    main.getResource(), main, CBNaster.isSelected());
+                    main.getResource(), main, cUsoNaster.isSelected());
         } catch (NoSuchFieldException e) {
-            wrongDates();
+            borrarUsuario();
         }
     }
     /**
      * Metodo para manejar el fin del evento de sincronizar, reactivando todo lo
      * que este evento hubiera desactivado y estableciendo la sigueinte "alarma"
      */
-    public void syncroEnd() {
-        setNextUpdate();
-//        BConfirm.setDisable(false);
-//        BUpdate.setDisable(false);
-//        BNewUser.setDisable(false);
-        BEditPath.setDisable(false);
-//        BEditUser.setDisable(false);
-//        BActualizar.setDisable(false);
+    public void sincronizarFin() {
+        setSiguienteAlarma();
+        bEditPath.setDisable(false);
         main.cambiarDisponibilidadOpcionSysTray(ResourceLeng.SYS_TRAY_SYNCRO, true);
-//        HelloWorld.cambiarDisponibilidadOpcionSysTray(ResourceLeng.SYS_TRAY_SYNCRO, true);
-//        HelloWorld.showApp();
     }
 
   
@@ -403,32 +384,30 @@ public class TabConfigController {// implements Initializable{
      * recalculara el tiempo que le debiera quedar a la "alarma" y la pone en
      * marcha.
      */
-    private void resumeUpdate() {
+    private void reactivarAlarma() {
         Calendar momentoActual = Calendar.getInstance();
-        if (momentoActual.after(momentoSigAct)) {
+        if (momentoActual.after(momentoSiguienteActualizacion)) {
             // Paso el momento de la alarma, sincronizamos ya
             LogRecord logRegistro = new LogRecord(Level.SEVERE, main.getResource().getString(ResourceLeng.TRACE_TIMER_LATE));
             logRegistro.setSourceClassName(this.getClass().getName());
             LogGeneral.log(logRegistro);
-            syncroStart();
+            sincronizar();
         } else {
-//            System.err.println("ajustando tiempo");
             // Calcular cuanto tiempo estuvimos parados y poner nueva
-            freqSecuence.stop();
-            long diff = momentoSigAct.getTime().getTime() - momentoActual.getTime().getTime();
-            freqSecuence = new Timeline(new KeyFrame(
+            alarmaSincronizacion.stop();
+            long diff = momentoSiguienteActualizacion.getTime().getTime() - momentoActual.getTime().getTime();
+            alarmaSincronizacion = new Timeline(new KeyFrame(
                     Duration.seconds(diff / 1000), new EventHandler<ActionEvent>() {
                 @Override
                 public void handle(ActionEvent event) {
                     LogRecord logRegistro = new LogRecord(Level.SEVERE, main.getResource().getString(ResourceLeng.TRACE_TIMER_END));
                     logRegistro.setSourceClassName(this.getClass().getName());
                     LogGeneral.log(logRegistro);
-                    syncroStart();
+                    sincronizar();
                 }
             }));
-
-            freqSecuence.setCycleCount(1);
-            freqSecuence.play();
+            alarmaSincronizacion.setCycleCount(1);
+            alarmaSincronizacion.play();
         }
     }
     /**
@@ -438,9 +417,9 @@ public class TabConfigController {// implements Initializable{
      * @param rb resource del idioma
      * @param now momento actual.
      */
-    private void setNextUpdateLabel(ResourceBundle rb, Calendar now) {
+    private void setSigueinteAlarmaLabel(ResourceBundle rb, Calendar now) {
         String dayTime;
-        if (now.get(Calendar.DAY_OF_MONTH) == momentoSigAct.get(Calendar.DAY_OF_MONTH)) {
+        if (now.get(Calendar.DAY_OF_MONTH) == momentoSiguienteActualizacion.get(Calendar.DAY_OF_MONTH)) {
             dayTime = rb.getString(ResourceLeng.DAY_TODAY);
         } else {
             dayTime = rb.getString(ResourceLeng.DAY_TOMORROW);
@@ -448,98 +427,111 @@ public class TabConfigController {// implements Initializable{
         String line = rb.getString(ResourceLeng.NEXT_TIME_SEED);
         line = String.format(line, dayTime);
         SimpleDateFormat sdf = new SimpleDateFormat("HH:mm");
-        line += sdf.format(momentoSigAct.getTime());
-        LTimeUpdate.setText(line);
+        line += sdf.format(momentoSiguienteActualizacion.getTime());
+        lSiguienteActualizacion.setText(line);
     }
     
-    protected void resumeUserFree(){
-        if (freqSecuence != null) {
-            resumeUpdate();
-            setNextUpdateLabel(main.getResource(), Calendar.getInstance());
-        }else if (!LIdUser.getText().isEmpty()){
-            setNextUpdate();
+    /**
+     * Metodo para liberar un usuario, el perfil ha dejado de estar ocupado
+     * implicando la reactivacion de las cosas que pudieran hacer uso de este
+     */
+    protected void liberarUsuario(){
+        if (alarmaSincronizacion != null) {
+            reactivarAlarma();
+            setSigueinteAlarmaLabel(main.getResource(), Calendar.getInstance());
+        }else if (!lIdUsuario.getText().isEmpty()){
+            setSiguienteAlarma();
         }
-        BConfirm.setDisable(false);
-        BUpdate.setDisable(false);
+        bConfirmar.setDisable(false);
+        bActualizar.setDisable(false);
     }
-    protected void blockSincro(){
-        if (freqSecuence != null) {
-            freqSecuence.pause();
+    /**
+     * Metodo para ocupar un usuario, el perfil va a ser ocupado implicando la 
+     *  desactivacion de las cosas qu epudieran hacer uso de este
+     * 
+     * blockSyncro
+     */
+    protected void ocuparUsuario(){
+        if (alarmaSincronizacion != null) {
+            alarmaSincronizacion.pause();
         }
-        BConfirm.setDisable(true);
-        BUpdate.setDisable(true);
+        bConfirmar.setDisable(true);
+        bActualizar.setDisable(true);
     }
     
     
     //---------------------------------------------------UTILS-------------------------------------------------- 
     protected void setLanguague(ResourceBundle rb) {
-//        this.OptionConfig.setText(rb.getString(ResourceLeng.TAB_CONFIG));
-        this.LLanguague.setText(rb.getString(ResourceLeng.LANGUAGE));
-        this.CLanguague.getItems().clear();
+        this.lTituloLanguague.setText(rb.getString(ResourceLeng.LANGUAGE));
+        this.cLanguague.getItems().clear();
         for (Map.Entry<String, String> e : ResourceLeng.LANGUAGES.entrySet()) {
-            CLanguague.getItems().add(rb.getString(e.getValue()));
+            cLanguague.getItems().add(rb.getString(e.getValue()));
         }
         String idioma = ResourceLeng.LANGUAGES.get(rb.getLocale().getLanguage());
-        CLanguague.setValue(rb.getString(idioma));
-        LHours.setText(rb.getString(ResourceLeng.TIME_HOUR_TEXT));
-        LMinutes.setText(rb.getString(ResourceLeng.TIME_MINUT_TEXT));
-        BConfirm.setText(rb.getString(ResourceLeng.TIME_BUTTON_TEXT));
-        BConfirm.getTooltip().setText(rb.getString(ResourceLeng.TOOLTIP_SETTIME));
-        LFeqSinc.setText(rb.getString(ResourceLeng.TIME_LABEL));
-        LPathDownload.setText(rb.getString(ResourceLeng.LABEL_PATH_DOWNLOAD));
-        LNextUpdate.setText(rb.getString(ResourceLeng.LABEL_NEXT_UPDATE));
-        BUpdate.setText(rb.getString(ResourceLeng.BUTTON_UPDATE_MOODLE));
+        cLanguague.setValue(rb.getString(idioma));
+        lHoras.setText(rb.getString(ResourceLeng.TIME_HOUR_TEXT));
+        lMinutos.setText(rb.getString(ResourceLeng.TIME_MINUT_TEXT));
+        bConfirmar.setText(rb.getString(ResourceLeng.TIME_BUTTON_TEXT));
+        bConfirmar.getTooltip().setText(rb.getString(ResourceLeng.TOOLTIP_SETTIME));
+        lTituloFrecuenciaSinc.setText(rb.getString(ResourceLeng.TIME_LABEL));
+        lTituloPathAplicacion.setText(rb.getString(ResourceLeng.LABEL_PATH_DOWNLOAD));
+        lTituloSiguienteActualizacion.setText(rb.getString(ResourceLeng.LABEL_NEXT_UPDATE));
+        bActualizar.setText(rb.getString(ResourceLeng.BUTTON_UPDATE_MOODLE));
 //        LCheckDate.setText(rb.getString(ResourceLeng.LABEL_CHECK_DATES));
-        if (!BUpdate.isDisable() && !LTimeUpdate.getText().isEmpty()) {
+        if (!bActualizar.isDisable() && !lSiguienteActualizacion.getText().isEmpty()) {
             //Esta con una arlama
-            setNextUpdateLabel(rb, Calendar.getInstance());
-        } else if (!LTimeUpdate.getText().isEmpty()) {
+            setSigueinteAlarmaLabel(rb, Calendar.getInstance());
+        } else if (!lSiguienteActualizacion.getText().isEmpty()) {
             //Esta actualizando
-            LTimeUpdate.setText(main.getResource().getString(ResourceLeng.SYNCRO_NOW));
+            lSiguienteActualizacion.setText(main.getResource().getString(ResourceLeng.SYNCRO_NOW));
         }
-        BNewUser.getTooltip().setText(rb.getString(ResourceLeng.TOOLTIP_NEWUSER));
-        BEditUser.getTooltip().setText(rb.getString(ResourceLeng.TOOLTIP_EDITUSER));
-        CBNaster.setText(rb.getString(ResourceLeng.ASK_LABEL_USE_NAS));
-        CBNaster.getTooltip().setText(rb.getString(ResourceLeng.ASK_TOOLTIP_NASTER));
+        bNuevoUsuario.getTooltip().setText(rb.getString(ResourceLeng.TOOLTIP_NEWUSER));
+        bEditarUsuario.getTooltip().setText(rb.getString(ResourceLeng.TOOLTIP_EDITUSER));
+        cUsoNaster.setText(rb.getString(ResourceLeng.ASK_LABEL_USE_NAS));
+        cUsoNaster.getTooltip().setText(rb.getString(ResourceLeng.ASK_TOOLTIP_NASTER));
     }
 
-    public void wrongDates() {
+    /**
+     * Metodo para borrar el perfil de usuario, y parando la alarma y elementos 
+  asociados
+ borrarUsuario
+     */
+    public void borrarUsuario() {
         InformacionUsuario.borrarFichero();
-        if (freqSecuence != null) {
-            freqSecuence.stop();
-            freqSecuence = null;
+        if (alarmaSincronizacion != null) {
+            alarmaSincronizacion.stop();
+            alarmaSincronizacion = null;
         }
         main.borrarRastroUsuario();
         
         // Frecuencia
-        LFeqSinc.setVisible(false);
-        this.minutesSpinner.setDisable(false);
-        minutesSpinner.setVisible(false);
-        LMinutes.setVisible(false);
-        this.hourSpinner.setDisable(true);
-        hourSpinner.setVisible(false);
-        LHours.setVisible(false);
-        this.BConfirm.setDisable(true);
-        BConfirm.setVisible(false);
+        lTituloFrecuenciaSinc.setVisible(false);
+        this.sMinutos.setDisable(false);
+        sMinutos.setVisible(false);
+        lMinutos.setVisible(false);
+        this.sHoras.setDisable(true);
+        sHoras.setVisible(false);
+        lHoras.setVisible(false);
+        this.bConfirmar.setDisable(true);
+        bConfirmar.setVisible(false);
         //Edits
-        this.BEditUser.setDisable(true);
-        BEditUser.setVisible(false);
-        this.BEditPath.setDisable(true);
-        BEditPath.setVisible(false);
-        this.LPathApplication.setDisable(true);
-        LPathApplication.setVisible(false);
-        LPathDownload.setVisible(false);
+        this.bEditarUsuario.setDisable(true);
+        bEditarUsuario.setVisible(false);
+        this.bEditPath.setDisable(true);
+        bEditPath.setVisible(false);
+        this.lPathAplicacion.setDisable(true);
+        lPathAplicacion.setVisible(false);
+        lTituloPathAplicacion.setVisible(false);
         // Sig Actualizacion
-        LNextUpdate.setVisible(false);
-        this.BUpdate.setDisable(true);
-        BUpdate.setVisible(false);
-        LCheckDate.setVisible(false);
-        this.CBNaster.setDisable(true);
-        CBNaster.setVisible(false);
+        lTituloSiguienteActualizacion.setVisible(false);
+        this.bActualizar.setDisable(true);
+        bActualizar.setVisible(false);
+        this.cUsoNaster.setDisable(true);
+        cUsoNaster.setVisible(false);
 
         URL iconUrl = this.getClass().getResource("/Resources/Icons/User_Empty.png");
         try (InputStream op = iconUrl.openStream()) {
-            IUserIcon.setImage(new Image(op));
+            iUsuario.setImage(new Image(op));
         } catch (IOException ex) {
 //            Logger.getLogger(InterfaceController.class
 //                    .getNombre()).log(Level.SEVERE, null, ex);
@@ -554,9 +546,12 @@ public class TabConfigController {// implements Initializable{
     }
  
     protected String getLPathApp(){
-        return LPathApplication.getText();
+        return lPathAplicacion.getText();
     }
     
+    public void sincronizarSysTray(){
+        this.sincronizarAhora();
+    }
     //---------------------------------------------------INIT---------------------------------------------------
     protected void init(boolean user, String userId, String path, MainController main) {
         this.main = main;
@@ -585,8 +580,8 @@ public class TabConfigController {// implements Initializable{
                 return respuesta;
             }
         });
-        this.hourSpinner.setValueFactory(horasFactory);
-        this.hourSpinner.setEditable(true);
+        this.sHoras.setValueFactory(horasFactory);
+        this.sHoras.setEditable(true);
 
         SpinnerValueFactory.IntegerSpinnerValueFactory minutosFactory = new SpinnerValueFactory.IntegerSpinnerValueFactory(-1, 60, 5);
         minutosFactory.setConverter(new StringConverter<Integer>() {
@@ -604,29 +599,29 @@ public class TabConfigController {// implements Initializable{
                 return respuesta;
             }
         });
-        this.minutesSpinner.setValueFactory(minutosFactory);
-        this.minutesSpinner.setEditable(true);
+        this.sMinutos.setValueFactory(minutosFactory);
+        this.sMinutos.setEditable(true);
 
-        hourSpinner.getEditor().textProperty().addListener((obs, oldValue, newValue) -> {
+        sHoras.getEditor().textProperty().addListener((obs, oldValue, newValue) -> {
             if (newValue.compareTo("0") <= 0) {
-                if ((int) minutesSpinner.getValue() < 5) {
-                    minutesSpinner.getValueFactory().setValue(5);
+                if ((int) sMinutos.getValue() < 5) {
+                    sMinutos.getValueFactory().setValue(5);
                 }
-                hourSpinner.getValueFactory().setValue(0);
+                sHoras.getValueFactory().setValue(0);
             }
         });
 
-        minutesSpinner.getEditor().textProperty().addListener((obs, oldValue, newValue) -> {
+        sMinutos.getEditor().textProperty().addListener((obs, oldValue, newValue) -> {
             if (newValue.compareTo("60") == 0) {
-                hourSpinner.getValueFactory().setValue((int) hourSpinner.getValue() + 1);
-                minutesSpinner.getValueFactory().setValue(0);
+                sHoras.getValueFactory().setValue((int) sHoras.getValue() + 1);
+                sMinutos.getValueFactory().setValue(0);
             } else if (newValue.compareTo("-1") == 0) {
 //                System.out.println("3-" + newValue.toString());
-                hourSpinner.getValueFactory().setValue((int) hourSpinner.getValue() - 1);
-                minutesSpinner.getValueFactory().setValue(59);
+                sHoras.getValueFactory().setValue((int) sHoras.getValue() - 1);
+                sMinutos.getValueFactory().setValue(59);
             } else if (newValue.compareTo("5") < 0) {
-                if ((int) hourSpinner.getValue() == 0) {
-                    minutesSpinner.getValueFactory().setValue(5);
+                if ((int) sHoras.getValue() == 0) {
+                    sMinutos.getValueFactory().setValue(5);
                 }
 //                else{
 //                    minutesSpinner.getValueFactory().setValue((int)newValue);
@@ -643,50 +638,45 @@ public class TabConfigController {// implements Initializable{
      */
     private void initializationUserLoad(boolean user, String userId, String path) {
         if (!user) {
-//            TTabpane.getSelectionModel().select(OptionConfig);
             main.borrarRastroUsuario();
         } else {
             // Carga de usuario correcta
             URL iconUrl = this.getClass().getResource("/Resources/Icons/User_Ok.png");
 
             try (InputStream op = iconUrl.openStream()) {
-                IUserIcon.setImage(new Image(op));
+                iUsuario.setImage(new Image(op));
             } catch (IOException ex) {
 //                Logger.getLogger(InterfaceController.class
 //                        .getNombre()).log(Level.SEVERE, null, ex);
             }
-            LIdUser.setText(userId);
-            LPathApplication.setText(path);
+            lIdUsuario.setText(userId);
+            lPathAplicacion.setText(path);
         }
 
         // Frecuencia
-        LFeqSinc.setVisible(user);
-        this.minutesSpinner.setDisable(!user);
-        minutesSpinner.setVisible(user);
-        LMinutes.setVisible(user);
-        this.hourSpinner.setDisable(!user);
-        hourSpinner.setVisible(user);
-        LHours.setVisible(user);
-        this.BConfirm.setDisable(!user);
-        BConfirm.setVisible(user);
+        lTituloFrecuenciaSinc.setVisible(user);
+        this.sMinutos.setDisable(!user);
+        sMinutos.setVisible(user);
+        lMinutos.setVisible(user);
+        this.sHoras.setDisable(!user);
+        sHoras.setVisible(user);
+        lHoras.setVisible(user);
+        this.bConfirmar.setDisable(!user);
+        bConfirmar.setVisible(user);
         //Edits
-        this.BEditUser.setDisable(!user);
-        BEditUser.setVisible(user);
-        this.BEditPath.setDisable(!user);
-        BEditPath.setVisible(user);
-        this.LPathApplication.setDisable(!user);
-        LPathApplication.setVisible(user);
-        LPathDownload.setVisible(user);
+        this.bEditarUsuario.setDisable(!user);
+        bEditarUsuario.setVisible(user);
+        this.bEditPath.setDisable(!user);
+        bEditPath.setVisible(user);
+        this.lPathAplicacion.setDisable(!user);
+        lPathAplicacion.setVisible(user);
+        lTituloPathAplicacion.setVisible(user);
         // Sig Actualizacion
-        LNextUpdate.setVisible(user);
-        this.BUpdate.setDisable(!user);
-        BUpdate.setVisible(user);
-        LCheckDate.setVisible(user);
+        lTituloSiguienteActualizacion.setVisible(user);
+        this.bActualizar.setDisable(!user);
+        bActualizar.setVisible(user);
 
-        this.CBNaster.setDisable(!user);
-        CBNaster.setVisible(user);
+        this.cUsoNaster.setDisable(!user);
+        cUsoNaster.setVisible(user);
     }
-
- 
-
 }

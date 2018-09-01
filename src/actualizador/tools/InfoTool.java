@@ -43,10 +43,10 @@ public final class InfoTool {
      */
     public static final String STYLES = "/style/";
 
-    /**
-     * The Constant applicationCss.
-     */
-    public static final String APPLICATIONCSS = "application.css";
+//    /**
+//     * The Constant applicationCss.
+//     */
+//    public static final String APPLICATIONCSS = "application.css";
 
     /**
      * The Constant fxmls.

@@ -1,11 +1,13 @@
 package aplicacion.controlador;
 
-import Tools.lenguaje.ResourceLeng;
+//#1 Static import
+import tools.lenguaje.ResourceLeng;
+//#4 Java
 import java.util.ResourceBundle;
 
 /**
- *
- * @author Diego
+ * 109
+ * @author Diego Alvarez
  */
 public class ConfigControl {
 
@@ -14,79 +16,99 @@ public class ConfigControl {
      */
     protected static final int MAX_SBCLU = 1;
     
-    protected static String STATE_0_TEXT;
-    protected static String STATE_0_TOOL;
-    protected static String STATE_1_TEXT;
-    protected static String STATE_1_TOOL;
-    protected static String STATE_2_TEXT;
-    protected static String STATE_2_TOOL;
-    protected static String STATE_3_TEXT;
-    protected static String STATE_3_TOOL;
-    protected static String STATE_4_TEXT;
-    protected static String STATE_4_TOOL;
-    protected static String STATE_5_TEXT;
-    protected static String STATE_5_TOOL;
-    protected static String STATE_6_TEXT;
-    protected static String STATE_6_TOOL;
-    protected static String STATE_7_TEXT;
-    protected static String STATE_7_TOOL;
-    protected static String STATE_8_TEXT;
-    protected static String STATE_8_TOOL;
+    // C2 el estado de la entrega
+    protected static String state0Text;
+    protected static String state0Tool;
+    protected static String state1Text;
+    protected static String state1Tool;
+    protected static String state2Text;
+    protected static String state2Tool;
+    protected static String state3Text;
+    protected static String state3Tool;
+    protected static String state4Text;
+    protected static String state4Tool;
+    protected static String state5Text;
+    protected static String state5Tool;
+    protected static String state6Text;
+    protected static String state6Tool;
+    protected static String state7Text;
+    protected static String state7Tool;
+    protected static String state8Text;
+    protected static String state8Tool;
+    protected static String state9Text;
+    protected static String state9Tool;
     
+    // C3 tiempo restante
     protected static String seedTime;
     protected static String seedTimeNoDays;
-   
-    protected static String TABLE_FILE;
-    protected static String TABLE_NOTE;
     
+    // C4 fichero & nota
+    protected static String tableFile;
+    protected static String tableNote;
+    protected static String tableFeed;
+    protected static String feedFile;
     
-    protected static String TBUTTON_05_TEXT;
-    protected static String TBUTTON_05_TOOL;
-    protected static String TBUTTON_1267_TEXT;
-    protected static String TBUTTON_1267_TOOL;
-    protected static String TBUTTON_38_TEXT;
-    protected static String TBUTTON_38_TOOL;
-    protected static String TBUTTON_4_TEXT;
-    protected static String TBUTTON_4_TOOL;
+    // C5 Accion dependiente del estado
+    protected static String tButton05Text;
+    protected static String tButton05Tool;
+    protected static String tButton1267Text;
+    protected static String tButton1267Tool;
+    protected static String tButton38Text;
+    protected static String tButton38Tool;
+    protected static String tButton4Text;
+    protected static String tButton4Tool;
+    protected static String tButton9Text;
+    protected static String tButton9Tool;
     
-    protected static String TBUTTON_5_TEXT;
-    protected static String TBUTTON_5_TOOL;
- 
+    // El style
+    protected static String styleNormal;
+    protected static String styleError;
     
     protected static void setLanguage(ResourceBundle rb){
-        STATE_0_TEXT = rb.getString(ResourceLeng.STATE_0_TEXT);
-        STATE_0_TOOL = rb.getString(ResourceLeng.STATE_0_TOOL);
-        STATE_1_TEXT = rb.getString(ResourceLeng.STATE_1_TEXT);
-        STATE_1_TOOL = rb.getString(ResourceLeng.STATE_1_TOOL);
-        STATE_2_TEXT = rb.getString(ResourceLeng.STATE_2_TEXT);
-        STATE_2_TOOL = rb.getString(ResourceLeng.STATE_2_TOOL);
-        STATE_3_TEXT = rb.getString(ResourceLeng.STATE_3_TEXT);
-        STATE_3_TOOL = rb.getString(ResourceLeng.STATE_3_TOOL);
-        STATE_4_TEXT = rb.getString(ResourceLeng.STATE_4_TEXT);
-        STATE_4_TOOL = rb.getString(ResourceLeng.STATE_4_TOOL);
-        STATE_4_TEXT = rb.getString(ResourceLeng.STATE_4_TEXT);
-        STATE_4_TOOL = rb.getString(ResourceLeng.STATE_4_TOOL);
-        STATE_5_TEXT = rb.getString(ResourceLeng.STATE_5_TEXT);
-        STATE_5_TOOL = rb.getString(ResourceLeng.STATE_5_TOOL);
-        STATE_6_TEXT = rb.getString(ResourceLeng.STATE_6_TEXT);
-        STATE_6_TOOL = rb.getString(ResourceLeng.STATE_6_TOOL);
-        STATE_7_TEXT = rb.getString(ResourceLeng.STATE_7_TEXT);
-        STATE_7_TOOL = rb.getString(ResourceLeng.STATE_7_TOOL);
-        STATE_8_TEXT = rb.getString(ResourceLeng.STATE_8_TEXT);
-        STATE_8_TOOL = rb.getString(ResourceLeng.STATE_8_TOOL);
+        state0Text = rb.getString(ResourceLeng.STATE_0_TEXT);
+        state0Tool = rb.getString(ResourceLeng.STATE_0_TOOL);
+        state1Text = rb.getString(ResourceLeng.STATE_1_TEXT);
+        state1Tool = rb.getString(ResourceLeng.STATE_1_TOOL);
+        state2Text = rb.getString(ResourceLeng.STATE_2_TEXT);
+        state2Tool = rb.getString(ResourceLeng.STATE_2_TOOL);
+        state3Text = rb.getString(ResourceLeng.STATE_3_TEXT);
+        state3Tool = rb.getString(ResourceLeng.STATE_3_TOOL);
+        state4Text = rb.getString(ResourceLeng.STATE_4_TEXT);
+        state4Tool = rb.getString(ResourceLeng.STATE_4_TOOL);
+        state4Text = rb.getString(ResourceLeng.STATE_4_TEXT);
+        state4Tool = rb.getString(ResourceLeng.STATE_4_TOOL);
+        state5Text = rb.getString(ResourceLeng.STATE_5_TEXT);
+        state5Tool = rb.getString(ResourceLeng.STATE_5_TOOL);
+        state6Text = rb.getString(ResourceLeng.STATE_6_TEXT);
+        state6Tool = rb.getString(ResourceLeng.STATE_6_TOOL);
+        state7Text = rb.getString(ResourceLeng.STATE_7_TEXT);
+        state7Tool = rb.getString(ResourceLeng.STATE_7_TOOL);
+        state8Text = rb.getString(ResourceLeng.STATE_8_TEXT);
+        state8Tool = rb.getString(ResourceLeng.STATE_8_TOOL);
+        state9Text = rb.getString(ResourceLeng.STATE_9_TEXT);
+        state9Tool = rb.getString(ResourceLeng.STATE_9_TOOL);
         
         seedTime = rb.getString(ResourceLeng.FORMAT_TIME);
         seedTimeNoDays = rb.getString(ResourceLeng.FORMAT_TIME_NO_DAYS);
-        TABLE_FILE = rb.getString(ResourceLeng.INFO_FILE);
-        TABLE_NOTE = rb.getString(ResourceLeng.INFO_NOTE);
         
-        TBUTTON_05_TEXT = rb.getString(ResourceLeng.BUTTON_05_TEXT);
-        TBUTTON_05_TOOL = rb.getString(ResourceLeng.BUTTON_05_TOOL);
-        TBUTTON_1267_TEXT = rb.getString(ResourceLeng.BUTTON_1267_TEXT);
-        TBUTTON_1267_TOOL = rb.getString(ResourceLeng.BUTTON_1267_TOOL);
-        TBUTTON_38_TEXT = rb.getString(ResourceLeng.BUTTON_38_TEXT);
-        TBUTTON_38_TOOL = rb.getString(ResourceLeng.BUTTON_38_TOOL);
-        TBUTTON_4_TEXT = rb.getString(ResourceLeng.BUTTON_4_TEXT);
-        TBUTTON_4_TOOL = rb.getString(ResourceLeng.BUTTON_4_TOOL);
+        tableFile = rb.getString(ResourceLeng.INFO_FILE);
+        tableNote = rb.getString(ResourceLeng.INFO_NOTE);
+        tableFeed = rb.getString(ResourceLeng.INFO_FEED);
+        feedFile = rb.getString(ResourceLeng.FEEDBACK_FILE);
+        
+        tButton05Text = rb.getString(ResourceLeng.BUTTON_05_TEXT);
+        tButton05Tool = rb.getString(ResourceLeng.BUTTON_05_TOOL);
+        tButton1267Text = rb.getString(ResourceLeng.BUTTON_1267_TEXT);
+        tButton1267Tool = rb.getString(ResourceLeng.BUTTON_1267_TOOL);
+        tButton38Text = rb.getString(ResourceLeng.BUTTON_38_TEXT);
+        tButton38Tool = rb.getString(ResourceLeng.BUTTON_38_TOOL);
+        tButton4Text = rb.getString(ResourceLeng.BUTTON_4_TEXT);
+        tButton4Tool = rb.getString(ResourceLeng.BUTTON_4_TOOL);
+        tButton9Text = rb.getString(ResourceLeng.BUTTON_9_TEXT);
+        tButton9Tool = rb.getString(ResourceLeng.BUTTON_9_TOOL);
+        
+        
+        styleNormal = rb.getString(ResourceLeng.STYLE_NORMAL);
+        styleError = rb.getString(ResourceLeng.STYLE_ERROR);
     }
 }

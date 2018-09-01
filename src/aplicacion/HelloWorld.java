@@ -1,9 +1,9 @@
 package aplicacion;
 
 //#1 Static import
-import Tools.lenguaje.ResourceLeng;
-import Tools.logger.LogGeneral;
-import Tools.logger.LogSincronizacion;
+import tools.lenguaje.ResourceLeng;
+import tools.logger.LogGeneral;
+import tools.logger.LogSincronizacion;
 import static actualizador.main.VersionCheck.howIsLastUpdate;
 import actualizador.tools.ActionTool;
 import actualizador.tools.InfoTool;
@@ -54,14 +54,14 @@ import javax.swing.JOptionPane;
 public class HelloWorld extends Application {
     // Variables de Informacion de la App.
     public static Properties internalInformation = new Properties();
-    public static final int APPLICATION_VERSION = 11;
+    public static final int APPLICATION_VERSION = 10;
     static {
         //Important for Web Browser
         System.setProperty("sun.net.http.allowRestrictedHeaders", "true");
 
         //----------Properties-------------
         internalInformation.put("Version", APPLICATION_VERSION);
-        internalInformation.put("ReleasedDate", "29/02/2018");
+        internalInformation.put("ReleasedDate", "29/02/2018" );
     }
     // Varaibles de la clase
     private static HostServices servicioHost;
@@ -139,16 +139,14 @@ public class HelloWorld extends Application {
             LogGeneral.log(logRegistro);
         }
         scene = new Scene(root);
-        primaryStage.setTitle(rb.getString(ResourceLeng.APP_TITLE)
-                + internalInformation.get("Version"));
-//        }
+        primaryStage.setTitle(rb.getString(ResourceLeng.APP_TITLE));
+//                + internalInformation.get("Version"));    
         servicioHost = getHostServices();
         primaryStage.setScene(scene);
         primaryStage.setResizable(false);
 
         primaryStage.show();
         primaryStage.setOnCloseRequest(event -> {
-//            System.err.println("cerrando esto");
             //Usar Platfomr en vez de System, Platform llamara al metodo Stop()
             //  inherente; mientras que System para de raiz el proceso.
             Platform.exit();
@@ -162,7 +160,7 @@ public class HelloWorld extends Application {
      * @param titulo 
      */
     public static void cambiarTitulo(String titulo) {
-        escenario.setTitle(titulo + internalInformation.get("Version"));
+        escenario.setTitle(titulo);// + internalInformation.get("Version"));
     }
 
     /**
@@ -209,7 +207,6 @@ public class HelloWorld extends Application {
         // Se ha quitado la ejecucion en hilo, evita solapamientos con el 
         //  escenario de arranque normal y evita eventos en segundo plano
         // Restart XR3Player
-//        new Thread(() -> {
         String path = InfoTool.getBasePathForClass(HelloWorld.class);
         String[] applicationPath = {new File(path + appName + ".jar").getAbsolutePath()};
         //Show message that application is restarting
@@ -259,7 +256,7 @@ public class HelloWorld extends Application {
     public static void actualizarVersion(boolean mostrarMensaje) {
         int currentVersion = (int) internalInformation.get("Version");
         int lastVersion = howIsLastUpdate();
-
+        System.out.println("Version " + lastVersion);
         if(lastVersion == -1){
             ActionTool.mostrarNotificacion(rb, ResourceLeng.UPDATE_NO_ETHERNET,
                     ResourceLeng.UPDATE_NO_ETHERNET_TEXT, Duration.seconds(10), NotificationType.ERROR);

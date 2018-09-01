@@ -2,8 +2,8 @@ package aplicacion.eventos;
 
 //#1 Static import
 //import aplicacion.controlador.InterfaceController;
-import Sincronizacion.Moodle.inicio.OpcionesSyncMoodle;
-import Sincronizacion.Naster.OpcionesSyncNaster;
+import sincronizacion.moodle.inicio.OpcionesSyncMoodle;
+import sincronizacion.naster.OpcionesSyncNaster;
 import aplicacion.controlador.MainController;
 //#4 Java
 import java.io.IOException;
@@ -89,13 +89,13 @@ public class ProcesoSyncronizacion {
                         Platform.runLater(
                                 () -> {
                                     System.err.println("acabando");
-                                    _iu.syncroEnd();
+                                    _iu.finalizarSincronizacion();
                                 }
                         );
                 }
             } else {
                 System.err.println("flag 02B");
-                _iu.wrongDates();
+                _iu.borrarUsuario();
             }
         }).start();
     }

@@ -3,7 +3,7 @@ package aplicacion.datos;
 /**
  * 62
  * @author Diego
- * @version 1.0 *
+ * @version 1.0 
  */
 public class ItemArbol {
 
