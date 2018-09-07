@@ -15,6 +15,8 @@ import com.sun.javafx.scene.control.skin.TableHeaderRow;
 import java.io.File;
 import java.text.ParseException;
 import java.util.HashMap;
+import java.util.HashSet;
+import java.util.LinkedHashSet;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
 import java.util.ResourceBundle;
@@ -23,6 +25,7 @@ import javafx.beans.property.ReadOnlyObjectWrapper;
 import javafx.beans.property.ReadOnlyStringWrapper;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.cell.PropertyValueFactory;
@@ -59,7 +62,11 @@ public class TabDeliverController {
     private TableColumn<Tareas, Button> c5;     // Boton de accion
     private Map<String, Tareas> tareasTrack = new HashMap<>();
     private Map<String, Boolean> updatable = new HashMap<>();
-
+    private HashSet<Tareas> tareasExcedidas=new HashSet<Tareas>();  
+    private int DIA_MILLIS = 86400000; // 86.400 1 dia
+    private int ARCHIV_CORREGIDO = 2;
+    private int ARCHIV_POR_CORREGIR = 7;
+    
     //---------------------------------------------------EVENTO-------------------------------------------------
     /**
      * Metodo para gestiona el click en la columna 4
@@ -198,8 +205,45 @@ public class TabDeliverController {
     protected void refrescar() {
         tablaTareas.getColumns().get(2).setVisible(false);
         tablaTareas.getColumns().get(2).setVisible(true);
+        archivarTareas(tareasExcedidas);
     }
     
+    private void archivarTareas(HashSet<Tareas> candidatos){
+        String aux;
+        long diff;
+        String auxEstado;
+        //Parece que al hacer clean o renovar tarasExcedidas habia un error que 
+        // no referenciaba correctamente. De forma que clonamos la lista y segun
+        // la acccion eliminamos de la lista original
+        HashSet<Tareas> copyCandidatos = (HashSet<Tareas>) candidatos.clone();
+       
+        
+        
+        for(Tareas miTarea: copyCandidatos){
+            aux = miTarea.getTiempo();
+            diff = Long.valueOf(aux);
+            auxEstado = miTarea.getEstado();
+            
+            if(auxEstado.equals("0") || auxEstado.equals("5")){
+                tablaTareas.getItems().remove(miTarea);
+                tareasTrack.remove(miTarea.getIdentificador());
+                tareasExcedidas.remove(miTarea);
+            }else if(auxEstado.equals("1") || auxEstado.equals("6")){
+                if(diff <= (DIA_MILLIS * ARCHIV_CORREGIDO)){
+                    tablaTareas.getItems().remove(miTarea);
+                    tareasTrack.remove(miTarea.getIdentificador());
+                    tareasExcedidas.remove(miTarea);
+                }
+            }else if(auxEstado.equals("2") || auxEstado.equals("7")){
+                if(diff <= (DIA_MILLIS * ARCHIV_POR_CORREGIR)){
+                    tablaTareas.getItems().remove(miTarea);
+                    tareasTrack.remove(miTarea.getIdentificador());
+                    tareasExcedidas.remove(miTarea);
+                }
+            }
+        }
+        
+    }
     protected void setLanguague(ResourceBundle rb) {
         //******* Tab OpcionTareas
         this.c1.setText(rb.getString(ResourceLeng.C1_TEXT));
@@ -343,12 +387,14 @@ public class TabDeliverController {
                 // ToolTips a existir/aparecer. Por lo que en el tiempo restante 
                 // despreciaremos los segundos
                 if (p != null) {
+//                    System.err.println("refreshing");
                     aux = p.getValue().getTiempo();
                     if (aux != null) {
                         long diff = Long.valueOf(aux);
                         if (diff <= 0) {
+                            tareasExcedidas.add(p.getValue());
                             respuesta = null;
-                        } else if (diff < 86400000) { // 86.400 1 dia
+                        } else if (diff < DIA_MILLIS) { // 86.400 1 dia
                             String hms = String.format(ConfigControl.seedTimeNoDays,
                                     TimeUnit.MILLISECONDS.toHours(diff) % 24,
                                     TimeUnit.MILLISECONDS.toMinutes(diff) % 60);//,
@@ -362,8 +408,13 @@ public class TabDeliverController {
 //                                TimeUnit.MILLISECONDS.toSeconds(diff) % 60);
                             respuesta = hms;
                         }
-                        respuesta = p.getValue().getEstado() + "::" + respuesta;
-                        return new ReadOnlyStringWrapper(respuesta);
+                        if(respuesta != null){
+                            respuesta = p.getValue().getEstado() + "::" + respuesta;
+                            return new ReadOnlyStringWrapper(respuesta); 
+                        }else{
+                            return null;
+                        }
+                        
                     }
                 }
 
@@ -387,7 +438,7 @@ public class TabDeliverController {
                             setStyle(ConfigControl.styleNormal);
                         }
                         super.setTooltip(new Tooltip("hh:mm"));
-                        setText(item);
+                        setText(item); 
                     }
                 }
             };
@@ -498,6 +549,8 @@ public class TabDeliverController {
                     if (item == null || empty) {
                         setText(null);
                         setStyle("");
+                        setGraphic(null);
+                        
                     } else {
                         Tooltip auxTool = null;
                         String textStatus = item.getText();
@@ -543,7 +596,7 @@ public class TabDeliverController {
             };
         });
 
-//      AL reordenar las columnas parece haber un fallo con la creacion de cells
+//      AL reordenar las columnas parece haber un fallo con los Eventlistener
 //        MemoryLeak? revisar
         tablaTareas.widthProperty().addListener(new ChangeListener<Number>() {
             @Override
@@ -558,7 +611,7 @@ public class TabDeliverController {
             }
         });
     }
-
+    
     public void loadDummys() {
         anidirTarea("Proyecto Software (2017-2018)", "==> A. Documentación INDIVIDUAL - SEPTIEMBRE-18", "", "Monday, 10 September 2018, 4:00 PM", "en", "", "", "https://moodle2.unizar.es/add/mod/assign/view.php?id=1148926");
         anidirTarea("Proyecto Software (2017-2018)", "==> B1. Fuentes EQUIPO - SEPTIEMBRE-18", "", "Monday, 10 de September de 2018, 16:00", "es", "", "", "https://moodle2.unizar.es/add/mod/assign/view.php?id=1148927");

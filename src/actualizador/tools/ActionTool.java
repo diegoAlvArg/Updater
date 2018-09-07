@@ -110,7 +110,6 @@ public final class ActionTool {
 
         //Check if it is JavaFX Application Thread
         if (!Platform.isFxApplicationThread()) {
-            System.err.println("eiii");
             Platform.runLater(() -> showNotification(title, text, d, t));
             return;
         }

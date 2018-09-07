@@ -3,6 +3,7 @@ package aplicacion.controlador;
 
 //#1 Static import
 //import aplicacion.controlador.MainController;
+import java.util.Locale;
 import tools.lenguaje.ResourceLeng;
 //#4 Java
 import java.util.Map;
@@ -83,8 +84,8 @@ public class TabHelpController {
     //---------------------------------------------------UTILS-------------------------------------------------- 
     protected void setLanguague(ResourceBundle rb) {
         this.bActualizar.setText(rb.getString(ResourceLeng.BUTTON_UPDATE));
-        int version = main.getVersion();
-        this.lVersionActual.setText(String.format(rb.getString(ResourceLeng.LABEL_CURRENT_VERSION_INFO), version));
+        double version = main.getVersion();
+        this.lVersionActual.setText(String.format(Locale.UK, rb.getString(ResourceLeng.LABEL_CURRENT_VERSION_INFO), version));
         this.urlWiki = rb.getString(ResourceLeng.WIKI_URL);
         this.hAbrirAyuda.setText(rb.getString(ResourceLeng.WIKI_TEXT));
         this.urlNas = rb.getString(ResourceLeng.NAS_URL);

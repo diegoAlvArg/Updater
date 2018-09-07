@@ -54,7 +54,7 @@ import javax.swing.JOptionPane;
 public class HelloWorld extends Application {
     // Variables de Informacion de la App.
     public static Properties internalInformation = new Properties();
-    public static final int APPLICATION_VERSION = 10;
+    public static final double APPLICATION_VERSION = 1.01;
     static {
         //Important for Web Browser
         System.setProperty("sun.net.http.allowRestrictedHeaders", "true");
@@ -202,7 +202,7 @@ public class HelloWorld extends Application {
     /**
      * Calling this method to start the main Application which is XR3Player
      */
-    public static void inicarAplicacionExterna(String appName, int version) {
+    public static void inicarAplicacionExterna(String appName, double version) {
 //        System.out.println(ResourceLeng.APP_INIT); //-
         // Se ha quitado la ejecucion en hilo, evita solapamientos con el 
         //  escenario de arranque normal y evita eventos en segundo plano
@@ -212,8 +212,8 @@ public class HelloWorld extends Application {
         //Show message that application is restarting
         try {
             //Create a process builder
-            ProcessBuilder builder = new ProcessBuilder("java", "-jar", applicationPath[0], String.valueOf(version));
-//            System.out.println("CMD: " + builder.command());
+//            ProcessBuilder builder = new ProcessBuilder("java", "-jar", applicationPath[0], String.valueOf(version));
+            ProcessBuilder builder = new ProcessBuilder("./jre/bin/java.exe", "-jar", applicationPath[0], String.valueOf(version));
             LogRecord logRegistro = new LogRecord(Level.INFO, "CMD: " + builder.command());
             LogGeneral.log(logRegistro);
             builder.redirectErrorStream(true);
@@ -254,13 +254,13 @@ public class HelloWorld extends Application {
      * @param mostrarMensaje mostrar mensaje en caso de misma version
      */
     public static void actualizarVersion(boolean mostrarMensaje) {
-        int currentVersion = (int) internalInformation.get("Version");
-        int lastVersion = howIsLastUpdate();
+        double currentVersion = (double) internalInformation.get("Version");//---------------
+        double lastVersion = howIsLastUpdate();
         System.out.println("Version " + lastVersion);
-        if(lastVersion == -1){
+        if(lastVersion == -1.0){
             ActionTool.mostrarNotificacion(rb, ResourceLeng.UPDATE_NO_ETHERNET,
                     ResourceLeng.UPDATE_NO_ETHERNET_TEXT, Duration.seconds(10), NotificationType.ERROR);
-        }else if(lastVersion == -2){
+        }else if(lastVersion == -2.0){
             ActionTool.mostrarNotificacion(rb, ResourceLeng.UPDATE_ERROR_FILE,
                     ResourceLeng.UPDATE_ERROR_FILE_TEXT, Duration.seconds(10), NotificationType.WARNING);
         }else if (currentVersion < lastVersion) {

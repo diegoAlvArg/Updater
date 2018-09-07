@@ -164,9 +164,9 @@ public class MainController {
             ActionTool.mostrarNotificacion(rb, ResourceLeng.SYNCRO_END_TITLE, ResourceLeng.SYNCRO_END_NO_NEWS, 
                     Duration.seconds(10), NotificationType.INFORMATION);
         }else{
-            String text = (numRecursos > 0) ? rb.getString(ResourceLeng.SYNCRO_NOW) : null;
+            String text = (numRecursos > 0) ? rb.getString(ResourceLeng.SYNCRO_END_RESOURCES) : null;
             if(text != null){
-                text = String.format(text, numRecursos) + "/n";
+                text = String.format(text, numRecursos) + "\n";
             }else{
                 text = "";
             }
@@ -274,8 +274,8 @@ public class MainController {
     protected ResourceBundle getResource() {
         return HelloWorld.getResource();
     }
-    protected int getVersion(){
-        return (int) HelloWorld.internalInformation.get("Version");
+    protected double getVersion(){
+        return (double) HelloWorld.internalInformation.get("Version");
     }
     
     

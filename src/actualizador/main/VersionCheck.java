@@ -35,9 +35,9 @@ public class VersionCheck {
      *
      * @return -1 No Conection, -2 Update service not enable
      */
-    public static int howIsLastUpdate() {
+    public static double howIsLastUpdate() {
         System.out.println("Buscando...");
-        int lastVersion = -1;
+        double lastVersion = -1.0;
 
         //Check if we have internet connection
         if (InfoTool.isReachableByPing("www.google.com")) {
@@ -52,8 +52,8 @@ public class VersionCheck {
      *
      * @return -2 Error. >= 0
      */
-    private static int searchForUpdatesPart2() {
-        int lastVersionUpdate = -2;
+    private static double searchForUpdatesPart2() {
+        double lastVersionUpdate = -2.0;
 //        System.err.println("Update 2");
         try {
 
@@ -62,12 +62,12 @@ public class VersionCheck {
             //Document doc = Jsoup.parse(new File("XR3PlayerUpdatePage.html"), "UTF-8", "http://example.com/");
             Element lastArticle = doc.getElementsByTag("article").last();
 
-            lastVersionUpdate = Integer.valueOf(lastArticle.id());
+            lastVersionUpdate = Double.valueOf(lastArticle.id());
         } catch (IOException ex) {
             StringWriter errors = new StringWriter();
             ex.printStackTrace(new PrintWriter(errors));
             LogRecord logRegistro = new LogRecord(Level.WARNING, HelloWorld.getResource()
-                    .getString(ResourceLeng.TRACE_STORE_SAVE) + "\n" + errors.toString());
+                    .getString(ResourceLeng.TRACE_UPDATE_CONNECT) + "\n" + errors.toString());
             logRegistro.setSourceClassName("searchForUpdatesPart2");
             LogGeneral.log(logRegistro);
         } finally {

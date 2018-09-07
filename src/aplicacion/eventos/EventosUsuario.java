@@ -127,16 +127,32 @@ public class EventosUsuario {
         grid.setHgap(5);
         grid.setVgap(10);
         grid.setPadding(new Insets(20, 80, 10, 10));
-
+        
+        
+        //------------CAMPOS---------------------------------------------------------------------------------------------------     
+        Tooltip tooltip;
+        //--Username
         TextField username = new TextField();
         username.setPromptText(rb.getString(ResourceLeng.ASK_FIELD_USER));
+        tooltip = new Tooltip(rb.getString(ResourceLeng.ASK_TOOLTIP_USER));
+        tooltip.setFont(new Font("System", 13));
+        username.setTooltip(tooltip);
+        //--Pass Moodle
         PasswordField password1 = new PasswordField();
         password1.setPromptText(rb.getString(ResourceLeng.ASK_FIELD_PASS));
+        tooltip = new Tooltip(rb.getString(ResourceLeng.ASK_TOOLTIP_PASS_MOODLE));
+        tooltip.setFont(new Font("System", 13));
+        password1.setTooltip(tooltip);
+        //--Pass Nas-ter
         PasswordField password2 = new PasswordField();
         password2.setPromptText(rb.getString(ResourceLeng.ASK_FIELD_PASS));
-        TextField path = new TextField();
+        tooltip = new Tooltip(rb.getString(ResourceLeng.ASK_TOOLTIP_PASS_NASTER));
+        tooltip.setFont(new Font("System", 13));
+        password2.setTooltip(tooltip);
+        password2.setDisable(!usarNas);
+        //--Use Nas-ter
         CheckBox useNas = new CheckBox();
-        Tooltip tooltip = new Tooltip(rb.getString(ResourceLeng.ASK_TOOLTIP_NASTER));
+        tooltip = new Tooltip(rb.getString(ResourceLeng.ASK_TOOLTIP_NASTER));
         tooltip.setFont(new Font("System", 13));
         useNas.setTooltip(tooltip);
         useNas.selectedProperty().addListener(new ChangeListener<Boolean>() {
@@ -146,9 +162,10 @@ public class EventosUsuario {
             }
 
         });
-        password2.setDisable(!usarNas);
-//--------------------------------------------------------------------------------------------------------------------
-//--------------------------------------------------------------------------------------------------------------------
+        //--Path en el montado
+        TextField path = new TextField();
+        //--------------------------------------------------------------------------------------------------------------------
+
         // Posible inicio tras recuperacion
         username.setText(usuario);
         password1.setText(contraseniaM);
@@ -168,7 +185,11 @@ public class EventosUsuario {
         if (preguntarPath) {
             path.setPromptText(rb.getString(ResourceLeng.ASK_FIELD_PATH));
             path.setEditable(false);
+            tooltip = new Tooltip(rb.getString(ResourceLeng.ASK_TOOLTIP_PATH));
+            tooltip.setFont(new Font("System", 13));
+            path.setTooltip(tooltip);
             Button tempButton = new Button("...");
+            tempButton.setTooltip(tooltip);
             tempButton.setOnAction(new EventHandler<ActionEvent>() {
                 @Override
                 public void handle(ActionEvent e) {
