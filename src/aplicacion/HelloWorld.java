@@ -54,7 +54,7 @@ import javax.swing.JOptionPane;
 public class HelloWorld extends Application {
     // Variables de Informacion de la App.
     public static Properties internalInformation = new Properties();
-    public static final double APPLICATION_VERSION = 1.01;
+    public static final double APPLICATION_VERSION = 1.0;
     static {
         //Important for Web Browser
         System.setProperty("sun.net.http.allowRestrictedHeaders", "true");
