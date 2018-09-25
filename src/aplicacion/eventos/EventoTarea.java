@@ -1,11 +1,19 @@
 package aplicacion.eventos;
 
-import tools.lenguaje.ResourceLeng;
-import tools.logger.LogGeneral;
+//#1 Static import
 import actualizador.tools.ActionTool;
 import actualizador.tools.NotificationType;
 import aplicacion.controlador.MainController;
 import aplicacion.datos.Tareas;
+import tools.lenguaje.ResourceLeng;
+import tools.logger.LogGeneral;
+//#3 Third party
+import org.jsoup.Connection;
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
+import org.jsoup.nodes.Element;
+import org.jsoup.select.Elements;
+//#4 Java
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -16,20 +24,16 @@ import java.util.Map;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.LogRecord;
+//#5 JavaFx
 import javafx.application.Platform;
 import javafx.stage.FileChooser;
 import javafx.util.Duration;
-import org.jsoup.Connection;
-import org.jsoup.Jsoup;
-import org.jsoup.nodes.Document;
-import org.jsoup.nodes.Element;
-import org.jsoup.select.Elements;
 
 /**
  *  --------------->>OJO-------------------------------------------------------------------------------------------------
- *  Que la entrega esta habilitada
- * 347 
- * @author Diego
+ * Que la entrega esta habilitada
+ * 348 
+ * @author Diego Alvarez
  */
 public class EventoTarea {
 
@@ -68,13 +72,9 @@ public class EventoTarea {
         if (selectedFile != null) {
             procesoSubida(usuario, contrasenia, selectedFile.getAbsolutePath(), miTarea, rb, control);
         } else {
-            miTarea.resetearEstado();//A
-            control.finalizarEntregaTarea();//B
+            miTarea.resetearEstado();
+            control.finalizarEntregaTarea();
         }
-//        //NOTA A & B no ponerlos en un finally porque el metodo va ha acabar 
-//        // y habra un hilo trabajando el proceso. Si ponemos en finally este
-//        // se ejecutara durante el hilo
-//        System.out.println(selectedFile);
     }
     
     /**

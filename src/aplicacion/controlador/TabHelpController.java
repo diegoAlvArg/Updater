@@ -1,6 +1,5 @@
 package aplicacion.controlador;
 
-
 //#1 Static import
 //import aplicacion.controlador.MainController;
 import java.util.Locale;
@@ -18,7 +17,7 @@ import javafx.scene.text.Text;
 import javafx.scene.text.TextFlow;
 
 
-/** 117
+/** 120
  * Control de la tabla Help, encontraremos creditos, ayuda y para actualizar
  * 
  * @author Diego Alvarez

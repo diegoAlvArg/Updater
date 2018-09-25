@@ -25,7 +25,7 @@ import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
 import javafx.util.Duration;
 
-/**
+/** 334
  * Control principal, gestionara el flujo de datos entre las tablas hijas y
  * recursos que puedan necesitar
  * 
@@ -78,7 +78,7 @@ public class MainController {
         //Tab 3 depende si usuario, que son las lineas siguientes.
 
         setLanguague(rb);
-        HelloWorld.setMetodosControl(this, "actualizarVesionFin", "saveData");//---------------
+        HelloWorld.setMetodosControl(this, "actualizarVesionFin", "guardarDatos");//---------------
         HelloWorld.anidirOpcionSysTray(this, "abrirAyuda", ResourceLeng.SYS_TRAY_WIKI);
         HelloWorld.anidirOpcionSysTray(this, "actualizarVersion", ResourceLeng.SYS_TRAY_UPDATE);
         HelloWorld.anidirOpcionSysTray(this, "sincronizarAhora", ResourceLeng.SYS_TRAY_SYNCRO);
@@ -90,8 +90,8 @@ public class MainController {
             logRegistro = new LogRecord(Level.INFO, rb.getString(ResourceLeng.TRACE_USER_NO));
         } else {
             try {
-                tab3Controller.init(true, InformacionUsuario.getUser(), InformacionUsuario.getPath(), this);
-                tab2Controller.cargarDatos(InformacionUsuario.getUser());
+                tab3Controller.init(true, InformacionUsuario.getUsuario(), InformacionUsuario.getPath(), this);
+                tab2Controller.cargarDatos(InformacionUsuario.getUsuario());
                 tab3Controller.setSiguienteAlarma();
                
                 logRegistro = new LogRecord(Level.INFO, rb.getString(ResourceLeng.TRACE_USER_OK));
@@ -127,11 +127,11 @@ public class MainController {
      * nodo que lo represente, creando este si fuera necesario.
      *
      * @param path path del recurso que representa el item
-     * @param name nombre con el que se representara
+     * @param nombre nombre con el que se representara
      * @param tipo tipo del item, para asignarle un icono
      */
-    public synchronized void aniadirRecurso(String path, String name) {
-        tab1Controller.aniadirElementoTree(path, name, tab3Controller.getLPathApp());
+    public synchronized void aniadirRecurso(String path, String nombre) {
+        tab1Controller.aniadirElementoTree(path, nombre, tab3Controller.getLPathApp());
         numRecursos++;
     }
     
@@ -146,7 +146,7 @@ public class MainController {
     }
     
     public void aniadirTarea(String curso, String titulo, String fichero, String tiempo, String languague, String nota, String comentario, String url){
-        tab2Controller.anidirTarea(curso, titulo, fichero, tiempo, languague, nota, comentario, url);
+        tab2Controller.aniadirTarea(curso, titulo, fichero, tiempo, languague, nota, comentario, url);
         numTareas++;
     }
     
@@ -193,6 +193,7 @@ public class MainController {
         }
         numTareas = 0;
         numRecursos = 0;
+        tab2Controller.loadUpdatable();
     }
 
     /**
@@ -201,6 +202,7 @@ public class MainController {
      */
     protected void borrarRastroUsuario() {
         tab01.setDisable(true);
+        tab1Controller.limpiarRastro();
         tab02.setDisable(true);
         tTabPane.getSelectionModel().select(tab03);
     }
@@ -281,7 +283,7 @@ public class MainController {
     
     private void refrescar() {
         tab2Controller.refrescar();
-        System.err.println("popo");
+//        System.err.println("popo");
     }
     
     /**

@@ -6,7 +6,7 @@ import tools.lenguaje.ResourceLeng;
 import java.util.ResourceBundle;
 
 /**
- * 109
+ * 114
  * @author Diego Alvarez
  */
 public class ConfigControl {

@@ -26,8 +26,8 @@ import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import javafx.util.Duration;
 
-/**
- * A class which has a lot of useful methods. 278
+/** 278
+ * A class which has a lot of useful methods. 
  * 
  * @author GOXR3PLUS
  * @version 1.0
@@ -45,6 +45,13 @@ public final class ActionTool {
      */
     private static final Logger logger = Logger.getLogger(ActionTool.class.getName());
 
+    
+    /**
+     * Private Constructor.
+     */
+    private ActionTool() {
+    }
+    
     /**
      * Tries to open that URI on the default browser
      *
@@ -68,12 +75,6 @@ public final class ActionTool {
             return false;
         }
         return true;
-    }
-
-    /**
-     * Private Constructor.
-     */
-    private ActionTool() {
     }
 
     /**

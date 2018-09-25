@@ -1,8 +1,8 @@
 package aplicacion.datos;
 
 /**
- * 62
- * @author Diego
+ * 59
+ * @author Diego Alvarez
  * @version 1.0 
  */
 public class ItemArbol {

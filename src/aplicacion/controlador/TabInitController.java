@@ -23,7 +23,7 @@ import javafx.scene.control.TreeView;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 
-/** 169
+/** 177
  * Controlador de la tabla Init, en la que existe un TreeView que llenaremos 
  * de elementos que representan recursos descargados
  * 
@@ -150,6 +150,15 @@ public class TabInitController {
         }
     }
 
+    //---------------------------------------------------UTILS-------------------------------------------------- 
+    /**
+     * Medoto para limpiar datos guardados
+     */
+    protected void limpiarRastro(){
+        tListUpdates.getRoot().getChildren().clear();
+        cursosTrack.clear();
+    }
+    
     
     //---------------------------------------------------INIT---------------------------------------------------
     protected void init(MainController mainController) {
@@ -165,5 +174,4 @@ public class TabInitController {
         tListUpdates.setRoot(rootItem);
         tListUpdates.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> manejadorTreeViewClick((TreeItem) newValue));
     }
-
 }

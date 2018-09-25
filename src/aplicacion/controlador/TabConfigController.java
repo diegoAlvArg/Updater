@@ -42,7 +42,7 @@ import javafx.util.Duration;
 import javafx.util.StringConverter;
 
 /**
- * 680
+ * 691
  * @author Diego Alvarez
  */
 public class TabConfigController {// implements Initializable{
@@ -70,6 +70,8 @@ public class TabConfigController {// implements Initializable{
     @FXML
     private Label lIdUsuario;
     @FXML
+    private Label lComprobandoDatos;
+    @FXML
     private Label lTituloPathAplicacion;
     @FXML
     private Label lPathAplicacion;
@@ -78,9 +80,9 @@ public class TabConfigController {// implements Initializable{
     @FXML
     private Button bConfirmar;
     @FXML
-    private Label lTituloFrecuenciaSinc;
-    @FXML
     private Button bEditPath;
+    @FXML
+    private Label lTituloFrecuenciaSinc;
     @FXML
     private Label lTituloSiguienteActualizacion;
     @FXML
@@ -153,7 +155,7 @@ public class TabConfigController {// implements Initializable{
             LogRecord logRegistro = new LogRecord(Level.INFO, rb.getString(ResourceLeng.TRACE_EVENT_USER_NEW));
             logRegistro.setSourceClassName(this.getClass().getName());
             LogGeneral.log(logRegistro);
-
+            lComprobandoDatos.setVisible(true);
             new EventosUsuario("", "", "", false, rb, true, this);
             if (alarmaSincronizacion != null) {
                 alarmaSincronizacion.pause();
@@ -177,8 +179,8 @@ public class TabConfigController {// implements Initializable{
                 LogRecord logRegistro = new LogRecord(Level.INFO, rb.getString(ResourceLeng.TRACE_EVENT_USER_EDIT));
                 logRegistro.setSourceClassName(this.getClass().getName());
                 LogGeneral.log(logRegistro);
-
-                new EventosUsuario(InformacionUsuario.getUser(), InformacionUsuario.getPass1(), InformacionUsuario.getPass2(),
+                lComprobandoDatos.setVisible(true);
+                new EventosUsuario(InformacionUsuario.getUsuario(), InformacionUsuario.getPassM(), InformacionUsuario.getPassN(),
                         InformacionUsuario.getUseNas(), rb, false, this);
                 if (alarmaSincronizacion != null) {
                     alarmaSincronizacion.pause();
@@ -291,8 +293,8 @@ public class TabConfigController {// implements Initializable{
     private void utilizarNasTer(ActionEvent event) {
         if (cUsoNaster.isSelected()) {
             try {
-//                int resultado = EventosUsuario.validarCredencialesNaster(InformacionUsuario.getUser(), InformacionUsuario.getPass2());
-                int resultado = Validador.validarCredencialesNaster(InformacionUsuario.getUser(), InformacionUsuario.getPass2());
+//                int resultado = EventosUsuario.validarCredencialesNaster(InformacionUsuario.getUsuario(), InformacionUsuario.getPassN());
+                int resultado = Validador.validarCredencialesNaster(InformacionUsuario.getUsuario(), InformacionUsuario.getPassN());
 
                 if (resultado == 2) {
                     cUsoNaster.setSelected(false);
@@ -317,22 +319,22 @@ public class TabConfigController {// implements Initializable{
      * el Timer para la siguiente actualizacion.y en caso de que el usuario
      * complete los eventos guardara los datos resultantes.
      *
-     * @param dates
-     * @param isnew
+     * @param datos
+     * @param esNuevo
      */
-    public void establecerUsuario(List<String> dates, boolean isnew) {
+    public void establecerUsuario(List<String> datos, boolean esNuevo) {
         try {
-            if (dates != null && isnew) {
-                InformacionUsuario.crearFichero(dates.get(0), dates.get(1), dates.get(2), dates.get(3), String.valueOf(dates.get(4)));
-                initializationUserLoad(true, dates.get(0), dates.get(3));
-                cUsoNaster.setSelected(Boolean.parseBoolean(dates.get(4)));
+            if (datos != null && esNuevo) {
+                InformacionUsuario.crearFichero(datos.get(0), datos.get(1), datos.get(2), datos.get(3), String.valueOf(datos.get(4)));
+                initializationUserLoad(true, datos.get(0), datos.get(3));
+                cUsoNaster.setSelected(Boolean.parseBoolean(datos.get(4)));
                 main.establecerUsuario();
-            } else if (dates != null) {
-                InformacionUsuario.crearFichero(dates.get(0), dates.get(1), dates.get(2), InformacionUsuario.getPath(), String.valueOf(dates.get(4)));
-                lIdUsuario.setText(dates.get(0));
-                cUsoNaster.setSelected(Boolean.parseBoolean(dates.get(4)));
+            } else if (datos != null) {
+                InformacionUsuario.crearFichero(datos.get(0), datos.get(1), datos.get(2), InformacionUsuario.getPath(), String.valueOf(datos.get(4)));
+                lIdUsuario.setText(datos.get(0));
+                cUsoNaster.setSelected(Boolean.parseBoolean(datos.get(4)));
             }
-
+            lComprobandoDatos.setVisible(false);
             bEditarUsuario.setDisable(false);
             bNuevoUsuario.setDisable(false);
             main.liberarUsuario();
@@ -360,8 +362,8 @@ public class TabConfigController {// implements Initializable{
 
         lSiguienteActualizacion.setText(main.getResource().getString(ResourceLeng.SYNCRO_NOW));
         try {
-            new ProcesoSyncronizacion(InformacionUsuario.getUser(), InformacionUsuario.getPass1(),
-                    InformacionUsuario.getPass2(), InformacionUsuario.getPath(),
+            new ProcesoSyncronizacion(InformacionUsuario.getUsuario(), InformacionUsuario.getPassM(),
+                    InformacionUsuario.getPassN(), InformacionUsuario.getPath(),
                     main.getResource(), main, cUsoNaster.isSelected());
         } catch (NoSuchFieldException e) {
             borrarUsuario();
@@ -459,7 +461,15 @@ public class TabConfigController {// implements Initializable{
         bActualizar.setDisable(true);
     }
     
-    
+//    public void comprobandoDatos(boolean comprobando){
+////        lComprobandoDatos.setVisible(comprobando);
+//        System.err.println("Visible " + comprobando);
+//        Platform.runLater(() -> {
+//             lComprobandoDatos.setVisible(comprobando);
+//         });
+////        lComprobandoDatos.setText(String.valueOf(comprobando));
+////        gameRunning.set(comprobando);
+//    }
     //---------------------------------------------------UTILS-------------------------------------------------- 
     protected void setLanguague(ResourceBundle rb) {
         this.lTituloLanguague.setText(rb.getString(ResourceLeng.LANGUAGE));
@@ -489,6 +499,7 @@ public class TabConfigController {// implements Initializable{
         bEditarUsuario.getTooltip().setText(rb.getString(ResourceLeng.TOOLTIP_EDITUSER));
         cUsoNaster.setText(rb.getString(ResourceLeng.ASK_LABEL_USE_NAS));
         cUsoNaster.getTooltip().setText(rb.getString(ResourceLeng.ASK_TOOLTIP_NASTER));
+        lComprobandoDatos.setText(rb.getString(ResourceLeng.VALIDATING_DATA));
     }
 
     /**
@@ -553,10 +564,16 @@ public class TabConfigController {// implements Initializable{
         this.sincronizarAhora();
     }
     //---------------------------------------------------INIT---------------------------------------------------
+//    private BooleanProperty gameRunning = new SimpleBooleanProperty(false);
     protected void init(boolean user, String userId, String path, MainController main) {
         this.main = main;
         initializeSpinners();
         initializationUserLoad(user, userId, path);
+//        lComprobandoDatos.visibleProperty().bind(gameRunning);
+                
+//                btnOrder.disableProperty().bind(Bindings.createBooleanBinding(
+//    () -> txtItem.getText().isEmpty() && txtQty.getText().isEmpty(),
+//    txtItem.textProperty(), txtQty.textProperty()));
     }
     /**
      * Inicializa los spinner, dando un valor inicial y añadiendole reglas

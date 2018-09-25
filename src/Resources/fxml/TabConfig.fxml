@@ -54,7 +54,8 @@
                 </ImageView>
             </graphic>
         </Button>
-        <Label fx:id="lIdUsuario" layoutX="60.0" layoutY="146.0" prefHeight="17.0" prefWidth="62.0" />
+      <Label fx:id="lComprobandoDatos" layoutX="39.0" layoutY="175.0" prefHeight="60.0" prefWidth="198.0" text="Check data" visible="false" />
+        <Label fx:id="lIdUsuario" layoutX="60.0" layoutY="147.0" prefHeight="17.0" prefWidth="62.0" text="NIP" />
         <Label fx:id="lTituloFrecuenciaSinc" layoutX="287.0" layoutY="35.0" text="Frecuencia sincronizacion">
             <font>
                 <Font name="System Bold" size="14.0" />

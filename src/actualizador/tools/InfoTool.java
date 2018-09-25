@@ -9,7 +9,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.scene.image.Image;
 
-/**
+/** 180
  * Provides useful methods for retrieving informations.
  *
  * @author GOXR3PLUS

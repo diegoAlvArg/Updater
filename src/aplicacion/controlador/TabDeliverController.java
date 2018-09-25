@@ -26,6 +26,7 @@ import javafx.beans.property.ReadOnlyStringWrapper;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.cell.PropertyValueFactory;
@@ -38,7 +39,7 @@ import javafx.scene.input.MouseEvent;
 import javafx.util.Callback;
 import javafx.util.Duration;
 
-/**
+/** 633
  * Controlador de la tabla Deliver, en la que hay una tabla en la cual recogemos
  *  y representamos las Tareas 
  * 
@@ -66,6 +67,38 @@ public class TabDeliverController {
     private int DIA_MILLIS = 86400000; // 86.400 1 dia
     private int ARCHIV_CORREGIDO = 2;
     private int ARCHIV_POR_CORREGIR = 7;
+    
+//    
+//    @FXML
+//    private Button tbut;
+//    @FXML
+//    private void testButo(ActionEvent event) {
+//        System.err.println("eii");
+//        limpiarRastro();
+//    }
+//    
+//    
+//    @FXML
+//    private Button tbutB;
+//    @FXML
+//    private void testButoB(ActionEvent event) {
+//        System.err.println("jaja");
+//        loadDummys();
+//    }
+//      @FXML
+//    private Button tbutC;
+//    private static int i = 0;
+//    @FXML
+//    private void testButoC(ActionEvent event) {
+//        System.err.println("button c");
+//        if(i == 0){
+//            updatable.put("practica 7 - Bases de datos", Boolean.TRUE);
+//            i++;
+//        }
+//        
+//        aniadirTarea("Bases de datos", "practica 7", "", "Wednesday, 12 September 2018, 11:56 AM", "en", "6", "Buena practica", "");
+//    }
+    
     
     //---------------------------------------------------EVENTO-------------------------------------------------
     /**
@@ -114,7 +147,7 @@ public class TabDeliverController {
                     try {
                         aux.setEstado("4");
                         tablaTareas.refresh();
-                        new EventoTarea(aux, main, InformacionUsuario.getUser(), InformacionUsuario.getPass1(),
+                        new EventoTarea(aux, main, InformacionUsuario.getUsuario(), InformacionUsuario.getPassM(),
                                 InformacionUsuario.getPath(), main.getResource());
                     } catch (NoSuchFieldException ex) {
                         aux.resetearEstado();
@@ -140,25 +173,33 @@ public class TabDeliverController {
      * @param comentario comentario/feedback asociado a la tarea
      * @param url URL donde encontramos la tarea
      */
-    protected void anidirTarea(String curso, String titulo, String fichero, String tiempo, String languague, String nota, String comentario, String url) {
+    protected void aniadirTarea(String curso, String titulo, String fichero, String tiempo, String languague, String nota, String comentario, String url) {
         try {
             Tareas del = new Tareas(curso, titulo, fichero, tiempo, languague, nota, comentario, url);
             Tareas aux;
-            if (tareasTrack.containsKey(del.getIdentificador()) && updatable.get(del.getIdentificador())) {
+            boolean auxB = tareasTrack.containsKey(del.getIdentificador());
+//            boolean auxC = updatable.get(del.getIdentificador());
+//            boolean auxD = auxB && auxC;
+//            auxB = updatable.get(del.getIdentificador());
+            if(tareasTrack.containsKey(del.getIdentificador())){
                 aux = tareasTrack.get(del.getIdentificador());
-                if (!aux.equals(del)) {
-                    aux.updateInfo(del);
-                    //Es posible que si tenemos la referencia esto no sea 
-                    //  necesario por si acaso
-                    tablaTareas.getItems().remove(aux);
-                    tablaTareas.getItems().add(del);
+                if(updatable.get(del.getIdentificador())){
+                    if(!aux.equals(del)){
+                        aux.updateInfo(del);
+                        tablaTareas.refresh();
+                        updatable.put(del.getIdentificador(), Boolean.FALSE);
+                    }
+                }else{
+                    aux.setEstado("9");
+                    tablaTareas.refresh();
                 }
-            } else {
+            }else{
                 tareasTrack.put(del.getIdentificador(), del);
                 tablaTareas.getItems().add(del);
+                updatable.put(del.getIdentificador(), Boolean.FALSE);
             }
         } catch (ParseException e) {
-            e.printStackTrace();
+//            e.printStackTrace();
         }
     }
 
@@ -194,7 +235,7 @@ public class TabDeliverController {
     protected void guardarDatos() {
         try {
             if (InformacionUsuario.existenDatos()) {
-                AlmacenTareas.guardarDatos(tareasTrack, InformacionUsuario.getUser());
+                AlmacenTareas.guardarDatos(tareasTrack, InformacionUsuario.getUsuario());
             }
         } catch (NoSuchFieldException ex) {
             //Si no existe el perfil del usuario, es indiferente tratar el error
@@ -207,7 +248,11 @@ public class TabDeliverController {
         tablaTareas.getColumns().get(2).setVisible(true);
         archivarTareas(tareasExcedidas);
     }
-    
+    protected void limpiarRastro(){
+        tablaTareas.getItems().clear();
+        tareasTrack.clear();
+        updatable.clear();
+    }
     private void archivarTareas(HashSet<Tareas> candidatos){
         String aux;
         long diff;
@@ -244,6 +289,7 @@ public class TabDeliverController {
         }
         
     }
+    
     protected void setLanguague(ResourceBundle rb) {
         //******* Tab OpcionTareas
         this.c1.setText(rb.getString(ResourceLeng.C1_TEXT));
@@ -258,9 +304,9 @@ public class TabDeliverController {
     }
     
     /**
-     * @deprecated 
+     *
      */
-    public void loadUpdatable() {
+    protected void loadUpdatable() {
         if (!tareasTrack.isEmpty()) {
             for (Map.Entry<String, Tareas> entry : tareasTrack.entrySet()) {
                 updatable.put(entry.getKey(), Boolean.TRUE);
@@ -271,7 +317,7 @@ public class TabDeliverController {
     protected void init(MainController mainController) {
         main = mainController;
         initializeTableView();
-        loadDummys();
+//        loadDummys();
     }
 
     /**
@@ -412,7 +458,8 @@ public class TabDeliverController {
                             respuesta = p.getValue().getEstado() + "::" + respuesta;
                             return new ReadOnlyStringWrapper(respuesta); 
                         }else{
-                            return null;
+                            return new ReadOnlyStringWrapper(p.getValue().getEstado() + "::"); 
+//                            return null;
                         }
                         
                     }
@@ -425,7 +472,6 @@ public class TabDeliverController {
             return new TableCell<Tareas, String>() {
                 @Override
                 protected void updateItem(String item, boolean empty) {
-//                    super.updateItem(item, empty);
                     if (item == null || empty) {
                         setText(null);
                         setStyle("");
@@ -437,8 +483,15 @@ public class TabDeliverController {
                         } else {
                             setStyle(ConfigControl.styleNormal);
                         }
-                        super.setTooltip(new Tooltip("hh:mm"));
-                        setText(item); 
+                        if(item.isEmpty()){
+                            setText("");
+                        }else{
+                            super.setTooltip(new Tooltip("hh:mm"));
+                            setText(item);  
+                        }
+                        
+                        
+                        
                     }
                 }
             };
@@ -511,20 +564,17 @@ public class TabDeliverController {
                                 }
                             }
                         }
+                        if (estado.equals("9")) {
+                            setStyle(ConfigControl.styleError);
+                        } else {
+                            setStyle(ConfigControl.styleNormal);
+                        }
                         if (cellText.length() > 1) {
-                            if (estado.equals("9")) {
-                                setStyle(ConfigControl.styleError);
-                            } else {
-                                setStyle(ConfigControl.styleNormal);
-                            }
-
                             super.setTooltip(new Tooltip(cellTool));
                             setText(cellText);
                             addEventFilter(MouseEvent.MOUSE_CLICKED, event -> gestionarEventoFichero(tablaTareas.getSelectionModel().getSelectedItem()));
-
                         } else {
-                            setText(null);
-                            setStyle("");
+                            setText("");
                         }
                     }
                 }
@@ -613,10 +663,11 @@ public class TabDeliverController {
     }
     
     public void loadDummys() {
-        anidirTarea("Proyecto Software (2017-2018)", "==> A. Documentación INDIVIDUAL - SEPTIEMBRE-18", "", "Monday, 10 September 2018, 4:00 PM", "en", "", "", "https://moodle2.unizar.es/add/mod/assign/view.php?id=1148926");
-        anidirTarea("Proyecto Software (2017-2018)", "==> B1. Fuentes EQUIPO - SEPTIEMBRE-18", "", "Monday, 10 de September de 2018, 16:00", "es", "", "", "https://moodle2.unizar.es/add/mod/assign/view.php?id=1148927");
-        anidirTarea("Bases de datos", "practica 5", "C:\\demo\\TestB.pdf", "Monday, 17 September 2018, 6:00 PM", "en", "9", "Buena practica", "");
-        anidirTarea("Bases de datos", "practica 0", "TestB.pdf", "Monday, 3 September 2018, 1:00 PM", "en", "9", "", "");
-        anidirTarea("Bases de datos", "practica 6", "", "Monday, 3 September 2018, 1:00 PM", "en", "9", "", "");
+//        aniadirTarea("Proyecto Software (2017-2018)", "==> A. Documentación INDIVIDUAL - SEPTIEMBRE-18", "", "Monday, 17 September 2018, 4:00 PM", "en", "", "", "https://moodle2.unizar.es/add/mod/assign/view.php?id=1148926");
+//        aniadirTarea("Proyecto Software (2017-2018)", "==> B1. Fuentes EQUIPO - SEPTIEMBRE-18", "", "Monday, 17 de September de 2018, 16:00", "es", "", "", "https://moodle2.unizar.es/add/mod/assign/view.php?id=1148927");
+//        aniadirTarea("Bases de datos", "practica 5", "C:\\demo\\TestB.pdf", "Monday, 17 September 2018, 6:00 PM", "en", "9", "Buena practica", "");
+//        aniadirTarea("Bases de datos", "practica 0", "TestB.pdf", "Monday, 3 September 2018, 1:00 PM", "en", "9", "", "");
+//        aniadirTarea("Bases de datos", "practica 6", "", "Monday, 17 September 2018, 1:00 PM", "en", "9", "", "");
+//        aniadirTarea("Bases de datos", "practica 7", "", "Wednesday, 12 September 2018, 11:56 AM", "en", "9", "Buena practica", "");
     }
 }

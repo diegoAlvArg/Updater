@@ -1,20 +1,21 @@
 package aplicacion.eventos;
 
 //#1 Static import
-//import aplicacion.controlador.InterfaceController;
+import aplicacion.controlador.MainController;
 import sincronizacion.moodle.inicio.OpcionesSyncMoodle;
 import sincronizacion.naster.OpcionesSyncNaster;
-import aplicacion.controlador.MainController;
 //#4 Java
 import java.io.IOException;
 import java.time.LocalDate;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.ResourceBundle;
+//#5 JavaFx
 import javafx.application.Platform;
 
+
 /**
- * 116
+ * 121
  * @author Diego
  *
  * Clase que gestiona el proceso de sincronizacion, crea y lanza un hilo que

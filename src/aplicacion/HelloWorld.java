@@ -38,9 +38,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
-import javafx.scene.control.TabPane;
-import javafx.scene.Parent;
-import javafx.stage.Stage;
+import javafx.scene.Parent;import javafx.stage.Stage;
 import javafx.util.Duration;
 //#5 JavaFx
 import javax.swing.ImageIcon;
@@ -48,13 +46,13 @@ import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 
 /**
- * T 5923   C 555
+ * T 7483   C 552
  * @author Diego Alvarez
  */
 public class HelloWorld extends Application {
     // Variables de Informacion de la App.
     public static Properties internalInformation = new Properties();
-    public static final double APPLICATION_VERSION = 1.0;
+    public static final double APPLICATION_VERSION = 1.02;
     static {
         //Important for Web Browser
         System.setProperty("sun.net.http.allowRestrictedHeaders", "true");
@@ -105,14 +103,14 @@ public class HelloWorld extends Application {
                         if (!oldValue && newValue) {
                             sytemTray.add(iconoSystemTray);
                             escenario.hide();
-                            System.out.println("added to SystemTray");
+//                            System.out.println("added to SystemTray");
                         }
 //                        else if (oldValue && !newValue) {
 //                            System.err.println("jeje");
 //                        }
                     } catch (Exception ex) {
                         // AL volverlo a levantar desde el SystemTry generara este evento
-                        System.out.println("unable to add to tray");
+//                        System.out.println("unable to add to tray");
                         ex.printStackTrace();
                     }
 //                    primaryStage.hide();
