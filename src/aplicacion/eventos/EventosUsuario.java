@@ -3,7 +3,7 @@ package aplicacion.eventos;
 //#1 Static import
 import actualizador.tools.ActionTool;
 import actualizador.tools.NotificationType;
-import aplicacion.MainClass;
+import aplicacion.HelloWorld;
 import aplicacion.controlador.TabConfigController;
 import static aplicacion.eventos.Validador.validarCredencialesMoodle;
 import static aplicacion.eventos.Validador.validarCredencialesNaster;
@@ -38,7 +38,7 @@ import javafx.stage.DirectoryChooser;
 import javafx.util.Duration;
 
 /**
- * 369
+ * 357
  *
  * @author Diego Alvarez
  */
@@ -47,8 +47,7 @@ public class EventosUsuario {
     private List<String> auxResult;
     private boolean preguntarDeNuevo = false;
     private boolean esperaResultado = true;
-    private static boolean navegable = true;
-    
+
     /**
      * Creara un evento que genera un dialogo en el que se preguntara las
      * credenciales del usuario y las validara hasta que sean correctas o se
@@ -202,29 +201,19 @@ public class EventosUsuario {
             path.setTooltip(tooltip);
             Button tempButton = new Button("...");
             tempButton.setTooltip(tooltip);
-            path.setText(pathLocal);
-            grid.add(new Label(rb.getString(ResourceLeng.ASK_LABEL_PATH)), 0, 3);
-            
             tempButton.setOnAction(new EventHandler<ActionEvent>() {
                 @Override
                 public void handle(ActionEvent e) {
-                    if(navegable){
-                        navegable = false;
-                        DirectoryChooser directoryChooser = new DirectoryChooser();
-                        System.err.println(path.getText().isEmpty());
-                        if(!path.getText().isEmpty()){
-                            directoryChooser.setInitialDirectory(new File(path.getText()));
-                        }
-                        File selectedFile = directoryChooser.showDialog(null);
-                        if (selectedFile != null) {
-                            path.setText(selectedFile.getAbsolutePath());
-                        }    
-                        navegable = true;
+                    DirectoryChooser directoryChooser = new DirectoryChooser();
+                    File selectedFile = directoryChooser.showDialog(null);
+                    if (selectedFile != null) {
+                        path.setText(selectedFile.getAbsolutePath());
                     }
                 }
             });
 
-           
+            path.setText(pathLocal);
+            grid.add(new Label(rb.getString(ResourceLeng.ASK_LABEL_PATH)), 0, 3);
             grid.add(path, 1, 3);
             grid.add(tempButton, 2, 3);
         }
@@ -256,12 +245,12 @@ public class EventosUsuario {
         }
         return respuesta;
     }
-    
+
     private void validarUsuario(List<String> datos, boolean comprobarPath) {
         List<String> auxList = datos;
         int[] estados;
         boolean askAgain = true;
-        ResourceBundle rb = MainClass.getResource();
+        ResourceBundle rb = HelloWorld.getResource();
         // Comprobar valores, volver a preguntar hasta que valores bien o null
         // La comprobacion de Moodel / NAS-TER tiene 4 estados
         //      Estado 0: User & Pass == ""                 REPETIMOS
