@@ -49,7 +49,7 @@ import javax.swing.JOptionPane;
  * T 7483   C 552
  * @author Diego Alvarez
  */
-public class HelloWorld extends Application {
+public class MainClass extends Application {
     // Variables de Informacion de la App.
     public static Properties internalInformation = new Properties();
     public static final double APPLICATION_VERSION = 1.02;
@@ -205,7 +205,7 @@ public class HelloWorld extends Application {
         // Se ha quitado la ejecucion en hilo, evita solapamientos con el 
         //  escenario de arranque normal y evita eventos en segundo plano
         // Restart XR3Player
-        String path = InfoTool.getBasePathForClass(HelloWorld.class);
+        String path = InfoTool.getBasePathForClass(MainClass.class);
         String[] applicationPath = {new File(path + appName + ".jar").getAbsolutePath()};
         //Show message that application is restarting
         try {
@@ -330,15 +330,15 @@ public class HelloWorld extends Application {
                 final Method method = miControl.getClass().getMethod(medotoFin);
                 method.invoke(miControl);
             } catch (NoSuchMethodException ex) {
-//              Logger.getLogger(HelloWorld.class.getName()).log(Level.SEVERE, null, ex);
+//              Logger.getLogger(MainClass.class.getName()).log(Level.SEVERE, null, ex);
             } catch (SecurityException ex) {
-//              Logger.getLogger(HelloWorld.class.getName()).log(Level.SEVERE, null, ex);
+//              Logger.getLogger(MainClass.class.getName()).log(Level.SEVERE, null, ex);
             } catch (IllegalAccessException ex) {
-//              Logger.getLogger(HelloWorld.class.getName()).log(Level.SEVERE, null, ex);
+//              Logger.getLogger(MainClass.class.getName()).log(Level.SEVERE, null, ex);
             } catch (IllegalArgumentException ex) {
-//              Logger.getLogger(HelloWorld.class.getName()).log(Level.SEVERE, null, ex);
+//              Logger.getLogger(MainClass.class.getName()).log(Level.SEVERE, null, ex);
             } catch (InvocationTargetException ex) {
-//              Logger.getLogger(HelloWorld.class.getName()).log(Level.SEVERE, null, ex);
+//              Logger.getLogger(MainClass.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
     }
@@ -352,15 +352,15 @@ public class HelloWorld extends Application {
                 final Method method = miControl.getClass().getMethod(metodoGuardar);
                 method.invoke(miControl);
             } catch (NoSuchMethodException ex) {
-//              Logger.getLogger(HelloWorld.class.getName()).log(Level.SEVERE, null, ex);
+//              Logger.getLogger(MainClass.class.getName()).log(Level.SEVERE, null, ex);
             } catch (SecurityException ex) {
-//              Logger.getLogger(HelloWorld.class.getName()).log(Level.SEVERE, null, ex);
+//              Logger.getLogger(MainClass.class.getName()).log(Level.SEVERE, null, ex);
             } catch (IllegalAccessException ex) {
-//              Logger.getLogger(HelloWorld.class.getName()).log(Level.SEVERE, null, ex);
+//              Logger.getLogger(MainClass.class.getName()).log(Level.SEVERE, null, ex);
             } catch (IllegalArgumentException ex) {
-//              Logger.getLogger(HelloWorld.class.getName()).log(Level.SEVERE, null, ex);
+//              Logger.getLogger(MainClass.class.getName()).log(Level.SEVERE, null, ex);
             } catch (InvocationTargetException ex) {
-//              Logger.getLogger(HelloWorld.class.getName()).log(Level.SEVERE, null, ex);
+//              Logger.getLogger(MainClass.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
     }
@@ -478,15 +478,15 @@ public class HelloWorld extends Application {
                         final Method method = control.getClass().getMethod(nombreMetodo);
                         method.invoke(control);
                     } catch (NoSuchMethodException ex) {
-//                        Logger.getLogger(HelloWorld.class.getName()).log(Level.SEVERE, null, ex);
+//                        Logger.getLogger(MainClass.class.getName()).log(Level.SEVERE, null, ex);
                     } catch (SecurityException ex) {
-//                        Logger.getLogger(HelloWorld.class.getName()).log(Level.SEVERE, null, ex);
+//                        Logger.getLogger(MainClass.class.getName()).log(Level.SEVERE, null, ex);
                     } catch (IllegalAccessException ex) {
-//                        Logger.getLogger(HelloWorld.class.getName()).log(Level.SEVERE, null, ex);
+//                        Logger.getLogger(MainClass.class.getName()).log(Level.SEVERE, null, ex);
                     } catch (IllegalArgumentException ex) {
-//                        Logger.getLogger(HelloWorld.class.getName()).log(Level.SEVERE, null, ex);
+//                        Logger.getLogger(MainClass.class.getName()).log(Level.SEVERE, null, ex);
                     } catch (InvocationTargetException ex) {
-//                        Logger.getLogger(HelloWorld.class.getName()).log(Level.SEVERE, null, ex);
+//                        Logger.getLogger(MainClass.class.getName()).log(Level.SEVERE, null, ex);
                     }
                 }
             });

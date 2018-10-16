@@ -1,7 +1,7 @@
 package actualizador.tools;
 
 //#1 Static import
-import aplicacion.HelloWorld;
+import aplicacion.MainClass;
 //#4 Java
 import java.io.File;
 import java.net.URISyntaxException;
@@ -140,7 +140,7 @@ public final class InfoTool {
 
         } catch (Exception ex) {
             ex.printStackTrace();
-            Logger.getLogger(HelloWorld.class.getName()).log(Level.INFO, null, ex);
+            Logger.getLogger(MainClass.class.getName()).log(Level.INFO, null, ex);
             return false;
         }
     }

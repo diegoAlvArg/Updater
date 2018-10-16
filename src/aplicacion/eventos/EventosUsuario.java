@@ -3,7 +3,7 @@ package aplicacion.eventos;
 //#1 Static import
 import actualizador.tools.ActionTool;
 import actualizador.tools.NotificationType;
-import aplicacion.HelloWorld;
+import aplicacion.MainClass;
 import aplicacion.controlador.TabConfigController;
 import static aplicacion.eventos.Validador.validarCredencialesMoodle;
 import static aplicacion.eventos.Validador.validarCredencialesNaster;
@@ -250,7 +250,7 @@ public class EventosUsuario {
         List<String> auxList = datos;
         int[] estados;
         boolean askAgain = true;
-        ResourceBundle rb = HelloWorld.getResource();
+        ResourceBundle rb = MainClass.getResource();
         // Comprobar valores, volver a preguntar hasta que valores bien o null
         // La comprobacion de Moodel / NAS-TER tiene 4 estados
         //      Estado 0: User & Pass == ""                 REPETIMOS

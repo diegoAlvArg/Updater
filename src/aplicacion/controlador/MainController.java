@@ -3,7 +3,7 @@ package aplicacion.controlador;
 //#1 Static import
 import actualizador.tools.ActionTool;
 import actualizador.tools.NotificationType;
-import aplicacion.HelloWorld;
+import aplicacion.MainClass;
 //import aplicacion.controlador.TabConfigController; // No estoy seguro si se 
 //import aplicacion.controlador.TabDeliverController; //importa a lvl de 
 //import aplicacion.controlador.TabHelpController;  // javafx
@@ -66,7 +66,7 @@ public class MainController {
     public void initialize() {
         System.err.println("Application started");
         LogRecord logRegistro;
-        ResourceBundle rb = HelloWorld.getResource();
+        ResourceBundle rb = MainClass.getResource();
 
         logRegistro = new LogRecord(Level.INFO, rb.getString(ResourceLeng.TRACE_INIT_LOAD_CONTROL));
         logRegistro.setSourceClassName(this.getClass().getName());
@@ -78,10 +78,10 @@ public class MainController {
         //Tab 3 depende si usuario, que son las lineas siguientes.
 
         setLanguague(rb);
-        HelloWorld.setMetodosControl(this, "actualizarVesionFin", "guardarDatos");//---------------
-        HelloWorld.anidirOpcionSysTray(this, "abrirAyuda", ResourceLeng.SYS_TRAY_WIKI);
-        HelloWorld.anidirOpcionSysTray(this, "actualizarVersion", ResourceLeng.SYS_TRAY_UPDATE);
-        HelloWorld.anidirOpcionSysTray(this, "sincronizarAhora", ResourceLeng.SYS_TRAY_SYNCRO);
+        MainClass.setMetodosControl(this, "actualizarVesionFin", "guardarDatos");//---------------
+        MainClass.anidirOpcionSysTray(this, "abrirAyuda", ResourceLeng.SYS_TRAY_WIKI);
+        MainClass.anidirOpcionSysTray(this, "actualizarVersion", ResourceLeng.SYS_TRAY_UPDATE);
+        MainClass.anidirOpcionSysTray(this, "sincronizarAhora", ResourceLeng.SYS_TRAY_SYNCRO);
 //        
         if (!InformacionUsuario.existenDatos()) {
             // No hay usuario
@@ -223,8 +223,8 @@ public class MainController {
     }
 
     protected void cambiarLenguage(ResourceBundle rb) {
-        HelloWorld.cambiarTitulo(rb.getString(ResourceLeng.APP_TITLE));
-        HelloWorld.setResource(rb);
+        MainClass.cambiarTitulo(rb.getString(ResourceLeng.APP_TITLE));
+        MainClass.setResource(rb);
         setLanguague(rb);
     }
     
@@ -238,7 +238,7 @@ public class MainController {
         actualizarVersion(true);
     }
     protected void actualizarVersion(boolean mostrarMensaje){
-        HelloWorld.actualizarVersion(mostrarMensaje);
+        MainClass.actualizarVersion(mostrarMensaje);
     }
     public void actualizarVesionFin() {
         tab4Controller.actualizarVesionFin();
@@ -267,17 +267,17 @@ public class MainController {
     }
 
     protected HostServices getHostService() {
-        return HelloWorld.getHostService();
+        return MainClass.getHostService();
     }
     /**
      *
      * @return
      */
     protected ResourceBundle getResource() {
-        return HelloWorld.getResource();
+        return MainClass.getResource();
     }
     protected double getVersion(){
-        return (double) HelloWorld.internalInformation.get("Version");
+        return (double) MainClass.internalInformation.get("Version");
     }
     
     
@@ -292,7 +292,7 @@ public class MainController {
      * @param state 
      */
     protected void cambiarDisponibilidadOpcionSysTray(String method, boolean state){
-        HelloWorld.cambiarDisponibilidadOpcionSysTray(method, state);
+        MainClass.cambiarDisponibilidadOpcionSysTray(method, state);
     }
     
     /**
