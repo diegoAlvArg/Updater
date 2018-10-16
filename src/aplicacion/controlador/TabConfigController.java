@@ -42,7 +42,7 @@ import javafx.util.Duration;
 import javafx.util.StringConverter;
 
 /**
- * 691
+ * 697
  * @author Diego Alvarez
  */
 public class TabConfigController {// implements Initializable{
@@ -92,7 +92,7 @@ public class TabConfigController {// implements Initializable{
     
     private Timeline alarmaSincronizacion;
     private Calendar momentoSiguienteActualizacion;
-   
+    private boolean navegable = true;
 
     //---------------------------------------------------FXML---------------------------------------------------   
     /**
@@ -206,27 +206,35 @@ public class TabConfigController {// implements Initializable{
         File selectedFile = null;
         String initialPath;
         try {
-            initialPath = InformacionUsuario.getPath();
-            do {
-                DirectoryChooser directoryChooser = new DirectoryChooser();
-                directoryChooser.setInitialDirectory(new File(initialPath));
-                selectedFile = directoryChooser.showDialog(null);
-                if (Validador.checkPermissions(selectedFile.getAbsolutePath())) {
-                    initialPath = selectedFile.getAbsolutePath();
-                    break;
-                } else {
-                    ActionTool.mostrarNotificacion(ResourceLeng.MESSAGE_TITLE_PATH_REJECT,
-                            ResourceLeng.MESSAGE_INFO_PATH_REJECT, Duration.seconds(15),
-                            NotificationType.ERROR);
-                }
-
-            } while (selectedFile != null);
-            lPathAplicacion.setText(initialPath);
-            InformacionUsuario.setPath(initialPath);
+            if(navegable){
+                navegable = false;
+                initialPath = InformacionUsuario.getPath();
+                do {
+                    DirectoryChooser directoryChooser = new DirectoryChooser();
+                    directoryChooser.setInitialDirectory(new File(initialPath));
+                    selectedFile = directoryChooser.showDialog(null);
+                    if(selectedFile != null){
+                        if (Validador.checkPermissions(selectedFile.getAbsolutePath())) {
+                            initialPath = selectedFile.getAbsolutePath();
+                            break;
+                        } else {
+                            ActionTool.mostrarNotificacion(ResourceLeng.MESSAGE_TITLE_PATH_REJECT,
+                                ResourceLeng.MESSAGE_INFO_PATH_REJECT, Duration.seconds(15),
+                                NotificationType.ERROR);
+                        }    
+                    }
+                    
+                } while (selectedFile != null);
+                lPathAplicacion.setText(initialPath);
+                InformacionUsuario.setPath(initialPath);
+                navegable = true;
+            }
         } catch (NoSuchFieldException e) {
             borrarUsuario();
+            //No poner en un finally porque aunque no saque el dialogo libera 
+            // su uso y volvemos a generar multiples dialogos de seleccion
+            navegable = true; 
         }
-
     }
 
     /**
