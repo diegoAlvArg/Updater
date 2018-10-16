@@ -1,7 +1,7 @@
 package actualizador.tools;
 
 //#1 Static import
-import aplicacion.HelloWorld;
+import aplicacion.MainClass;
 //#3 Third party
 import org.controlsfx.control.Notifications;
 //#4 Java
@@ -170,7 +170,7 @@ public final class ActionTool {
      * @param t tipo de notificacion
      */
     public static void mostrarNotificacion(String titulo, String texto, Duration d, NotificationType t) {
-        ActionTool.mostrarNotificacion(HelloWorld.getResource(), titulo, texto, d, t);
+        ActionTool.mostrarNotificacion(MainClass.getResource(), titulo, texto, d, t);
     }
     /**
      * Metodo para mostrar mensaje
@@ -234,7 +234,7 @@ public final class ActionTool {
                     -> ActionTool.showNotification(
                             titulo, texto, d, NotificationType.ERROR));
         } else if (SystemTray.isSupported()) {
-            TrayIcon trayIcon = HelloWorld.getSysTray();
+            TrayIcon trayIcon = MainClass.getSysTray();
             trayIcon.displayMessage(titulo, texto, TrayIcon.MessageType.ERROR);
         }
     }
@@ -251,7 +251,7 @@ public final class ActionTool {
                     -> ActionTool.showNotification(
                             titulo, texto, d, NotificationType.INFORMATION));
         } else if (SystemTray.isSupported()) {
-            TrayIcon trayIcon = HelloWorld.getSysTray();
+            TrayIcon trayIcon = MainClass.getSysTray();
             trayIcon.displayMessage(titulo, texto, TrayIcon.MessageType.INFO);
         }
     }
@@ -270,7 +270,7 @@ public final class ActionTool {
                             titulo, texto, d, NotificationType.WARNING));
         } else if (SystemTray.isSupported()) {
             System.err.println("\tNO");
-            TrayIcon trayIcon = HelloWorld.getSysTray();
+            TrayIcon trayIcon = MainClass.getSysTray();
             trayIcon.displayMessage(titulo, texto, TrayIcon.MessageType.WARNING);
         }
     }

@@ -1,7 +1,7 @@
 package actualizador.main;
 
 //#1 Static import
-import aplicacion.HelloWorld;
+import aplicacion.MainClass;
 import tools.lenguaje.ResourceLeng;
 import tools.logger.LogGeneral;
 import actualizador.tools.InfoTool;
@@ -66,7 +66,7 @@ public class VersionCheck {
         } catch (IOException ex) {
             StringWriter errors = new StringWriter();
             ex.printStackTrace(new PrintWriter(errors));
-            LogRecord logRegistro = new LogRecord(Level.WARNING, HelloWorld.getResource()
+            LogRecord logRegistro = new LogRecord(Level.WARNING, MainClass.getResource()
                     .getString(ResourceLeng.TRACE_UPDATE_CONNECT) + "\n" + errors.toString());
             logRegistro.setSourceClassName("searchForUpdatesPart2");
             LogGeneral.log(logRegistro);
