@@ -11,7 +11,7 @@ public enum TipoNodo {
     SECTIONCOLAP("SectionCOL"),
     SECTIONEXPAND("SectionEXP"),
     FOLDER("Carpeta"), 
-    PAGE("P�gina"),
+    PAGE("Pagina"),
     ARCHIVO("Archivo"),
     URL("URL"),
     TAREA("Tarea"),
@@ -37,7 +37,7 @@ public enum TipoNodo {
 
     public static TipoNodo getEnum(String value) {
         for (TipoNodo b : TipoNodo.values()) {
-            if (b.value.equalsIgnoreCase(value)) {
+            if (value.contains(b.value)/*.equalsIgnoreCase(value)*/) {
                 return b;
             }
         }

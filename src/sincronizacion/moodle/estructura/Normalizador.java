@@ -5,9 +5,9 @@ package sincronizacion.moodle.estructura;
  * @author Diego Alvarez
  * @version 1.0 Clase para normalizar nombres, para el S.F
  * 
- * @see http://www.rgagnon.com/javadetails/java-check-if-a-filename-is-valid.html
- * @see https://en.wikipedia.org/wiki/Filename
- * @see https://stackoverflow.com/questions/893977/java-how-to-find-out-whether-a-file-name-is-valid
+ * @see <a href="http://www.rgagnon.com/javadetails/java-check-if-a-filename-is-valid.html">Link 01</a>
+ * @see <a href="https://en.wikipedia.org/wiki/Filename">Link 02</a>
+ * @see <a href="https://stackoverflow.com/questions/893977/java-how-to-find-out-whether-a-file-name-is-valid">Link 03</a>
  */
 public class Normalizador {
 

@@ -359,11 +359,28 @@ public class TabConfigController {// implements Initializable{
         main.cambiarDisponibilidadOpcionSysTray(ResourceLeng.SYS_TRAY_SYNCRO, false);
         bEditPath.setDisable(true);
         main.iniciarSincronizacion();
+        String passwNas;
 
-        lSiguienteActualizacion.setText(main.getResource().getString(ResourceLeng.SYNCRO_NOW));
+        lSiguienteActualizacion.setText(main.getResource().getString(ResourceLeng.SYNCRO_NOW));     
+
         try {
+            System.out.println("check");
+            try{
+                passwNas = InformacionUsuario.getPassN();
+            }catch (NoSuchFieldException e) {
+                if(!cUsoNaster.isSelected()){
+                    passwNas = "";
+                }else{
+                    passwNas = "NoPass";
+                }
+            }
+//            System.out.println("casi");
+//            System.out.println("user: " + InformacionUsuario.getUsuario());
+//            System.out.println("pass: " + InformacionUsuario.getPassM());
+//            System.out.println("pass2: " + passwNas);
+//            System.out.println("path: " + InformacionUsuario.getPath());
             new ProcesoSyncronizacion(InformacionUsuario.getUsuario(), InformacionUsuario.getPassM(),
-                    InformacionUsuario.getPassN(), InformacionUsuario.getPath(),
+                    passwNas, InformacionUsuario.getPath(),
                     main.getResource(), main, cUsoNaster.isSelected());
         } catch (NoSuchFieldException e) {
             borrarUsuario();
@@ -690,6 +707,7 @@ public class TabConfigController {// implements Initializable{
         lTituloPathAplicacion.setVisible(user);
         // Sig Actualizacion
         lTituloSiguienteActualizacion.setVisible(user);
+        lSiguienteActualizacion.setVisible(user);
         this.bActualizar.setDisable(!user);
         bActualizar.setVisible(user);
 

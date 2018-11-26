@@ -5,7 +5,9 @@ package actualizador.tools;
  *
  * @version 1.0
  * @author GOXR3PLUS
- * @see https://github.com/goxr3plus/JavaFXApplicationAutoUpdater
+ * @see 
+ * <a href="https://github.com/goxr3plus/JavaFXApplicationAutoUpdater">
+ * Link Origen</a>
  */
 public enum NotificationType {
 

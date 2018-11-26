@@ -78,11 +78,13 @@ public class ProcesoSyncronizacion {
                 System.err.println("flag 02A");
                 try {
                     if (_useNas) {
+//                        System.err.println("Sin nas");
                         OpcionesSyncNaster.sincronizar(user, contraseniaN, pathDescarga, getAnioActual());
                         // Creo que segun RQ hay que tratar de difernete forma
                     }
+//                    System.err.println("Sin Moodle");
                     OpcionesSyncMoodle.realizarActualizacionTotal(_user, _pass1, getAnioActual(), _path, _iu);
-//                OpcionesSyncMoodle.realizarActualizacionIndividual(6, _user, _pass1, "(2016-2017)", _path, _iu);
+//                    OpcionesSyncMoodle.realizarActualizacionIndividual(7, _user, _pass1, "(2016-2017)", _path, _iu);
                 } catch (IOException ex) {
 //                    Moodle esta caido
                     Logger.getLogger(ProcesoSyncronizacion.class.getName()).log(Level.SEVERE, null, ex);
@@ -115,7 +117,7 @@ public class ProcesoSyncronizacion {
         } else {
             respuesta = "(" + (today.getYear() - 1) + "-" + today.getYear() + ")";
         }
-        return respuesta;
-//                return "(2016-2017)";     //Test mode
+//        return respuesta;
+                return "(2016-2017)";     //Test mode
     }
 }

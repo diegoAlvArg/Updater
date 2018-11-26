@@ -52,12 +52,12 @@ import javax.swing.JOptionPane;
 public class MainClass extends Application {
     // Variables de Informacion de la App.
     public static Properties internalInformation = new Properties();
-    public static final double APPLICATION_VERSION = 1.02;
+    public static final double APPLICATION_VERSION = 1.04;//3
     static {
         //Important for Web Browser
         System.setProperty("sun.net.http.allowRestrictedHeaders", "true");
 
-        //----------Properties-------------
+        //----------Properties---------------------------------------------
         internalInformation.put("Version", APPLICATION_VERSION);
         internalInformation.put("ReleasedDate", "29/02/2018" );
     }
@@ -76,10 +76,14 @@ public class MainClass extends Application {
     public void start(Stage primaryStage) throws IOException {
         LogRecord logRegistro;
         try {
-            rb = ResourceBundle.getBundle("Resources.Languages.SystemMessages", Locale.getDefault());
+            rb = ResourceBundle.getBundle("Resources.Languages"
+                    + ".SystemMessages", Locale.getDefault());
         } catch (MissingResourceException e) {
-            rb = ResourceBundle.getBundle("Resources.Languages.SystemMessages", Locale.ENGLISH);
-            logRegistro = new LogRecord(Level.INFO, String.format(rb.getString(ResourceLeng.TRACE_LANGUAGUE_FAULT), Locale.getDefault()));
+            rb = ResourceBundle.getBundle("Resources.Languages"
+                    + ".SystemMessages", Locale.ENGLISH);
+            logRegistro = new LogRecord(Level.INFO, String.format(rb
+                    .getString(ResourceLeng.TRACE_LANGUAGUE_FAULT), Locale
+                            .getDefault()));
             logRegistro.setSourceClassName(this.getClass().getName());
             LogGeneral.log(logRegistro);
         }
@@ -96,9 +100,11 @@ public class MainClass extends Application {
             Platform.setImplicitExit(false);
             iniciarSystemTray(rb);
 
-            primaryStage.iconifiedProperty().addListener(new ChangeListener<Boolean>() {
+            primaryStage.iconifiedProperty().addListener(
+                    new ChangeListener<Boolean>() {
                 @Override
-                public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) {
+                public void changed(ObservableValue<? extends Boolean>
+                        observable, Boolean oldValue, Boolean newValue) {
                     try {
                         if (!oldValue && newValue) {
                             sytemTray.add(iconoSystemTray);
@@ -109,30 +115,30 @@ public class MainClass extends Application {
 //                            System.err.println("jeje");
 //                        }
                     } catch (Exception ex) {
-                        // AL volverlo a levantar desde el SystemTry generara este evento
-//                        System.out.println("unable to add to tray");
+                        // AL volverlo a levantar desde el SystemTry 
+                        //  generara este evento
                         ex.printStackTrace();
                     }
-//                    primaryStage.hide();
-//                    throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
                 }
             });
         }
 
-        logRegistro = new LogRecord(Level.INFO, rb.getString(ResourceLeng.TRACE_INIT_LOAD_XML));
+        logRegistro = new LogRecord(Level.INFO, rb.getString(ResourceLeng
+                .TRACE_INIT_LOAD_XML));
         logRegistro.setSourceClassName(this.getClass().getName());
-//        TabPane root = null;
-        Parent root = null;// FXMLLoader.load(getClass().getResource("../view/Main.fxml"));
+        // FXMLLoader.load(getClass().getResource("../view/Main.fxml"));
+        Parent root = null;
         try {
             //Carga de la interfaz y su controlador
-//            root = (TabPane) FXMLLoader.load(getClass().getResource("/Resources/fxml/interface.fxml"), rb);
-            root = FXMLLoader.load(getClass().getResource("/Resources/fxml/Main.fxml"), rb);
+            root = FXMLLoader.load(getClass().getResource(
+                    "/Resources/fxml/Main.fxml"), rb);
         } catch (Exception e) {
-            // Esta excepcion no deberia ser necesaria, pero podria ocurrir tras
-            //  mala manipulacion del controlador
+            // Esta excepcion no deberia ser necesaria, pero podria 
+            //  ocurrir tras mala manipulacion del controlador
             StringWriter errors = new StringWriter();
             e.printStackTrace(new PrintWriter(errors));
-            logRegistro = new LogRecord(Level.SEVERE, "\n" + errors.toString());
+            logRegistro = new LogRecord(Level.SEVERE, "\n" + errors
+                    .toString());
             logRegistro.setSourceClassName(this.getClass().getName());
             LogGeneral.log(logRegistro);
         }
@@ -145,8 +151,9 @@ public class MainClass extends Application {
 
         primaryStage.show();
         primaryStage.setOnCloseRequest(event -> {
-            //Usar Platfomr en vez de System, Platform llamara al metodo Stop()
-            //  inherente; mientras que System para de raiz el proceso.
+            //Usar Platfomr en vez de System, Platform llamara al metodo
+            //  Stop() inherente; mientras que System para de raiz 
+            //  el proceso.
             Platform.exit();
         });
         escenario = primaryStage;
@@ -158,7 +165,8 @@ public class MainClass extends Application {
      * @param titulo 
      */
     public static void cambiarTitulo(String titulo) {
-        escenario.setTitle(titulo);// + internalInformation.get("Version"));
+        escenario.setTitle(titulo);
+        // + internalInformation.get("Version"));
     }
 
     /**
@@ -190,35 +198,47 @@ public class MainClass extends Application {
     @Override
     public void stop() {
         guardarDatos();
-        LogRecord logRegistro = new LogRecord(Level.INFO, rb.getString(ResourceLeng.TRACE_END_APP));
+        LogRecord logRegistro = new LogRecord(Level.INFO, rb.getString(
+                ResourceLeng.TRACE_END_APP));
         logRegistro.setSourceClassName(this.getClass().getName());
         LogGeneral.log(logRegistro);
         LogSincronizacion.cerrar();
         LogGeneral.cerrar();
     }
-    //--------------------ACTUALIZACION-------------------------------------------------------------------
+    //--------------------ACTUALIZACION------------------------------------
     /**
      * Calling this method to start the main Application which is XR3Player
+     * 
+     * @param appName 
+     * @param version 
      */
-    public static void inicarAplicacionExterna(String appName, double version) {
+    public static void inicarAplicacionExterna(String appName, 
+            double version) {
 //        System.out.println(ResourceLeng.APP_INIT); //-
         // Se ha quitado la ejecucion en hilo, evita solapamientos con el 
         //  escenario de arranque normal y evita eventos en segundo plano
         // Restart XR3Player
         String path = InfoTool.getBasePathForClass(MainClass.class);
-        String[] applicationPath = {new File(path + appName + ".jar").getAbsolutePath()};
+        String[] applicationPath = {new File(path + appName + ".jar")
+                .getAbsolutePath()};
         //Show message that application is restarting
         try {
             //Create a process builder
-//            ProcessBuilder builder = new ProcessBuilder("java", "-jar", applicationPath[0], String.valueOf(version));
-            ProcessBuilder builder = new ProcessBuilder("./jre/bin/java.exe", "-jar", applicationPath[0], String.valueOf(version));
-            LogRecord logRegistro = new LogRecord(Level.INFO, "CMD: " + builder.command());
+//            ProcessBuilder builder = new ProcessBuilder("java", "-jar",
+//                    applicationPath[0], String.valueOf(version));
+            ProcessBuilder builder = new ProcessBuilder(
+                    "./jre/bin/java.exe", "-jar", applicationPath[0],
+                    String.valueOf(version));
+            LogRecord logRegistro = new LogRecord(Level.INFO, "CMD: " 
+                    + builder.command());
             LogGeneral.log(logRegistro);
             builder.redirectErrorStream(true);
             Process process = builder.start();
-            BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(process.getInputStream()));
+            BufferedReader bufferedReader = new BufferedReader(
+                    new InputStreamReader(process.getInputStream()));
 
-            // Continuously Read Output to check if the main application started
+            // Continuously Read Output to check if the main application
+            //  started
             String line;
             String mark_OK = ResourceLeng.APP_UPDATER_INIT;
             String mark_ERROR = ResourceLeng.ERROR;
@@ -240,9 +260,12 @@ public class MainClass extends Application {
             }
         } catch (IOException | InterruptedException ex) {
             // Show failed message
-            Platform.runLater(() -> ActionTool.mostrarNotificacionConParam(String.format(rb.getString(ResourceLeng.MESSAGE_TITLE_UPDATE_FAIL), appName),
-                    String.format(rb.getString(ResourceLeng.MESSAGE_TEXT_UPDATE_FAIL), applicationPath[0]),
-                    Duration.seconds(10), NotificationType.ERROR));
+            Platform.runLater(() -> ActionTool.mostrarNotificacionConParam(
+                    String.format(rb.getString(ResourceLeng
+                            .MESSAGE_TITLE_UPDATE_FAIL), appName),
+                    String.format(rb.getString(ResourceLeng
+                            .MESSAGE_TEXT_UPDATE_FAIL), applicationPath[0])
+                    ,Duration.seconds(10), NotificationType.ERROR));
         }
     }
  
@@ -252,41 +275,56 @@ public class MainClass extends Application {
      * @param mostrarMensaje mostrar mensaje en caso de misma version
      */
     public static void actualizarVersion(boolean mostrarMensaje) {
-        double currentVersion = (double) internalInformation.get("Version");//---------------
+        double currentVersion = (double) internalInformation
+                .get("Version");//---------------
         double lastVersion = howIsLastUpdate();
         System.out.println("Version " + lastVersion);
         if(lastVersion == -1.0){
-            ActionTool.mostrarNotificacion(rb, ResourceLeng.UPDATE_NO_ETHERNET,
-                    ResourceLeng.UPDATE_NO_ETHERNET_TEXT, Duration.seconds(10), NotificationType.ERROR);
+            ActionTool.mostrarNotificacion(rb, 
+                    ResourceLeng.UPDATE_NO_ETHERNET,
+                    ResourceLeng.UPDATE_NO_ETHERNET_TEXT,
+                    Duration.seconds(10), NotificationType.ERROR);
         }else if(lastVersion == -2.0){
-            ActionTool.mostrarNotificacion(rb, ResourceLeng.UPDATE_ERROR_FILE,
-                    ResourceLeng.UPDATE_ERROR_FILE_TEXT, Duration.seconds(10), NotificationType.WARNING);
+            ActionTool.mostrarNotificacion(rb,
+                    ResourceLeng.UPDATE_ERROR_FILE,
+                    ResourceLeng.UPDATE_ERROR_FILE_TEXT,
+                    Duration.seconds(10), NotificationType.WARNING);
         }else if (currentVersion < lastVersion) {
             guardarDatos();
             if (Platform.isFxApplicationThread()) {
-                Alert alert = new Alert(Alert.AlertType.CONFIRMATION); //Idioma en botones
+                //Idioma en botones
+                Alert alert = new Alert(Alert.AlertType.CONFIRMATION); 
                 alert.setTitle(rb.getString(ResourceLeng.UPDATE_TITLE));
-                alert.setHeaderText(String.format(rb.getString(ResourceLeng.UPDATE_HEADER),
+                alert.setHeaderText(String.format(rb.getString(
+                        ResourceLeng.UPDATE_HEADER),
                         currentVersion, lastVersion));
-                alert.setContentText(rb.getString(ResourceLeng.UPDATE_CONTENT));
+                alert.setContentText(rb.getString(ResourceLeng
+                        .UPDATE_CONTENT));
 
-                ButtonType buttonYES = new ButtonType(rb.getString(ResourceLeng.ASK_BUTTON_ACCEPT));
-                ButtonType buttonNO = new ButtonType(rb.getString(ResourceLeng.ASK_BUTTON_CANCEL));
+                ButtonType buttonYES = new ButtonType(rb.getString(
+                        ResourceLeng.ASK_BUTTON_ACCEPT));
+                ButtonType buttonNO = new ButtonType(rb.getString(
+                        ResourceLeng.ASK_BUTTON_CANCEL));
 
                 alert.getButtonTypes().setAll(buttonYES, buttonNO);
 
                 Optional<ButtonType> result = alert.showAndWait();
                 if (result.get() == buttonYES) {
-                    inicarAplicacionExterna("XR3PlayerUpdater", lastVersion);
+                    inicarAplicacionExterna("XR3PlayerUpdater",
+                            lastVersion);
                 }
             } else {
-                // Preguntar actualizar desde SystemTray. ESTO NO ES BLOQUEANTE
+                // Preguntar actualizar desde SystemTray. ESTO NO ES
+                //  BLOQUEANTE
                 //  Confiamos un poco en el usuario, y no influye mucho
-                Object[] options = {rb.getString(ResourceLeng.ASK_BUTTON_ACCEPT),
+                Object[] options = {rb.getString(ResourceLeng
+                        .ASK_BUTTON_ACCEPT),
                     rb.getString(ResourceLeng.ASK_BUTTON_CANCEL)};
-                int n = JOptionPane.showOptionDialog(new JFrame("DialogDemo"),
-                        String.format(rb.getString(ResourceLeng.UPDATE_HEADER),
-                                currentVersion, lastVersion),
+                int n = JOptionPane.showOptionDialog(new JFrame(
+                        "DialogDemo"),
+                        String.format(rb.getString(ResourceLeng
+                                .UPDATE_HEADER), currentVersion,
+                                lastVersion),
                         rb.getString(ResourceLeng.UPDATE_TITLE),
                         JOptionPane.YES_NO_OPTION,
                         JOptionPane.QUESTION_MESSAGE,
@@ -294,13 +332,16 @@ public class MainClass extends Application {
                         options, //the titles of buttons
                         options[0]); //default button title
                 if (n == JOptionPane.YES_OPTION) {
-                    inicarAplicacionExterna("XR3PlayerUpdater", lastVersion);
+                    inicarAplicacionExterna("XR3PlayerUpdater",
+                            lastVersion);
                 }
             }
         } else if (mostrarMensaje) {
             ActionTool.mostrarNotificacion(rb, ResourceLeng.UPDATE_INFO,
-                    ResourceLeng.UPDATE_INFO_TEXT, Duration.seconds(10), NotificationType.INFORMATION);
-//            cambiarDisponibilidadOpcionSysTray(ResourceLeng.SYS_TRAY_UPDATE, true);
+                    ResourceLeng.UPDATE_INFO_TEXT, Duration.seconds(10), 
+                    NotificationType.INFORMATION);
+//            cambiarDisponibilidadOpcionSysTray(ResourceLeng
+//                    .SYS_TRAY_UPDATE, true);
         }
         finalizarActualizacion();
     }
@@ -374,16 +415,19 @@ public class MainClass extends Application {
     private void iniciarSystemTray(ResourceBundle rb) {
 //        System.out.println("system tray supported");
         sytemTray = SystemTray.getSystemTray();
-        URL imageURL = this.getClass().getResource("/Resources/Icons/logo_moodle.png");
-//        System.err.println(imageURL);
+        URL imageURL = this.getClass().getResource(
+                "/Resources/Icons/logo_moodle.png");
 
-        Image image = (new ImageIcon(imageURL)).getImage();//Toolkit.getDefaultToolkit().getImage("./logo_moodle.png");  
+        //Toolkit.getDefaultToolkit().getImage("./logo_moodle.png"); 
+        Image image = (new ImageIcon(imageURL)).getImage();
         PopupMenu popup = new PopupMenu();
-        MenuItem defaultItem = new MenuItem(rb.getString(ResourceLeng.SYS_TRAY_EXIT));
+        MenuItem defaultItem = new MenuItem(rb.getString(ResourceLeng
+                .SYS_TRAY_EXIT));
         defaultItem.setName(ResourceLeng.SYS_TRAY_EXIT);
         defaultItem.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                LogRecord logRegistro = new LogRecord(Level.INFO, rb.getString(ResourceLeng.TRACE_END_SYSTRAY));
+                LogRecord logRegistro = new LogRecord(Level.INFO, rb
+                        .getString(ResourceLeng.TRACE_END_SYSTRAY));
                 logRegistro.setSourceClassName(this.getClass().getName());
                 LogGeneral.log(logRegistro);
                 System.exit(0);
@@ -391,7 +435,8 @@ public class MainClass extends Application {
         });
         popup.add(defaultItem);
 
-        defaultItem = new MenuItem(rb.getString(ResourceLeng.SYS_TRAY_OPEN));
+        defaultItem = new MenuItem(rb.getString(ResourceLeng
+                .SYS_TRAY_OPEN));
         defaultItem.setName(ResourceLeng.SYS_TRAY_OPEN);
         defaultItem.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
@@ -411,7 +456,8 @@ public class MainClass extends Application {
         });
         popup.insert(defaultItem, 0);
 
-        iconoSystemTray = new TrayIcon(image, rb.getString(ResourceLeng.SYS_TRAY_TOOLTIP), popup);
+        iconoSystemTray = new TrayIcon(image, rb.getString(ResourceLeng
+                .SYS_TRAY_TOOLTIP), popup);
         iconoSystemTray.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -441,19 +487,21 @@ public class MainClass extends Application {
         return iconoSystemTray;
     }
 
-    /**
-     * Metodo para aniadir un accion a las que se presentaran al Systray, si no
-     *  lo esta ya
+    /**a
+     * Metodo para aniadir un accion a las que se presentaran al Systray,
+     *  si no lo esta ya
      * 
      * 
      * @param control Objeto que invocara la accion
      * @param nombreMetodo nombre del metodo que se invocara
      * @param tagTexto tag del texto que se presenta
      *
-     * @see
-     * https://docs.oracle.com/javase/8/docs/api/java/lang/Class.html#getMethod-java.lang.String-java.lang.Class...-
-     * @see
-     * https://docs.oracle.com/javase/8/docs/api/java/lang/reflect/Method.html#invoke-java.lang.Object-java.lang.Object...-
+     * @see 
+     * <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Class
+     * .html#getMethod-java.lang.String-java.lang.Class...-">Link 01</a>
+     * @see <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/
+     * reflect/Method.html#invoke-java.lang.Object-java.lang.Object...-">
+     * Link 02</a> 
      */
     public static void anidirOpcionSysTray(Object control, String nombreMetodo, String tagTexto ){
         boolean noEstaAniadido = true;
@@ -544,6 +592,7 @@ public class MainClass extends Application {
     
     /**
      * @param args the command line arguments
+     * @throws Exception
      */
     public static void main(String[] args) throws Exception {
         launch(args);

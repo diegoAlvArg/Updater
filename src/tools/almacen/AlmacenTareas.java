@@ -37,10 +37,10 @@ import javax.crypto.spec.SecretKeySpec;
 public class AlmacenTareas {
 
     /**
-     * Metodo que almacenara una Colection Map<> de Tareas en un fichero que
+     * Metodo que almacenara una Colection Map de Tareas en un fichero que
      * encriptaremos en base de una clave.
      *
-     * @param datos Map<> de Tareas que queremos almacenar/persistir
+     * @param datos Map de Tareas que queremos almacenar/persistir
      * @param clave clave con la que se almacenara los datos
      */
     public static void guardarDatos(Map<String, Tareas> datos, String clave) {

@@ -63,7 +63,7 @@ public class InformacionUsuario {
             Codificador codex = Codificador.getInstance();
             try (BufferedWriter writer = Files.newBufferedWriter(pathfile, 
                     Charset.forName("UTF-8")/*, new OpenOption[0]*/);){
-                                  
+                System.out.println(codex.encriptar(new StringBuilder().append("USER==").append(usuario).toString()) + "\n");
                 writer.write(codex.encriptar(new StringBuilder().append("USER==").append(usuario).toString()) + "\n");
                 writer.write(codex.encriptar(new StringBuilder().append("PASS1==").append(pass1).toString()) + "\n");
                 writer.write(codex.encriptar(new StringBuilder().append("PASS2==").append(pass2).toString()) + "\n");
@@ -198,9 +198,10 @@ public class InformacionUsuario {
     }
 
     /**
-     * PRE: el usuario no ha modificado el archivo (contenido/orden)
-     *
      * @return path de descarga almacenado en el fichero.
+     * 
+     * @throws NoSuchFieldException Si en el fichero no esta almacenado el campo
+     * deseado
      */
     public static String getUsuario() throws NoSuchFieldException {
         String respuesta = null;
@@ -228,7 +229,7 @@ public class InformacionUsuario {
     /**
      *
      * @param nuevoDato path de descarga, que se quiere cambiar por el almacenado.
-     * newData != null && newData != ""
+     * nuevoDato not null AND nuevoDato not "" 
      */
     public static void setUsuario(String nuevoDato) {
         boolean isnew = true;
@@ -287,7 +288,7 @@ public class InformacionUsuario {
     /**
      *
      * @param nuevoDato passwd para Moodle, que se quiere cambiar por el
-     * almacenado. newData != null && newData != ""
+     * almacenado. nuevoDato not null AND nuevoDato not ""
      */
     public static void setPassM(String nuevoDato) {
         boolean isnew = true;
@@ -347,7 +348,7 @@ public class InformacionUsuario {
     /**
      *
      * @param nuevoDato passwd para NAS-TER, que se quiere cambiar por el
-     * almacenado. newData != null && newData != ""
+     * almacenado. nuevoDato not null AND nuevoDato not ""
      */
     public static void setPassN(String nuevoDato) {
         boolean isnew = true;
@@ -406,6 +407,7 @@ public class InformacionUsuario {
     /**
      *
      * @param nuevoDato path de descarga, que se quiere cambiar por el almacenado.
+     * nuevoDato not null AND nuevoDato not ""
      */
     public static void setPath(String nuevoDato) {
         boolean isnew = true;
@@ -436,8 +438,6 @@ public class InformacionUsuario {
      * @return True si el usuario quiere usar Nas-Ter. False en caso contrario 
      *  o error
      *
-     * @throws NoSuchFieldException Si en el fichero no esta almacenado el campo
-     * deseado
      */
     public static boolean getUseNas() {
         boolean respuesta = false;
@@ -461,7 +461,8 @@ public class InformacionUsuario {
     /**
      * 
      * @param nuevoDato string de boolean que expresara el querer o no 
-     * usar Nas-ter
+     * usar Nas-ter. nuevoDato not null AND nuevoDato not ""
+     * 
      */
     public static void setUseNas(String nuevoDato) {
         boolean isnew = true;

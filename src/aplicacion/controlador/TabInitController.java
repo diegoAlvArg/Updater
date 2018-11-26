@@ -54,13 +54,13 @@ public class TabInitController {
      *
      * @param path path del recurso que representa el item
      * @param name nombre con el que se representara
-     * @param tipo tipo del item, para asignarle un icono
+     * @param pathLocal path local donde descargaremos
      */
-    protected synchronized void aniadirElementoTree(String path, String name, String sourceLocal) {
+    protected synchronized void aniadirElementoTree(String path, String name, String pathLocal) {
         URL iconUrl = null;
         Image miImage = null;
         // Averiguaar donde meter  le nuevo elemento
-        String curso = path.replace(sourceLocal + File.separator, "");
+        String curso = path.replace(pathLocal + File.separator, "");
         curso = curso.substring(0, curso.indexOf(File.separator));
         TreeItem<ItemArbol> auxCurso;
         String auxExtension = "";
@@ -78,7 +78,7 @@ public class TabInitController {
 //                Logger.getLogger(InterfaceController.class
 //                        .getNombre()).log(Level.SEVERE, null, ex);
             }
-            ItemArbol auxbook = new ItemArbol(sourceLocal
+            ItemArbol auxbook = new ItemArbol(pathLocal
                     + File.separator + curso, curso);
             auxCurso = new TreeItem<>(auxbook, new ImageView(miImage));
             cursosTrack.put(curso, auxCurso);

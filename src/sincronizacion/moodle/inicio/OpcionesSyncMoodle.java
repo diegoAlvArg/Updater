@@ -63,15 +63,28 @@ public class OpcionesSyncMoodle {
         OpcionesSyncMoodle.pathLocal = pathLocal;
         OpcionesSyncMoodle.iuControl = iuControl;
         LogRecord logRegistro = null;
-        Connection.Response res = Jsoup.connect("https://moodle2.unizar.es/add/login/index.php")
-                .data(new String[]{"username", usuario, "password", contrasenia})
+        
+        Connection.Response res = Jsoup.connect("https://moodle2.unizar.es/add/")
+                .method(Connection.Method.GET)
+                .execute();
+        Map<String, String> cookies = res.cookies();
+        String autLogin = res.parse().selectFirst("input[name=logintoken]").attr("value");
+        
+        res = Jsoup.connect("https://moodle2.unizar.es/add/login/index.php")
+                .cookies(cookies)
+                .data("username", usuario)
+                .data("password", contrasenia)
+                .data("logintoken", autLogin)
                 .timeout(180000)
                 .method(Connection.Method.POST)
                 .execute();
-        Map<String, String> cookies = res.cookies();
-                
+        
+        cookies = res.cookies();
+//        System.out.println(cookies);
+//        System.out.println("-----");
         if (cookies.size() != 1) {
             Document doc = res.parse();
+//            System.out.println(doc);
             Elements titles = doc.select("li>a:contains" + anio);
             List<Nodo> matriculas = new ArrayList();
             
@@ -103,6 +116,8 @@ public class OpcionesSyncMoodle {
                         LogSincronizacion.log(logRegistro);
                     }
                 }
+            }{
+                System.out.println("No hay cursos");
             }
         } else {
             iuControl.borrarUsuario();
@@ -133,8 +148,26 @@ public class OpcionesSyncMoodle {
         OpcionesSyncMoodle.iuControl = iuControl;
         LogRecord logRegistro = null;
 
-        Connection.Response res = Jsoup.connect("https://moodle2.unizar.es/add/login/index.php").data(new String[]{"username", usuario, "password", contrasenia}).timeout(180000).method(Connection.Method.POST).execute();
+//        Connection.Response res = Jsoup.connect("https://moodle2.unizar.es/add/login/index.php").data(new String[]{"username", usuario, "password", contrasenia}).timeout(180000).method(Connection.Method.POST).execute();
+//        Map<String, String> cookies = res.cookies();
+        Connection.Response res = Jsoup.connect("https://moodle2.unizar.es/add/")
+                .method(Connection.Method.GET)
+                .execute();
         Map<String, String> cookies = res.cookies();
+        String autLogin = res.parse().selectFirst("input[name=logintoken]").attr("value");
+        
+        res = Jsoup.connect("https://moodle2.unizar.es/add/login/index.php")
+                .cookies(cookies)
+                .data("username", usuario)
+                .data("password", contrasenia)
+                .data("logintoken", autLogin)
+                .timeout(180000)
+                .method(Connection.Method.POST)
+                .execute();
+        
+        cookies = res.cookies();
+        
+        
         if (cookies.size() != 1) {
             Document doc = res.parse();
             Elements titles = doc.select("li>a:contains" + anio);

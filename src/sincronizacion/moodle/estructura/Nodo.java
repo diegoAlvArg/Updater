@@ -107,9 +107,9 @@ public class Nodo extends MarcasScrapping {
     /**
      * Descenso del Nodo, el Nodo conectara a su URL asociada y procesara las
      *  sections 'li' conforme a su TYPE
-     *
-     * @see https://jsoup.org/apidocs/org/jsoup/Connection.html#get--
-     * @see https://jsoup.org/cookbook/extracting-data/selector-syntax
+     * 
+     * @see <a href="https://jsoup.org/apidocs/org/jsoup/Connection.html#get--">Link 01</a>
+     * @see <a href="https://jsoup.org/cookbook/extracting-data/selector-syntax">Link 02</a>
      */
     public void descender() {
         LogRecord logRegistro = null;
@@ -167,7 +167,7 @@ public class Nodo extends MarcasScrapping {
                         .setDefaultSocketConfig(socketConfig)
                         .build();){
                     descargarEnLocal(OpcionesSyncMoodle.getPathDescarga(), httpclient, OpcionesSyncMoodle.getIU());
-
+                    
 //                    httpclient.close();
                     logRegistro = new LogRecord(Level.INFO, EXISTO);
                     logRegistro.setSourceClassName(this.nombre);  
@@ -695,7 +695,7 @@ public class Nodo extends MarcasScrapping {
                 descargarEnlaceWeb(pathDescarga, httpclient, iu);
             } else if ((this.tipo.equals(TipoNodo.OTHER)) && (!archivoExiste(pathDescarga, this.nombre))) {
                 descargarArchivo(pathDescarga, httpclient, iu);
-            } else if (!this.tipo.equals(TipoNodo.TAREA)) {
+            } else if (this.tipo.equals(TipoNodo.TAREA)) {
                 descargarTarea(iu);
             }
         } catch (Exception e) {
@@ -1059,8 +1059,7 @@ public class Nodo extends MarcasScrapping {
      * @return True, si el archivo existe. False en caso contrario. //@throws
      * Exception posible error debido a caracteres reservados en SF
      *
-     * @see
-     * https://stackoverflow.com/questions/17697646/how-to-detect-if-a-filewith-any-extension-exist-in-java
+     * @see <a href="https://stackoverflow.com/questions/17697646/how-to-detect-if-a-filewith-any-extension-exist-in-java">Link 01</a>
      */
     public boolean archivoExiste(String path, String archivo) {
         File folder = new File(path);

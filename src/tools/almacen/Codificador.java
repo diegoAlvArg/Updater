@@ -22,8 +22,8 @@ import javax.crypto.spec.SecretKeySpec;
  * @author Diego Alvarez
  * @version 1.1 Se ha cambiado la generacion de la Key en base a la respuesta de
  * Alexandre Fenyo
- * @see
- * https://stackoverflow.com/questions/45270549/getting-mac-address-without-internet-connection-in-java
+ * 
+ * @see <a href="https://stackoverflow.com/questions/45270549/getting-mac-address-without-internet-connection-in-java">Link 01</a>
  */
 public class Codificador {
 
@@ -111,14 +111,16 @@ public class Codificador {
      * @return String cifrado, Null en caso de error
      */
     public synchronized String encriptar(String cadena) {
+        String respuesta = "";
         try {
             Cipher cipher = Cipher.getInstance("AES/ECB/PKCS5Padding");
             cipher.init(1, this.claveCodificacion);
-            return Base64.getEncoder().encodeToString(cipher.doFinal(cadena.getBytes("UTF-8")));
+            respuesta = Base64.getEncoder().encodeToString(cipher.doFinal(cadena.getBytes("UTF-8")));
         } catch (Exception e) {
+            respuesta = null;
 //            System.out.println("Error while encrypting: " + e.toString());
         }finally{
-            return null;
+            return respuesta;
         }
     }
 
@@ -129,14 +131,17 @@ public class Codificador {
      * @return String desencriptado, Null en caso de error
      */
     public synchronized String desencriptar(String cadena) {
+        String respuesta = "";
         try {
             Cipher cipher = Cipher.getInstance("AES/ECB/PKCS5PADDING");
             cipher.init(2, this.claveCodificacion);
-            return new String(cipher.doFinal(Base64.getDecoder().decode(cadena)));
+            respuesta = new String(cipher.doFinal(Base64.getDecoder().decode(cadena)));
+//            return new String(cipher.doFinal(Base64.getDecoder().decode(cadena)));
         } catch (Exception e) {
+            respuesta = null;
 //            System.out.println("Error while decrypting: " + e.toString());
         }finally{
-            return null;
+            return respuesta;
         }
     }
 }

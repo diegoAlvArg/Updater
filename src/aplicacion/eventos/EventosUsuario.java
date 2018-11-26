@@ -264,8 +264,9 @@ public class EventosUsuario {
         estados = new int[]{0, 0, 0};
         //Comprobacion Moodle
         if (!auxList.get(0).isEmpty() && !auxList.get(1).isEmpty()) {
-
+//            System.err.print("User " + auxList.get(0) + ",Pass " + auxList.get(1));
             estados[0] = validarCredencialesMoodle(auxList.get(0), auxList.get(1));
+//            System.err.println(" Data: " + estados[0]);
         }
         //Comprobar NAS-TER
         if (Boolean.parseBoolean(auxList.get(4))) {

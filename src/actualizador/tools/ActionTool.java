@@ -31,11 +31,13 @@ import javafx.util.Duration;
  * 
  * @author GOXR3PLUS
  * @version 1.0
- * @see https://github.com/goxr3plus/JavaFXApplicationAutoUpdater
+ * @see
+ * <a href="https://github.com/goxr3plus/JavaFXApplicationAutoUpdater">
+ * Link Origen</a>
  * 
  * @author Diego
- * @version 1.1 Aniadido metodos para mostrar mensaje, independientemente del 
- *  estado de la App
+ * @version 1.1 Aniadido metodos para mostrar mensaje, independientemente
+ *  del estado de la App
  * 
  */
 public final class ActionTool {
@@ -43,7 +45,8 @@ public final class ActionTool {
     /**
      * The logger for this class
      */
-    private static final Logger logger = Logger.getLogger(ActionTool.class.getName());
+    private static final Logger logger = Logger.getLogger(ActionTool
+            .class.getName());
 
     
     /**
@@ -63,14 +66,21 @@ public final class ActionTool {
         try {
             //Check if Desktop is supported
             if (!Desktop.isDesktopSupported()) {
-                ActionTool.showNotification("Problem Occured", "Can't open default web browser at:\n[" + uri + " ]", Duration.millis(2500), NotificationType.INFORMATION);
+                ActionTool.showNotification("Problem Occured", "Can't open"
+                        + " default web browser at:\n[" + uri + " ]",
+                        Duration.millis(2500), NotificationType
+                                .INFORMATION);
                 return false;
             }
 
-            ActionTool.showNotification("Opening WebSite", "Opening on default Web Browser :\n" + uri, Duration.millis(1500), NotificationType.INFORMATION);
+            ActionTool.showNotification("Opening WebSite", "Opening on "
+                    + "default Web Browser :\n" + uri, Duration
+                            .millis(1500), NotificationType.INFORMATION);
             Desktop.getDesktop().browse(new URI(uri));
         } catch (IOException | URISyntaxException ex) {
-            ActionTool.showNotification("Problem Occured", "Can't open default web browser at:\n[" + uri + " ]", Duration.millis(2500), NotificationType.INFORMATION);
+            ActionTool.showNotification("Problem Occured", "Can't open"
+                    + " default web browser at:\n[" + uri + " ]",
+                    Duration.millis(2500), NotificationType.INFORMATION);
             logger.log(Level.INFO, "", ex);
             return false;
         }
@@ -87,10 +97,12 @@ public final class ActionTool {
     public static boolean copy(InputStream source, String destination) {
         boolean succeess = true;
 
-        System.out.println("Copying ->" + source + "\n\tto ->" + destination);
+        System.out.println("Copying ->" + source + "\n\tto ->" + 
+                destination);
 
         try {
-            Files.copy(source, Paths.get(destination), StandardCopyOption.REPLACE_EXISTING);
+            Files.copy(source, Paths.get(destination), StandardCopyOption
+                    .REPLACE_EXISTING);
         } catch (IOException ex) {
             logger.log(Level.WARNING, "", ex);
             succeess = false;
@@ -107,7 +119,8 @@ public final class ActionTool {
      * @param d The duration that notification will be visible
      * @param t The notification type
      */
-    public static void showNotification(String title, String text, Duration d, NotificationType t) {
+    public static void showNotification(String title, String text, 
+            Duration d, NotificationType t) {
 
         //Check if it is JavaFX Application Thread
         if (!Platform.isFxApplicationThread()) {
@@ -115,7 +128,8 @@ public final class ActionTool {
             return;
         }
 
-        Notifications notification1 = Notifications.create().title(title).text(text);
+        Notifications notification1 = Notifications.create().title(title)
+                .text(text);
         notification1.hideAfter(d);
 
         switch (t) {
@@ -144,6 +158,7 @@ public final class ActionTool {
      * Makes a question to the user.
      *
      * @param text the text
+     * @param window 
      * @return true, if successful
      */
     public static boolean doQuestion(String text, Stage window) {
@@ -155,7 +170,8 @@ public final class ActionTool {
         alert.initOwner(window);
         alert.setHeaderText("Question");
         alert.setContentText(text);
-        alert.showAndWait().ifPresent(answer -> questionAnswer[0] = (answer == ButtonType.OK));
+        alert.showAndWait().ifPresent(answer -> questionAnswer[0]
+                = (answer == ButtonType.OK));
 
         return questionAnswer[0];
     }
@@ -169,42 +185,51 @@ public final class ActionTool {
      * @param d duracion del mensaje, solo durante modo escritorio
      * @param t tipo de notificacion
      */
-    public static void mostrarNotificacion(String titulo, String texto, Duration d, NotificationType t) {
-        ActionTool.mostrarNotificacion(MainClass.getResource(), titulo, texto, d, t);
+    public static void mostrarNotificacion(String titulo, String texto,
+            Duration d, NotificationType t) {
+        ActionTool.mostrarNotificacion(MainClass.getResource(), titulo,
+                texto, d, t);
     }
     /**
      * Metodo para mostrar mensaje
      * 
-     * @param rb resourceBundle del idioma sobre el que se muestra la notificacion
+     * @param rb resourceBundle del idioma sobre el que se muestra 
+     *  la notificacion
      * @param titulo titulo del mensaje
      * @param texto texto del mensaje
      * @param d duracion del mensaje, solo durante modo escritorio
      * @param t tipo de notificacion
      */
-    public static void mostrarNotificacion(ResourceBundle rb, String titulo, String texto, Duration d, NotificationType t) {
+    public static void mostrarNotificacion(ResourceBundle rb, String titulo
+            , String texto, Duration d, NotificationType t) {
         switch (t) {
             case ERROR:
-                notificarError(rb.getString(titulo), rb.getString(texto), d);
+                notificarError(rb.getString(titulo), rb.getString(texto)
+                        , d);
                 break;
             case INFORMATION:
-                notificarInformacion(rb.getString(titulo), rb.getString(texto), d);
+                notificarInformacion(rb.getString(titulo), 
+                        rb.getString(texto), d);
                 break;
             case WARNING:
-                notificarAlerta(rb.getString(titulo), rb.getString(texto), d);
+                notificarAlerta(rb.getString(titulo), 
+                        rb.getString(texto), d);
                 break;
             default:
                 break;
         }
     }
     /**
-     * Metodo para mostrar un mensaje, alguno de sus campos ha sido formateado
+     * Metodo para mostrar un mensaje, alguno de sus campos ha sido 
+     *  formateado
      * 
      * @param titulo titulo del mensaje
      * @param texto texto del mensaje
      * @param d duracion del mensaje, solo durante modo escritorio
      * @param t tipo de notificacion
      */
-    public static void mostrarNotificacionConParam(String titulo, String texto, Duration d, NotificationType t) {
+    public static void mostrarNotificacionConParam(String titulo, 
+            String texto, Duration d, NotificationType t) {
         switch (t) {
             case ERROR:
                 notificarError(titulo, texto, d);
@@ -227,15 +252,16 @@ public final class ActionTool {
      * @param texto texto del mensaje
      * @param d duracion del mensaje, solo durante modo escritorio
      */
-    private static void notificarError(String titulo, String texto, Duration d) {
-////        System.err.println("showing error\n");
+    private static void notificarError(String titulo, String texto, 
+            Duration d) {
         if (Platform.isFxApplicationThread()) {
             Platform.runLater(()
                     -> ActionTool.showNotification(
                             titulo, texto, d, NotificationType.ERROR));
         } else if (SystemTray.isSupported()) {
             TrayIcon trayIcon = MainClass.getSysTray();
-            trayIcon.displayMessage(titulo, texto, TrayIcon.MessageType.ERROR);
+            trayIcon.displayMessage(titulo, texto, TrayIcon.
+                    MessageType.ERROR);
         }
     }
     /**
@@ -245,14 +271,17 @@ public final class ActionTool {
      * @param texto texto del mensaje
      * @param d duracion del mensaje, solo durante modo escritorio
      */
-    private static void notificarInformacion(String titulo, String texto, Duration d) {
+    private static void notificarInformacion(String titulo, String texto,
+            Duration d) {
         if (Platform.isFxApplicationThread()) {
             Platform.runLater(()
                     -> ActionTool.showNotification(
-                            titulo, texto, d, NotificationType.INFORMATION));
+                            titulo, texto, d, NotificationType
+                                    .INFORMATION));
         } else if (SystemTray.isSupported()) {
             TrayIcon trayIcon = MainClass.getSysTray();
-            trayIcon.displayMessage(titulo, texto, TrayIcon.MessageType.INFO);
+            trayIcon.displayMessage(titulo, texto, TrayIcon.MessageType
+                    .INFO);
         }
     }
     /**
@@ -262,7 +291,8 @@ public final class ActionTool {
      * @param texto texto del mensaje
      * @param d duracion del mensaje, solo durante modo escritorio
      */
-    private static void notificarAlerta(String titulo, String texto, Duration d) {
+    private static void notificarAlerta(String titulo, String texto,
+            Duration d) {
         if (Platform.isFxApplicationThread()) {
             System.err.println("\tYes");
             Platform.runLater(()
@@ -271,7 +301,8 @@ public final class ActionTool {
         } else if (SystemTray.isSupported()) {
             System.err.println("\tNO");
             TrayIcon trayIcon = MainClass.getSysTray();
-            trayIcon.displayMessage(titulo, texto, TrayIcon.MessageType.WARNING);
+            trayIcon.displayMessage(titulo, texto, TrayIcon.MessageType
+                    .WARNING);
         }
     }
 }

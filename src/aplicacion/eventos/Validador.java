@@ -12,6 +12,7 @@ import java.io.File;
 import java.io.IOException;
 import java.net.URI;
 import java.nio.file.Paths;
+import java.util.Map;
 
 /**
  * 110
@@ -59,12 +60,25 @@ public class Validador {
     public static int validarCredencialesMoodle(String usuario, String contrasenia) {
         int respuesta = 1;
         String title = "";
+        String autLogin;
+        Map<String, String> cookies;
+        Connection.Response res;
         try {
-            Connection.Response res = Jsoup.connect("https://moodle2.unizar.es/add/login/index.php")
+            res = Jsoup.connect("https://moodle2.unizar.es/add/")
+                .method(Connection.Method.GET)
+                .execute();
+            cookies = res.cookies();
+            autLogin = res.parse().selectFirst("input[name=logintoken]").attr("value");
+            
+            res = Jsoup.connect("https://moodle2.unizar.es/add/login/index.php")
+                    .cookies(cookies)
+                    .data("username", usuario)
+                    .data("password", contrasenia)
+                    .data("logintoken", autLogin)
                     .timeout(18 * 1000)
-                    .data("username", usuario, "password", contrasenia)
                     .method(Connection.Method.POST)
                     .execute();
+            
             Document doc = res.parse();
             title = doc.select("head>title").text();
             if (title.contains("ADD Unizar - Moodle 2")) {
@@ -89,7 +103,7 @@ public class Validador {
      */
     public static int validarCredencialesNaster(String usuario, String contrasenia) {
         int respuesta = 3;
-        System.err.println("User " + usuario + " ,Pass " + contrasenia);
+//        System.err.println("User " + usuario + " ,Pass " + contrasenia);
         try {
             Sardine sardineCon = SardineFactory.begin(usuario, contrasenia);
             URI url = URI.create("https://nas-ter.unizar.es/alumnos/" + usuario);

@@ -128,7 +128,6 @@ public class MainController {
      *
      * @param path path del recurso que representa el item
      * @param nombre nombre con el que se representara
-     * @param tipo tipo del item, para asignarle un icono
      */
     public synchronized void aniadirRecurso(String path, String nombre) {
         tab1Controller.aniadirElementoTree(path, nombre, tab3Controller.getLPathApp());

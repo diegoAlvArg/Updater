@@ -14,14 +14,17 @@ import javafx.scene.image.Image;
  *
  * @author GOXR3PLUS
  * @version 1.0
- * @see https://github.com/goxr3plus/JavaFXApplicationAutoUpdater
+ * @see
+ * <a href="https://github.com/goxr3plus/JavaFXApplicationAutoUpdater">
+ * Link Origen</a>
  */
 public final class InfoTool {
 
     /**
      * Logger
      */
-    public static final Logger logger = Logger.getLogger(InfoTool.class.getName());
+    public static final Logger logger = Logger.getLogger(InfoTool.class
+            .getName());
 
     /**
      * WebSite url
@@ -31,7 +34,8 @@ public final class InfoTool {
     /**
      * XR3Player Tutorials
      */
-    public static final String TUTORIALS = "https://www.youtube.com/playlist?list=PL-xqaiRUr_iRKDkpFWPfSRFmJvHSr1VJI";
+    public static final String TUTORIALS = "https://www.youtube.com/"
+            + "playlist?list=PL-xqaiRUr_iRKDkpFWPfSRFmJvHSr1VJI";
 
     /**
      * The Constant images.
@@ -43,17 +47,12 @@ public final class InfoTool {
      */
     public static final String STYLES = "/style/";
 
-//    /**
-//     * The Constant applicationCss.
-//     */
-//    public static final String APPLICATIONCSS = "application.css";
-
     /**
      * The Constant fxmls.
      */
     public static final String FXMLS = "/fxml/";
 
-    // --------------------------------------------------------------------------------------------------------------
+    // ----------------------------------------------------------------
     /**
      * Private Constructor , we don't want instances of this class
      */
@@ -61,12 +60,12 @@ public final class InfoTool {
     }
 
     /**
-     * Returns the absolute path of the current directory in which the given
-     * class file is.
+     * Returns the absolute path of the current directory in which
+     *  the given class file is.
      *
      * @param classs
-     * @return The absolute path of the current directory in which the class
-     * file is. <b>[it ends with File.Separator!!]</b>
+     * @return The absolute path of the current directory in which 
+     *  the class file is. <b>[it ends with File.Separator!!]</b>
      * @author GOXR3PLUS[StackOverFlow user] + bachden [StackOverFlow user]
      */
     public static final String getBasePathForClass(Class<?> classs) {
@@ -78,18 +77,24 @@ public final class InfoTool {
 
         // Let's give a first try
         try {
-            file = new File(classs.getProtectionDomain().getCodeSource().getLocation().toURI().getPath());
+            file = new File(classs.getProtectionDomain().getCodeSource()
+                    .getLocation().toURI().getPath());
 
-            basePath = (file.isFile() || file.getPath().endsWith(".jar") || file.getPath().endsWith(".zip")) ? file.getParent() : file.getPath();
+            basePath = (file.isFile() || file.getPath().endsWith(".jar") 
+                    || file.getPath().endsWith(".zip")) ? file.getParent() 
+                    : file.getPath();
         } catch (URISyntaxException ex) {
             failed = true;
-            Logger.getLogger(classs.getName()).log(Level.WARNING, "Cannot firgue out base path for class with way (1): ", ex);
+            Logger.getLogger(classs.getName()).log(Level.WARNING, "Cannot"
+                    + " firgue out base path for class with way (1): "
+                    , ex);
         }
 
         // The above failed?
         if (failed) {
             try {
-                file = new File(classs.getClassLoader().getResource("").toURI().getPath());
+                file = new File(classs.getClassLoader().getResource("")
+                        .toURI().getPath());
                 basePath = file.getAbsolutePath();
 
                 // the below is for testing purposes...
@@ -97,17 +102,22 @@ public final class InfoTool {
                 // String l = local.replaceFirst("[" + File.separator +
                 // "/\\\\]", "")
             } catch (URISyntaxException ex) {
-                Logger.getLogger(classs.getName()).log(Level.WARNING, "Cannot firgue out base path for class with way (2): ", ex);
+                Logger.getLogger(classs.getName()).log(Level.WARNING, 
+                        "Cannot firgue out base path for class with way"
+                                + " (2): ", ex);
             }
         }
 
         // fix to run inside Eclipse
-        if (basePath.endsWith(File.separator + "lib") || basePath.endsWith(File.separator + "bin") || basePath.endsWith("bin" + File.separator)
-                || basePath.endsWith("lib" + File.separator)) {
+        if (basePath.endsWith(File.separator + "lib") || basePath.
+                endsWith(File.separator + "bin") || basePath.endsWith(
+                        "bin" + File.separator) || basePath.endsWith(
+                                "lib" + File.separator)) {
             basePath = basePath.substring(0, basePath.length() - 4);
         }
         // fix to run inside NetBeans
-        if (basePath.endsWith(File.separator + "build" + File.separator + "classes")) {
+        if (basePath.endsWith(File.separator + "build" + File
+                .separator + "classes")) {
             basePath = basePath.substring(0, basePath.length() - 14);
         }
         // end fix
@@ -122,25 +132,28 @@ public final class InfoTool {
      * Checks if a web site is reachable using ping command.
      *
      * @param host the host
-     * @return <b> true </b> if Connected on Internet,<b> false </b> if not.
+     * @return <b> true </b> if Connected on Internet,<b> false </b> 
+     * if not.
      */
     public static boolean isReachableByPing(String host) {
 //        System.out.println("Google?");
         try {
 
             // Start a new Process
-            Process process = Runtime.getRuntime().exec("ping -" + (System.getProperty("os.name").toLowerCase().startsWith("windows") ? "n" : "c") + " 1 " + host);
+            Process process = Runtime.getRuntime().exec("ping -" + (System
+                    .getProperty("os.name").toLowerCase().startsWith(
+                            "windows") ? "n" : "c") + " 1 " + host);
 
             //Wait for it to finish
             process.waitFor();
 
             //Check the return value
-//            System.out.println("Devolviendo " + (process.exitValue() == 0));
             return process.exitValue() == 0;
 
         } catch (Exception ex) {
             ex.printStackTrace();
-            Logger.getLogger(MainClass.class.getName()).log(Level.INFO, null, ex);
+            Logger.getLogger(MainClass.class.getName()).log(Level.INFO,
+                    null, ex);
             return false;
         }
     }
@@ -150,11 +163,12 @@ public final class InfoTool {
      * application.
      *
      * @param imageName the image name
-     * @return Returns an image which is already into the resources folder of
-     * the application
+     * @return Returns an image which is already into the resources
+     *  folder of the application
      */
     public static Image getImageFromResourcesFolder(String imageName) {
-        return new Image(InfoTool.class.getResourceAsStream(IMAGES + imageName));
+        return new Image(InfoTool.class.getResourceAsStream(IMAGES +
+                imageName));
     }
 
     /**
@@ -170,7 +184,8 @@ public final class InfoTool {
         if (kilobytes < 1024) {
             return kilobytes + " KiB";
         } else if (kilobytes > 1024) {
-            return megabytes + " MiB + " + (kilobytes - (megabytes * 1024)) + " KiB";
+            return megabytes + " MiB + " + (kilobytes - (megabytes * 1024))
+                    + " KiB";
         }
 
         return "error";
