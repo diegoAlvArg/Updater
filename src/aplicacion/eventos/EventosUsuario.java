@@ -4,7 +4,7 @@ package aplicacion.eventos;
 import actualizador.tools.ActionTool;
 import actualizador.tools.NotificationType;
 import aplicacion.MainClass;
-import aplicacion.controlador.TabConfigController;
+import aplicacion.controlador.TabConfiguracionControlador;
 import static aplicacion.eventos.Validador.validarCredencialesMoodle;
 import static aplicacion.eventos.Validador.validarCredencialesNaster;
 import tools.lenguaje.ResourceLeng;
@@ -47,7 +47,8 @@ public class EventosUsuario {
     private List<String> auxResult;
     private boolean preguntarDeNuevo = false;
     private boolean esperaResultado = true;
-
+    private static boolean eligiendoDirectorio = false;//-----------------------------------------
+    
     /**
      * Creara un evento que genera un dialogo en el que se preguntara las
      * credenciales del usuario y las validara hasta que sean correctas o se
@@ -62,7 +63,7 @@ public class EventosUsuario {
      * @param preguntarPath para indicar si el campo de path debe ser preguntado
      * @param control
      */
-    public EventosUsuario(String usuario, String contraseniaM, String contraseniaN, boolean usarNas, ResourceBundle rb, boolean preguntarPath, TabConfigController control) {
+    public EventosUsuario(String usuario, String contraseniaM, String contraseniaN, boolean usarNas, ResourceBundle rb, boolean preguntarPath, TabConfiguracionControlador control) {
 
         Platform.runLater(() -> {
 //            System.err.println(Thread.currentThread().getId());
@@ -204,10 +205,14 @@ public class EventosUsuario {
             tempButton.setOnAction(new EventHandler<ActionEvent>() {
                 @Override
                 public void handle(ActionEvent e) {
-                    DirectoryChooser directoryChooser = new DirectoryChooser();
-                    File selectedFile = directoryChooser.showDialog(null);
-                    if (selectedFile != null) {
-                        path.setText(selectedFile.getAbsolutePath());
+                    if(!eligiendoDirectorio){
+                        eligiendoDirectorio = true;
+                        DirectoryChooser directoryChooser = new DirectoryChooser();
+                        File selectedFile = directoryChooser.showDialog(null);
+                        if (selectedFile != null) {
+                            path.setText(selectedFile.getAbsolutePath());
+                        } 
+                        eligiendoDirectorio = false;
                     }
                 }
             });
@@ -245,7 +250,8 @@ public class EventosUsuario {
         }
         return respuesta;
     }
-
+    
+    
     private void validarUsuario(List<String> datos, boolean comprobarPath) {
         List<String> auxList = datos;
         int[] estados;

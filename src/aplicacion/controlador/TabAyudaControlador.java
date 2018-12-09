@@ -1,7 +1,7 @@
 package aplicacion.controlador;
 
 //#1 Static import
-//import aplicacion.controlador.MainController;
+//import aplicacion.controlador.MainControlador;
 import java.util.Locale;
 import tools.lenguaje.ResourceLeng;
 //#4 Java
@@ -18,13 +18,13 @@ import javafx.scene.text.TextFlow;
 
 
 /** 120
- * Control de la tabla Help, encontraremos creditos, ayuda y para actualizar
+ Control de la tabla Ayuda, encontraremos creditos, ayuda y para actualizar 
  * 
  * @author Diego Alvarez
  */
-public class TabHelpController {
+public class TabAyudaControlador {
 
-    private MainController main;
+    private MainControlador main;
 
     @FXML
     private Button bActualizar;
@@ -113,7 +113,7 @@ public class TabHelpController {
     }
     
     //---------------------------------------------------INIT---------------------------------------------------
-    public void init(MainController mainController) {
+    public void init(MainControlador mainController) {
         main = mainController;
     }
 }

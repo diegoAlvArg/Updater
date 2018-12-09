@@ -4,10 +4,10 @@ package aplicacion.controlador;
 import actualizador.tools.ActionTool;
 import actualizador.tools.NotificationType;
 import aplicacion.MainClass;
-//import aplicacion.controlador.TabConfigController; // No estoy seguro si se 
-//import aplicacion.controlador.TabDeliverController; //importa a lvl de 
-//import aplicacion.controlador.TabHelpController;  // javafx
-//import aplicacion.controlador.TabInitController;
+//import aplicacion.controlador.TabConfiguracionControlador; // No estoy seguro si se 
+//import aplicacion.controlador.TabEntregaControlador; //importa a lvl de 
+//import aplicacion.controlador.TabAyudaControlador;  // javafx
+//import aplicacion.controlador.TabHistorialControlador;
 import tools.almacen.InformacionUsuario;
 import tools.lenguaje.ResourceLeng;
 import tools.logger.LogGeneral;
@@ -31,7 +31,7 @@ import javafx.util.Duration;
  * 
  * @author Diego Alvarez 
  */
-public class MainController {
+public class MainControlador {
 
     @FXML
     private TabPane tTabPane;
@@ -39,26 +39,26 @@ public class MainController {
     @FXML
     private Tab tab01;
     @FXML
-    private TabInitController tab1Controller;
-    private int numSyncro;
+    private TabHistorialControlador tab1Controller;
+    private int numSincro;
 
     @FXML
     private Tab tab02;
     @FXML
-    private TabDeliverController tab2Controller;
+    private TabEntregaControlador tab2Controller;
 
     @FXML
     private Tab tab03;
     @FXML
-    private TabConfigController tab3Controller;
+    private TabConfiguracionControlador tab3Controller;
 
     @FXML
     private Tab tab04;
     @FXML
-    private TabHelpController tab4Controller;
+    private TabAyudaControlador tab4Controller;
 
     private Timeline timeline;
-    private boolean inUse;
+    private boolean enUso;
     private int numTareas;
     private int numRecursos;
     
@@ -78,7 +78,7 @@ public class MainController {
         //Tab 3 depende si usuario, que son las lineas siguientes.
 
         setLanguague(rb);
-        MainClass.setMetodosControl(this, "actualizarVesionFin", "guardarDatos");//---------------
+        MainClass.setMetodosControl(this, "actualizarVesionFin", "guardarDatos");//-------------------------------------------
         MainClass.anidirOpcionSysTray(this, "abrirAyuda", ResourceLeng.SYS_TRAY_WIKI);
         MainClass.anidirOpcionSysTray(this, "actualizarVersion", ResourceLeng.SYS_TRAY_UPDATE);
         MainClass.anidirOpcionSysTray(this, "sincronizarAhora", ResourceLeng.SYS_TRAY_SYNCRO);
@@ -100,7 +100,7 @@ public class MainController {
                 logRegistro = new LogRecord(Level.INFO, rb.getString(ResourceLeng.TRACE_USER_LOST));
             }
         }
-        inUse = false;//false
+        enUso = false;//false
         
         timeline = new Timeline(
                 new KeyFrame(
@@ -184,15 +184,15 @@ public class MainController {
      * Metodo que sera llamado antes de inicar una sincronizacion
      */
     protected void iniciarSincronizacion() {
-        if (numSyncro == ConfigControl.MAX_SBCLU) {
+        if (numSincro == ConfigControl.MAX_SBCLU) {
             tab1Controller.limpiarTreeView();
-            numSyncro = 0;
+            numSincro = 0;
         } else {
-            numSyncro++;
+            numSincro++;
         }
         numTareas = 0;
         numRecursos = 0;
-        tab2Controller.loadUpdatable();
+        tab2Controller.cargarActualizables();
     }
 
     /**
@@ -287,11 +287,11 @@ public class MainController {
     
     /**
      *
-     * @param method
-     * @param state 
+     * @param metodo
+     * @param estado 
      */
-    protected void cambiarDisponibilidadOpcionSysTray(String method, boolean state){
-        MainClass.cambiarDisponibilidadOpcionSysTray(method, state);
+    protected void cambiarDisponibilidadOpcionSysTray(String metodo, boolean estado){
+        MainClass.cambiarDisponibilidadOpcionSysTray(metodo, estado);
     }
     
     /**
@@ -303,9 +303,9 @@ public class MainController {
      *  FALSE: si el usuario no puede ser ocupado
      */
     protected synchronized boolean OcuparUsuario(){
-        if(!inUse){
+        if(!enUso){
             //desactivar todo
-            inUse = true;
+            enUso = true;
             tab3Controller.ocuparUsuario();
             return true;
         }else{
@@ -318,7 +318,7 @@ public class MainController {
      * Metodo para liberar la ocupacion del usuario
      */
     protected void liberarUsuario(){
-        inUse = false;
+        enUso = false;
         tab3Controller.liberarUsuario();
     }
     /**
@@ -327,7 +327,7 @@ public class MainController {
      * @return 
      */
     protected boolean disponibleUsuario(){
-        return inUse;
+        return enUso;
     }
     
 }

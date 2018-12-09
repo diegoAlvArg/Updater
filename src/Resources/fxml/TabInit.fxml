@@ -3,7 +3,7 @@
 <?import javafx.scene.control.TreeView?>
 <?import javafx.scene.layout.AnchorPane?>
 
-<AnchorPane prefHeight="206.0" prefWidth="226.0" xmlns="http://javafx.com/javafx/9.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="aplicacion.controlador.TabInitController">
+<AnchorPane prefHeight="206.0" prefWidth="226.0" xmlns="http://javafx.com/javafx/9.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="aplicacion.controlador.TabHistorialControlador">
     <children>
         <TreeView fx:id="tListUpdates" layoutX="33.0" layoutY="49.0" prefHeight="274.0" prefWidth="519.0" showRoot="false" />
     </children>

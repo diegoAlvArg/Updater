@@ -21,6 +21,7 @@ import java.util.concurrent.Semaphore;
 import java.util.logging.Level;
 import java.util.logging.LogRecord;
 import java.util.stream.Collectors;
+import tools.lenguaje.ResourceLeng;
 
 /**
  * 490 (-3)
@@ -135,7 +136,7 @@ public class InformacionUsuario {
         } catch (Exception e) {
             respuesta = null;
             LogGeneral.log(new LogRecord(Level.SEVERE,
-                    MainClass.getResource().getString("trace_dates_error")));
+                    MainClass.getResource().getString(ResourceLeng.TRACE_DATES_ERROR)));
         } finally {
             semaforoFichero.release();
             return respuesta;

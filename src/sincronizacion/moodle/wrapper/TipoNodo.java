@@ -1,4 +1,4 @@
-package sincronizacion.moodle.estructura;
+package sincronizacion.moodle.wrapper;
 
 /**
  * @author Diego Alvarez

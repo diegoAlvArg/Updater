@@ -38,7 +38,8 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
-import javafx.scene.Parent;import javafx.stage.Stage;
+import javafx.scene.Parent;
+import javafx.stage.Stage;
 import javafx.util.Duration;
 //#5 JavaFx
 import javax.swing.ImageIcon;
@@ -46,20 +47,23 @@ import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 
 /**
- * T 7483   C 552
+ * T 7483 C 552
+ *
  * @author Diego Alvarez
  */
 public class MainClass extends Application {
+
     // Variables de Informacion de la App.
     public static Properties internalInformation = new Properties();
-    public static final double APPLICATION_VERSION = 1.04;//3
+    public static final double APPLICATION_VERSION = 1.05;
+
     static {
         //Important for Web Browser
         System.setProperty("sun.net.http.allowRestrictedHeaders", "true");
 
         //----------Properties---------------------------------------------
         internalInformation.put("Version", APPLICATION_VERSION);
-        internalInformation.put("ReleasedDate", "29/02/2018" );
+        internalInformation.put("ReleasedDate", "29/02/2018");
     }
     // Varaibles de la clase
     private static HostServices servicioHost;
@@ -71,7 +75,7 @@ public class MainClass extends Application {
     private static Object miControl;
     private static String medotoFin;
     private static String metodoGuardar;
-    
+
     @Override
     public void start(Stage primaryStage) throws IOException {
         LogRecord logRegistro;
@@ -83,7 +87,7 @@ public class MainClass extends Application {
                     + ".SystemMessages", Locale.ENGLISH);
             logRegistro = new LogRecord(Level.INFO, String.format(rb
                     .getString(ResourceLeng.TRACE_LANGUAGUE_FAULT), Locale
-                            .getDefault()));
+                    .getDefault()));
             logRegistro.setSourceClassName(this.getClass().getName());
             LogGeneral.log(logRegistro);
         }
@@ -95,7 +99,7 @@ public class MainClass extends Application {
         }
         Scene scene;
         actualizarVersion(false);
-        
+
         if (SystemTray.isSupported()) {
             Platform.setImplicitExit(false);
             iniciarSystemTray(rb);
@@ -103,17 +107,12 @@ public class MainClass extends Application {
             primaryStage.iconifiedProperty().addListener(
                     new ChangeListener<Boolean>() {
                 @Override
-                public void changed(ObservableValue<? extends Boolean>
-                        observable, Boolean oldValue, Boolean newValue) {
+                public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) {
                     try {
                         if (!oldValue && newValue) {
                             sytemTray.add(iconoSystemTray);
                             escenario.hide();
-//                            System.out.println("added to SystemTray");
                         }
-//                        else if (oldValue && !newValue) {
-//                            System.err.println("jeje");
-//                        }
                     } catch (Exception ex) {
                         // AL volverlo a levantar desde el SystemTry 
                         //  generara este evento
@@ -123,8 +122,7 @@ public class MainClass extends Application {
             });
         }
 
-        logRegistro = new LogRecord(Level.INFO, rb.getString(ResourceLeng
-                .TRACE_INIT_LOAD_XML));
+        logRegistro = new LogRecord(Level.INFO, rb.getString(ResourceLeng.TRACE_INIT_LOAD_XML));
         logRegistro.setSourceClassName(this.getClass().getName());
         // FXMLLoader.load(getClass().getResource("../view/Main.fxml"));
         Parent root = null;
@@ -151,7 +149,7 @@ public class MainClass extends Application {
 
         primaryStage.show();
         primaryStage.setOnCloseRequest(event -> {
-            //Usar Platfomr en vez de System, Platform llamara al metodo
+            //Usar Platform en vez de System, Platform llamara al metodo
             //  Stop() inherente; mientras que System para de raiz 
             //  el proceso.
             Platform.exit();
@@ -160,9 +158,9 @@ public class MainClass extends Application {
     }
 
     /**
-     *  Metodo para cambiar el titulo a la escena actual
-     * 
-     * @param titulo 
+     * Metodo para cambiar el titulo a la escena actual
+     *
+     * @param titulo
      */
     public static void cambiarTitulo(String titulo) {
         escenario.setTitle(titulo);
@@ -170,23 +168,24 @@ public class MainClass extends Application {
     }
 
     /**
-     * 
-     * @return 
+     *
+     * @return
      */
     public static HostServices getHostService() {
         return servicioHost;
     }
-    
+
     /**
-     * 
-     * @return 
+     *
+     * @return
      */
     public static ResourceBundle getResource() {
         return rb;
     }
+
     /**
-     * 
-     * @param newrb 
+     *
+     * @param newrb
      */
     public static void setResource(ResourceBundle newrb) {
         rb = newrb;
@@ -194,7 +193,7 @@ public class MainClass extends Application {
             cambiarIdiomaSysTray();
         }
     }
-  
+
     @Override
     public void stop() {
         guardarDatos();
@@ -205,14 +204,15 @@ public class MainClass extends Application {
         LogSincronizacion.cerrar();
         LogGeneral.cerrar();
     }
+
     //--------------------ACTUALIZACION------------------------------------
     /**
      * Calling this method to start the main Application which is XR3Player
-     * 
-     * @param appName 
-     * @param version 
+     *
+     * @param appName
+     * @param version
      */
-    public static void inicarAplicacionExterna(String appName, 
+    public static void inicarAplicacionExterna(String appName,
             double version) {
 //        System.out.println(ResourceLeng.APP_INIT); //-
         // Se ha quitado la ejecucion en hilo, evita solapamientos con el 
@@ -220,7 +220,7 @@ public class MainClass extends Application {
         // Restart XR3Player
         String path = InfoTool.getBasePathForClass(MainClass.class);
         String[] applicationPath = {new File(path + appName + ".jar")
-                .getAbsolutePath()};
+            .getAbsolutePath()};
         //Show message that application is restarting
         try {
             //Create a process builder
@@ -229,7 +229,7 @@ public class MainClass extends Application {
             ProcessBuilder builder = new ProcessBuilder(
                     "./jre/bin/java.exe", "-jar", applicationPath[0],
                     String.valueOf(version));
-            LogRecord logRegistro = new LogRecord(Level.INFO, "CMD: " 
+            LogRecord logRegistro = new LogRecord(Level.INFO, "CMD: "
                     + builder.command());
             LogGeneral.log(logRegistro);
             builder.redirectErrorStream(true);
@@ -261,17 +261,14 @@ public class MainClass extends Application {
         } catch (IOException | InterruptedException ex) {
             // Show failed message
             Platform.runLater(() -> ActionTool.mostrarNotificacionConParam(
-                    String.format(rb.getString(ResourceLeng
-                            .MESSAGE_TITLE_UPDATE_FAIL), appName),
-                    String.format(rb.getString(ResourceLeng
-                            .MESSAGE_TEXT_UPDATE_FAIL), applicationPath[0])
-                    ,Duration.seconds(10), NotificationType.ERROR));
+                    String.format(rb.getString(ResourceLeng.MESSAGE_TITLE_UPDATE_FAIL), appName),
+                    String.format(rb.getString(ResourceLeng.MESSAGE_TEXT_UPDATE_FAIL), applicationPath[0]), Duration.seconds(10), NotificationType.ERROR));
         }
     }
- 
+
     /**
      * Metodo para iniciar el proceso de actualizacion
-     * 
+     *
      * @param mostrarMensaje mostrar mensaje en caso de misma version
      */
     public static void actualizarVersion(boolean mostrarMensaje) {
@@ -279,27 +276,26 @@ public class MainClass extends Application {
                 .get("Version");//---------------
         double lastVersion = howIsLastUpdate();
         System.out.println("Version " + lastVersion);
-        if(lastVersion == -1.0){
-            ActionTool.mostrarNotificacion(rb, 
+        if (lastVersion == -1.0) {
+            ActionTool.mostrarNotificacion(rb,
                     ResourceLeng.UPDATE_NO_ETHERNET,
                     ResourceLeng.UPDATE_NO_ETHERNET_TEXT,
                     Duration.seconds(10), NotificationType.ERROR);
-        }else if(lastVersion == -2.0){
+        } else if (lastVersion == -2.0) {
             ActionTool.mostrarNotificacion(rb,
                     ResourceLeng.UPDATE_ERROR_FILE,
                     ResourceLeng.UPDATE_ERROR_FILE_TEXT,
                     Duration.seconds(10), NotificationType.WARNING);
-        }else if (currentVersion < lastVersion) {
+        } else if (currentVersion < lastVersion) {
             guardarDatos();
             if (Platform.isFxApplicationThread()) {
                 //Idioma en botones
-                Alert alert = new Alert(Alert.AlertType.CONFIRMATION); 
+                Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
                 alert.setTitle(rb.getString(ResourceLeng.UPDATE_TITLE));
                 alert.setHeaderText(String.format(rb.getString(
                         ResourceLeng.UPDATE_HEADER),
                         currentVersion, lastVersion));
-                alert.setContentText(rb.getString(ResourceLeng
-                        .UPDATE_CONTENT));
+                alert.setContentText(rb.getString(ResourceLeng.UPDATE_CONTENT));
 
                 ButtonType buttonYES = new ButtonType(rb.getString(
                         ResourceLeng.ASK_BUTTON_ACCEPT));
@@ -317,13 +313,11 @@ public class MainClass extends Application {
                 // Preguntar actualizar desde SystemTray. ESTO NO ES
                 //  BLOQUEANTE
                 //  Confiamos un poco en el usuario, y no influye mucho
-                Object[] options = {rb.getString(ResourceLeng
-                        .ASK_BUTTON_ACCEPT),
+                Object[] options = {rb.getString(ResourceLeng.ASK_BUTTON_ACCEPT),
                     rb.getString(ResourceLeng.ASK_BUTTON_CANCEL)};
                 int n = JOptionPane.showOptionDialog(new JFrame(
                         "DialogDemo"),
-                        String.format(rb.getString(ResourceLeng
-                                .UPDATE_HEADER), currentVersion,
+                        String.format(rb.getString(ResourceLeng.UPDATE_HEADER), currentVersion,
                                 lastVersion),
                         rb.getString(ResourceLeng.UPDATE_TITLE),
                         JOptionPane.YES_NO_OPTION,
@@ -338,7 +332,7 @@ public class MainClass extends Application {
             }
         } else if (mostrarMensaje) {
             ActionTool.mostrarNotificacion(rb, ResourceLeng.UPDATE_INFO,
-                    ResourceLeng.UPDATE_INFO_TEXT, Duration.seconds(10), 
+                    ResourceLeng.UPDATE_INFO_TEXT, Duration.seconds(10),
                     NotificationType.INFORMATION);
 //            cambiarDisponibilidadOpcionSysTray(ResourceLeng
 //                    .SYS_TRAY_UPDATE, true);
@@ -348,21 +342,22 @@ public class MainClass extends Application {
 
     //--------------------ACTION4CONTROL---------------------------------------------------------------------
     /**
-     * Metodo para setear los metodos que la App debe llamar para Cerrar y 
-     *  guardar Datos.
-     * 
+     * Metodo para setear los metodos que la App debe llamar para Cerrar y
+     * guardar Datos.
+     *
      * @param control
      * @param metEnd
-     * @param metSave 
+     * @param metSave
      */
     public static void setMetodosControl(Object control, String metEnd, String metSave) {
         miControl = control;
         medotoFin = metEnd;
         metodoGuardar = metSave;
     }
+
     /**
      * Metodo que ejecuta el fin de una actualizacion no realizada.
-     * 
+     *
      */
     private static void finalizarActualizacion() {
         cambiarDisponibilidadOpcionSysTray(ResourceLeng.SYS_TRAY_UPDATE, true);
@@ -383,9 +378,10 @@ public class MainClass extends Application {
             }
         }
     }
+
     /**
-     * Metodo que llamara al controlador para que almacene los datos 
-     *  que contenga
+     * Metodo que llamara al controlador para que almacene los datos que
+     * contenga
      */
     private static void guardarDatos() {
         if (miControl != null) {
@@ -405,12 +401,12 @@ public class MainClass extends Application {
             }
         }
     }
-    
+
     //--------------------SYSTRAY---------------------------------------------------------------------------
     /**
      * Metodo para construir el SystemTray, el cual esta soportado
-     * 
-     * @param rb 
+     *
+     * @param rb
      */
     private void iniciarSystemTray(ResourceBundle rb) {
 //        System.out.println("system tray supported");
@@ -421,8 +417,7 @@ public class MainClass extends Application {
         //Toolkit.getDefaultToolkit().getImage("./logo_moodle.png"); 
         Image image = (new ImageIcon(imageURL)).getImage();
         PopupMenu popup = new PopupMenu();
-        MenuItem defaultItem = new MenuItem(rb.getString(ResourceLeng
-                .SYS_TRAY_EXIT));
+        MenuItem defaultItem = new MenuItem(rb.getString(ResourceLeng.SYS_TRAY_EXIT));
         defaultItem.setName(ResourceLeng.SYS_TRAY_EXIT);
         defaultItem.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
@@ -435,8 +430,7 @@ public class MainClass extends Application {
         });
         popup.add(defaultItem);
 
-        defaultItem = new MenuItem(rb.getString(ResourceLeng
-                .SYS_TRAY_OPEN));
+        defaultItem = new MenuItem(rb.getString(ResourceLeng.SYS_TRAY_OPEN));
         defaultItem.setName(ResourceLeng.SYS_TRAY_OPEN);
         defaultItem.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
@@ -456,8 +450,7 @@ public class MainClass extends Application {
         });
         popup.insert(defaultItem, 0);
 
-        iconoSystemTray = new TrayIcon(image, rb.getString(ResourceLeng
-                .SYS_TRAY_TOOLTIP), popup);
+        iconoSystemTray = new TrayIcon(image, rb.getString(ResourceLeng.SYS_TRAY_TOOLTIP), popup);
         iconoSystemTray.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -480,30 +473,27 @@ public class MainClass extends Application {
 
     /**
      * Metodo que devuelve el icono del Systray
-     * 
-     * @return 
+     *
+     * @return
      */
     public static TrayIcon getSysTray() {
         return iconoSystemTray;
     }
 
-    /**a
+    /**
+     * a
      * Metodo para aniadir un accion a las que se presentaran al Systray,
-     *  si no lo esta ya
-     * 
-     * 
+     * si no lo esta ya
+     *
+     *
      * @param control Objeto que invocara la accion
      * @param nombreMetodo nombre del metodo que se invocara
      * @param tagTexto tag del texto que se presenta
      *
-     * @see 
-     * <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Class
-     * .html#getMethod-java.lang.String-java.lang.Class...-">Link 01</a>
-     * @see <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/
-     * reflect/Method.html#invoke-java.lang.Object-java.lang.Object...-">
-     * Link 02</a> 
+     * @see <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Class.html#getMethod-java.lang.String-java.lang.Class...-">Link 01</a>
+     * @see <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/reflect/Method.html#invoke-java.lang.Object-java.lang.Object...-">Link 02</a>
      */
-    public static void anidirOpcionSysTray(Object control, String nombreMetodo, String tagTexto ){
+    public static void anidirOpcionSysTray(Object control, String nombreMetodo, String tagTexto) {
         boolean noEstaAniadido = true;
         MenuItem auxItem;
         // Si es distinto de null es porque el SystemTray esta soportado y por tanto inicializado
@@ -550,10 +540,10 @@ public class MainClass extends Application {
             }
         }
     }
+
     /**
-     * PRE: SysTray soportado.
-     * Metodo que actualiza el texto de las opciones del Systray, en funciona 
-     *  de su "TAG"
+     * PRE: SysTray soportado. Metodo que actualiza el texto de las
+     * opciones del Systray, en funciona de su "TAG"
      */
     private static void cambiarIdiomaSysTray() {
         MenuItem auxItem;
@@ -562,12 +552,13 @@ public class MainClass extends Application {
             auxItem.setLabel(rb.getString(auxItem.getName()));
         }
     }
+
     /**
-     * Metodo para inhabilitar o habilitar una opcion del Systray, esto se debe 
-     *  a que el usuario provoco el evento gestionado por el control y aunque 
-     *  minimize (y se muestre el SysTray) el usuario no podra volver a lanzar 
-     *  el mismo evento
-     * 
+     * Metodo para inhabilitar o habilitar una opcion del Systray, esto se
+     * debe a que el usuario provoco el evento gestionado por el control y
+     * aunque minimize (y se muestre el SysTray) el usuario no podra volver
+     * a lanzar el mismo evento
+     *
      * @param tagTexto tag de la opcion sobre la que se interactua
      * @param activo disponibilidad
      */
@@ -588,8 +579,6 @@ public class MainClass extends Application {
 
     }
 
-    
-    
     /**
      * @param args the command line arguments
      * @throws Exception

@@ -3,8 +3,8 @@ package aplicacion.controlador;
 //#1 Static import
 import actualizador.tools.ActionTool;
 import actualizador.tools.NotificationType;
-//import aplicacion.controlador.MainController;
-import aplicacion.datos.Tareas;
+//import aplicacion.controlador.MainControlador;
+import aplicacion.datosListas.Tarea;
 import aplicacion.eventos.EventoTarea;
 import tools.almacen.AlmacenTareas;
 import tools.almacen.InformacionUsuario;
@@ -40,30 +40,30 @@ import javafx.util.Callback;
 import javafx.util.Duration;
 
 /** 633
- * Controlador de la tabla Deliver, en la que hay una tabla en la cual recogemos
- *  y representamos las Tareas 
+ Controlador de la tabla Entrega, en la que hay una tabla en la cual recogemos
+  y representamos las Tarea 
  * 
  * @author Diego Alvarez 
  */
-public class TabDeliverController {
+public class TabEntregaControlador {
 
-    private MainController main;
+    private MainControlador main;
 
     @FXML
-    private TableView<Tareas> tablaTareas;// = new TableView<Delivery>();
+    private TableView<Tarea> tablaTareas;// = new TableView<Delivery>();
     @FXML
-    private TableColumn<Tareas, String> c1;     //Nombre de la tarea
+    private TableColumn<Tarea, String> c1;     //Nombre de la tarea
     @FXML
-    private TableColumn<Tareas, String> c2;     // Estadp de la tarea
+    private TableColumn<Tarea, String> c2;     // Estadp de la tarea
     @FXML
-    private TableColumn<Tareas, String> c3;     // Tiempo restante
+    private TableColumn<Tarea, String> c3;     // Tiempo restante
     @FXML
-    private TableColumn<Tareas, String> c4;     // Fichero asociado & nota
+    private TableColumn<Tarea, String> c4;     // Fichero asociado & nota
     @FXML
-    private TableColumn<Tareas, Button> c5;     // Boton de accion
-    private Map<String, Tareas> tareasTrack = new HashMap<>();
-    private Map<String, Boolean> updatable = new HashMap<>();
-    private HashSet<Tareas> tareasExcedidas=new HashSet<Tareas>();  
+    private TableColumn<Tarea, Button> c5;     // Boton de accion
+    private Map<String, Tarea> tareasTrack = new HashMap<>();
+    private Map<String, Boolean> tareasActualizables = new HashMap<>();
+    private HashSet<Tarea> tareasExcedidas=new HashSet<Tarea>();  
     private int DIA_MILLIS = 86400000; // 86.400 1 dia
     private int ARCHIV_CORREGIDO = 2;
     private int ARCHIV_POR_CORREGIR = 7;
@@ -106,7 +106,7 @@ public class TabDeliverController {
      * 
      * @param dataRow 
      */
-    private void gestionarEventoFichero(Tareas dataRow) {
+    private void gestionarEventoFichero(Tarea dataRow) {
         String pathFile = dataRow.getPathFile();
 //        System.out.println("cell clicked¿" + pathFile + "?"); 
 
@@ -129,7 +129,7 @@ public class TabDeliverController {
      */
     private void gestionarEventoAccion(int dataRow) {
 //        System.out.println("cell clicked!" + dataRow);
-        Tareas aux = tablaTareas.getItems().get(dataRow);
+        Tarea aux = tablaTareas.getItems().get(dataRow);
         String status = aux.getEstado();
         if (main.OcuparUsuario()) {
             switch (status) {
@@ -151,7 +151,7 @@ public class TabDeliverController {
                                 InformacionUsuario.getPath(), main.getResource());
                     } catch (NoSuchFieldException ex) {
                         aux.resetearEstado();
-//                        Logger.getLogger(TabDeliverController.class.getName()).log(Level.SEVERE, null, ex);
+//                        Logger.getLogger(TabEntregaControlador.class.getName()).log(Level.SEVERE, null, ex);
                     }
                     break;
                 default:
@@ -175,19 +175,19 @@ public class TabDeliverController {
      */
     protected void aniadirTarea(String curso, String titulo, String fichero, String tiempo, String languague, String nota, String comentario, String url) {
         try {
-            Tareas del = new Tareas(curso, titulo, fichero, tiempo, languague, nota, comentario, url);
-            Tareas aux;
+            Tarea del = new Tarea(curso, titulo, fichero, tiempo, languague, nota, comentario, url);
+            Tarea aux;
             boolean auxB = tareasTrack.containsKey(del.getIdentificador());
 //            boolean auxC = updatable.get(del.getIdentificador());
 //            boolean auxD = auxB && auxC;
 //            auxB = updatable.get(del.getIdentificador());
             if(tareasTrack.containsKey(del.getIdentificador())){
                 aux = tareasTrack.get(del.getIdentificador());
-                if(updatable.get(del.getIdentificador())){
+                if(tareasActualizables.get(del.getIdentificador())){
                     if(!aux.equals(del)){
-                        aux.updateInfo(del);
+                        aux.actualizarTarea(del);
                         tablaTareas.refresh();
-                        updatable.put(del.getIdentificador(), Boolean.FALSE);
+                        tareasActualizables.put(del.getIdentificador(), Boolean.FALSE);
                     }
                 }else{
                     aux.setEstado("9");
@@ -196,7 +196,7 @@ public class TabDeliverController {
             }else{
                 tareasTrack.put(del.getIdentificador(), del);
                 tablaTareas.getItems().add(del);
-                updatable.put(del.getIdentificador(), Boolean.FALSE);
+                tareasActualizables.put(del.getIdentificador(), Boolean.FALSE);
             }
         } catch (ParseException e) {
 //            e.printStackTrace();
@@ -205,17 +205,17 @@ public class TabDeliverController {
 
     //---------------------------------------------------UTILS-------------------------------------------------- 
     /**
-     * Metodo que cargara las Tareas existentes de una sesion anterior
+     * Metodo que cargara las Tarea existentes de una sesion anterior
      * 
      * @param key 
      */
     protected void cargarDatos(String key) {
-        HashMap<String, Tareas> map = AlmacenTareas.cargarDatos(key);
+        HashMap<String, Tarea> map = AlmacenTareas.cargarDatos(key);
         ResourceBundle rb = main.getResource();
         if (map != null) {
             tareasTrack = map;
 
-            for (Map.Entry<String, Tareas> entry : tareasTrack.entrySet()) {
+            for (Map.Entry<String, Tarea> entry : tareasTrack.entrySet()) {
                 if (tareasTrack.get(entry.getKey()).getEstado().equals("4")) {
                     ActionTool.mostrarNotificacionConParam(rb.getString(ResourceLeng.ERROR_RECOVER_TITLE),
                             String.format(rb.getString(ResourceLeng.ERROR_RECOVER_TEXT),
@@ -230,7 +230,7 @@ public class TabDeliverController {
     }
     
     /**
-     * Metodo que guardara las Tareas existentes de una sesion anterior
+     * Metodo que guardara las Tarea existentes de una sesion anterior
      */
     protected void guardarDatos() {
         try {
@@ -251,20 +251,20 @@ public class TabDeliverController {
     protected void limpiarRastro(){
         tablaTareas.getItems().clear();
         tareasTrack.clear();
-        updatable.clear();
+        tareasActualizables.clear();
     }
-    private void archivarTareas(HashSet<Tareas> candidatos){
+    private void archivarTareas(HashSet<Tarea> candidatos){
         String aux;
         long diff;
         String auxEstado;
         //Parece que al hacer clean o renovar tarasExcedidas habia un error que 
         // no referenciaba correctamente. De forma que clonamos la lista y segun
         // la acccion eliminamos de la lista original
-        HashSet<Tareas> copyCandidatos = (HashSet<Tareas>) candidatos.clone();
+        HashSet<Tarea> copyCandidatos = (HashSet<Tarea>) candidatos.clone();
        
         
         
-        for(Tareas miTarea: copyCandidatos){
+        for(Tarea miTarea: copyCandidatos){
             aux = miTarea.getTiempo();
             diff = Long.valueOf(aux);
             auxEstado = miTarea.getEstado();
@@ -304,17 +304,18 @@ public class TabDeliverController {
     }
     
     /**
-     *
+     * Metodo para actualizar o establecer las Tarea que pueden ser
+  actualizadas
      */
-    protected void loadUpdatable() {
+    protected void cargarActualizables() {
         if (!tareasTrack.isEmpty()) {
-            for (Map.Entry<String, Tareas> entry : tareasTrack.entrySet()) {
-                updatable.put(entry.getKey(), Boolean.TRUE);
+            for (Map.Entry<String, Tarea> entry : tareasTrack.entrySet()) {
+                tareasActualizables.put(entry.getKey(), Boolean.TRUE);
             }
         }
     }
     //---------------------------------------------------INIT---------------------------------------------------
-    protected void init(MainController mainController) {
+    protected void init(MainControlador mainController) {
         main = mainController;
         initializeTableView();
 //        loadDummys();
@@ -327,8 +328,8 @@ public class TabDeliverController {
         // Por debajo parece tener N punteros hacia elementos de la lista, de forma 
         //  que cuando refrescas la tabla el elemento que ocupa la posicion mas alta
         //  salta N veces su refresco 1 normal y los N por cada columna.
-        c1.setCellValueFactory(new Callback<CellDataFeatures<Tareas, String>, ObservableValue<String>>() {
-            public ObservableValue<String> call(CellDataFeatures<Tareas, String> p) {
+        c1.setCellValueFactory(new Callback<CellDataFeatures<Tarea, String>, ObservableValue<String>>() {
+            public ObservableValue<String> call(CellDataFeatures<Tarea, String> p) {
                 String aux = p.getValue().getIdentificador();
 
                 if (aux != null) {
@@ -339,7 +340,7 @@ public class TabDeliverController {
             }
         });
         c1.setCellFactory(c -> {
-            return new TableCell<Tareas, String>() {
+            return new TableCell<Tarea, String>() {
                 @Override
                 protected void updateItem(String item, boolean empty) {
                     if (item == null || empty) {
@@ -360,9 +361,9 @@ public class TabDeliverController {
             };
         });
 
-        c2.setCellValueFactory(new PropertyValueFactory<Tareas, String>("estado"));
+        c2.setCellValueFactory(new PropertyValueFactory<Tarea, String>("estado"));
         c2.setCellFactory(c -> {
-            return new TableCell<Tareas, String>() {
+            return new TableCell<Tarea, String>() {
                 @Override
                 protected void updateItem(String item, boolean empty) {
                     if (item == null || empty) {
@@ -424,8 +425,8 @@ public class TabDeliverController {
             };
         });
 
-        c3.setCellValueFactory(new Callback<CellDataFeatures<Tareas, String>, ObservableValue<String>>() {
-            public ObservableValue<String> call(CellDataFeatures<Tareas, String> p) {
+        c3.setCellValueFactory(new Callback<CellDataFeatures<Tarea, String>, ObservableValue<String>>() {
+            public ObservableValue<String> call(CellDataFeatures<Tarea, String> p) {
                 // p.getValue() returns the Person instance for a particular TableView row
                 String respuesta = "";
                 String aux;
@@ -469,7 +470,7 @@ public class TabDeliverController {
             }
         });
         c3.setCellFactory(c -> {
-            return new TableCell<Tareas, String>() {
+            return new TableCell<Tarea, String>() {
                 @Override
                 protected void updateItem(String item, boolean empty) {
                     if (item == null || empty) {
@@ -497,8 +498,8 @@ public class TabDeliverController {
             };
         });
 
-        c4.setCellValueFactory(new Callback<CellDataFeatures<Tareas, String>, ObservableValue<String>>() {
-            public ObservableValue<String> call(CellDataFeatures<Tareas, String> p) {
+        c4.setCellValueFactory(new Callback<CellDataFeatures<Tarea, String>, ObservableValue<String>>() {
+            public ObservableValue<String> call(CellDataFeatures<Tarea, String> p) {
                 // p.getValue() returns the Person instance for a particular TableView row
                 String aux = p.getValue().getFeedBack();
 
@@ -510,7 +511,7 @@ public class TabDeliverController {
             }
         });
         c4.setCellFactory(c -> {
-            return new TableCell<Tareas, String>() {
+            return new TableCell<Tarea, String>() {
                 @Override
                 protected void updateItem(String item, boolean empty) {
                     if (item == null || empty) {
@@ -581,8 +582,8 @@ public class TabDeliverController {
             };
         });
 
-        c5.setCellValueFactory(new Callback<CellDataFeatures<Tareas, Button>, ObservableValue<Button>>() {
-            public ObservableValue<Button> call(CellDataFeatures<Tareas, Button> p) {
+        c5.setCellValueFactory(new Callback<CellDataFeatures<Tarea, Button>, ObservableValue<Button>>() {
+            public ObservableValue<Button> call(CellDataFeatures<Tarea, Button> p) {
                 // p.getValue() returns the Person instance for a particular TableView row
                 String aux = p.getValue().getEstado();
                 if (aux != null) {
@@ -593,7 +594,7 @@ public class TabDeliverController {
             }
         });
         c5.setCellFactory(c -> {
-            return new TableCell<Tareas, Button>() {
+            return new TableCell<Tarea, Button>() {
                 @Override
                 protected void updateItem(Button item, boolean empty) {
                     if (item == null || empty) {

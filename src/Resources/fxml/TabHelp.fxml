@@ -6,7 +6,7 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.TextFlow?>
 
-<AnchorPane prefHeight="200.0" prefWidth="200.0" xmlns="http://javafx.com/javafx/9.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="aplicacion.controlador.TabHelpController">
+<AnchorPane prefHeight="200.0" prefWidth="200.0" xmlns="http://javafx.com/javafx/9.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="aplicacion.controlador.TabAyudaControlador">
     <children>
         <Button fx:id="bActualizar" layoutX="443.0" layoutY="148.0" mnemonicParsing="false" onAction="#actualizarVersion" text="bActualizar" />
         <Label fx:id="lVersionActual" layoutX="443.0" layoutY="105.0" text="LCurrentVersion" />

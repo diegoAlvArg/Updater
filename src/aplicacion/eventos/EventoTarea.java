@@ -3,8 +3,8 @@ package aplicacion.eventos;
 //#1 Static import
 import actualizador.tools.ActionTool;
 import actualizador.tools.NotificationType;
-import aplicacion.controlador.MainController;
-import aplicacion.datos.Tareas;
+import aplicacion.controlador.MainControlador;
+import aplicacion.datosListas.Tarea;
 import tools.lenguaje.ResourceLeng;
 import tools.logger.LogGeneral;
 //#3 Third party
@@ -50,7 +50,7 @@ public class EventoTarea {
      * @param pathFile  path del fichero en local
      * @param rb Indicara el idioma en el momento actual de generar el evento
      */
-    public EventoTarea(Tareas miTarea, MainController control, String usuario, String contrasenia, String pathFile, ResourceBundle rb) {
+    public EventoTarea(Tarea miTarea, MainControlador control, String usuario, String contrasenia, String pathFile, ResourceBundle rb) {
         File selectedFile = null;
         String initialPath;
 
@@ -88,7 +88,7 @@ public class EventoTarea {
      * @param rb Indicara el idioma en el momento actual de generar el evento
      * @param control Clase de control que gestionara la finalizacion del evento
      */
-    public void procesoSubida(String usuario, String contrasenia, String pathFile, Tareas miTarea, ResourceBundle rb, MainController control) {
+    public void procesoSubida(String usuario, String contrasenia, String pathFile, Tarea miTarea, ResourceBundle rb, MainControlador control) {
         new Thread(() -> {
             int estado = navegarAEdicion(usuario, contrasenia, miTarea.getUrlWeb(), pathFile, miTarea.getPathFile().equals(""), rb);   
             switch(estado){

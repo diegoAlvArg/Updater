@@ -1,12 +1,13 @@
 package sincronizacion.moodle.inicio;
 
 //#1 Static import
-import sincronizacion.moodle.estructura.Nodo;
+import sincronizacion.moodle.wrapper.Nodo;
 //#4 Java
 import java.util.concurrent.Callable;
 
 /**
  * 32
+ *
  * @author Diego Alvarez
  *
  * Task para lanzar un Nodo "raiz". Metido en un callable porque queremos
@@ -22,8 +23,7 @@ public class TareaWrapper implements Callable<Void> {
         this.id = id;
     }
 
-    public Void call()
-            throws Exception {
+    public Void call() throws Exception {
         this.curso.descender();
 
         return null;

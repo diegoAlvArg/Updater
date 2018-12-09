@@ -32,7 +32,7 @@ import java.util.logging.LogRecord;
  * repositorio NAS-TER para el anio actual, manteniendo la ultima version de los
  * ficheros
  */
-public class OpcionesSyncNaster {
+public class SincronizadorNaster {
 
     //Constantes config para conexion
     private static final String CARPETA_SINC = "cloud";
@@ -57,6 +57,8 @@ public class OpcionesSyncNaster {
     public static int sincronizar(String usuario, String contrasenia, String pathLocal, String anio) {
         int respuesta = 0;
         LogRecord logRegistro = null;
+        long time_start, time_end;
+        time_start = System.currentTimeMillis();
         try {
             sardineCon = SardineFactory.begin(usuario, contrasenia);
             URI url = URI.create(URL_NAS + "/" + usuario + "/" + CARPETA_SINC);
@@ -111,9 +113,11 @@ public class OpcionesSyncNaster {
         } finally {
             if (logRegistro != null) {
                 logRegistro.setSourceMethodName("sincronizar");
-                logRegistro.setSourceClassName(OpcionesSyncNaster.class.getName());
+                logRegistro.setSourceClassName(SincronizadorNaster.class.getName());
                 LogSincronizacion.log(logRegistro);
             }
+            time_end = System.currentTimeMillis();
+            System.out.println("\n\n--the task has taken " + (time_end - time_start) + " milliseconds");
             return respuesta;
         }
         
@@ -242,7 +246,7 @@ public class OpcionesSyncNaster {
             ex.printStackTrace(new PrintWriter(errors));
             LogRecord logRegistro = new LogRecord(Level.SEVERE, errors.toString());
             logRegistro.setSourceMethodName("subirArchivo");
-            logRegistro.setSourceClassName(OpcionesSyncNaster.class.getName());
+            logRegistro.setSourceClassName(SincronizadorNaster.class.getName());
             LogSincronizacion.log(logRegistro);
         }
     }
@@ -276,7 +280,7 @@ public class OpcionesSyncNaster {
         } finally {
             if (logRegistro != null) {
                 logRegistro.setSourceMethodName("descargarArchivo");
-                logRegistro.setSourceClassName(OpcionesSyncNaster.class.getName());
+                logRegistro.setSourceClassName(SincronizadorNaster.class.getName());
                 LogSincronizacion.log(logRegistro);
             }
         }

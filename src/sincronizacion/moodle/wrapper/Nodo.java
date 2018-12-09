@@ -1,8 +1,8 @@
-package sincronizacion.moodle.estructura;
+package sincronizacion.moodle.wrapper;
 
 //#1 Static import
-import aplicacion.controlador.MainController;
-import sincronizacion.moodle.inicio.OpcionesSyncMoodle;
+import aplicacion.controlador.MainControlador;
+import sincronizacion.moodle.inicio.SincronizadorMoodle;
 import tools.logger.LogSincronizacion;
 //#3 Third party
 import org.apache.http.HttpEntity;
@@ -166,7 +166,7 @@ public class Nodo extends MarcasScrapping {
                         .setDefaultCookieStore(cookieAlmacen)
                         .setDefaultSocketConfig(socketConfig)
                         .build();){
-                    descargarEnLocal(OpcionesSyncMoodle.getPathDescarga(), httpclient, OpcionesSyncMoodle.getIU());
+                    descargarEnLocal(SincronizadorMoodle.getPathDescarga(), httpclient, SincronizadorMoodle.getIU());
                     
 //                    httpclient.close();
                     logRegistro = new LogRecord(Level.INFO, EXISTO);
@@ -665,7 +665,7 @@ public class Nodo extends MarcasScrapping {
      * @param httpclient cliente Http utilizado para descargar los archivos
      * @param iu controllador de la interfaz
      */
-    private void descargarEnLocal(String pathDescarga, CloseableHttpClient httpclient, MainController iu) {
+    private void descargarEnLocal(String pathDescarga, CloseableHttpClient httpclient, MainControlador iu) {
         LogRecord logRegistro = null;
         
         try {
@@ -726,7 +726,7 @@ public class Nodo extends MarcasScrapping {
      * http://hc.apache.org/httpcomponents-core-ga/httpcore/apidocs/org/apache/http/HttpEntity.html#isChunked()
      *
      */
-    private void descargarArchivo(String pathDescarga, CloseableHttpClient httpclient, MainController iu) {
+    private void descargarArchivo(String pathDescarga, CloseableHttpClient httpclient, MainControlador iu) {
         HttpClientContext context = HttpClientContext.create();
         CloseableHttpResponse response = null;
         HttpEntity entity;
@@ -871,7 +871,7 @@ public class Nodo extends MarcasScrapping {
      * @throws Exception posibles excepciones debido a Jsoup
      * @see https://jsoup.org/apidocs/org/jsoup/Connection.html#get--
      */
-    private void descargarEnlaceWeb(String pathDescarga, CloseableHttpClient httpclient, MainController iu) throws Exception {
+    private void descargarEnlaceWeb(String pathDescarga, CloseableHttpClient httpclient, MainControlador iu) throws Exception {
         //Comprobar si la URL esta escondida en una section de moodle
         HttpClientContext context = HttpClientContext.create();
         CloseableHttpResponse response = null;
@@ -950,7 +950,7 @@ public class Nodo extends MarcasScrapping {
     }
     /**
      * Dado un Nodo TipoNodo.Tarea recogera la informacion distintiva y util
-     *  y se la comunicara a la iu (MainController). Siendo estas:
+  y se la comunicara a la iu (MainControlador). Siendo estas:
      *  Nombre curso
      *  Nombre entrega
      *  Fichero asociado (si hubiera un fichero entregado)
@@ -964,7 +964,7 @@ public class Nodo extends MarcasScrapping {
      * @param iu controllador de la interfaz
      * @throws Exception 
      */
-    private void descargarTarea(MainController iu) throws Exception {
+    private void descargarTarea(MainControlador iu) throws Exception {
         String ficheroEntrega = "";
         double noteAux = -1.0;
         String feedBack = "";

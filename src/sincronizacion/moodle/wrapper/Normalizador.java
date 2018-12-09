@@ -1,4 +1,4 @@
-package sincronizacion.moodle.estructura;
+package sincronizacion.moodle.wrapper;
 
 /**
  *
@@ -20,6 +20,7 @@ public class Normalizador {
         respuesta = respuesta.replaceAll(" ", "_");
         respuesta = respuesta.replaceAll("/", "-");
         respuesta = respuesta.replaceAll(":", ",");
+        respuesta = respuesta.replaceAll("\\+", ""); // NAS-TER
         for (String au : restricciones) {
             respuesta = respuesta.replaceAll(au, "");
         }

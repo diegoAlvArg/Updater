@@ -11,7 +11,7 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="206.0" prefWidth="226.0" xmlns="http://javafx.com/javafx/9.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="aplicacion.controlador.TabConfigController">
+<AnchorPane prefHeight="206.0" prefWidth="226.0" xmlns="http://javafx.com/javafx/9.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="aplicacion.controlador.TabConfiguracionControlador">
     <children>
         <Label fx:id="lTituloLanguague" layoutX="58.0" layoutY="238.0" text="Language" underline="true">
             <font>

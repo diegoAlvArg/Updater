@@ -2,7 +2,7 @@ package tools.almacen;
 
 //#1 Static import
 import aplicacion.MainClass;
-import aplicacion.datos.Tareas;
+import aplicacion.datosListas.Tarea;
 import tools.logger.LogGeneral;
 //#4 Java
 import java.io.File;
@@ -29,6 +29,7 @@ import javax.crypto.Cipher;
 import javax.crypto.IllegalBlockSizeException;
 import javax.crypto.NoSuchPaddingException;
 import javax.crypto.spec.SecretKeySpec;
+import tools.lenguaje.ResourceLeng;
 
 /**
  * 200
@@ -37,13 +38,13 @@ import javax.crypto.spec.SecretKeySpec;
 public class AlmacenTareas {
 
     /**
-     * Metodo que almacenara una Colection Map de Tareas en un fichero que
-     * encriptaremos en base de una clave.
+     * Metodo que almacenara una Colection Map de Tarea en un fichero que
+ encriptaremos en base de una clave.
      *
-     * @param datos Map de Tareas que queremos almacenar/persistir
+     * @param datos Map de Tarea que queremos almacenar/persistir
      * @param clave clave con la que se almacenara los datos
      */
-    public static void guardarDatos(Map<String, Tareas> datos, String clave) {
+    public static void guardarDatos(Map<String, Tarea> datos, String clave) {
         Path ficheroTemporal = Paths.get("./Dates/tempDeliverys.txt", new String[0]);
         Path ficheroFinal = Paths.get("./Dates/allDeliverys.txt", new String[0]);
         LogRecord logRegistro = null;
@@ -57,7 +58,7 @@ public class AlmacenTareas {
         } catch (IOException ex) {
             StringWriter errors = new StringWriter();
             ex.printStackTrace(new PrintWriter(errors));
-            logRegistro = new LogRecord(Level.WARNING, MainClass.getResource().getString("trace_store_save") + "\n" + errors.toString());
+            logRegistro = new LogRecord(Level.WARNING, MainClass.getResource().getString(ResourceLeng.TRACE_STORE_SAVE) + "\n" + errors.toString());
         } finally {
             if (logRegistro != null) {
                 logRegistro.setSourceClassName("guardarDatos");
@@ -78,7 +79,7 @@ public class AlmacenTareas {
      * fichero que deberia tener los datos no exista o la clave sea incorrecta o
      * no sea longitud 6
      */
-    public static HashMap<String, Tareas> cargarDatos(String clave) {
+    public static HashMap<String, Tarea> cargarDatos(String clave) {
         Path ficheroTemporal = Paths.get("./Dates/tempDeliverys.txt", new String[0]);
         Path ficheroFinal = Paths.get("./Dates/allDeliverys.txt", new String[0]);
 
@@ -101,8 +102,8 @@ public class AlmacenTareas {
      * almacena los datos haya sido modificado o ocurra error al recuperar los
      * datos.
      */
-    private static HashMap<String, Tareas> cargarDatos(String clave, Path ficheroFinal, Path ficheroTemporal) {
-        HashMap<String, Tareas> respuesta = new HashMap();
+    private static HashMap<String, Tarea> cargarDatos(String clave, Path ficheroFinal, Path ficheroTemporal) {
+        HashMap<String, Tarea> respuesta = new HashMap();
         LogRecord logRegistro = null;
         StringWriter errors = null;
                 
@@ -117,7 +118,7 @@ public class AlmacenTareas {
             ex1.printStackTrace(new PrintWriter(errors));
 
             logRegistro = new LogRecord(Level.WARNING, MainClass.getResource()
-                    .getString("trace_store_load_file") + "\n" + errors.toString());
+                    .getString(ResourceLeng.TRACE_STORE_LOAD_FILE) + "\n" + errors.toString());
             
         } catch (IOException | ClassNotFoundException ex2) {
             // Error al leer los datos
@@ -125,7 +126,7 @@ public class AlmacenTareas {
             ex2.printStackTrace(new PrintWriter(errors));
 
             logRegistro = new LogRecord(Level.WARNING, MainClass.getResource()
-                    .getString("trace_store_load_data") + "\n" + errors.toString());
+                    .getString(ResourceLeng.TRACE_STORE_LOAD_DATA) + "\n" + errors.toString());
         } finally {
             if (logRegistro != null) {
                 logRegistro.setSourceClassName("cargarDatos");

@@ -1,4 +1,4 @@
-package aplicacion.datos;
+package aplicacion.datosListas;
 
 //#4 Java
 import java.io.File;
@@ -12,7 +12,7 @@ import java.util.Locale;
  *
  * @author Diego Alvarez
  */
-public class Tareas implements Serializable {
+public class Tarea implements Serializable {
 
     private String identificador;                      //---------------------------#C1 = D1' + D2'
     private String estado;                      //---------------------------#C2 && #C5     
@@ -27,7 +27,7 @@ public class Tareas implements Serializable {
     private String urlWeb;
     private String languague;
 
-    public Tareas(String curso, String nombre, String fichero, String tiempo, String languague, String nota, String comentario, String url) throws ParseException {
+    public Tarea(String curso, String nombre, String fichero, String tiempo, String languague, String nota, String comentario, String url) throws ParseException {
         this.nombre = nombre.replaceAll("[^-\\s\\d\\w\\.ñÑáéíóúÁÉÍÓÚ]+[\\s]?", "");//Añadir otros acentos?
         this.curso = curso.replaceAll("\\([\\d-]*\\)", "");
         this.identificador = this.nombre + " - " + this.curso;
@@ -208,15 +208,15 @@ public class Tareas implements Serializable {
         if (obj == this) {
             return true;
         }
-        if (!(obj instanceof Tareas)) {
+        if (!(obj instanceof Tarea)) {
             return false;
         }
-        Tareas otherDel = (Tareas) obj;
+        Tarea otherDel = (Tarea) obj;
 
         return printTrack().equals(otherDel.printTrack());
     }
     
-    public void updateInfo(Tareas mirror){
+    public void actualizarTarea(Tarea mirror){
         if(!getCalendar().equals(mirror.getCalendar())){
             tiempoLimite = mirror.getCalendar();
             languague = mirror.getLanguague();

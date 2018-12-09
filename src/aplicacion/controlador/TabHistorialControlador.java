@@ -1,8 +1,8 @@
 package aplicacion.controlador;
 
 //#1 Static import
-//import aplicacion.controlador.MainController;
-import aplicacion.datos.ItemArbol;
+//import aplicacion.controlador.MainControlador;
+import aplicacion.datosListas.ItemHistorial;
 import tools.lenguaje.ResourceLeng;
 import tools.logger.LogGeneral;
 //#4 Java
@@ -24,15 +24,15 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 
 /** 177
- * Controlador de la tabla Init, en la que existe un TreeView que llenaremos 
+ * Controlador de la tabla Historial, en la que existe un TreeView que llenaremos 
  * de elementos que representan recursos descargados
  * 
  * @author Diego Alvarez
  */
-public class TabInitController {
+public class TabHistorialControlador {
 
-    private MainController main;
-    private Map<String, TreeItem<ItemArbol>> cursosTrack = new HashMap<>();
+    private MainControlador main;
+    private Map<String, TreeItem<ItemHistorial>> cursosTrack = new HashMap<>();
     
     @FXML
     private TreeView tListUpdates;
@@ -62,7 +62,7 @@ public class TabInitController {
         // Averiguaar donde meter  le nuevo elemento
         String curso = path.replace(pathLocal + File.separator, "");
         curso = curso.substring(0, curso.indexOf(File.separator));
-        TreeItem<ItemArbol> auxCurso;
+        TreeItem<ItemHistorial> auxCurso;
         String auxExtension = "";
         int indexExt;
         
@@ -78,7 +78,7 @@ public class TabInitController {
 //                Logger.getLogger(InterfaceController.class
 //                        .getNombre()).log(Level.SEVERE, null, ex);
             }
-            ItemArbol auxbook = new ItemArbol(pathLocal
+            ItemHistorial auxbook = new ItemHistorial(pathLocal
                     + File.separator + curso, curso);
             auxCurso = new TreeItem<>(auxbook, new ImageView(miImage));
             cursosTrack.put(curso, auxCurso);
@@ -113,8 +113,8 @@ public class TabInitController {
             //Esto nunca saltara, la imagen es seleccionada de las existentes 
             //durante el compilado
         }
-        ItemArbol auxbook = new ItemArbol(path, name);
-        TreeItem<ItemArbol> auxItem = new TreeItem<>(auxbook, new ImageView(miImage));
+        ItemHistorial auxbook = new ItemHistorial(path, name);
+        TreeItem<ItemHistorial> auxItem = new TreeItem<>(auxbook, new ImageView(miImage));
 
         // En el caso de que un TreeItem<BookCategory> ya este aniadido lo eliminamos
         for (TreeItem item : auxCurso.getChildren()) {
@@ -133,9 +133,9 @@ public class TabInitController {
      * @param newValue treeItem que disparo el evento
      */
     private void manejadorTreeViewClick(TreeItem newValue) {
-        ItemArbol aux = null;
+        ItemHistorial aux = null;
         try {
-            aux = (ItemArbol) newValue.getValue();
+            aux = (ItemHistorial) newValue.getValue();
             main.getHostService().showDocument(aux.getPathFichero());
         } catch (Exception e) {
             LogRecord logRegistro;
@@ -161,7 +161,7 @@ public class TabInitController {
     
     
     //---------------------------------------------------INIT---------------------------------------------------
-    protected void init(MainController mainController) {
+    protected void init(MainControlador mainController) {
         main = mainController;
         initializeTreeView();
     }
@@ -170,7 +170,7 @@ public class TabInitController {
      * el Scene builder o ha pelo pero no se.
      */
     private void initializeTreeView() {
-        TreeItem<ItemArbol> rootItem = new TreeItem<ItemArbol>();
+        TreeItem<ItemHistorial> rootItem = new TreeItem<ItemHistorial>();
         tListUpdates.setRoot(rootItem);
         tListUpdates.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> manejadorTreeViewClick((TreeItem) newValue));
     }

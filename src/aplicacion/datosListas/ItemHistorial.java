@@ -1,17 +1,17 @@
-package aplicacion.datos;
+package aplicacion.datosListas;
 
 /**
  * 59
  * @author Diego Alvarez
  * @version 1.0 
  */
-public class ItemArbol {
+public class ItemHistorial {
 
     private String pathFichero;
     private String nombre;
 
     
-    public ItemArbol(String pathFichero, String nombre) {
+    public ItemHistorial(String pathFichero, String nombre) {
         this.pathFichero = pathFichero;
         this.nombre = nombre;
     }
@@ -49,10 +49,10 @@ public class ItemArbol {
         if (other == this) {
             return true;
         }
-        if (!(other instanceof ItemArbol)) {
+        if (!(other instanceof ItemHistorial)) {
             return false;
         }
-        ItemArbol otherBook = (ItemArbol) other;
+        ItemHistorial otherBook = (ItemHistorial) other;
 
         return print().equals(otherBook.print());
     }

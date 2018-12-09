@@ -15,9 +15,6 @@ public class ResourceLeng extends BasicLeng {
      * Title on title bar
      */
     public static final String APP_TITLE = "app_title";
-//    public static final String HELLO_BUTTON = "hello_button";
-//    public static final String HELLO_LOG = "hello_log";
-//    public static final String HELLO_WORLD = "hello_world";
     public static final String ASK_UPDATE = "question_update";
     public static final String TXT_YES = "txt_yes";
     public static final String TXT_NO = "txt_no";
@@ -140,6 +137,7 @@ public class ResourceLeng extends BasicLeng {
     public static final String MESSAGE_INFO_FIELD_EMPTY = "message_info_field_empty";
     public static final String MESSAGE_TITLE_PATH_REJECT = "message_title_path_reject";
     public static final String MESSAGE_INFO_PATH_REJECT = "message_info_path_reject";
+    public static final String MESSAGE_INFO_PATH_NO_SPACE = "message_info_path_no_space";
     public static final String MESSAGE_TITLE_MOODLE_REJECT = "message_title_moodle_reject";
     public static final String MESSAGE_INFO_MOODLE_REJECT = "message_info_moodle_reject";
     public static final String MESSAGE_TITLE_NASTER_REJECT = "message_title_naster_reject";
@@ -227,6 +225,7 @@ public class ResourceLeng extends BasicLeng {
     public static final String TRACE_LANGUAGUE_FAULT = "trace_languague_fault";
     public static final String TRACE_INIT_LOAD_XML = "trace_init_load_xml";
     public static final String TRACE_INIT_LOAD_CONTROL = "trace_init_load_control";
+    public static final String TRACE_EVENT_CHANGE_PATH = "trace_event_change_path";
     public static final String TRACE_EVENT_USER_NEW = "trace_event_user_new";
     public static final String TRACE_EVENT_USER_EDIT = "trace_event_user_edit";
     public static final String TRACE_EVENT_USER_END = "trace_event_user_end";

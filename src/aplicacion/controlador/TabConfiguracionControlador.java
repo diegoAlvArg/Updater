@@ -3,9 +3,9 @@ package aplicacion.controlador;
 //#1 Static import
 import actualizador.tools.ActionTool;
 import actualizador.tools.NotificationType;
-//import aplicacion.controlador.MainController;
+//import aplicacion.controlador.MainControlador;
 import aplicacion.eventos.EventosUsuario;
-import aplicacion.eventos.ProcesoSyncronizacion;
+import aplicacion.eventos.ProcesoSincronizacion;
 import aplicacion.eventos.Validador;
 import tools.almacen.InformacionUsuario;
 import tools.lenguaje.ResourceLeng;
@@ -14,9 +14,17 @@ import tools.logger.LogGeneral;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.PrintWriter;
+import java.io.StringWriter;
 import java.net.URL;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.nio.file.StandardCopyOption;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
@@ -45,9 +53,9 @@ import javafx.util.StringConverter;
  * 691
  * @author Diego Alvarez
  */
-public class TabConfigController {// implements Initializable{
+public class TabConfiguracionControlador {// implements Initializable{
 
-    private MainController main;
+    private MainControlador main;
 
     @FXML
     private Label lTituloLanguague;
@@ -92,7 +100,7 @@ public class TabConfigController {// implements Initializable{
     
     private Timeline alarmaSincronizacion;
     private Calendar momentoSiguienteActualizacion;
-   
+    private static boolean eligiendoDirectorio = false;//-----------------------------------------
 
     //---------------------------------------------------FXML---------------------------------------------------   
     /**
@@ -206,23 +214,30 @@ public class TabConfigController {// implements Initializable{
         File selectedFile = null;
         String initialPath;
         try {
-            initialPath = InformacionUsuario.getPath();
-            do {
-                DirectoryChooser directoryChooser = new DirectoryChooser();
-                directoryChooser.setInitialDirectory(new File(initialPath));
-                selectedFile = directoryChooser.showDialog(null);
-                if (Validador.checkPermissions(selectedFile.getAbsolutePath())) {
-                    initialPath = selectedFile.getAbsolutePath();
-                    break;
-                } else {
-                    ActionTool.mostrarNotificacion(ResourceLeng.MESSAGE_TITLE_PATH_REJECT,
+            if(!eligiendoDirectorio){
+                eligiendoDirectorio = true;
+                initialPath = InformacionUsuario.getPath();
+                do {
+                    DirectoryChooser directoryChooser = new DirectoryChooser();
+                    directoryChooser.setInitialDirectory(new File(initialPath));
+                    selectedFile = directoryChooser.showDialog(null);
+//                    System.err.println(">> " +  selectedFile);
+                    if (selectedFile != null && Validador.checkPermissions(selectedFile.getAbsolutePath())) {
+                        if(moverDirectorio(Paths.get(initialPath), selectedFile.toPath())){
+                            initialPath = selectedFile.getAbsolutePath();
+                            break;
+                        }
+                    } else  if (selectedFile != null){
+                        ActionTool.mostrarNotificacion(ResourceLeng.MESSAGE_TITLE_PATH_REJECT,
                             ResourceLeng.MESSAGE_INFO_PATH_REJECT, Duration.seconds(15),
                             NotificationType.ERROR);
-                }
+                    }
 
-            } while (selectedFile != null);
-            lPathAplicacion.setText(initialPath);
-            InformacionUsuario.setPath(initialPath);
+                } while (selectedFile != null);
+                lPathAplicacion.setText(initialPath);
+                InformacionUsuario.setPath(initialPath);
+                eligiendoDirectorio = false;
+            }
         } catch (NoSuchFieldException e) {
             borrarUsuario();
         }
@@ -250,7 +265,7 @@ public class TabConfigController {// implements Initializable{
         momentoSiguienteActualizacion.set(Calendar.SECOND, 0);
 
         ResourceBundle rb = main.getResource();
-        setSigueinteAlarmaLabel(rb, momentoActual);
+        setSiguienteAlarmaLabel(rb, momentoActual);
 
         long diff = momentoSiguienteActualizacion.getTime().getTime() - momentoActual.getTime().getTime();
         alarmaSincronizacion = new Timeline(new KeyFrame(
@@ -293,7 +308,6 @@ public class TabConfigController {// implements Initializable{
     private void utilizarNasTer(ActionEvent event) {
         if (cUsoNaster.isSelected()) {
             try {
-//                int resultado = EventosUsuario.validarCredencialesNaster(InformacionUsuario.getUsuario(), InformacionUsuario.getPassN());
                 int resultado = Validador.validarCredencialesNaster(InformacionUsuario.getUsuario(), InformacionUsuario.getPassN());
 
                 if (resultado == 2) {
@@ -309,7 +323,6 @@ public class TabConfigController {// implements Initializable{
                 borrarUsuario();
             }
         } else {
-
             InformacionUsuario.setUseNas("false");
         }
     }
@@ -347,6 +360,60 @@ public class TabConfigController {// implements Initializable{
         }
     }
 
+    /**
+     * Metodo que mueve el contenido de un directorio a otro, manipulando
+     *  contenido generado por esta aplicacion
+     * 
+     * @param directorioViejo
+     * @param directorioNuevo
+     * @return True se ha podido mover. False en caso contrario.
+     */
+    private boolean moverDirectorio(Path directorioViejo, Path directorioNuevo){
+        boolean respuesta = false;
+        try {
+            long directorioViejoTamanio = 0;
+            long directorioNuevoTamanio = directorioNuevo.toFile().getUsableSpace();
+            List<String> names = new ArrayList<String>();
+            String regex = ".*\\(20[0-9]{2}-20[0-9]{2}\\)$";
+            File carpetaAux;
+            
+            for (File carpeta : directorioViejo.toFile().listFiles()) {
+                if (carpeta.toString().matches(regex)) {
+                    names.add(carpeta.getName());
+                    directorioViejoTamanio += Files.walk(carpeta.toPath()).filter(p -> p.toFile().isFile()).mapToLong(p -> p.toFile().length()).sum();
+                }
+            }
+           
+            if (directorioNuevoTamanio > directorioViejoTamanio) {
+                //Mover
+                for (String carpeta : names) {
+                    carpetaAux = new File(directorioNuevo.toString(), carpeta);
+                    if (carpetaAux.exists()) {
+                        // Si hay algo Files se vuelve tonto, no deberia con REPLACE_EXISTING,
+                        //  borramos todo y listo
+                        Files.walk(carpetaAux.toPath()).sorted(Comparator.reverseOrder()).map(Path::toFile).forEach(File::delete);
+                    }
+                    Files.move(new File(directorioViejo.toString(), carpeta).toPath(), carpetaAux.toPath(), StandardCopyOption.REPLACE_EXISTING);
+                }
+                respuesta = true;
+            } else {
+                //No mover, no hay espacio
+                ActionTool.mostrarNotificacion(ResourceLeng.MESSAGE_TITLE_PATH_REJECT,
+                            ResourceLeng.MESSAGE_INFO_PATH_NO_SPACE, Duration.seconds(15),
+                            NotificationType.ERROR);
+            }
+        } catch (Exception ex) {
+            StringWriter errors = new StringWriter();
+            ex.printStackTrace(new PrintWriter(errors));
+            LogRecord logRegistro = new LogRecord(Level.WARNING, main.getResource()
+                    .getString(ResourceLeng.TRACE_EVENT_CHANGE_PATH) +"\n" + errors
+                    .toString());
+            logRegistro.setSourceClassName(this.getClass().getName());
+            LogGeneral.log(logRegistro);
+        }finally{
+            return respuesta;
+        }
+    }
     
     /**
      * Metodo que iniciara el proceso de sincronizacion. 
@@ -379,7 +446,7 @@ public class TabConfigController {// implements Initializable{
 //            System.out.println("pass: " + InformacionUsuario.getPassM());
 //            System.out.println("pass2: " + passwNas);
 //            System.out.println("path: " + InformacionUsuario.getPath());
-            new ProcesoSyncronizacion(InformacionUsuario.getUsuario(), InformacionUsuario.getPassM(),
+            new ProcesoSincronizacion(InformacionUsuario.getUsuario(), InformacionUsuario.getPassM(),
                     passwNas, InformacionUsuario.getPath(),
                     main.getResource(), main, cUsoNaster.isSelected());
         } catch (NoSuchFieldException e) {
@@ -436,7 +503,7 @@ public class TabConfigController {// implements Initializable{
      * @param rb resource del idioma
      * @param now momento actual.
      */
-    private void setSigueinteAlarmaLabel(ResourceBundle rb, Calendar now) {
+    private void setSiguienteAlarmaLabel(ResourceBundle rb, Calendar now) {
         String dayTime;
         if (now.get(Calendar.DAY_OF_MONTH) == momentoSiguienteActualizacion.get(Calendar.DAY_OF_MONTH)) {
             dayTime = rb.getString(ResourceLeng.DAY_TODAY);
@@ -457,7 +524,7 @@ public class TabConfigController {// implements Initializable{
     protected void liberarUsuario(){
         if (alarmaSincronizacion != null) {
             reactivarAlarma();
-            setSigueinteAlarmaLabel(main.getResource(), Calendar.getInstance());
+            setSiguienteAlarmaLabel(main.getResource(), Calendar.getInstance());
         }else if (!lIdUsuario.getText().isEmpty()){
             setSiguienteAlarma();
         }
@@ -478,15 +545,6 @@ public class TabConfigController {// implements Initializable{
         bActualizar.setDisable(true);
     }
     
-//    public void comprobandoDatos(boolean comprobando){
-////        lComprobandoDatos.setVisible(comprobando);
-//        System.err.println("Visible " + comprobando);
-//        Platform.runLater(() -> {
-//             lComprobandoDatos.setVisible(comprobando);
-//         });
-////        lComprobandoDatos.setText(String.valueOf(comprobando));
-////        gameRunning.set(comprobando);
-//    }
     //---------------------------------------------------UTILS-------------------------------------------------- 
     protected void setLanguague(ResourceBundle rb) {
         this.lTituloLanguague.setText(rb.getString(ResourceLeng.LANGUAGE));
@@ -507,7 +565,7 @@ public class TabConfigController {// implements Initializable{
 //        LCheckDate.setText(rb.getString(ResourceLeng.LABEL_CHECK_DATES));
         if (!bActualizar.isDisable() && !lSiguienteActualizacion.getText().isEmpty()) {
             //Esta con una arlama
-            setSigueinteAlarmaLabel(rb, Calendar.getInstance());
+            setSiguienteAlarmaLabel(rb, Calendar.getInstance());
         } else if (!lSiguienteActualizacion.getText().isEmpty()) {
             //Esta actualizando
             lSiguienteActualizacion.setText(main.getResource().getString(ResourceLeng.SYNCRO_NOW));
@@ -581,11 +639,10 @@ public class TabConfigController {// implements Initializable{
         this.sincronizarAhora();
     }
     //---------------------------------------------------INIT---------------------------------------------------
-//    private BooleanProperty gameRunning = new SimpleBooleanProperty(false);
-    protected void init(boolean user, String userId, String path, MainController main) {
+    protected void init(boolean usuario, String usuarioId, String path, MainControlador main) {
         this.main = main;
         initializeSpinners();
-        initializationUserLoad(user, userId, path);
+        initializationUserLoad(usuario, usuarioId, path);
 //        lComprobandoDatos.visibleProperty().bind(gameRunning);
                 
 //                btnOrder.disableProperty().bind(Bindings.createBooleanBinding(
@@ -666,13 +723,14 @@ public class TabConfigController {// implements Initializable{
     /**
      * Activa o desactiva items segun la carga de usuario sea correcta o no.
      *
-     * @param user
-     * @param userId
+     * @param usuario
+     * @param usuarioId
      * @param path
      */
-    private void initializationUserLoad(boolean user, String userId, String path) {
-        if (!user) {
+    private void initializationUserLoad(boolean usuario, String usuarioId, String path) {
+        if (!usuario) {
             main.borrarRastroUsuario();
+            lIdUsuario.setVisible(false);
         } else {
             // Carga de usuario correcta
             URL iconUrl = this.getClass().getResource("/Resources/Icons/User_Ok.png");
@@ -683,35 +741,36 @@ public class TabConfigController {// implements Initializable{
 //                Logger.getLogger(InterfaceController.class
 //                        .getNombre()).log(Level.SEVERE, null, ex);
             }
-            lIdUsuario.setText(userId);
+            lIdUsuario.setText(usuarioId);
+            lIdUsuario.setVisible(true);
             lPathAplicacion.setText(path);
         }
 
         // Frecuencia
-        lTituloFrecuenciaSinc.setVisible(user);
-        this.sMinutos.setDisable(!user);
-        sMinutos.setVisible(user);
-        lMinutos.setVisible(user);
-        this.sHoras.setDisable(!user);
-        sHoras.setVisible(user);
-        lHoras.setVisible(user);
-        this.bConfirmar.setDisable(!user);
-        bConfirmar.setVisible(user);
+        lTituloFrecuenciaSinc.setVisible(usuario);
+        this.sMinutos.setDisable(!usuario);
+        sMinutos.setVisible(usuario);
+        lMinutos.setVisible(usuario);
+        this.sHoras.setDisable(!usuario);
+        sHoras.setVisible(usuario);
+        lHoras.setVisible(usuario);
+        this.bConfirmar.setDisable(!usuario);
+        bConfirmar.setVisible(usuario);
         //Edits
-        this.bEditarUsuario.setDisable(!user);
-        bEditarUsuario.setVisible(user);
-        this.bEditPath.setDisable(!user);
-        bEditPath.setVisible(user);
-        this.lPathAplicacion.setDisable(!user);
-        lPathAplicacion.setVisible(user);
-        lTituloPathAplicacion.setVisible(user);
+        this.bEditarUsuario.setDisable(!usuario);
+        bEditarUsuario.setVisible(usuario);
+        this.bEditPath.setDisable(!usuario);
+        bEditPath.setVisible(usuario);
+        this.lPathAplicacion.setDisable(!usuario);
+        lPathAplicacion.setVisible(usuario);
+        lTituloPathAplicacion.setVisible(usuario);
         // Sig Actualizacion
-        lTituloSiguienteActualizacion.setVisible(user);
-        lSiguienteActualizacion.setVisible(user);
-        this.bActualizar.setDisable(!user);
-        bActualizar.setVisible(user);
+        lTituloSiguienteActualizacion.setVisible(usuario);
+        lSiguienteActualizacion.setVisible(usuario);
+        this.bActualizar.setDisable(!usuario);
+        bActualizar.setVisible(usuario);
 
-        this.cUsoNaster.setDisable(!user);
-        cUsoNaster.setVisible(user);
+        this.cUsoNaster.setDisable(!usuario);
+        cUsoNaster.setVisible(usuario);
     }
 }

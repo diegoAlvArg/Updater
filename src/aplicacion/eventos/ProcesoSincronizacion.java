@@ -1,9 +1,9 @@
 package aplicacion.eventos;
 
 //#1 Static import
-import aplicacion.controlador.MainController;
-import sincronizacion.moodle.inicio.OpcionesSyncMoodle;
-import sincronizacion.naster.OpcionesSyncNaster;
+import aplicacion.controlador.MainControlador;
+import sincronizacion.moodle.inicio.SincronizadorMoodle;
+import sincronizacion.naster.SincronizadorNaster;
 //#4 Java
 import java.io.IOException;
 import java.time.LocalDate;
@@ -29,7 +29,7 @@ import javafx.application.Platform;
  *
  * 
  */
-public class ProcesoSyncronizacion {
+public class ProcesoSincronizacion {
 
     /**
      * Contructor
@@ -45,7 +45,7 @@ public class ProcesoSyncronizacion {
      *
      *
      */
-    public ProcesoSyncronizacion(String usuario, String contraseniaM, String contraseniaN, String pathDescarga, ResourceBundle rb, MainController iuControl, boolean usarNas) {
+    public ProcesoSincronizacion(String usuario, String contraseniaM, String contraseniaN, String pathDescarga, ResourceBundle rb, MainControlador iuControl, boolean usarNas) {
         lanzarProceso(usuario, contraseniaM, contraseniaN, pathDescarga, rb, iuControl, usarNas);
     }
 
@@ -63,41 +63,36 @@ public class ProcesoSyncronizacion {
      * @param iuControl clase que maneja el control de la IU
      * @param usarNas boolean, indicara si haremos uso de Nas-ter
      */
-    private void lanzarProceso(String user, String contraseniaM, String contraseniaN, String pathDescarga, ResourceBundle rb, MainController iuControl, boolean usarNas) {
+    private void lanzarProceso(String user, String contraseniaM, String contraseniaN, String pathDescarga, ResourceBundle rb, MainControlador iuControl, boolean usarNas) {
         final String _user = user;
         final String _pass1 = contraseniaM;
         final String _pass2 = contraseniaN;
         final String _path = pathDescarga;
         final ResourceBundle _rb = rb;
-        final MainController _iu = iuControl;
+        final MainControlador _iu = iuControl;
         final boolean _useNas = usarNas;
-        System.err.println("flag 00");
         new Thread(() -> {
-            System.err.println("flag 01");
             if (_user != null && _pass1 != null && _path != null && (contraseniaN != null || _useNas)) {
-                System.err.println("flag 02A");
                 try {
                     if (_useNas) {
-//                        System.err.println("Sin nas");
-                        OpcionesSyncNaster.sincronizar(user, contraseniaN, pathDescarga, getAnioActual());
-                        // Creo que segun RQ hay que tratar de difernete forma
+                        SincronizadorNaster.sincronizar(user, contraseniaN, pathDescarga, getAnioActual());
                     }
-//                    System.err.println("Sin Moodle");
-                    OpcionesSyncMoodle.realizarActualizacionTotal(_user, _pass1, getAnioActual(), _path, _iu);
-//                    OpcionesSyncMoodle.realizarActualizacionIndividual(7, _user, _pass1, "(2016-2017)", _path, _iu);
-                } catch (IOException ex) {
-//                    Moodle esta caido
-                    Logger.getLogger(ProcesoSyncronizacion.class.getName()).log(Level.SEVERE, null, ex);
-                } finally {
+
+//                    SincronizadorMoodle.realizarActualizacionTotal(_user, _pass1, getAnioActual(), _path, _iu);
+//                    SincronizadorMoodle.realizarActualizacionIndividual(7, _user, _pass1, getAnioActual(), _path, _iu);
+                }/*catch (IOException ex) {
+                    //Moodle esta caido
+                    Logger.getLogger(ProcesoSincronizacion.class.getName()).log(Level.SEVERE, null, ex);/*catch (IOException ex) {
+                    //Moodle esta caido
+                    Logger.getLogger(ProcesoSincronizacion.class.getName()).log(Level.SEVERE, null, ex);
+                }*/finally {
                         Platform.runLater(
                                 () -> {
-                                    System.err.println("acabando");
                                     _iu.finalizarSincronizacion();
                                 }
                         );
                 }
             } else {
-                System.err.println("flag 02B");
                 _iu.borrarUsuario();
             }
         }).start();
@@ -117,7 +112,7 @@ public class ProcesoSyncronizacion {
         } else {
             respuesta = "(" + (today.getYear() - 1) + "-" + today.getYear() + ")";
         }
-//        return respuesta;
-                return "(2016-2017)";     //Test mode
+        return respuesta;
+//      return "(2016-2017)";     //Test mode
     }
 }

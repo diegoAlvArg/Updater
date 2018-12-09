@@ -1,9 +1,9 @@
 package sincronizacion.moodle.inicio;
 
 //#1 Static import
-import aplicacion.controlador.MainController;
-import sincronizacion.moodle.estructura.Nodo;
-import sincronizacion.moodle.estructura.TipoNodo;
+import aplicacion.controlador.MainControlador;
+import sincronizacion.moodle.wrapper.Nodo;
+import sincronizacion.moodle.wrapper.TipoNodo;
 import tools.logger.LogSincronizacion;
 //#3 Third party
 import org.apache.http.client.ClientProtocolException;
@@ -26,11 +26,11 @@ import java.util.logging.Level;
 import java.util.logging.LogRecord;
 
 /**
- * 192
+ * 192 +8
  * @author Diego Alvarez
  *
- * @version 1.0 OpcionesSyncMoodle a las que se le da soporte, una actualizacion
- * total o una parcial.
+ * @version 1.0 SincronizadorMoodle a las que se le da soporte, una actualizacion
+ total o una parcial.
  *
  * @version 1.0.1 Al incorporarlo a la aplicacion han cambiado varias cosas,
  * como los parametros y la privacidad. Como lo lanzamos a traves de un Thread
@@ -41,9 +41,9 @@ import java.util.logging.LogRecord;
  * elegante, sin embargo creo que de esta forma no hacemos tantos cuellos de
  * botella, por lo que se imita el mismo modelo que el path.
  */
-public class OpcionesSyncMoodle {
+public class SincronizadorMoodle {
     private static String pathLocal;
-    private static MainController iuControl;
+    private static MainControlador iuControl;
 
     /**
      *
@@ -58,11 +58,13 @@ public class OpcionesSyncMoodle {
      * @throws ClientProtocolException - in case of an http protocol error
      * @throws IOException - in case of a problem or the connection was aborted
      */
-    public static void realizarActualizacionTotal(String usuario, String contrasenia, String anio, String pathLocal, MainController iuControl)
+    public static void realizarActualizacionTotal(String usuario, String contrasenia, String anio, String pathLocal, MainControlador iuControl)
             throws ClientProtocolException, IOException {
-        OpcionesSyncMoodle.pathLocal = pathLocal;
-        OpcionesSyncMoodle.iuControl = iuControl;
+        SincronizadorMoodle.pathLocal = pathLocal;
+        SincronizadorMoodle.iuControl = iuControl;
         LogRecord logRegistro = null;
+//        long time_start, time_end;
+//        time_start = System.currentTimeMillis();
         
         Connection.Response res = Jsoup.connect("https://moodle2.unizar.es/add/")
                 .method(Connection.Method.GET)
@@ -80,11 +82,8 @@ public class OpcionesSyncMoodle {
                 .execute();
         
         cookies = res.cookies();
-//        System.out.println(cookies);
-//        System.out.println("-----");
         if (cookies.size() != 1) {
             Document doc = res.parse();
-//            System.out.println(doc);
             Elements titles = doc.select("li>a:contains" + anio);
             List<Nodo> matriculas = new ArrayList();
             
@@ -96,9 +95,9 @@ public class OpcionesSyncMoodle {
                     matriculas.add(new Nodo(url, name, TipoNodo.CURSO, cookies));
                 }
                 //**********CONSTRUCCION DE UN TASK PARA CADA CURSO*****************
-                ExecutorService executor = Executors.newFixedThreadPool(matriculas.size());
+                ExecutorService executor = Executors.newFixedThreadPool(matriculas.size());//---------------------------
                 List<TareaWrapper> callables = new ArrayList();
-                for (int indexB = 0; indexB < matriculas.size(); indexB++) {
+                for (int indexB = 0; indexB < matriculas.size(); indexB++) {//---------------------------
                     callables.add(new TareaWrapper((Nodo) matriculas.get(indexB), indexB + 1));
                 }
                 //**********COMPROBACION DE FINALIZACION****************************
@@ -109,16 +108,16 @@ public class OpcionesSyncMoodle {
                     ex.printStackTrace(new PrintWriter(errors));
                     logRegistro = new LogRecord(Level.SEVERE, errors.toString());
                     logRegistro.setSourceMethodName("realizarActualizacionTotal");
-                    logRegistro.setSourceClassName(OpcionesSyncMoodle.class.getName());
+                    logRegistro.setSourceClassName(SincronizadorMoodle.class.getName());
                 } finally {
                     executor.shutdown();
                     if (logRegistro != null) {
                         LogSincronizacion.log(logRegistro);
                     }
                 }
-            }{
-                System.out.println("No hay cursos");
             }
+//            time_end = System.currentTimeMillis();
+//            System.out.println("\n\n--the task has taken " + (time_end - time_start) + " milliseconds");
         } else {
             iuControl.borrarUsuario();
         }
@@ -142,14 +141,12 @@ public class OpcionesSyncMoodle {
      * @throws ClientProtocolException - in case of an http protocol error
      * @throws IOException - in case of a problem or the connection was aborted
      */
-    public static void realizarActualizacionIndividual(int curso, String usuario, String contrasenia, String anio, String pathLocal, MainController iuControl)
+    public static void realizarActualizacionIndividual(int curso, String usuario, String contrasenia, String anio, String pathLocal, MainControlador iuControl)
             throws ClientProtocolException, IOException {
-        OpcionesSyncMoodle.pathLocal = pathLocal;
-        OpcionesSyncMoodle.iuControl = iuControl;
+        SincronizadorMoodle.pathLocal = pathLocal;
+        SincronizadorMoodle.iuControl = iuControl;
         LogRecord logRegistro = null;
 
-//        Connection.Response res = Jsoup.connect("https://moodle2.unizar.es/add/login/index.php").data(new String[]{"username", usuario, "password", contrasenia}).timeout(180000).method(Connection.Method.POST).execute();
-//        Map<String, String> cookies = res.cookies();
         Connection.Response res = Jsoup.connect("https://moodle2.unizar.es/add/")
                 .method(Connection.Method.GET)
                 .execute();
@@ -166,8 +163,6 @@ public class OpcionesSyncMoodle {
                 .execute();
         
         cookies = res.cookies();
-        
-        
         if (cookies.size() != 1) {
             Document doc = res.parse();
             Elements titles = doc.select("li>a:contains" + anio);
@@ -193,7 +188,7 @@ public class OpcionesSyncMoodle {
                     ex.printStackTrace(new PrintWriter(errors));
                     logRegistro = new LogRecord(Level.SEVERE, errors.toString());
                     logRegistro.setSourceMethodName("realizarActualizacionIndividual");
-                    logRegistro.setSourceClassName(OpcionesSyncMoodle.class.getName());
+                    logRegistro.setSourceClassName(SincronizadorMoodle.class.getName());
                 } finally {
                     executor.shutdown();
                     if (logRegistro != null) {
@@ -218,7 +213,7 @@ public class OpcionesSyncMoodle {
      *
      * @return iuController
      */
-    public static MainController getIU() {
+    public static MainControlador getIU() {
         return iuControl;
     }
 }
