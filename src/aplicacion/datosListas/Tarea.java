@@ -82,7 +82,6 @@ public class Tarea implements Serializable {
 //
         if (date != null) {
             this.tiempoLimite = date;
-//            this.tiempo.set(String.valueOf(tiempoLimite.getTime().getTime() - System.currentTimeMillis()));
         }
 
     }
@@ -238,23 +237,5 @@ public class Tarea implements Serializable {
             this.urlWeb = mirror.getUrlWeb();
         }
         this.estado = mirror.getEstado();
-    }
-    
-    
-    /**
-     * @deprecated 
-     */
-    public void printInfo() {
-        System.out.println("Curso " + curso);
-        System.out.println("Titulo " + nombre);
-        System.out.println("Estado " + estado);
-        System.out.println("Languague " + languague);
-        System.out.println("Fecha entrega: " + tiempoLimite.getTime());
-        System.out.println("Entrega " + pathFile);
-        System.out.println("Nota " + nota);
-        System.out.println("Feedback " + comentario);
-
-        System.out.println("---------------------------------------------------"
-                + "\n---------------------------------------------------\n\n");
     }
 }

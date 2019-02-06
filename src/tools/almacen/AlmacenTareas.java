@@ -125,7 +125,7 @@ public class AlmacenTareas {
             errors = new StringWriter();
             ex2.printStackTrace(new PrintWriter(errors));
 
-            logRegistro = new LogRecord(Level.WARNING, MainClass.getResource()
+            logRegistro = new LogRecord(Level.SEVERE, MainClass.getResource()
                     .getString(ResourceLeng.TRACE_STORE_LOAD_DATA) + "\n" + errors.toString());
         } finally {
             if (logRegistro != null) {

@@ -4,6 +4,7 @@
 <?import javafx.scene.control.CheckBox?>
 <?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ProgressBar?>
 <?import javafx.scene.control.Spinner?>
 <?import javafx.scene.control.Tooltip?>
 <?import javafx.scene.image.Image?>
@@ -54,7 +55,7 @@
                 </ImageView>
             </graphic>
         </Button>
-      <Label fx:id="lComprobandoDatos" layoutX="39.0" layoutY="175.0" prefHeight="60.0" prefWidth="198.0" text="Check data" visible="false" />
+      <Label fx:id="lComprobandoDatos" layoutX="39.0" layoutY="175.0" prefHeight="20.0" prefWidth="198.0" text="Check data" visible="false" />
         <Label fx:id="lIdUsuario" layoutX="60.0" layoutY="147.0" prefHeight="17.0" prefWidth="62.0" text="NIP" />
         <Label fx:id="lTituloFrecuenciaSinc" layoutX="287.0" layoutY="35.0" text="Frecuencia sincronizacion">
             <font>
@@ -74,12 +75,12 @@
                 </Tooltip>
             </tooltip>
         </Button>
-        <Label fx:id="lTituloSiguienteActualizacion" layoutX="285.0" layoutY="163.0" text="Sigueinte actualizacion" underline="true">
+        <Label fx:id="lTituloSiguienteActualizacion" layoutX="286.0" layoutY="154.0" text="Sigueinte actualizacion" underline="true">
             <font>
                 <Font name="System Bold" size="14.0" />
             </font>
         </Label>
-        <Button fx:id="bActualizar" layoutX="463.0" layoutY="201.0" mnemonicParsing="false" onAction="#sincronizarAhora" text="Button" />
+        <Button fx:id="bActualizar" layoutX="463.0" layoutY="182.0" mnemonicParsing="false" onAction="#sincronizarAhora" text="Button" />
         <Label fx:id="lPathAplicacion" layoutX="299.0" layoutY="268.0" minWidth="-Infinity" prefHeight="17.0" prefWidth="145.0" text="path application" />
         <Button fx:id="bEditarUsuario" layoutX="155.0" layoutY="100.0" mnemonicParsing="false" onAction="#editarUsuario" prefHeight="29.0" prefWidth="53.0">
             <graphic>
@@ -97,7 +98,7 @@
                 </Tooltip>
             </tooltip>
         </Button>
-        <Label fx:id="lSiguienteActualizacion" layoutX="295.0" layoutY="194.0" prefHeight="38.0" prefWidth="153.0" />
+        <Label fx:id="lSiguienteActualizacion" layoutX="285.0" layoutY="175.0" prefHeight="38.0" prefWidth="153.0" />
         <CheckBox fx:id="cUsoNaster" layoutX="299.0" layoutY="310.0" mnemonicParsing="false" onAction="#utilizarNasTer" text="CheckBox">
             <tooltip>
                 <Tooltip text="Empty Tooltip">
@@ -107,5 +108,7 @@
                 </Tooltip>
             </tooltip>
         </CheckBox>
+      <ProgressBar fx:id="animacionSinc" layoutX="287.0" layoutY="213.0" prefHeight="18.0" prefWidth="168.0" progress="0.0" visible="false" />
+      <ProgressBar fx:id="animacionData" layoutX="38.0" layoutY="204.0" prefHeight="18.0" prefWidth="168.0" progress="0.0" visible="false" />
     </children>
 </AnchorPane>

@@ -64,7 +64,6 @@ public class MainControlador {
     
     @FXML
     public void initialize() {
-        System.err.println("Application started");
         LogRecord logRegistro;
         ResourceBundle rb = MainClass.getResource();
 
@@ -101,6 +100,20 @@ public class MainControlador {
             }
         }
         enUso = false;//false
+        Timeline autoRegister = new Timeline(
+                new KeyFrame(
+                        //Con 2 seg. un poco justo para algunos ordenadores
+                        Duration.millis(2500), //2.5 seg 2500 
+                        event2 -> {
+                            if(tab01.isDisable()){
+                                tab3Controller.preguntarUsuario();
+                            }
+                        }
+                )
+        );
+        autoRegister.setCycleCount(1);
+        autoRegister.play();
+        
         
         timeline = new Timeline(
                 new KeyFrame(
@@ -145,8 +158,9 @@ public class MainControlador {
     }
     
     public void aniadirTarea(String curso, String titulo, String fichero, String tiempo, String languague, String nota, String comentario, String url){
-        tab2Controller.aniadirTarea(curso, titulo, fichero, tiempo, languague, nota, comentario, url);
-        numTareas++;
+        if(tab2Controller.aniadirTarea(curso, titulo, fichero, tiempo, languague, nota, comentario, url)){
+            numTareas++;
+        };
     }
     
     public void guardarDatos(){
@@ -176,8 +190,8 @@ public class MainControlador {
             ActionTool.mostrarNotificacionConParam(rb.getString(ResourceLeng.SYNCRO_END_TITLE),
                     text, Duration.seconds(10), NotificationType.INFORMATION);
         }
-            
-        liberarUsuario();
+        enUso = false;
+        tab3Controller.sincronizarFin();
     }
     
     /**
@@ -281,8 +295,9 @@ public class MainControlador {
     
     
     private void refrescar() {
-        tab2Controller.refrescar();
-//        System.err.println("popo");
+        if(!tab02.isDisable()){
+            tab2Controller.refrescar();
+        }
     }
     
     /**

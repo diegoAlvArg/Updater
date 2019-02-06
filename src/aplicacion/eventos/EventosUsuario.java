@@ -66,7 +66,6 @@ public class EventosUsuario {
     public EventosUsuario(String usuario, String contraseniaM, String contraseniaN, boolean usarNas, ResourceBundle rb, boolean preguntarPath, TabConfiguracionControlador control) {
 
         Platform.runLater(() -> {
-//            System.err.println(Thread.currentThread().getId());
             do {
                 if (preguntarDeNuevo) {
                     auxResult = preguntarCredenciales(rb, auxResult.get(0), auxResult.get(1), auxResult.get(2), auxResult.get(3), preguntarPath, Boolean.parseBoolean(auxResult.get(4)));
@@ -91,7 +90,7 @@ public class EventosUsuario {
                         try {
                             Thread.sleep(3);//<5 ms funciona bien
                         } catch (InterruptedException ex) {
-                            Logger.getLogger(EventosUsuario.class.getName()).log(Level.SEVERE, null, ex);
+//                            Logger.getLogger(EventosUsuario.class.getName()).log(Level.SEVERE, null, ex);
                         }
                     } while (esperaResultado);
                 } 
@@ -266,13 +265,11 @@ public class EventosUsuario {
         // La comprobacion del directorio tiene 3 estados
         //      ESTADO 0: Path == ""                        REPETIMOS
         //      ESTADO 1: Tenemos permiso de E/L            SEGUIMOS PARA ALANTE
-        //      ESTADO 2: No tenemos permisos de E/L
+        //      ESTADO 2: No tenemos permisos de E/L        REPETIMOS
         estados = new int[]{0, 0, 0};
         //Comprobacion Moodle
         if (!auxList.get(0).isEmpty() && !auxList.get(1).isEmpty()) {
-//            System.err.print("User " + auxList.get(0) + ",Pass " + auxList.get(1));
             estados[0] = validarCredencialesMoodle(auxList.get(0), auxList.get(1));
-//            System.err.println(" Data: " + estados[0]);
         }
         //Comprobar NAS-TER
         if (Boolean.parseBoolean(auxList.get(4))) {
@@ -287,7 +284,6 @@ public class EventosUsuario {
 
         //Comprobar permisos lectura
         if (comprobarPath && !auxList.get(3).isEmpty()) {
-
             if (Validador.checkPermissions(auxList.get(3))) {
                 estados[2] = 1;
             } else {

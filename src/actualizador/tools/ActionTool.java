@@ -97,8 +97,8 @@ public final class ActionTool {
     public static boolean copy(InputStream source, String destination) {
         boolean succeess = true;
 
-        System.out.println("Copying ->" + source + "\n\tto ->" + 
-                destination);
+//        System.out.println("Copying ->" + source + "\n\tto ->" + 
+//                destination);
 
         try {
             Files.copy(source, Paths.get(destination), StandardCopyOption
@@ -294,12 +294,10 @@ public final class ActionTool {
     private static void notificarAlerta(String titulo, String texto,
             Duration d) {
         if (Platform.isFxApplicationThread()) {
-            System.err.println("\tYes");
             Platform.runLater(()
                     -> ActionTool.showNotification(
                             titulo, texto, d, NotificationType.WARNING));
         } else if (SystemTray.isSupported()) {
-            System.err.println("\tNO");
             TrayIcon trayIcon = MainClass.getSysTray();
             trayIcon.displayMessage(titulo, texto, TrayIcon.MessageType
                     .WARNING);

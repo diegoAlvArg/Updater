@@ -166,7 +166,8 @@ public class ResourceLeng extends BasicLeng {
     public static final String SYNCRO_END_RESOURCES = "syncro_end_resources";
     public static final String SYNCRO_END_DELIVERY = "syncro_end_delivery";
     public static final String VALIDATING_DATA = "validating_data";
-    
+    //es: La comprobacion de datos,\npuede realentizar la interfaz \npor favor tenga paciencia
+    //en: Data verification can slow\n the interface please be patient
     
     //**********TAB OptionAyuda****************************************************************
     public static final String TAB_HELP = "tab_help";
@@ -208,7 +209,7 @@ public class ResourceLeng extends BasicLeng {
 
     
     //**********Traces Log**********************************************************************
-    public static final String TRACE_INIT = "trace_init";
+//    public static final String TRACE_INIT = "trace_init";
     public static final String TRACE_USER_NO = "trace_user_no";
     public static final String TRACE_USER_OK = "trace_user_ok";
     public static final String TRACE_USER_LOST = "trace_user_lost";

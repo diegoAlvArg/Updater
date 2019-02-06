@@ -16,8 +16,5 @@
                 <TableColumn fx:id="c5" editable="false" prefWidth="86.0" text="Accion" />
             </columns>
         </TableView>
-      <!--<Button fx:id="tbut" layoutX="107.0" layoutY="14.0" mnemonicParsing="false" onAction="#testButo" text="Button" />
-      <Button fx:id="tbutB" layoutX="249.0" layoutY="14.0" mnemonicParsing="false" onAction="#testButoB" text="Button" />
-      <Button fx:id="tbutC" layoutX="381.0" layoutY="14.0" mnemonicParsing="false" onAction="#testButoC" text="Button" /> -->
     </children>
 </AnchorPane>

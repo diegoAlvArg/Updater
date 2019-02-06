@@ -65,41 +65,10 @@ public class TabEntregaControlador {
     private Map<String, Boolean> tareasActualizables = new HashMap<>();
     private HashSet<Tarea> tareasExcedidas=new HashSet<Tarea>();  
     private int DIA_MILLIS = 86400000; // 86.400 1 dia
-    private int ARCHIV_CORREGIDO = 2;
-    private int ARCHIV_POR_CORREGIR = 7;
+    private int ARCHIV_CORREGIDO = -8;
+    private int ARCHIV_POR_CORREGIR = -7;
     
-//    
-//    @FXML
-//    private Button tbut;
-//    @FXML
-//    private void testButo(ActionEvent event) {
-//        System.err.println("eii");
-//        limpiarRastro();
-//    }
-//    
-//    
-//    @FXML
-//    private Button tbutB;
-//    @FXML
-//    private void testButoB(ActionEvent event) {
-//        System.err.println("jaja");
-//        loadDummys();
-//    }
-//      @FXML
-//    private Button tbutC;
-//    private static int i = 0;
-//    @FXML
-//    private void testButoC(ActionEvent event) {
-//        System.err.println("button c");
-//        if(i == 0){
-//            updatable.put("practica 7 - Bases de datos", Boolean.TRUE);
-//            i++;
-//        }
-//        
-//        aniadirTarea("Bases de datos", "practica 7", "", "Wednesday, 12 September 2018, 11:56 AM", "en", "6", "Buena practica", "");
-//    }
-    
-    
+   
     //---------------------------------------------------EVENTO-------------------------------------------------
     /**
      * Metodo para gestiona el click en la columna 4
@@ -108,7 +77,6 @@ public class TabEntregaControlador {
      */
     private void gestionarEventoFichero(Tarea dataRow) {
         String pathFile = dataRow.getPathFile();
-//        System.out.println("cell clicked¿" + pathFile + "?"); 
 
         if (!pathFile.isEmpty() && new File(pathFile).isFile()) {
             main.getHostService().showDocument(pathFile);
@@ -128,7 +96,6 @@ public class TabEntregaControlador {
      * @param dataRow 
      */
     private void gestionarEventoAccion(int dataRow) {
-//        System.out.println("cell clicked!" + dataRow);
         Tarea aux = tablaTareas.getItems().get(dataRow);
         String status = aux.getEstado();
         if (main.OcuparUsuario()) {
@@ -173,33 +140,45 @@ public class TabEntregaControlador {
      * @param comentario comentario/feedback asociado a la tarea
      * @param url URL donde encontramos la tarea
      */
-    protected void aniadirTarea(String curso, String titulo, String fichero, String tiempo, String languague, String nota, String comentario, String url) {
+    protected boolean aniadirTarea(String curso, String titulo, String fichero, String tiempo, String languague, String nota, String comentario, String url) {
+        boolean respuesta = true;
         try {
-            Tarea del = new Tarea(curso, titulo, fichero, tiempo, languague, nota, comentario, url);
+            Tarea nuevaTarea = new Tarea(curso, titulo, fichero, tiempo, languague, nota, comentario, url);
             Tarea aux;
-            boolean auxB = tareasTrack.containsKey(del.getIdentificador());
-//            boolean auxC = updatable.get(del.getIdentificador());
-//            boolean auxD = auxB && auxC;
-//            auxB = updatable.get(del.getIdentificador());
-            if(tareasTrack.containsKey(del.getIdentificador())){
-                aux = tareasTrack.get(del.getIdentificador());
-                if(tareasActualizables.get(del.getIdentificador())){
-                    if(!aux.equals(del)){
-                        aux.actualizarTarea(del);
+//            boolean auxB = tareasTrack.containsKey(nuevaTarea.getIdentificador());
+//            boolean auxC = updatable.get(nuevaTarea.getIdentificador());
+            if(tareasTrack.containsKey(nuevaTarea.getIdentificador())){         //auxB
+                aux = tareasTrack.get(nuevaTarea.getIdentificador());
+                if(tareasActualizables.get(nuevaTarea.getIdentificador())){     //auxC
+                    if(!aux.equals(nuevaTarea)){
+                        aux.actualizarTarea(nuevaTarea);
                         tablaTareas.refresh();
-                        tareasActualizables.put(del.getIdentificador(), Boolean.FALSE);
+                        tareasActualizables.put(nuevaTarea.getIdentificador(), Boolean.FALSE);
                     }
                 }else{
                     aux.setEstado("9");
                     tablaTareas.refresh();
+                    respuesta = false;
                 }
             }else{
-                tareasTrack.put(del.getIdentificador(), del);
-                tablaTareas.getItems().add(del);
-                tareasActualizables.put(del.getIdentificador(), Boolean.FALSE);
+                //Antes de añadir mirar si se ha pasado
+                String estado = nuevaTarea.getEstado();
+                long diff = Long.valueOf(nuevaTarea.getTiempo());
+                if((estado.equals("1") || estado.equals("6") && diff > (DIA_MILLIS * ARCHIV_CORREGIDO)) // Pendiente de correcion y no limpieza
+                        || (estado.equals("2") || estado.equals("7") && diff > (DIA_MILLIS * ARCHIV_POR_CORREGIR)) // Corregido y no limpieza
+                        || diff > 0){ //En tiempo
+                    tareasTrack.put(nuevaTarea.getIdentificador(), nuevaTarea);
+                    tablaTareas.getItems().add(nuevaTarea);
+                    tareasActualizables.put(nuevaTarea.getIdentificador(), Boolean.FALSE);
+                }else{
+                    respuesta = false;
+                }
             }
         } catch (ParseException e) {
 //            e.printStackTrace();
+            respuesta = false;
+        }finally{
+            return respuesta;
         }
     }
 
@@ -221,12 +200,15 @@ public class TabEntregaControlador {
                             String.format(rb.getString(ResourceLeng.ERROR_RECOVER_TEXT),
                                     tareasTrack.get(entry.getKey()).getIdentificador()), Duration.seconds(15),
                             NotificationType.WARNING);
-                    //No lo volvemos a meter en tabla por asegurar su estado
+                    
                 } else {
                     tablaTareas.getItems().add(tareasTrack.get(entry.getKey()));
                 }
             }
         }
+        //Para refrescar y limpiar posibles tareas que no se hayan limpiado
+        //  debido a que el archivo de guardado no ha sido abierto en tiempo
+        refrescar();
     }
     
     /**
@@ -273,7 +255,7 @@ public class TabEntregaControlador {
                 tablaTareas.getItems().remove(miTarea);
                 tareasTrack.remove(miTarea.getIdentificador());
                 tareasExcedidas.remove(miTarea);
-            }else if(auxEstado.equals("1") || auxEstado.equals("6")){
+            }else if(auxEstado.equals("1") || auxEstado.equals("6") || auxEstado.equals("9")){
                 if(diff <= (DIA_MILLIS * ARCHIV_CORREGIDO)){
                     tablaTareas.getItems().remove(miTarea);
                     tareasTrack.remove(miTarea.getIdentificador());
@@ -434,7 +416,6 @@ public class TabEntregaControlador {
                 // ToolTips a existir/aparecer. Por lo que en el tiempo restante 
                 // despreciaremos los segundos
                 if (p != null) {
-//                    System.err.println("refreshing");
                     aux = p.getValue().getTiempo();
                     if (aux != null) {
                         long diff = Long.valueOf(aux);
@@ -664,8 +645,9 @@ public class TabEntregaControlador {
     }
     
     public void loadDummys() {
-//        aniadirTarea("Proyecto Software (2017-2018)", "==> A. Documentación INDIVIDUAL - SEPTIEMBRE-18", "", "Monday, 17 December 2018, 4:00 PM", "en", "", "", "https://moodle2.unizar.es/add/mod/assign/view.php?id=1148926");
-//        aniadirTarea("Proyecto Software (2017-2018)", "==> B1. Fuentes EQUIPO - SEPTIEMBRE-18", "", "Monday, 17 de December de 2018, 16:00", "es", "", "", "https://moodle2.unizar.es/add/mod/assign/view.php?id=1148927");
+//        aniadirTarea("Sample 01", "Task 01", "", "Monday, 21 January 2019, 4:00 PM", "en", "", "", "https://moodle2.unizar.es/add/mod/assign/view.php?id=1148926");
+//        aniadirTarea("Sample 02", "Task 02", "", "Saturday, 19 de January de 2019, 16:00", "es", "", "", "https://moodle2.unizar.es/add/mod/assign/view.php?id=1148927");
+//        aniadirTarea("Sample 03", "Task 03", "", "Wednesday, 19 de January de 2019, 16:00", "es", "", "", "https://moodle2.unizar.es/add/mod/assign/view.php?id=1148927");
 //        aniadirTarea("Bases de datos", "practica 5", "C:\\demo\\TestB.pdf", "Monday, 17 December 2018, 6:00 PM", "en", "9", "Buena practica", "");
 //        aniadirTarea("Bases de datos", "practica 0", "TestB.pdf", "Monday, 3 December 2018, 1:00 PM", "en", "9", "", "");
 //        aniadirTarea("Bases de datos", "practica 6", "", "Monday, 17 December 2018, 1:00 PM", "en", "9", "", "");

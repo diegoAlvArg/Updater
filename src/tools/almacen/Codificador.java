@@ -118,7 +118,6 @@ public class Codificador {
             respuesta = Base64.getEncoder().encodeToString(cipher.doFinal(cadena.getBytes("UTF-8")));
         } catch (Exception e) {
             respuesta = null;
-//            System.out.println("Error while encrypting: " + e.toString());
         }finally{
             return respuesta;
         }
@@ -139,7 +138,6 @@ public class Codificador {
 //            return new String(cipher.doFinal(Base64.getDecoder().decode(cadena)));
         } catch (Exception e) {
             respuesta = null;
-//            System.out.println("Error while decrypting: " + e.toString());
         }finally{
             return respuesta;
         }

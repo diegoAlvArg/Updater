@@ -40,7 +40,6 @@ public class VersionCheck {
      * @return -1 No Conection, -2 Update service not enable
      */
     public static double howIsLastUpdate() {
-        System.out.println("Buscando...");
         double lastVersion = -1.0;
 
         //Check if we have internet connection

@@ -89,8 +89,6 @@ public class Validador {
         } catch (IOException ex) {
             // Se rechazo por un TimeOut lo que significa que moodle esta caido
         } finally {
-//            System.err.println("\tReturnning " + respuesta);
-//            System.err.println("\tTitle " + title);
             return respuesta;
         }
     }
@@ -103,7 +101,6 @@ public class Validador {
      */
     public static int validarCredencialesNaster(String usuario, String contrasenia) {
         int respuesta = 3;
-//        System.err.println("User " + usuario + " ,Pass " + contrasenia);
         try {
             Sardine sardineCon = SardineFactory.begin(usuario, contrasenia);
             URI url = URI.create("https://nas-ter.unizar.es/alumnos/" + usuario);
@@ -117,7 +114,6 @@ public class Validador {
             // Salta el timeOut, parece que no se extablece la conexion
             respuesta = 1;
         } finally {
-            System.err.println("Nas " + respuesta);
             return respuesta;
         }
     }

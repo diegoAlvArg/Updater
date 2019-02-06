@@ -78,14 +78,12 @@ public class ProcesoSincronizacion {
                         SincronizadorNaster.sincronizar(user, contraseniaN, pathDescarga, getAnioActual());
                     }
 
-//                    SincronizadorMoodle.realizarActualizacionTotal(_user, _pass1, getAnioActual(), _path, _iu);
+                    SincronizadorMoodle.realizarActualizacionTotal(_user, _pass1, getAnioActual(), _path, _iu);
 //                    SincronizadorMoodle.realizarActualizacionIndividual(7, _user, _pass1, getAnioActual(), _path, _iu);
-                }/*catch (IOException ex) {
-                    //Moodle esta caido
-                    Logger.getLogger(ProcesoSincronizacion.class.getName()).log(Level.SEVERE, null, ex);/*catch (IOException ex) {
+                }catch (IOException ex) {
                     //Moodle esta caido
                     Logger.getLogger(ProcesoSincronizacion.class.getName()).log(Level.SEVERE, null, ex);
-                }*/finally {
+                }finally {
                         Platform.runLater(
                                 () -> {
                                     _iu.finalizarSincronizacion();
@@ -112,7 +110,7 @@ public class ProcesoSincronizacion {
         } else {
             respuesta = "(" + (today.getYear() - 1) + "-" + today.getYear() + ")";
         }
-        return respuesta;
-//      return "(2016-2017)";     //Test mode
+//        return respuesta;
+      return "(2016-2017)";     //Test mode
     }
 }

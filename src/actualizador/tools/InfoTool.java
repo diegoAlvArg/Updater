@@ -136,7 +136,6 @@ public final class InfoTool {
      * if not.
      */
     public static boolean isReachableByPing(String host) {
-//        System.out.println("Google?");
         try {
 
             // Start a new Process

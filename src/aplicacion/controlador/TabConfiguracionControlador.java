@@ -34,6 +34,7 @@ import java.util.ResourceBundle;
 //#5 JavaFx
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
+import javafx.concurrent.Task;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
@@ -41,6 +42,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
+import javafx.scene.control.ProgressBar;
 import javafx.scene.control.Spinner;
 import javafx.scene.control.SpinnerValueFactory;
 import javafx.scene.image.Image;
@@ -97,11 +99,16 @@ public class TabConfiguracionControlador {// implements Initializable{
     private Button bActualizar;
     @FXML
     private Label lSiguienteActualizacion;
+    @FXML
+    private ProgressBar animacionSinc;
+    @FXML
+    private ProgressBar animacionData;
+    
     
     private Timeline alarmaSincronizacion;
     private Calendar momentoSiguienteActualizacion;
-    private static boolean eligiendoDirectorio = false;//-----------------------------------------
-
+    private boolean eligiendoDirectorio = false;//-----------------------------------------
+    private Task barraProgreso;
     //---------------------------------------------------FXML---------------------------------------------------   
     /**
      * Tratara el evento generado por el usuario en relacion a selecionar un
@@ -170,6 +177,7 @@ public class TabConfiguracionControlador {// implements Initializable{
             }
             bNuevoUsuario.setDisable(true);
             bEditarUsuario.setDisable(true);
+            animacionInicio(0);
         }
     }
     /**
@@ -195,6 +203,7 @@ public class TabConfiguracionControlador {// implements Initializable{
                 }
                 bNuevoUsuario.setDisable(true);
                 bEditarUsuario.setDisable(true);
+                animacionInicio(0);
             } catch (NoSuchFieldException e) {
                 borrarUsuario();
             }
@@ -221,7 +230,6 @@ public class TabConfiguracionControlador {// implements Initializable{
                     DirectoryChooser directoryChooser = new DirectoryChooser();
                     directoryChooser.setInitialDirectory(new File(initialPath));
                     selectedFile = directoryChooser.showDialog(null);
-//                    System.err.println(">> " +  selectedFile);
                     if (selectedFile != null && Validador.checkPermissions(selectedFile.getAbsolutePath())) {
                         if(moverDirectorio(Paths.get(initialPath), selectedFile.toPath())){
                             initialPath = selectedFile.getAbsolutePath();
@@ -272,7 +280,7 @@ public class TabConfiguracionControlador {// implements Initializable{
                 Duration.seconds(diff / 1000), new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
-                LogRecord logRegistro = new LogRecord(Level.SEVERE, rb.getString(ResourceLeng.TRACE_TIMER_END));
+                LogRecord logRegistro = new LogRecord(Level.INFO, rb.getString(ResourceLeng.TRACE_TIMER_END));
                 logRegistro.setSourceClassName(this.getClass().getName());
                 LogGeneral.log(logRegistro);
                 sincronizar();
@@ -350,6 +358,7 @@ public class TabConfiguracionControlador {// implements Initializable{
             lComprobandoDatos.setVisible(false);
             bEditarUsuario.setDisable(false);
             bNuevoUsuario.setDisable(false);
+            animacionFin(0);
             main.liberarUsuario();
 
             LogRecord logRegistro = new LogRecord(Level.INFO, main.getResource().getString(ResourceLeng.TRACE_EVENT_USER_END));
@@ -359,7 +368,10 @@ public class TabConfiguracionControlador {// implements Initializable{
             borrarUsuario();
         }
     }
-
+    public void preguntarUsuario(){
+        crearNuevoUsuario(null);
+    }
+    
     /**
      * Metodo que mueve el contenido de un directorio a otro, manipulando
      *  contenido generado por esta aplicacion
@@ -429,9 +441,8 @@ public class TabConfiguracionControlador {// implements Initializable{
         String passwNas;
 
         lSiguienteActualizacion.setText(main.getResource().getString(ResourceLeng.SYNCRO_NOW));     
-
+        animacionInicio(1);
         try {
-            System.out.println("check");
             try{
                 passwNas = InformacionUsuario.getPassN();
             }catch (NoSuchFieldException e) {
@@ -441,11 +452,6 @@ public class TabConfiguracionControlador {// implements Initializable{
                     passwNas = "NoPass";
                 }
             }
-//            System.out.println("casi");
-//            System.out.println("user: " + InformacionUsuario.getUsuario());
-//            System.out.println("pass: " + InformacionUsuario.getPassM());
-//            System.out.println("pass2: " + passwNas);
-//            System.out.println("path: " + InformacionUsuario.getPath());
             new ProcesoSincronizacion(InformacionUsuario.getUsuario(), InformacionUsuario.getPassM(),
                     passwNas, InformacionUsuario.getPath(),
                     main.getResource(), main, cUsoNaster.isSelected());
@@ -460,6 +466,9 @@ public class TabConfiguracionControlador {// implements Initializable{
     public void sincronizarFin() {
         setSiguienteAlarma();
         bEditPath.setDisable(false);
+        bActualizar.setDisable(false);
+        bConfirmar.setDisable(false);
+        animacionFin(1);
         main.cambiarDisponibilidadOpcionSysTray(ResourceLeng.SYS_TRAY_SYNCRO, true);
     }
 
@@ -474,7 +483,7 @@ public class TabConfiguracionControlador {// implements Initializable{
         Calendar momentoActual = Calendar.getInstance();
         if (momentoActual.after(momentoSiguienteActualizacion)) {
             // Paso el momento de la alarma, sincronizamos ya
-            LogRecord logRegistro = new LogRecord(Level.SEVERE, main.getResource().getString(ResourceLeng.TRACE_TIMER_LATE));
+            LogRecord logRegistro = new LogRecord(Level.INFO, main.getResource().getString(ResourceLeng.TRACE_TIMER_LATE));
             logRegistro.setSourceClassName(this.getClass().getName());
             LogGeneral.log(logRegistro);
             sincronizar();
@@ -486,7 +495,7 @@ public class TabConfiguracionControlador {// implements Initializable{
                     Duration.seconds(diff / 1000), new EventHandler<ActionEvent>() {
                 @Override
                 public void handle(ActionEvent event) {
-                    LogRecord logRegistro = new LogRecord(Level.SEVERE, main.getResource().getString(ResourceLeng.TRACE_TIMER_END));
+                    LogRecord logRegistro = new LogRecord(Level.INFO, main.getResource().getString(ResourceLeng.TRACE_TIMER_END));
                     logRegistro.setSourceClassName(this.getClass().getName());
                     LogGeneral.log(logRegistro);
                     sincronizar();
@@ -638,6 +647,32 @@ public class TabConfiguracionControlador {// implements Initializable{
     public void sincronizarSysTray(){
         this.sincronizarAhora();
     }
+    
+    /**
+     * 
+     * @param n 0 validacion perfil, 1 sincronizador
+     */
+    private void animacionInicio(int n){
+        ProgressBar proAux = n == 0 ? animacionData : animacionSinc; 
+        proAux.setVisible(true);
+//        proAux.setProgress(0);
+        barraProgreso = createWorker();
+        proAux.progressProperty().unbind();
+        proAux.progressProperty().bind(barraProgreso.progressProperty());
+    }
+    
+    /**
+     * 
+     * @param n 0 validacion perfil, 1 sincronizador
+     */
+    private void animacionFin(int n){
+        ProgressBar proAux = (n == 0) ? animacionData : animacionSinc; 
+        proAux.progressProperty().unbind();
+        proAux.setProgress(0);
+        proAux.setVisible(false);
+        barraProgreso.cancel(true);
+        barraProgreso = null;
+    }
     //---------------------------------------------------INIT---------------------------------------------------
     protected void init(boolean usuario, String usuarioId, String path, MainControlador main) {
         this.main = main;
@@ -707,7 +742,6 @@ public class TabConfiguracionControlador {// implements Initializable{
                 sHoras.getValueFactory().setValue((int) sHoras.getValue() + 1);
                 sMinutos.getValueFactory().setValue(0);
             } else if (newValue.compareTo("-1") == 0) {
-//                System.out.println("3-" + newValue.toString());
                 sHoras.getValueFactory().setValue((int) sHoras.getValue() - 1);
                 sMinutos.getValueFactory().setValue(59);
             } else if (newValue.compareTo("5") < 0) {
@@ -773,4 +807,18 @@ public class TabConfiguracionControlador {// implements Initializable{
         this.cUsoNaster.setDisable(!usuario);
         cUsoNaster.setVisible(usuario);
     }
+   
+    
+    
+    public Task createWorker() {
+        
+        return new Task() {
+            @Override
+            protected Object call() throws Exception {
+                return true;
+            }
+        };
+    }
+
+
 }

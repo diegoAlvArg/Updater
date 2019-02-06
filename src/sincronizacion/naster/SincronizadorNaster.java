@@ -57,8 +57,8 @@ public class SincronizadorNaster {
     public static int sincronizar(String usuario, String contrasenia, String pathLocal, String anio) {
         int respuesta = 0;
         LogRecord logRegistro = null;
-        long time_start, time_end;
-        time_start = System.currentTimeMillis();
+//        long time_start, time_end;
+//        time_start = System.currentTimeMillis();
         try {
             sardineCon = SardineFactory.begin(usuario, contrasenia);
             URI url = URI.create(URL_NAS + "/" + usuario + "/" + CARPETA_SINC);
@@ -116,8 +116,8 @@ public class SincronizadorNaster {
                 logRegistro.setSourceClassName(SincronizadorNaster.class.getName());
                 LogSincronizacion.log(logRegistro);
             }
-            time_end = System.currentTimeMillis();
-            System.out.println("\n\n--the task has taken " + (time_end - time_start) + " milliseconds");
+//            time_end = System.currentTimeMillis();
+//            System.out.println("\n\n--the task has taken " + (time_end - time_start) + " milliseconds");
             return respuesta;
         }
         

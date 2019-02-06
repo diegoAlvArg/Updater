@@ -64,7 +64,6 @@ public class InformacionUsuario {
             Codificador codex = Codificador.getInstance();
             try (BufferedWriter writer = Files.newBufferedWriter(pathfile, 
                     Charset.forName("UTF-8")/*, new OpenOption[0]*/);){
-                System.out.println(codex.encriptar(new StringBuilder().append("USER==").append(usuario).toString()) + "\n");
                 writer.write(codex.encriptar(new StringBuilder().append("USER==").append(usuario).toString()) + "\n");
                 writer.write(codex.encriptar(new StringBuilder().append("PASS1==").append(pass1).toString()) + "\n");
                 writer.write(codex.encriptar(new StringBuilder().append("PASS2==").append(pass2).toString()) + "\n");

@@ -50,12 +50,17 @@ import javax.swing.JOptionPane;
  * T 7483 C 552
  *
  * @author Diego Alvarez
+ *
+ * NOTA: hay 2 tipos de imagenes swing (1) y javaFx (2). (1) es utilizada
+ * para cambiar la imagen del Systray. (2) es utilizada para cambiar el
+ * icono de la aplicacion. (2) fue la ultima en aparecer, se han dejado de
+ * esta forma los imports
  */
 public class MainClass extends Application {
 
     // Variables de Informacion de la App.
     public static Properties internalInformation = new Properties();
-    public static final double APPLICATION_VERSION = 1.05;
+    public static final double APPLICATION_VERSION = 1.06;//06
 
     static {
         //Important for Web Browser
@@ -143,6 +148,8 @@ public class MainClass extends Application {
         scene = new Scene(root);
         primaryStage.setTitle(rb.getString(ResourceLeng.APP_TITLE));
 //                + internalInformation.get("Version"));    
+        //Ver NOTA en cabecera de clase
+        primaryStage.getIcons().add(new javafx.scene.image.Image(getClass().getResourceAsStream("/Resources/Icons/Icon_48.png")));
         servicioHost = getHostServices();
         primaryStage.setScene(scene);
         primaryStage.setResizable(false);
@@ -214,7 +221,6 @@ public class MainClass extends Application {
      */
     public static void inicarAplicacionExterna(String appName,
             double version) {
-//        System.out.println(ResourceLeng.APP_INIT); //-
         // Se ha quitado la ejecucion en hilo, evita solapamientos con el 
         //  escenario de arranque normal y evita eventos en segundo plano
         // Restart XR3Player
@@ -224,8 +230,10 @@ public class MainClass extends Application {
         //Show message that application is restarting
         try {
             //Create a process builder
+            //TEST MODE
 //            ProcessBuilder builder = new ProcessBuilder("java", "-jar",
 //                    applicationPath[0], String.valueOf(version));
+            //DEPLOY MODE
             ProcessBuilder builder = new ProcessBuilder(
                     "./jre/bin/java.exe", "-jar", applicationPath[0],
                     String.valueOf(version));
@@ -275,7 +283,7 @@ public class MainClass extends Application {
         double currentVersion = (double) internalInformation
                 .get("Version");//---------------
         double lastVersion = howIsLastUpdate();
-        System.out.println("Version " + lastVersion);
+        
         if (lastVersion == -1.0) {
             ActionTool.mostrarNotificacion(rb,
                     ResourceLeng.UPDATE_NO_ETHERNET,
@@ -490,8 +498,12 @@ public class MainClass extends Application {
      * @param nombreMetodo nombre del metodo que se invocara
      * @param tagTexto tag del texto que se presenta
      *
-     * @see <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Class.html#getMethod-java.lang.String-java.lang.Class...-">Link 01</a>
-     * @see <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/reflect/Method.html#invoke-java.lang.Object-java.lang.Object...-">Link 02</a>
+     * @see
+     * <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Class.html#getMethod-java.lang.String-java.lang.Class...-">Link
+     * 01</a>
+     * @see
+     * <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/reflect/Method.html#invoke-java.lang.Object-java.lang.Object...-">Link
+     * 02</a>
      */
     public static void anidirOpcionSysTray(Object control, String nombreMetodo, String tagTexto) {
         boolean noEstaAniadido = true;
@@ -502,7 +514,6 @@ public class MainClass extends Application {
             PopupMenu popup = iconoSystemTray.getPopupMenu();
             MenuItem defaultItem = new MenuItem(rb.getString(tagTexto));
             defaultItem.setName(tagTexto);
-//            System.err.println(defaultItem.getName());
             defaultItem.addActionListener(new ActionListener() {
                 public void actionPerformed(ActionEvent e) {
                     try {
@@ -563,14 +574,12 @@ public class MainClass extends Application {
      * @param activo disponibilidad
      */
     public static void cambiarDisponibilidadOpcionSysTray(String tagTexto, boolean activo) {
-//        System.err.println("Desactivando" + option);
 //        String aux;
         if (iconoSystemTray != null) {
             MenuItem auxItem;
             for (int i = 0; i < iconoSystemTray.getPopupMenu().getItemCount(); i++) {
                 auxItem = iconoSystemTray.getPopupMenu().getItem(i);
                 if (auxItem.getName().equals(tagTexto)) {
-                    System.err.println("lo encontre");
                     auxItem.setEnabled(activo);
                     break;
                 }
