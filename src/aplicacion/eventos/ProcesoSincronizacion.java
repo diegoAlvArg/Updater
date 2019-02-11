@@ -110,7 +110,7 @@ public class ProcesoSincronizacion {
         } else {
             respuesta = "(" + (today.getYear() - 1) + "-" + today.getYear() + ")";
         }
-//        return respuesta;
-      return "(2016-2017)";     //Test mode
+        return respuesta;
+//      return "(2016-2017)";     //Test mode
     }
 }
